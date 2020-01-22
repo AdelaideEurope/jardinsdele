@@ -11,7 +11,7 @@
           <div class="nom-activite"><%= activite.nom %></div>
           <div class="legume-activite"><%= activite.legume != nil ? activite.legume.nom : "" %></div>
           <div class="planche-activite"><%= activite.planche != nil ? activite.planche.nom : "" %></div>
-          <div class="duree-activite"><%= activite.duree.empty? ? "1h12" : activite.duree %></div>
+          <div class="duree-activite"><% t= activite.heure_fin - activite.heure_debut %><%= Time.at(t).utc.strftime("%Hh%M") %></div>
           <div class="personne-activite"> <% (activite.tag_list.count+1).times do %>  <i class="fas fa-user"></i>
           <% end %>
           </div>

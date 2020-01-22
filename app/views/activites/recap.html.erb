@@ -13,8 +13,7 @@
           <%= activite.legume != nil ? activite.legume.nom : "" %></div>
           <div class="planche-activite">
           <%= activite.planche != nil ? activite.planche.nom : "" %></div>
-          <div class="duree-activite">
-          <%= activite.duree.empty? ? "1h12" : activite.duree %></div>
+          <div class="duree-activite"><% t= activite.heure_fin - activite.heure_debut %><%= Time.at(t).utc.strftime("%Hh%M") %></div>
           <div class="personne-activite"> <% (activite.tag_list.count+1).times do %> <i class="fas fa-user"></i><% end %> </div>
           <div class="commentaire-all-activites"><button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= activite.id %>"><i class="fas fa-comment-alt"></i></button></div>
           <div class="modal fade" id="exampleModalCenter<%= activite.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -43,16 +42,17 @@
   <div class="totaux-activites">
     <h2>Totaux activités</h2>
     <div class="duree-activites">
-      <% h = Hash.new { |h,k| h[k] = "" } %>
+      <% h = Hash.new { |h,k| h[k] = "".to_i } %>
       <% @activites.each do |activite| %>
-      <% h[activite.nom] += activite.duree %>
+      <% duree = activite.heure_fin - activite.heure_debut %>
+      <% h[activite.nom] += duree %>
       <% end %>
       <ul>
       <% h.each do |key, val| %>
       <li>
         <div class="ligne-activite-totaux">
           <div class="type-activite"><%= key %></div>
-          <div class="duree-recap-activite"><%= val %><%= image_tag "zoom.png", class: "zoom" %></div>
+          <div class="duree-recap-activite"><% val %><%= Time.at(val).utc.strftime("%Hh%M") %><%= image_tag "zoom.png", class: "zoom" %></div>
         </div>
       <% end %>
       </li>

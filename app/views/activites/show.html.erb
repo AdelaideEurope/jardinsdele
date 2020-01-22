@@ -1,9 +1,12 @@
 <%= render 'shared/navbar' %>
 
 <%= @activite.nom %>
+<% t = @activite.heure_fin - @activite.heure_debut %>
+<%= Time.at(t).utc.strftime("%Hh%M") %>
 S<%= @activite.date.strftime("%U").to_i+1 %>
 
 <%= @commentaire.nil? ? "" : @commentaire.description %>
+
 
 
 
