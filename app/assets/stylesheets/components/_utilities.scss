@@ -1,0 +1,19 @@
+a {
+  text-decoration: none;
+  color: inherit;
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+h2 {
+  margin-top: 4%;
+  margin-bottom: 4%;
+  color: $darker-grey;
+  font-size: 20px;
+}
+
+ul {
+  padding: 0px;
+}

@@ -1,0 +1,9 @@
+<%= render 'shared/navbar' %>
+
+<%= @activite.nom %>
+S<%= @activite.date.strftime("%U").to_i+1 %>
+
+<%= @commentaire.nil? ? "" : @commentaire.description %>
+
+
+

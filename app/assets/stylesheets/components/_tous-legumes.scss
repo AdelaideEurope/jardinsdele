@@ -1,0 +1,43 @@
+.tous-legumes {
+  display: flex;
+  margin-top: 36px;
+}
+
+.liste-legume {
+  width: 50%;
+  li {
+    background: $light-gray;
+    list-style: none;
+    padding-left: 16px;
+    padding-top: 4px;
+    margin-bottom: 4px;
+  }
+}
+
+
+.radis {
+  height: 72px;
+  position: relative;
+  left: 90%;
+  bottom: 48px;
+}
+
+.aubergine {
+  height: 72px;
+  position: relative;
+  left: 85%;
+  transform: rotate(246deg);
+  top: 48px;
+}
+
+.oignon {
+  height: 62px;
+  position: relative;
+  left: 65%;
+  bottom: 42px;
+  transform: rotate(332deg);
+}
+
+.img-legumes {
+  height: 0px;
+}

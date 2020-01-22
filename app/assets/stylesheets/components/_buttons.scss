@@ -1,0 +1,72 @@
+.btn-ghost {
+  color: white;
+  border: 1px solid white;
+  font-weight: lighter;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  width: 24%;
+  padding-top: 9%;
+  padding-bottom: 9%;
+  font-size: 36px;
+  font-family: $body-font;
+}
+
+.btn-ghost:hover {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+  color: white;
+}
+
+@media(max-width: 720px) {
+  .btn-ghost {
+    color: white;
+    border: 1px solid white;
+    font-weight: lighter;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    width: 30vh;
+    padding-top: 16%;
+    padding-bottom: 16%;
+    font-size: 36px;
+    font-family: $body-font;
+  }
+
+  .btn-ghost:hover {
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+    color: white;
+  }
+}
+
+.plus-rond, .play-rond {
+  height: 60px;
+}
+
+
+
+.bottom-button {
+  display: flex;
+  justify-content: center;
+}
+
+.voir-tout-recap {
+  border: solid 2px #A1BD7F;
+  border-radius: 24px;
+  padding: 4px 16px;
+  position: absolute;
+  top: 16%;
+  left: 82%;
+}
+
+.fixed-bottom {
+  margin-bottom: 10vh;
+}
+
+button {
+  border: none;
+  background: none;
+}

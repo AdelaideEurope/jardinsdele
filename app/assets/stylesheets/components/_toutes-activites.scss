@@ -1,0 +1,91 @@
+.toutes-activites {
+  margin-top: 36px;
+  li {
+  background: $light-gray;
+  list-style: none;
+  padding-left: 16px;
+  padding-top: 4px;
+  margin-bottom: 4px;
+  }
+}
+
+.duree-activites {
+  margin-top: 36px;
+  li {
+  background: $light-gray;
+  list-style: none;
+  padding-left: 16px;
+  padding-top: 4px;
+  margin-bottom: 4px;
+  }
+}
+
+.commentaire-all-activites {
+  height: 24px;
+}
+
+.ligne-activite {
+  display: flex;
+  padding-right: 16px;
+}
+
+.nom-activite {
+  position: sticky;
+  left: 18%;
+}
+
+.legume-activite {
+  position: sticky;
+  left: 40%;
+}
+
+.planche-activite {
+  position: sticky;
+  left: 56%;
+}
+
+.commentaire-all-activites{
+  position: sticky;
+  left: 90%;
+}
+
+.personne-activite {
+  position: fixed;
+  left: 80%;
+}
+
+.duree-activite {
+  position: sticky;
+  left: 68%;
+}
+
+.crayon-all-activites {
+  position: fixed;
+  left: 93%;
+}
+
+.duree-activites {
+  ul {
+    width: 50%;
+  }
+}
+
+.zoom {
+  height: 24px;
+}
+
+.duree-recap-activite {
+ display: flex;
+ justify-content: space-between;
+ flex-grow: 0.5;
+}
+
+.ligne-activite-totaux {
+  display: flex;
+  padding-right: 16px;
+  justify-content: space-between;
+}
+
+.type-activite {
+  width: 50%;
+}

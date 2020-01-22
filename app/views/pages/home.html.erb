@@ -1,2 +1,16 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<%= render 'shared/navbar_home' %>
+
+
+<div class="container">
+  <div class="boxes">
+    <div class="boxes-item"><%= link_to activites_recap_path do  %><p>Temps de travail</p><% end %><%= link_to new_activite_path do  %><%= image_tag "plus.png", class: "plus" %> <% end %> </div>
+    <div class="boxes-item"><%= link_to legumes_path do  %><p>Cultures</p><% end %></div>
+    <div class="boxes-item"><p>Ventes</p><%= image_tag "panier.png", class: "panier" %></div>
+  </div>
+  <div class="activite-home-mobile">
+    <%= link_to "Nouvelle activité", new_activite_path %>
+  </div>
+  <div class="panier-home-mobile">
+    <%= link_to new_activite_path do %><%= image_tag "panier.png", class: "panier-mobile" %> <% end %>
+  </div>
+</div>

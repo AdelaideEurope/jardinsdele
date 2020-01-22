@@ -1,0 +1,68 @@
+<%= render 'shared/navbar' %>
+
+<div class="container">
+  <h2>Cette semaine (S<%= Date.today.strftime("%U").to_i+1 %>)</h2>
+  <div class="voir-tout-recap"> <%= link_to "Voir tout", activites_path %></div>
+  <div class="toutes-activites">
+    <ul>
+    <% @activites_semaine.sort_by(&:date).reverse.each do |activite| %>
+      <li>
+        <div class="ligne-activite">
+          <div class="date-activite"> <%= activite.date != nil ? activite.date.strftime("%d/%m") : "" %></div> <div class="nom-activite"><%= activite.nom %></div>
+          <div class="legume-activite">
+          <%= activite.legume != nil ? activite.legume.nom : "" %></div>
+          <div class="planche-activite">
+          <%= activite.planche != nil ? activite.planche.nom : "" %></div>
+          <div class="duree-activite">
+          <%= activite.duree.empty? ? "1h12" : activite.duree %></div>
+          <div class="personne-activite"> <% (activite.tag_list.count+1).times do %> <i class="fas fa-user"></i><% end %> </div>
+          <div class="commentaire-all-activites"><button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= activite.id %>"><i class="fas fa-comment-alt"></i></button></div>
+          <div class="modal fade" id="exampleModalCenter<%= activite.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Commentaire</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <% activite.commentaires.each do |commentaire| %>
+                  <%= commentaire.description %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%= link_to edit_activite_path(activite) do %> <div class="crayon-all-activites"><i class="fas fa-pencil-alt"></i><% end %></div>
+        </div>
+    <% end  %>
+      </li>
+    </ul>
+  </div>
+  <div class="totaux-activites">
+    <h2>Totaux activités</h2>
+    <div class="duree-activites">
+      <% h = Hash.new { |h,k| h[k] = "" } %>
+      <% @activites.each do |activite| %>
+      <% h[activite.nom] += activite.duree %>
+      <% end %>
+      <ul>
+      <% h.each do |key, val| %>
+      <li>
+        <div class="ligne-activite-totaux">
+          <div class="type-activite"><%= key %></div>
+          <div class="duree-recap-activite"><%= val %><%= image_tag "zoom.png", class: "zoom" %></div>
+        </div>
+      <% end %>
+      </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-button fixed-bottom">
+  <%= link_to new_activite_path do %>
+  <% image_tag "plus-rond.png", class: "plus-rond" %>
+  <% end %>
+</div>

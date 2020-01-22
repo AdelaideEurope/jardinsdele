@@ -1,0 +1,33 @@
+<%= render 'shared/navbar' %>
+<div class="container">
+  <h2 class="to_hide">Nouvelle activité</h2>
+</div>
+<div class="container-form">
+
+  <%= simple_form_for @activite do |f| %>
+  <div class="flex-container">
+    <div class="flex-item">
+      <%= f.input :nom, :label => "ACTIVITÉ", collection: ["Plantation", "Bricolage", "Préparation planche", "Divers", "Vente (dont transport)", "Récolte et préparation vente"] %>
+      <div class="to_hide">
+          <%= f.input :date, as: :string, :label => "DATE", input_html: {class: "datepicker"} %>
+          <%= f.input :duree, :label => "DURÉE" %>
+      </div>
+    </div>
+    <div class="flex-item to_hide">
+      <%= f.association :legume, label_method: :nom, :label => "LÉGUME" %>
+      <%= f.association :planche, label_method: :nom, :label => "PLANCHE" %>
+    </div>
+    <div class="flex-item to_hide">
+      <%= f.input :tag_list, :label => "ASSISTANT(S)" %>
+      <%= f.simple_fields_for :commentaires do |m| %>
+      <%= m.input :description, :label => "COMMENTAIRE"  %>
+      <% end %>
+      <%#= f.input :commentaire, :label => "COMMENTAIRE", input_html: {value: @commentaire.titre} %>
+    </div>
+  </div>
+</div>
+    <%= image_tag "poivron.jpg", class: "poivron" %>
+<div class="bottom-button fixed-bottom">
+  <%= f.submit " ", :type => :image, :src => image_path("play-rond.png"), class: "play-rond" %>
+  <% end %>
+</div>
