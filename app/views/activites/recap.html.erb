@@ -1,6 +1,6 @@
 <%= render 'shared/navbar' %>
 
-<div class="container">
+<div class="container mt-4">
   <h2>Cette semaine (S<%= Date.today.strftime("%U").to_i+1 %>)</h2>
    <%= link_to activites_path do %>
     <div class="voir-tout-recap">Voir tout</div>
@@ -51,20 +51,25 @@
       </li>
     </ul>
   </div>
-  <div class="totaux-activites">
-    <h2>Totaux activités</h2>
-    <div class="duree-activites">
+  <div class="totaux-activites mt-5">
       <% h = Hash.new { |h,k| h[k] = "".to_i } %>
       <% @activites.each do |activite| %>
       <% duree = activite.heure_fin - activite.heure_debut %>
       <% h[activite.nom] += duree %>
       <% end %>
+    <h2>Totaux activités (<% total = h.values.sum %><%= Time.at(total).utc.strftime("%Hh%M") %>)</h2>
+
+    <div class="duree-activites">
       <ul>
       <% h.each do |key, val| %>
       <li>
         <div class="ligne-activite-totaux">
           <div class="type-activite"><%= key %></div>
-          <div class="duree-recap-activite"><% val %><%= Time.at(val).utc.strftime("%Hh%M") %><%= image_tag "zoom.png", class: "zoom" %></div>
+          <div class="duree-recap-activite">
+            <div> <% val %><%= Time.at(val).utc.strftime("%Hh%M") %></div>
+            <div><% pourcentage = (val*100).fdiv(total).round(2) %>
+            <%= pourcentage.to_s.split("").size < 5 ? "  "*(5-pourcentage.to_s.split("").size)+"#{pourcentage}" : pourcentage %> %</div>
+            </div>
         </div>
       <% end %>
       </li>

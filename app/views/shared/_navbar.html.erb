@@ -11,10 +11,10 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <% if user_signed_in? %>
-        <li class="nav-item active">
+        <li class="nav-item <%= 'active' if current_page?(activites_recap_path) %>">
           <%= link_to "Temps de travail", activites_recap_path, class: "nav-link with-border" %>
         </li>
-        <li class="nav-item ">
+        <li class="nav-item <%= 'active' if current_page?(legumes_path) %>">
           <%= link_to "Cultures", legumes_path, class: "nav-link with-border" %>
         </li>
         <li class="nav-item">

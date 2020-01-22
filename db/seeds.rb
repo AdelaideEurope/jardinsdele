@@ -257,7 +257,7 @@ patate_douce = Legume.new({
 patate_douce.save
 
 pomme_de_terre_nouvelle = Legume.new({
-  nom: "Pomme de terre nouvelle",
+  nom: "PDT nouvelle",
   prix_general: ""
   })
 pomme_de_terre_nouvelle.save

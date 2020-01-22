@@ -11,6 +11,22 @@
     padding-left: 16px;
     padding-top: 4px;
     margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 16px;
+  }
+}
+
+.modal-body {
+  li {
+    background: $light-gray;
+    list-style: none;
+    padding-left: 16px;
+    padding-top: 4px;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: unset;
+    padding-right: 16px;
   }
 }
 
@@ -40,4 +56,17 @@
 
 .img-legumes {
   height: 0px;
+}
+
+.commentaire-all-legumes {
+  position: sticky;
+  left: 90%;
+}
+
+.date-commentaire {
+  width: 16%;
+}
+
+.legume-nom {
+  width: 40%;
 }
