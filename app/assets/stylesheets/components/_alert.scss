@@ -4,3 +4,9 @@
   right: 16px;
   z-index: 1000;
 }
+
+.alert-info {
+  background-color: $lighter-green;
+  color: $darker-grey;
+  border-radius: 24px;
+}

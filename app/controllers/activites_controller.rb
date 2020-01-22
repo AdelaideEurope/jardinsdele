@@ -6,11 +6,13 @@ class ActivitesController < ApplicationController
   def new
     @activite = Activite.new
     @activite.commentaires.build
+
   end
 
   def create
     @activite = Activite.new(activite_params)
     if @activite.save
+      flash[:notice] = "Activité créée avec succès !"
       redirect_to activites_recap_path
     else
       render :new
@@ -35,6 +37,7 @@ class ActivitesController < ApplicationController
   def update
     @activite = Activite.find(params[:id])
     if @activite.update(activite_params)
+      flash[:notice] = "Activité modifiée avec succès !"
       redirect_to activites_recap_path
     else
       render :edit
