@@ -17,7 +17,7 @@ puts "Starting seed legume"
 
 
 autres_aromates = Legume.new({
-  nom: "Autre aromates",
+  nom: "Autres aromates",
   prix_general: ""
   })
 autres_aromates.save
@@ -662,7 +662,74 @@ d1 = Planche.new({
   })
 d1.save
 
+d2 = Planche.new({
+  nom: "D2",
+  })
+d2.save
 
+d3 = Planche.new({
+  nom: "D3",
+  })
+d3.save
 
+d4 = Planche.new({
+  nom: "D4",
+  })
+d4.save
+
+d5 = Planche.new({
+  nom: "D5",
+  })
+d5.save
+
+e1 = Planche.new({
+  nom: "E1",
+  })
+e1.save
+
+e2 = Planche.new({
+  nom: "E2",
+  })
+e2.save
+
+e3 = Planche.new({
+  nom: "E3",
+  })
+e3.save
+
+e4 = Planche.new({
+  nom: "E4",
+  })
+e4.save
+
+e5 = Planche.new({
+  nom: "E5",
+  })
+e5.save
+
+f1 = Planche.new({
+  nom: "D1",
+  })
+f1.save
+
+f2 = Planche.new({
+  nom: "D2",
+  })
+f2.save
+
+f3 = Planche.new({
+  nom: "D3",
+  })
+f3.save
+
+f4 = Planche.new({
+  nom: "D4",
+  })
+f4.save
+
+f5 = Planche.new({
+  nom: "D5",
+  })
+f5.save
 
 

@@ -1,0 +1,67 @@
+.columns {
+  display: flex;
+}
+
+.left-col {
+  width: 50%;
+  margin-right: 2%;
+}
+
+.sample-legumes {
+  list-style: none;
+  .detail-legume {
+    width: 80%;
+    background: $light-gray;
+    list-style: none;
+    padding-left: 16px;
+    padding-top: 4px;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 16px;
+  }
+  .image-legume {
+    width: 20%;
+  }
+  .duree-prix-total {
+    display: flex;
+    justify-content: space-between;
+    width: 52%;
+  }
+  li {
+    display: flex;
+  }
+}
+
+.right-col {
+  width: 50%;
+  margin-left: 2%
+}
+
+.jardins {
+  border: 2px solid $light-green;
+  margin-bottom: 2vh;
+  padding: 0 16px;
+  li {
+    list-style: none;
+  }
+}
+
+.jardins-titre {
+  font-style: italic;
+  p {
+    margin: 0;
+    padding-top: 2%;
+    text-align: center;
+  }
+}
+
+.icone-legume {
+  height: 60px;
+}
+
+.titre-legumes {
+  display: flex;
+  justify-content: space-between;
+}

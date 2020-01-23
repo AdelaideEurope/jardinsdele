@@ -50,7 +50,7 @@
 }
 
 .personne-activite {
-  position: fixed;
+  position: sticky;
   left: 80%;
 }
 
@@ -88,4 +88,8 @@
 
 .type-activite {
   width: 48%;
+}
+
+.totaux-activites {
+  margin-bottom: 24vh;
 }

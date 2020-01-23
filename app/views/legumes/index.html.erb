@@ -16,14 +16,15 @@
       <% duree = [] %>
       <li>
       <div class="legume-nom"><%= legume.nom %></div>
-      <div> <% legume.activites.each do |activite| %>
-      <%= activite.planche.nom %>
+      <% legume.activites.each do |activite| %>
+      <div class="planche-nom"> <%= activite.planche.nom %></div>
       <% duree << activite.heure_fin - activite.heure_debut %>
       <% end %>
         <% duree = duree.sum %>
         <% h[legume.nom] += duree %>
-        <%= Time.at(duree).utc.strftime("%Hh%M") %>
-      </div>
+        <div class="time">
+        <%= Time.at(duree).utc.strftime("%Hh%M") %> </div>
+
       <div class="commentaire-all-legumes"><button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= legume.id %>"><i class="fas fa-comment-alt"></i></button></div>
       <div class="modal fade" id="exampleModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
