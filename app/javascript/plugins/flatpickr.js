@@ -1,10 +1,11 @@
-import flatpickr from "flatpickr"
-import "flatpickr/dist/flatpickr.min.css"
-
-const flatPickr = () => {
+import flatpickr from "flatpickr";
+import "flatpickr/dist/themes/airbnb.css";
+import { French } from 'flatpickr/dist/l10n/fr.js';
+const initFlatPickr = () => {
   flatpickr(".datepicker", {
-    dateFormat: "Y-m-d",
-  })
+    locale: French,
+    dateFormat: "d F Y",
+  });
 };
 
-export { flatPickr };
+export { initFlatPickr }
