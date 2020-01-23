@@ -39,8 +39,12 @@
               <% legume.commentaires.each do |commentaire| %>
               <ul>
                 <li>
+                  <% if commentaire.description.nil? %>
+                  <% "" %>
+                  <% else %>
                   <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
                   <div><%= commentaire.description %></div>
+                  <% end %>
                 </li>
               </ul>
               <% end %>
