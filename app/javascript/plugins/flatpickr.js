@@ -8,4 +8,4 @@ const initFlatPickr = () => {
   });
 };
 
-export { initFlatPickr }
+export { initFlatPickr };

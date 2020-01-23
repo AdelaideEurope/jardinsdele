@@ -81,232 +81,454 @@
 
 
 
+.autres_aromates-bg-color {
+  background-color: $autres_aromates;
+}
+
+.aubergine-bg-color {
+  background-color: $aubergine;
+}
+
+.basilic-bg-color {
+  background-color: $basilic;
+}
+
+.betterave-bg-color {
+  background-color: $betterave;
+}
+
+.blette-bg-color {
+  background-color: $blette;
+}
+
+.brocoli-bg-color {
+  background-color: $brocoli;
+}
+
+.carotte-bg-color {
+  background-color: $carotte;
+}
+
+.cebette-bg-color {
+  background-color: $cebette;
+}
+
+.celeri_branche-bg-color {
+  background-color: $celeri_branche;
+}
+
+.celeri_rave-bg-color {
+  background-color: $celeri_rave;
+}
+
+.chou_rave-bg-color {
+  background-color: $chou_rave;
+}
+
+.chou_blanc-bg-color {
+  background-color: $chou_blanc;
+}
+
+.chou_de_bruxelles-bg-color {
+  background-color: $chou_de_bruxelles;
+}
+
+.chou_chinois-bg-color {
+  background-color: $chou_chinois;
+}
+
+.chou_kale-bg-color {
+  background-color: $chou_kale;
+}
+
+.chou_rouge-bg-color {
+  background-color: $chou_rouge;
+}
+
+.chou_vert_frise-bg-color {
+  background-color: $chou_vert_frise;
+}
+
+.chou_fleur-bg-color {
+  background-color: $chou_fleur;
+}
+
+.concombre-bg-color {
+  background-color: $concombre;
+}
+
+.coulis-bg-color {
+  background-color: $coulis;
+}
+
+.courge-bg-color {
+  background-color: $courge;
+}
+
+.courgette-bg-color {
+  background-color: $courgette;
+}
+
+.cresson-bg-color {
+  background-color: $cresson;
+}
+
+.echalote-bg-color {
+  background-color: $echalote;
+}
+
+.epinard-bg-color {
+  background-color: $epinard;
+}
+
+.fenouil-bg-color {
+  background-color: $fenouil;
+}
+
+.feve-bg-color {
+  background-color: $feve;
+}
+
+.fraise-bg-color {
+  background-color: $fraise;
+}
+
+.framboise-bg-color {
+  background-color: $framboise;
+}
+
+.haricot_vert-bg-color {
+  background-color: $haricot_vert;
+}
+
+.haricot_coco-bg-color {
+  background-color: $haricot_coco;
+}
+
+.mache-bg-color {
+  background-color: $mache;
+}
+
+.mais-bg-color {
+  background-color: $mais;
+}
+
+.mange_tout-bg-color {
+  background-color: $mange_tout;
+}
+
+.melon-bg-color {
+  background-color: $melon;
+}
+
+.mesclun-bg-color {
+  background-color: $mesclun;
+}
+
+.navet-bg-color {
+  background-color: $navet;
+}
+
+.oignon-bg-color {
+  background-color: $oignon;
+}
+
+.panais-bg-color {
+  background-color: $panais;
+}
+
+.patate_douce-bg-color {
+  background-color: $patate_douce;
+}
+
+.pdt_nouvelle-bg-color {
+  background-color: $pdt_nouvelle;
+}
+
+.persil-bg-color {
+  background-color: $persil;
+}
+
+.petit_pois-bg-color {
+  background-color: $petit_pois;
+}
+
+.physalis-bg-color {
+  background-color: $physalis;
+}
+
+.poireau-bg-color {
+  background-color: $poireau;
+}
+
+.poivron-bg-color {
+  background-color: $poivron;
+}
+
+.pourpier-bg-color {
+  background-color: $pourpier;
+}
+
+.radis_noir-bg-color {
+  background-color: $radis_noir;
+}
+
+.radis_rose-bg-color {
+  background-color: $radis_rose;
+}
+
+.roquette-bg-color {
+  background-color: $roquette;
+}
+
+.salade-bg-color {
+  background-color: $salade;
+}
+
+.tartinade-bg-color {
+  background-color: $tartinade;
+}
+
+.tisane-bg-color {
+  background-color: $tisane;
+}
+
+.tomate-bg-color {
+  background-color: $tomate;
+}
+
+.tomate_ancienne-bg-color {
+  background-color: $tomate_ancienne;
+}
+
+.tomate_cerise-bg-color {
+  background-color: $tomate_cerise;
+}
+
+
 .autres_aromates-color {
-  background-color: #4B6838;
+  color: $autres_aromates;
 }
 
 .aubergine-color {
-  background-color: #82668C;
+  color: $aubergine;
 }
 
 .basilic-color {
-  background-color: #AEDC81;
+  color: $basilic;
 }
 
 .betterave-color {
-  background-color: #7F1B2F;
+  color: $betterave;
 }
 
 .blette-color {
-  background-color: #8D9D75;
+  color: $blette;
 }
 
 .brocoli-color {
-  background-color: #D2EB6E;
+  color: $brocoli;
 }
 
 .carotte-color {
-  background-color: #E86535;
+  color: $carotte;
 }
 
 .cebette-color {
-  background-color: #EF6C38;
+  color: $cebette;
 }
 
 .celeri_branche-color {
-  background-color: #EF6C38;
+  color: $celeri_branche;
 }
 
 .celeri_rave-color {
-  background-color: #EF6C38;
+  color: $celeri_rave;
 }
 
 .chou_rave-color {
-  background-color: #EF6C38;
+  color: $chou_rave;
 }
 
 .chou_blanc-color {
-  background-color: #EF6C38;
+  color: $chou_blanc;
 }
 
 .chou_de_bruxelles-color {
-  background-color: #EF6C38;
+  color: $chou_de_bruxelles;
 }
 
 .chou_chinois-color {
-  background-color: #EF6C38;
+  color: $chou_chinois;
 }
 
 .chou_kale-color {
-  background-color: #EF6C38;
+  color: $chou_kale;
 }
 
 .chou_rouge-color {
-  background-color: #843766;
+  color: $chou_rouge;
 }
 
 .chou_vert_frise-color {
-  background-color: #EF6C38;
+  color: $chou_vert_frise;
 }
 
 .chou_fleur-color {
-  background-color: #EF6C38;
+  color: $chou_fleur;
 }
 
 .concombre-color {
-  background-color: #EF6C38;
+  color: $concombre;
 }
 
 .coulis-color {
-  background-color: #EF6C38;
+  color: $coulis;
 }
 
 .courge-color {
-  background-color: #EF6C38;
+  color: $courge;
 }
 
 .courgette-color {
-  background-color: #E4EAAD;
+  color: $courgette;
 }
 
 .cresson-color {
-  background-color: #EF6C38;
+  color: $cresson;
 }
 
 .echalote-color {
-  background-color: #EF6C38;
+  color: $echalote;
 }
 
 .epinard-color {
-  background-color: #EF6C38;
+  color: $epinard;
 }
 
 .fenouil-color {
-  background-color: #EF6C38;
+  color: $fenouil;
 }
 
 .feve-color {
-  background-color: #EF6C38;
+  color: $feve;
 }
 
 .fraise-color {
-  background-color: #E83731;
+  color: $fraise;
 }
 
 .framboise-color {
-  background-color: #C9314A;
+  color: $framboise;
 }
 
 .haricot_vert-color {
-  background-color: #EF6C38;
+  color: $haricot_vert;
 }
 
 .haricot_coco-color {
-  background-color: #EF6C38;
+  color: $haricot_coco;
 }
 
 .mache-color {
-  background-color: #EF6C38;
+  color: $mache;
 }
 
 .mais-color {
-  background-color: #F9C546;
+  color: $mais;
 }
 
 .mange_tout-color {
-  background-color: #EF6C38;
+  color: $mange_tout;
 }
 
 .melon-color {
-  background-color: #EF6C38;
+  color: $melon;
 }
 
 .mesclun-color {
-  background-color: #EF6C38;
+  color: $mesclun;
 }
 
 .navet-color {
-  background-color: #EF6C38;
+  color: $navet;
 }
 
 .oignon-color {
-  background-color: #EF6C38;
+  color: $oignon;
 }
 
 .panais-color {
-  background-color: #EF6C38;
+  color: $panais;
 }
 
 .patate_douce-color {
-  background-color: #EF6C38;
+  color: $patate_douce;
 }
 
 .pdt_nouvelle-color {
-  background-color: #EF6C38;
+  color: $pdt_nouvelle;
 }
 
 .persil-color {
-  background-color: #EF6C38;
+  color: $persil;
 }
 
 .petit_pois-color {
-  background-color: #EF6C38;
+  color: $petit_pois;
 }
 
 .physalis-color {
-  background-color: #EF6C38;
+  color: $physalis;
 }
 
 .poireau-color {
-  background-color: #EF6C38;
+  color: $poireau;
 }
 
 .poivron-color {
-  background-color: #CB2F2A;
+  color: $poivron;
 }
 
 .pourpier-color {
-  background-color: #EF6C38;
+  color: $pourpier;
 }
 
 .radis_noir-color {
-  background-color: #EF6C38;
+  color: $radis_noir;
 }
 
 .radis_rose-color {
-  background-color: #EF6C38;
+  color: $radis_rose;
 }
 
 .roquette-color {
-  background-color: #EF6C38;
+  color: $roquette;
 }
 
 .salade-color {
-  background-color: #EF6C38;
+  color: $salade;
 }
 
 .tartinade-color {
-  background-color: #EF6C38;
+  color: $tartinade;
 }
 
 .tisane-color {
-  background-color: #EF6C38;
+  color: $tisane;
 }
 
 .tomate-color {
-  background-color: #F8C98E;
+  color: $tomate;
 }
 
 .tomate_ancienne-color {
-  background-color: #F8C98E;
+  color: $tomate_ancienne;
 }
 
 .tomate_cerise-color {
-  background-color: #EF6C38;
+  color: $tomate_cerise;
 }
-
-
-
 
 
 
