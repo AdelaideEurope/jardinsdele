@@ -16,5 +16,3 @@ class LegumesController < ApplicationController
     @planches_f = Planche.all[70..74]
   end
 end
-
-

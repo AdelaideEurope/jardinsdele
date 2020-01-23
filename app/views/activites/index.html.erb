@@ -16,11 +16,11 @@
           <div class="duree-activite"><% t= activite.heure_fin - activite.heure_debut %><%= Time.at(t).utc.strftime("%Hh%M") %></div>
           <div class="personne-activite">
             <% if (activite.tag_list.count) >= 2 %>
-              <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="Élé"></i>
+              <i class="fas fa-user red-" data-toggle="tooltip" data-placement="top" title="élé"></i>
               <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="<%= activite.tag_list.first %>"></i>
               <i class="fas fa-user-plus" data-toggle="tooltip" data-placement="top" title="<%= activite.tag_list[1..-1] %>"></i>
             <% else %>
-              <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="Élé"></i>
+              <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="élé"></i>
               <% activite.tag_list.each do |tag| %>
                 <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="<%= tag %>"></i>
               <% end %>

@@ -764,27 +764,27 @@ e5 = Planche.new({
 e5.save
 
 f1 = Planche.new({
-  nom: "D1",
+  nom: "F1",
   })
 f1.save
 
 f2 = Planche.new({
-  nom: "D2",
+  nom: "F2",
   })
 f2.save
 
 f3 = Planche.new({
-  nom: "D3",
+  nom: "F3",
   })
 f3.save
 
 f4 = Planche.new({
-  nom: "D4",
+  nom: "F4",
   })
 f4.save
 
 f5 = Planche.new({
-  nom: "D5",
+  nom: "F5",
   })
 f5.save
 

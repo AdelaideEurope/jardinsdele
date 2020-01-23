@@ -17,7 +17,6 @@ gem 'simple_form'
 gem 'uglifier'
 gem 'webpacker'
 gem 'groupdate'
-gem 'popper_js', '~> 1.14.5'
 gem 'jquery-rails', '~> 4.1', '>= 4.1.1'
 gem 'acts-as-taggable-on', '~> 6.5'
 
