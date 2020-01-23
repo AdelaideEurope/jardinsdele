@@ -1,5 +1,5 @@
 import "bootstrap";
-import "plugins/flatpickr";
-import { toolTip } from "plugins/tooltip";
+import { toolTip } from "../plugins/tooltip";
+import { flatPickr } from "../plugins/flatpickr"
 toolTip();
-
+flatPickr();

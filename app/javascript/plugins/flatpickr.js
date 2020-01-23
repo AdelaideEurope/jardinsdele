@@ -1,6 +1,10 @@
-import flatpickr from "flatpickr";
-import "flatpickr/dist/themes/airbnb.css";
+import flatpickr from "flatpickr"
+import "flatpickr/dist/flatpickr.min.css"
 
-flatpickr(".datepicker", {
-  dateFormat: "Y-m-d",
-});
+const flatPickr = () => {
+  flatpickr(".datepicker", {
+    dateFormat: "Y-m-d",
+  })
+};
+
+export { flatPickr };
