@@ -7,4 +7,11 @@ class Activite < ApplicationRecord
   validates :date, presence: true
   validates :nom, presence: true
   acts_as_taggable
+  validate :end_date_after_start_date?
+
+  def end_date_after_start_date?
+    if heure_fin < heure_debut
+      errors.add :heure_fin, ": doit être après l'heure de début"
+    end
+  end
 end
