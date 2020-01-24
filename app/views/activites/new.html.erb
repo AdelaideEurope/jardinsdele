@@ -27,8 +27,11 @@
     </div>
   </div>
 </div>
-    <%= image_tag "poivron.jpg", class: "poivron" %>
+<%= image_tag "poivron.jpg", class: "poivron" %>
 <div class="bottom-button fixed-bottom">
+  <%= image_tag "play-rond.png", alt: "start-activity", id: 'play-button', class: 'play-rond mobile-hidden' %>
+</div>
+<div class="bottom-button fixed-bottom to_hide" id='save-button'>
   <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond" %>
   <% end %>
 </div>
