@@ -58,18 +58,11 @@
   height: 0px;
 }
 
-.commentaire-all-legumes {
-  position: sticky;
-  left: 90%;
-}
 
 .date-commentaire {
   width: 16%;
 }
 
-.legume-nom {
-  width: 40%;
-}
 
 .lignes-planche {
   li {
@@ -79,9 +72,9 @@
   }
 }
 
-.wrapper {
+.wrapper-legumes {
   display: grid;
-  grid-template-columns: 16vw 8vw 8vw 1vw;
+  grid-template-columns: 12vw 7vw 6vw 7vw 1vw;
   grid-gap: 10px;
 }
 

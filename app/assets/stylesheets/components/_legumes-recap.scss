@@ -17,17 +17,10 @@
     padding-top: 4px;
     margin-top: 4%;
     margin-bottom: 4%;
-    display: flex;
-    justify-content: space-between;
     padding-right: 16px;
   }
   .image-legume {
     width: 20%;
-  }
-  .duree-prix-total {
-    display: flex;
-    justify-content: space-between;
-    width: 52%;
   }
   li {
     display: flex;
@@ -65,3 +58,10 @@
   display: flex;
   justify-content: space-between;
 }
+
+.wrapper-recap-legumes {
+  display: grid;
+  grid-template-columns: 16vw 6vw 6vw;
+  grid-gap: 10px;
+}
+

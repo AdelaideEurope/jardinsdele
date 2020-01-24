@@ -1,0 +1,15 @@
+.wrapper-recap-temps {
+  display: grid;
+  grid-template-columns: 60% 19% 16%;
+  grid-gap: 10px;
+}
+
+.wrapper-recap-activites {
+  display: grid;
+  grid-template-columns: 8% 25% 25% 10% 12% 10% 1%;
+  grid-gap: 10px;
+}
+
+.ligne-act {
+  display: flex;
+}

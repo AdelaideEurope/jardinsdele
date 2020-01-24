@@ -4,9 +4,9 @@
   <% h = Hash.new { |h,k| h[k] = "".to_i } %>
 </div>
 <div class="img-legumes">
-<%= image_tag "radis.jpg", class: "radis" %>
-<%= image_tag "aubergine.jpg", class: "aubergine" %>
-<%= image_tag "oignon.jpg", class: "oignon" %>
+  <%= image_tag "radis.jpg", class: "radis" %>
+  <%= image_tag "aubergine.jpg", class: "aubergine" %>
+  <%= image_tag "oignon.jpg", class: "oignon" %>
 </div>
 <div class="container">
   <div class="tous-legumes">
@@ -22,10 +22,11 @@
             <% end %>
             <% duree = duree.sum %>
             <% h[legume.nom] += duree %>
-            <div class="wrapper">
+            <div class="wrapper-legumes">
               <div><%= legume.nom %></div>
               <div><%= planches.join(", ") %></div>
               <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
+              <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
               <div class="commentaire-all-legumes">
                 <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= legume.id %>">
                   <i class="fas fa-comment-alt"></i>
@@ -73,10 +74,11 @@
             <% end %>
             <% duree = duree.sum %>
             <% h[legume.nom] += duree %>
-            <div class="wrapper">
+            <div class="wrapper-legumes">
               <div><%= legume.nom %></div>
               <div><%= planches.join(", ") %></div>
               <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
+              <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
               <div class="commentaire-all-legumes">
                 <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= legume.id %>">
                   <i class="fas fa-comment-alt"></i>
