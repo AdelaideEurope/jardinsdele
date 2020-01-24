@@ -37,7 +37,7 @@
           <% if activite.legume.nil? %>
           <%= planche.nom %>
           <% else %>
-          <div class="<%= activite.legume.legume_css %>-bg-color"> <%= activite.legume.nom %></div>
+          <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= activite.legume.nom %></div>
           <% end %>
           <% end %>
           </li>
@@ -56,7 +56,7 @@
           <% if activite.legume.nil? %>
           <%= planche.nom %>
           <% else %>
-          <div class="<%= activite.legume.legume_css %>-bg-color"> <%= activite.legume.nom %></div>
+          <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= activite.legume.nom %></div>
           <% end %>
           <% end %>
           </li>
@@ -75,7 +75,7 @@
           <% if activite.legume.nil? %>
           <%= planche.nom %>
           <% else %>
-          <div class="<%= activite.legume.legume_css %>-bg-color"> <%= activite.legume.nom %></div>
+          <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= activite.legume.nom %></div>
           <% end %>
           <% end %>
           </li>
@@ -96,7 +96,7 @@
           <% if activite.legume.nil? %>
           <%= planche.nom %>
           <% else %>
-          <div class="<%= activite.legume.legume_css %>-bg-color"> <%= activite.legume.nom %></div>
+          <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= activite.legume.nom %></div>
           <% end %>
           <% end %>
           </li>
@@ -108,15 +108,15 @@
         <ul class="lignes-planche">
         <% @planches_b.each do |planche| %>
           <li>
-        <% if planche.activites.empty? %>
-        <%= planche.nom %>
-        <% else %>
-          <% planche.activites.each do |activite| %>
-          <% if activite.legume.nil? %>
-          <%= planche.nom %>
+          <% if planche.activites.empty? %>
+            <%= planche.nom %>
           <% else %>
-          <div class="<%= activite.legume.legume_css %>-bg-color"> <%= activite.legume.nom %></div>
-          <% end %>
+            <% planche.activites.each do |activite| %>
+            <% if activite.legume.nil? %>
+              <%= planche.nom %>
+            <% else %>
+              <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= activite.legume.nom %></div>
+            <% end %>
           <% end %>
           </li>
         <% end %>
@@ -134,7 +134,7 @@
           <% if activite.legume.nil? %>
           <%= planche.nom %>
           <% else %>
-          <div class="<%= activite.legume.legume_css %>-bg-color"> <%= activite.legume.nom %></div>
+          <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= activite.legume.nom %></div>
           <% end %>
           <% end %>
           </li>
