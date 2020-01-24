@@ -39,9 +39,16 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <% activite.commentaires.each do |commentaire| %>
-                  <%= commentaire.description %>
-                  <% end %>
+                  <ul>
+                    <% activite.commentaires.each do |commentaire| %>
+                      <% unless commentaire.description.empty? %>
+                        <li>
+                          <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
+                          <div><%= commentaire.description %></div>
+                        </li>
+                      <% end %>
+                    <% end %>
+                  </ul>
                 </div>
               </div>
             </div>
