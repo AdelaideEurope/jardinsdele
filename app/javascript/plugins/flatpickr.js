@@ -4,7 +4,8 @@ import { French } from 'flatpickr/dist/l10n/fr.js';
 const initFlatPickr = () => {
   flatpickr(".datepicker", {
     locale: French,
-    dateFormat: "d-F-Y",
+    altFormat: 'd M Y',
+    altInput: true,
   });
 };
 
