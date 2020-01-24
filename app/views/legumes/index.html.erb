@@ -11,106 +11,105 @@
 <div class="container">
   <div class="tous-legumes">
     <div class="liste-legume mr-3">
-    <ul>
-      <% @legumes.first(28).each do |legume| %>
-      <% duree = [] %>
-      <li>
-      <div class="legume-nom"><%= legume.nom %></div>
-      <div class="planche-nom">
-      <% legume.activites.each do |activite| %>
-      <%= activite.planche.nom %>
-      <% duree << activite.heure_fin - activite.heure_debut %>
-      <% end %>
-        <% duree = duree.sum %>
-        <% h[legume.nom] += duree %>
-        <div class="time">
-        <%= Time.at(duree).utc.strftime("%Hh%M") %> </div>
-      </div>
-      <div class="commentaire-all-legumes">
-        <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= legume.id %>">
-          <i class="fas fa-comment-alt"></i>
-        </button>
-      </div>
-      <div class="modal fade" id="exampleModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle"><%= legume.nom %></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
-                <span aria-hidden="true">&times;</span>
-              </button>
+      <ul>
+        <% @legumes.first(28).each do |legume| %>
+          <% duree = [] %>
+          <% planches = [] %>
+          <li>
+            <% legume.activites.each do |activite| %>
+              <% planches << activite.planche.nom %>
+              <% duree << activite.heure_fin - activite.heure_debut %>
+            <% end %>
+            <% duree = duree.sum %>
+            <% h[legume.nom] += duree %>
+            <div class="wrapper">
+              <div><%= legume.nom %></div>
+              <div><%= planches.join(", ") %></div>
+              <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
+              <div class="commentaire-all-legumes">
+                <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= legume.id %>">
+                  <i class="fas fa-comment-alt"></i>
+                </button>
+              </div>
+              <div class="modal fade" id="exampleModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle"><%= legume.nom %></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <ul>
+                        <% legume.commentaires.each do |commentaire| %>
+                          <% unless commentaire.description.empty? %>
+                            <li>
+                              <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
+                              <div><%= commentaire.description %></div>
+                            </li>
+                          <% end %>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="modal-body">
-              <ul>
-                <% legume.commentaires.each do |commentaire| %>
-                  <% unless commentaire.description.empty? %>
-                    <li>
-                      <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-                      <div><%= commentaire.description %></div>
-                    </li>
-                  <% end %>
-                <% end %>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      </li>
-    <% end  %>
-    </ul>
+          </li>
+        <% end %>
+      </ul>
     </div>
 
     <div class="liste-legume ml-3">
       <ul>
-      <% @legumes.last(28).each do |legume| %>
-      <% duree = [] %>
-      <li>
-      <div class="legume-nom"><%= legume.nom %></div>
-      <div class="planche-nom">
-      <% legume.activites.each do |activite| %>
-      <%= activite.planche.nom %>
-      <% duree << activite.heure_fin - activite.heure_debut %>
-      <% end %>
-        <% duree = duree.sum %>
-        <% h[legume.nom] += duree %>
-        <div class="time">
-        <%= Time.at(duree).utc.strftime("%Hh%M") %> </div>
-      </div>
-      <div class="commentaire-all-legumes">
-        <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= legume.id %>">
-          <i class="fas fa-comment-alt"></i>
-        </button>
-      </div>
-      <div class="modal fade" id="exampleModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle"><%= legume.nom %></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
-                <span aria-hidden="true">&times;</span>
-              </button>
+        <% @legumes.last(28).each do |legume| %>
+          <% duree = [] %>
+          <% planches = [] %>
+          <li>
+            <% legume.activites.each do |activite| %>
+              <% planches << activite.planche.nom %>
+              <% duree << activite.heure_fin - activite.heure_debut %>
+            <% end %>
+            <% duree = duree.sum %>
+            <% h[legume.nom] += duree %>
+            <div class="wrapper">
+              <div><%= legume.nom %></div>
+              <div><%= planches.join(", ") %></div>
+              <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
+              <div class="commentaire-all-legumes">
+                <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= legume.id %>">
+                  <i class="fas fa-comment-alt"></i>
+                </button>
+              </div>
+              <div class="modal fade" id="exampleModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle"><%= legume.nom %></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <ul>
+                        <% legume.commentaires.each do |commentaire| %>
+                          <% unless commentaire.description.empty? %>
+                            <li>
+                              <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
+                              <div><%= commentaire.description %></div>
+                            </li>
+                          <% end %>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="modal-body">
-              <ul>
-                <% legume.commentaires.each do |commentaire| %>
-                  <% unless commentaire.description.empty? %>
-                    <li>
-                      <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-                      <div><%= commentaire.description %></div>
-                    </li>
-                  <% end %>
-                <% end %>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      </li>
-    <% end  %>
-    </ul>
+          </li>
+        <% end %>
+      </ul>
     </div>
   </div>
 </div>
-
-
-

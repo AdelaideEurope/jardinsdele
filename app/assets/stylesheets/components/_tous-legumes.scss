@@ -79,6 +79,12 @@
   }
 }
 
+.wrapper {
+  display: grid;
+  grid-template-columns: 16vw 8vw 8vw 1vw;
+  grid-gap: 10px;
+}
+
 .planche-nom {
   display: contents;
 }
@@ -531,13 +537,6 @@
 .tomate_cerise-color {
   color: $tomate_cerise;
 }
-
-
-
-
-
-
-
 
 
 
