@@ -42,11 +42,18 @@
   }
 }
 
-.plus-rond, .save-rond {
+.plus-rond,
+.save-rond,
+.play-rond {
   height: 60px;
 }
 
 
+@media(min-width: 456px) {
+  .mobile-hidden {
+    display: none;
+  }
+}
 
 .bottom-button {
   display: flex;
