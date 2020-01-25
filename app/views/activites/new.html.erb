@@ -14,7 +14,7 @@
           <%= f.input :heure_fin, :label => "HEURE FIN" %>
       </div>
     </div>
-    <p class='hidden' id='new-activite-finish'>Activité terminée ! Remplissez les informations restantes</p>
+    <p class='hidden' id='new-activite-finish'>Activité terminée !</p>
     <div class="flex-item to_hide" id='new-activite-legumes'>
       <%= f.association :legume, label_method: :nom, :label => "LÉGUME" %>
       <%= f.association :planche, label_method: :nom, :label => "PLANCHE" %>
@@ -22,13 +22,15 @@
     <div class="flex-item to_hide" id='new-activite-tags'>
       <%= f.input :tag_list, :label => "ASSISTANT(S)" %>
       <%= f.simple_fields_for :commentaires do |m| %>
-        <%= m.input :description, :label => "COMMENTAIRE"  %>
+        <div id="commentaire-form">
+          <%= m.input :description, :label => "COMMENTAIRE" %>
+        </div>
       <% end %>
       <%#= f.input :commentaire, :label => "COMMENTAIRE", input_html: {value: @commentaire.titre} %>
     </div>
   </div>
 </div>
-<p class='hidden col-10 offset-1 mt-3' id='new-activite-running'>Activité en cours... Appuyez sur stop pour la terminer</p>
+<p class='hidden' id='new-activite-running'>Activité en cours...</p>
 <%= image_tag "poivron.jpg", class: "poivron" %>
 <div class="bottom-button fixed-bottom">
   <%= image_tag "play-rond.png", alt: "start-activity", id: 'play-button', class: 'play-rond mobile-hidden' %>

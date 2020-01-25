@@ -14,7 +14,7 @@
             <div class="wrapper-recap-activites">
               <div><%= activite.date.strftime("%d/%m") %></div>
               <div><%= activite.nom %></div>
-              <div><%= activite.legume != nil ? activite.legume.nom : "" %></div>
+              <div><%= activite.legume != nil ? activite.legume.nom : "" %> </div>
               <div><%= activite.planche != nil ? activite.planche.nom : "" %></div>
               <div><%= Time.at(t).utc.strftime("%Hh%M") %></div>
               <div class="personne-activite">
@@ -43,7 +43,7 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <div class="modal-body">
+                      <div class="modal-body commentaires-liste">
                         <ul>
                           <% activite.commentaires.each do |commentaire| %>
                             <% unless commentaire.description.empty? %>

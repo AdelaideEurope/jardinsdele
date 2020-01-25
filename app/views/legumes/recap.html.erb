@@ -21,7 +21,7 @@
             <% duree = duree.sum %>
             <% h[legume.nom] += duree %>
             <div class="wrapper-recap-legumes detail-legume">
-              <div><%= legume.nom %></div>
+              <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %></div>
               <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
               <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
             </div>
@@ -41,7 +41,7 @@
                   <% if activite.legume.nil? %>
                     <%= planche.nom %>
                   <% else %>
-                    <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= activite.legume.nom %></div>
+                    <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %></div>
                   <% end %>
                 <% end %>
               <% end %>
@@ -61,7 +61,7 @@
                   <% if activite.legume.nil? %>
                     <%= planche.nom %>
                   <% else %>
-                    <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= activite.legume.nom %></div>
+                    <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %></div>
                   <% end %>
                 <% end %>
               <% end %>
@@ -81,7 +81,7 @@
                   <% if activite.legume.nil? %>
                     <%= planche.nom %>
                   <% else %>
-                    <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= activite.legume.nom %></div>
+                    <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %></div>
                   <% end %>
                 <% end %>
               <% end %>
@@ -103,7 +103,7 @@
                     <%= planche.nom %>
                   <% else %>
                     <div class="<%= activite.legume.legume_css %>-bg-color">
-                      <%= planche.nom %> - <%= activite.legume.nom %>
+                      <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
                     </div>
                   <% end %>
                 <% end %>
@@ -124,7 +124,7 @@
                     <%= planche.nom %>
                   <% else %>
                     <div class="<%= activite.legume.legume_css %>-bg-color">
-                      <%= planche.nom %> - <%= activite.legume.nom %>
+                      <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
                     </div>
                   <% end %>
                 <% end %>
@@ -145,7 +145,7 @@
                     <%= planche.nom %>
                   <% else %>
                     <div class="<%= activite.legume.legume_css %>-bg-color">
-                      <%= planche.nom %> - <%= activite.legume.nom %>
+                      <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
                     </div>
                   <% end %>
                 <% end %>

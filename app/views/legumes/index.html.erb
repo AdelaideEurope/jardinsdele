@@ -23,11 +23,11 @@
             <% duree = duree.sum %>
             <% h[legume.nom] += duree %>
             <div class="wrapper-legumes">
-              <div><%= legume.nom %></div>
+              <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %> </div>
               <div><%= planches.join(", ") %></div>
               <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
               <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
-              <div class="commentaire-all-legumes">
+              <div>
                 <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= legume.id %>">
                   <i class="fas fa-comment-alt"></i>
                 </button>
@@ -41,7 +41,7 @@
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body commentaires-liste">
                       <ul>
                         <% legume.commentaires.each do |commentaire| %>
                           <% unless commentaire.description.empty? %>
@@ -75,11 +75,11 @@
             <% duree = duree.sum %>
             <% h[legume.nom] += duree %>
             <div class="wrapper-legumes">
-              <div><%= legume.nom %></div>
+              <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %></div>
               <div><%= planches.join(", ") %></div>
               <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
               <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
-              <div class="commentaire-all-legumes">
+              <div>
                 <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= legume.id %>">
                   <i class="fas fa-comment-alt"></i>
                 </button>

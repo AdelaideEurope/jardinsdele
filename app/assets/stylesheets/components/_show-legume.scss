@@ -6,3 +6,30 @@
 .icone-legume-show {
   height: 96px;
 }
+
+.recap-show-legume {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1vh;
+}
+
+.recap-show-left, .recap-show-right {
+  display: grid;
+  grid-template-columns: 17vw 5vw;
+  background-color: $light-gray;
+  padding-left: 10px;
+}
+
+
+.recap-show-middle {
+  display: grid;
+  grid-template-columns: 15vw 6.5vw;
+  background-color: $light-gray;
+  padding-left: 10px;
+}
+
+.recap-show-right-last {
+  display: grid;
+  grid-template-columns: 17vw 5vw;
+  padding-left: 10px;
+}

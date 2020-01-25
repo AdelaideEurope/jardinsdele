@@ -18,371 +18,371 @@ puts "Starting seed legume"
 
 autres_aromates = Legume.new({
   nom: "Autres aromates",
-  prix_general: "",
+  prix_general: "/",
   legume_css: "autres_aromates"
 })
 autres_aromates.save
 
 aubergine = Legume.new({
   nom: "Aubergine",
-  prix_general: "",
+  prix_general: "3,80",
   legume_css: "aubergine"
 })
 aubergine.save
 
 basilic = Legume.new({
   nom: "Basilic",
-  prix_general: "",
+  prix_general: "1,00",
   legume_css: "basilic"
   })
 basilic.save
 
 betterave = Legume.new({
   nom: "Betterave",
-  prix_general: "",
+  prix_general: "2,80",
   legume_css: "betterave"
   })
 betterave.save
 
 blette = Legume.new({
   nom: "Blette",
-  prix_general: "",
+  prix_general: "2,90",
   legume_css: "blette"
   })
 blette.save
 
 brocoli = Legume.new({
   nom: "Brocoli",
-  prix_general: "",
+  prix_general: "3,20",
   legume_css: "brocoli"
   })
 brocoli.save
 
 carotte = Legume.new({
   nom: "Carotte",
-  prix_general: "",
+  prix_general: "2,10",
   legume_css: "carotte"
   })
 carotte.save
 
 cebette = Legume.new({
   nom: "Cébette",
-  prix_general: "",
+  prix_general: "1,50",
   legume_css: "cebette"
   })
 cebette.save
 
 celeri_branche = Legume.new({
   nom: "Céleri branche",
-  prix_general: "",
+  prix_general: "2,80",
   legume_css: "celeri_branche"
   })
 celeri_branche.save
 
 celeri_rave = Legume.new({
   nom: "Céleri rave",
-  prix_general: "",
+  prix_general: "2,90",
   legume_css: "celeri_rave"
   })
 celeri_rave.save
 
 chou_rave = Legume.new({
   nom: "Chou rave",
-  prix_general: "",
+  prix_general: "3,00",
   legume_css: "chou_rave"
   })
 chou_rave.save
 
 chou_blanc = Legume.new({
   nom: "Chou blanc",
-  prix_general: "",
+  prix_general: "2,60",
   legume_css: "chou_blanc"
   })
 chou_blanc.save
 
 chou_de_bruxelles = Legume.new({
   nom: "Chou de Bruxelles",
-  prix_general: "",
+  prix_general: "4,00",
   legume_css: "chou_de_bruxelles"
   })
 chou_de_bruxelles.save
 
 chou_chinois = Legume.new({
   nom: "Chou chinois",
-  prix_general: "",
+  prix_general: "3,10",
   legume_css: "chou_chinois"
   })
 chou_chinois.save
 
 chou_kale = Legume.new({
   nom: "Chou kale",
-  prix_general: "",
+  prix_general: "5,40",
   legume_css: "chou_kale"
   })
 chou_kale.save
 
 chou_rouge = Legume.new({
   nom: "Chou rouge",
-  prix_general: "",
+  prix_general: "2,50",
   legume_css: "chou_rouge"
   })
 chou_rouge.save
 
 chou_vert_frise = Legume.new({
   nom: "Chou vert frisé",
-  prix_general: "",
+  prix_general: "2,50",
   legume_css: "chou_vert_frise"
   })
 chou_vert_frise.save
 
 chou_fleur = Legume.new({
   nom: "Chou-fleur",
-  prix_general: "",
+  prix_general: "3,20",
   legume_css: "chou_fleur"
   })
 chou_fleur.save
 
 concombre = Legume.new({
   nom: "Concombre",
-  prix_general: "",
+  prix_general: "1",
   legume_css: "concombre"
   })
 concombre.save
 
 coulis = Legume.new({
   nom: "Coulis",
-  prix_general: "",
+  prix_general: "/",
   legume_css: "coulis"
   })
 coulis.save
 
 courge = Legume.new({
   nom: "Courge",
-  prix_general: "",
+  prix_general: "2,70",
   legume_css: "courge"
   })
 courge.save
 
 courgette = Legume.new({
   nom: "Courgette",
-  prix_general: "",
+  prix_general: "2,60",
   legume_css: "courgette"
   })
 courgette.save
 
 cresson = Legume.new({
   nom: "Cresson",
-  prix_general: "",
+  prix_general: "7,50",
   legume_css: "cresson"
   })
 cresson.save
 
 echalote = Legume.new({
   nom: "Échalote",
-  prix_general: "",
+  prix_general: "5,40",
   legume_css: "echalote"
   })
 echalote.save
 
 epinard = Legume.new({
   nom: "Épinard",
-  prix_general: "",
+  prix_general: "5,00",
   legume_css: "epinard"
   })
 epinard.save
 
 fenouil = Legume.new({
   nom: "Fenouil",
-  prix_general: "",
+  prix_general: "3,50",
   legume_css: "fenouil"
   })
 fenouil.save
 
 feve = Legume.new({
   nom: "Fève",
-  prix_general: "",
+  prix_general: "4,00",
   legume_css: "feve"
   })
 feve.save
 
 fraise = Legume.new({
   nom: "Fraise",
-  prix_general: "",
+  prix_general: "10,00",
   legume_css: "fraise"
   })
 fraise.save
 
 framboise = Legume.new({
   nom: "Framboise",
-  prix_general: "",
+  prix_general: "16,00",
   legume_css: "framboise"
   })
 framboise.save
 
 haricot_vert = Legume.new({
   nom: "Haricot vert",
-  prix_general: "",
+  prix_general: "6,60",
   legume_css: "haricot_vert"
   })
 haricot_vert.save
 
 haricot_coco = Legume.new({
   nom: "Haricot coco",
-  prix_general: "",
+  prix_general: "5,50",
   legume_css: "haricot_coco"
   })
 haricot_coco.save
 
 mache = Legume.new({
   nom: "Mâche",
-  prix_general: "",
+  prix_general: "10,00",
   legume_css: "mache"
   })
 mache.save
 
 mais = Legume.new({
   nom: "Maïs",
-  prix_general: "",
+  prix_general: "2,80",
   legume_css: "mais"
   })
 mais.save
 
 mange_tout = Legume.new({
   nom: "Mange-tout",
-  prix_general: "",
+  prix_general: "8,00",
   legume_css: "mange_tout"
   })
 mange_tout.save
 
 melon = Legume.new({
   nom: "Melon",
-  prix_general: "",
+  prix_general: "2,60",
   legume_css: "melon"
   })
 melon.save
 
 mesclun = Legume.new({
   nom: "Mesclun",
-  prix_general: "",
+  prix_general: "10,00",
   legume_css: "mesclun"
   })
 mesclun.save
 
 navet = Legume.new({
   nom: "Navet",
-  prix_general: "",
+  prix_general: "2,60",
   legume_css: "navet"
   })
 navet.save
 
 oignon = Legume.new({
   nom: "Oignon",
-  prix_general: "",
+  prix_general: "2,90",
   legume_css: "oignon"
   })
 oignon.save
 
 panais = Legume.new({
   nom: "Panais",
-  prix_general: "",
+  prix_general: "3,00",
   legume_css: "panais"
   })
 panais.save
 
 patate_douce = Legume.new({
   nom: "Patate douce",
-  prix_general: "",
+  prix_general: "4,00",
   legume_css: "patate_douce"
   })
 patate_douce.save
 
 pomme_de_terre_nouvelle = Legume.new({
   nom: "PDT nouvelle",
-  prix_general: "",
+  prix_general: "5,00",
   legume_css: "pdt_nouvelle"
   })
 pomme_de_terre_nouvelle.save
 
 persil = Legume.new({
   nom: "Persil",
-  prix_general: "",
+  prix_general: "1,00",
   legume_css: "persil"
   })
 persil.save
 
 petit_pois = Legume.new({
   nom: "Petit pois",
-  prix_general: "",
+  prix_general: "7,00",
   legume_css: "petit_pois"
   })
 petit_pois.save
 
 physalis = Legume.new({
   nom: "Physalis",
-  prix_general: "",
+  prix_general: "10,00",
   legume_css: "physalis"
   })
 physalis.save
 
 poireau = Legume.new({
   nom: "Poireau",
-  prix_general: "",
+  prix_general: "3,15",
   legume_css: "poireau"
   })
 poireau.save
 
 poivron = Legume.new({
   nom: "Poivron",
-  prix_general: "",
+  prix_general: "3,80",
   legume_css: "poivron"
   })
 poivron.save
 
 pourpier = Legume.new({
   nom: "Pourpier",
-  prix_general: "",
+  prix_general: "7,50",
   legume_css: "pourpier"
   })
 pourpier.save
 
 radis_noir = Legume.new({
   nom: "Radis noir",
-  prix_general: "",
+  prix_general: "2,60",
   legume_css: "radis_noir"
   })
 radis_noir.save
 
 radis_rose = Legume.new({
   nom: "Radis rose",
-  prix_general: "",
+  prix_general: "1,30",
   legume_css: "radis_rose"
   })
 radis_rose.save
 
 roquette = Legume.new({
   nom: "Roquette",
-  prix_general: "",
+  prix_general: "10,00",
   legume_css: "roquette"
   })
 roquette.save
 
 salade = Legume.new({
   nom: "Salade",
-  prix_general: "",
+  prix_general: "1,10",
   legume_css: "salade"
   })
 salade.save
 
 tartinade = Legume.new({
   nom: "Tartinade",
-  prix_general: "",
+  prix_general: "3,50",
   legume_css: "tartinade"
   })
 tartinade.save
 
 tisane = Legume.new({
   nom: "Tisane",
-  prix_general: "",
+  prix_general: "3,50",
   legume_css: "tisane"
   })
 tisane.save
@@ -390,21 +390,21 @@ tisane.save
 
 tomate = Legume.new({
   nom: "Tomate",
-  prix_general: "",
+  prix_general: "3,40",
   legume_css: "tomate"
   })
 tomate.save
 
 tomate_ancienne = Legume.new({
   nom: "Tomate ancienne",
-  prix_general: "",
+  prix_general: "3,90",
   legume_css: "tomate_ancienne"
   })
 tomate_ancienne.save
 
 tomate_cerise = Legume.new({
   nom: "Tomate cerise",
-  prix_general: "",
+  prix_general: "7,50",
   legume_css: "tomate_cerise"
   })
 tomate_cerise.save

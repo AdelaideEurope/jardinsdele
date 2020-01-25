@@ -1,0 +1,67 @@
+.nav-pills {
+  .nav-link {
+  color: $darker-grey;
+  background-color: white;
+  border-bottom: solid 2px $darker-grey;
+  }
+}
+
+.nav-pills {
+  .nav-link.active {
+  color: $darker-grey;
+  background-color: white;
+  border-bottom: solid 2px $light-green;
+  }
+}
+
+.nav-item-show {
+  width: 160px;
+  text-align: center;
+}
+
+.tab-content {
+  .commentaires-liste {
+    width: 40%;
+    margin: 2% 30%;
+  }
+}
+
+.tab-content {
+  .actions-liste {
+    width: 62%;
+    margin: 2% 19%;
+  }
+}
+
+.actions-liste {
+  li {
+    background: $light-gray;
+    list-style: none;
+    padding-left: 16px;
+    padding-top: 4px;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: unset;
+    padding-right: 16px;
+  }
+}
+
+.wrapper-activites-show {
+  display: grid;
+  grid-template-columns: 8vw 24vw 10vw 12vw 5vw;
+  grid-gap: 10px;
+}
+
+.toutes-activites-show {
+  margin-top: -24px;
+  li {
+  list-style: none;
+  padding-top: 4px;
+  }
+  .wrapper-recap-activites {
+  background: $light-gray;
+  width: 96%;
+  padding-left: 16px;
+  }
+}
+
