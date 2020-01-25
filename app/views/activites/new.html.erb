@@ -2,11 +2,11 @@
 <div class="container mt-4">
   <h2 class="to_hide">Nouvelle activité</h2>
 </div>
-<div class="container-form">
+<div class="container-form" id='mobile-container'>
 
   <%= simple_form_for @activite do |f| %>
-  <div class="flex-container">
-    <div class="flex-item">
+  <div class="flex-container" id='mobile-form'>
+    <div class="flex-item" id='new-activite-nom'>
       <%= f.input :nom, :label => "ACTIVITÉ", collection: ["Plantation", "Bricolage", "Préparation planche", "Divers", "Vente (dont transport)", "Récolte et préparation vente"] %>
       <div class="to_hide">
           <%= f.input :date, as: :string, :label => "DATE", input_html: { class: "datepicker" } %>
@@ -14,22 +14,27 @@
           <%= f.input :heure_fin, :label => "HEURE FIN" %>
       </div>
     </div>
-    <div class="flex-item to_hide">
+    <p class='hidden' id='new-activite-finish'>Activité terminée ! Remplissez les informations restantes</p>
+    <div class="flex-item to_hide" id='new-activite-legumes'>
       <%= f.association :legume, label_method: :nom, :label => "LÉGUME" %>
       <%= f.association :planche, label_method: :nom, :label => "PLANCHE" %>
     </div>
-    <div class="flex-item to_hide">
+    <div class="flex-item to_hide" id='new-activite-tags'>
       <%= f.input :tag_list, :label => "ASSISTANT(S)" %>
       <%= f.simple_fields_for :commentaires do |m| %>
-      <%= m.input :description, :label => "COMMENTAIRE"  %>
+        <%= m.input :description, :label => "COMMENTAIRE"  %>
       <% end %>
       <%#= f.input :commentaire, :label => "COMMENTAIRE", input_html: {value: @commentaire.titre} %>
     </div>
   </div>
 </div>
+<p class='hidden col-10 offset-1 mt-3' id='new-activite-running'>Activité en cours... Appuyez sur stop pour la terminer</p>
 <%= image_tag "poivron.jpg", class: "poivron" %>
 <div class="bottom-button fixed-bottom">
   <%= image_tag "play-rond.png", alt: "start-activity", id: 'play-button', class: 'play-rond mobile-hidden' %>
+</div>
+<div class="bottom-button fixed-bottom to_hide stop-button-div">
+  <%= image_tag "stop.png", alt: "stop-activity", id: 'stop-button', class: 'stop-rond mobile-hidden' %>
 </div>
 <div class="bottom-button fixed-bottom to_hide" id='save-button'>
   <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond" %>

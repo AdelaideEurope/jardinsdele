@@ -62,13 +62,29 @@
   .poivron {
     display: none;
   }
+
+  #mobile-form {
+    display: block;
+  }
+
+  #mobile-container {
+    padding-bottom: 8rem;
+  }
+
+  #new-activite-running,
+  #new-activite-finish {
+    color: #8B8B8B;
+    font-size: 1.5rem;
+  }
 }
 
 .form-control[readonly] {
     background-color: white;
 }
 
-
+.hidden {
+  display: none;
+}
 
 // .stopwatch {
 //   height: 50%;

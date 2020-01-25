@@ -44,10 +44,14 @@
 
 .plus-rond,
 .save-rond,
-.play-rond {
+.play-rond,
+.stop-rond {
   height: 60px;
 }
 
+.stop-rond {
+  z-index: 500;
+}
 
 @media(min-width: 456px) {
   .mobile-hidden {

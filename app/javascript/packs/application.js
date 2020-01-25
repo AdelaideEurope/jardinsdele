@@ -4,5 +4,9 @@ import { minuteur } from "plugins/minuteur";
 import { initFlatPickr } from "plugins/flatpickr";
 
 toolTip();
-minuteur();
+
+if (document.getElementById('play-button')) {
+  minuteur();
+};
+
 initFlatPickr();
