@@ -15,4 +15,10 @@ class LegumesController < ApplicationController
     @planches_e = Planche.all[65..69]
     @planches_f = Planche.all[70..74]
   end
+
+  def show
+    @legume = Legume.find(params[:id])
+    @activites = Activite.all
+  end
+
 end

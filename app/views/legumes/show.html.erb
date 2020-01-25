@@ -1,0 +1,76 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <div class="top-title-img">
+    <h2><%= @legume.nom %></h2>
+    <%= image_tag "#{@legume.nom.downcase.tr('éèâï', 'eeai')}.jpg", class: "icone-legume-show" %>
+  </div>
+  <!-- <div class="commentaires-legume">
+    Prix général <%= @legume.prix_general %>
+  </div> -->
+  <div class="toutes-activites">
+    <ul>
+      <% @activites.sort_by(&:date).reverse.each do |activite| %>
+        <% t= activite.heure_fin - activite.heure_debut %>
+        <li>
+          <div class="ligne-act">
+            <div class="wrapper-recap-activites">
+              <div><%= activite.date.strftime("%d/%m") %></div>
+              <div><%= activite.nom %></div>
+              <div><%= activite.legume != nil ? activite.legume.nom : "" %></div>
+              <div><%= activite.planche != nil ? activite.planche.nom : "" %></div>
+              <div><%= Time.at(t).utc.strftime("%Hh%M") %></div>
+              <div class="personne-activite">
+                <% if (activite.tag_list.count) > 2 %>
+                  <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="élé"></i>
+                  <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="<%= activite.tag_list.first %>"></i>
+                  <i class="fas fa-user-plus" data-toggle="tooltip" data-placement="top" title="<%= activite.tag_list[1..-1] %>"></i>
+                <% else %>
+                  <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="élé"></i>
+                  <% activite.tag_list.each do |tag| %>
+                    <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="<%= tag %>"></i>
+                  <% end %>
+                <% end %>
+              </div>
+                <div class="commentaire-all-activites">
+                  <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= activite.id %>">
+                    <i class="fas fa-comment-alt"></i>
+                  </button>
+                </div>
+                <div class="modal fade" id="exampleModalCenter<%= activite.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Commentaire</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <ul>
+                          <% activite.commentaires.each do |commentaire| %>
+                            <% unless commentaire.description.empty? %>
+                              <li>
+                                <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
+                                <div><%= commentaire.description %></div>
+                              </li>
+                            <% end %>
+                          <% end %>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="crayon-edit">
+              <%= link_to edit_activite_path(activite) do %>
+              <i class="fas fa-pencil-alt"></i><% end %>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+
+</div>
+
