@@ -5,6 +5,8 @@ import { initFlatPickr } from "plugins/flatpickr";
 import { meteoWidget } from "plugins/meteowidget";
 import 'select2/dist/css/select2.css';
 import { initSelect2 } from 'plugins/init_select2';
+require("chartkick");
+require("chart.js");
 
 toolTip();
 

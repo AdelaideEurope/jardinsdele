@@ -8,8 +8,13 @@
   display: grid;
   grid-template-columns: 8% 25% 25% 10% 12% 10% 1%;
   grid-gap: 10px;
+  padding-top: 4px;
 }
 
 .ligne-act {
   display: flex;
+}
+
+#chart-1 {
+  margin-bottom: 150px;
 }

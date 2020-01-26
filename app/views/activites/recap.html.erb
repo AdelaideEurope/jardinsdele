@@ -6,7 +6,7 @@
   </div>
 </div>
 <div class="container mt-4 to_hide">
-  <h2>Cette semaine (S<%= Date.today.strftime("%U").to_i+1 %>)</h2>
+  <h2>Cette semaine (S<%= Date.today.strftime("%W").to_i+1 %>)</h2>
    <%= link_to activites_path do %>
     <div class="voir-tout-recap">Voir tout</div>
    <% end %>
@@ -76,11 +76,11 @@
 
   <div class="totaux-activites mt-5">
     <% h = Hash.new { |h,k| h[k] = "".to_i } %>
-    <% @activites.each do |activite| %>
+    <% @activites_semaine.each do |activite| %>
       <% duree = activite.heure_fin - activite.heure_debut %>
       <% h[activite.nom] += duree %>
     <% end %>
-    <h2>Totaux activités (<% total = h.values.sum %><%= Time.at(total).utc.strftime("%Hh%M") %>)</h2>
+    <h2>Temps de travail cette semaine (<% total = h.values.sum %><%= Time.at(total).utc.strftime("%Hh%M") %>)</h2>
 
     <div class="duree-activites">
       <ul>
@@ -100,6 +100,8 @@
   </div>
 </div>
 
+<%#= line_chart @activites.group(:nom).group_by_day(:date).count %>
+<%#= pie_chart @activites.group(:nom).count %>
 
 <div class="bottom-button fixed-bottom">
   <%= link_to new_activite_path do %>

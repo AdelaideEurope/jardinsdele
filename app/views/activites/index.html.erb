@@ -1,6 +1,30 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
-  <h2>Les activités</h2>
+  <div class="totaux-activites mt-4">
+    <% h = Hash.new { |h,k| h[k] = "".to_i } %>
+    <% @activites.each do |activite| %>
+      <% duree = activite.heure_fin - activite.heure_debut %>
+      <% h[activite.nom] += duree %>
+    <% end %>
+    <h2>Totaux activités (<% total = h.values.sum %><%= Time.at(total).utc.strftime("%Hh%M") %>)</h2>
+    <div class="duree-activites">
+      <ul>
+        <% h.each do |key, val| %>
+          <% pourcentage = (val*100).fdiv(total).round(2) %>
+          <li>
+            <div class="wrapper-recap-temps">
+              <div><%= key %></div>
+              <div><%= Time.at(val).utc.strftime("%Hh%M") %></div>
+              <div><%= pourcentage %> %</div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="mt-5">
+    <h2>Toutes les activités</h2>
+  </div>
   <%= link_to activites_recap_path do %>
    <div class="voir-tout-recap">Récap</div>
   <% end %>
@@ -67,7 +91,6 @@
       <% end %>
     </ul>
   </div>
-
 
 
 

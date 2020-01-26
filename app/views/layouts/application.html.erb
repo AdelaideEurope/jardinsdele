@@ -11,6 +11,8 @@
     <%= favicon_link_tag asset_path('logo.png') %>
   </head>
   <body>
+    <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
+    <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
     <%= render 'shared/flashes' %>
     <%= yield %>
     <%= javascript_include_tag 'application' %>

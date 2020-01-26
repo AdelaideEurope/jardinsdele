@@ -31,9 +31,7 @@ class ActivitesController < ApplicationController
   end
 
   def edit
-    # raise
     @activite = Activite.find(params[:id])
-    # raise
   end
 
   def update
