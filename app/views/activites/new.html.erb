@@ -7,7 +7,7 @@
   <%= simple_form_for @activite do |f| %>
   <div class="flex-container" id='mobile-form'>
     <div class="flex-item" id='new-activite-nom'>
-      <%= f.input :nom, :label => "ACTIVITÉ", collection: ["Plantation", "Bricolage", "Préparation planche", "Divers", "Vente (dont transport)", "Récolte et préparation vente"] %>
+      <%= f.input :nom, :label => "ACTIVITÉ", collection: ["Plantation", "Bricolage", "Préparation planche", "Divers", "Vente (dont transport)", "Récolte et préparation vente"], input_html: { class: 'select2activite' } %>
       <div class="to_hide">
           <%= f.input :date, as: :string, :label => "DATE", input_html: { class: "datepicker" } %>
           <%= f.input :heure_debut, :label => "HEURE DÉBUT" %>
@@ -16,8 +16,9 @@
     </div>
     <p class='hidden' id='new-activite-finish'>Activité terminée !</p>
     <div class="flex-item to_hide" id='new-activite-legumes'>
-      <%= f.association :legume, label_method: :nom, :label => "LÉGUME" %>
-      <%= f.association :planche, label_method: :nom, :label => "PLANCHE" %>
+      <%= f.association :legume, label_method: :nom, :label => "LÉGUME",
+      input_html: { class: 'select2' }  %>
+      <%= f.association :planche, label_method: :nom, :label => "PLANCHE", input_html: { class: 'select2planche' } %>
     </div>
     <div class="flex-item to_hide" id='new-activite-tags'>
       <%= f.input :tag_list, :label => "ASSISTANT(S)" %>
