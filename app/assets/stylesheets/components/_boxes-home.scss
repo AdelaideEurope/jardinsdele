@@ -29,6 +29,10 @@
       display: none;
     }
 
+    .activite-enregistree {
+      display: none;
+    }
+
   .plus {
     top: 56px;
     position: relative;
@@ -69,5 +73,16 @@
     display: unset;
     position: relative;
     top: 435%;
+  }
+
+  .activite-enregistree {
+    display: unset;
+  }
+
+  .activite-enregistree-mobile {
+    display: unset;
+    display: flex;
+    justify-content: center;
+    margin-top: 40%;
   }
 }

@@ -1,6 +1,11 @@
 <%= render 'shared/navbar' %>
 
-<div class="container mt-4">
+<div class="container activite-enregistree-mobile">
+  <div class="activite-enregistree">
+    Activité bien enregistrée !
+  </div>
+</div>
+<div class="container mt-4 to_hide">
   <h2>Cette semaine (S<%= Date.today.strftime("%U").to_i+1 %>)</h2>
    <%= link_to activites_path do %>
     <div class="voir-tout-recap">Voir tout</div>
@@ -29,35 +34,35 @@
                   <% end %>
                 <% end %>
               </div>
-                <div class="commentaire-all-activites">
-                  <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= activite.id %>">
-                    <i class="fas fa-comment-alt"></i>
-                  </button>
-                </div>
-                <div class="modal fade" id="exampleModalCenter<%= activite.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Commentaire</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body commentaires-liste">
-                        <ul>
-                          <% activite.commentaires.each do |commentaire| %>
-                            <% unless commentaire.description.empty? %>
-                              <li>
-                                <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-                                <div><%= commentaire.description %></div>
-                              </li>
-                            <% end %>
+              <div class="commentaire-all-activites">
+                <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= activite.id %>">
+                  <i class="fas fa-comment-alt"></i>
+                </button>
+              </div>
+              <div class="modal fade" id="exampleModalCenter<%= activite.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Commentaire</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body commentaires-liste">
+                      <ul>
+                        <% activite.commentaires.each do |commentaire| %>
+                          <% unless commentaire.description.empty? %>
+                            <li>
+                              <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
+                              <div><%= commentaire.description %></div>
+                            </li>
                           <% end %>
-                        </ul>
-                      </div>
+                        <% end %>
+                      </ul>
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
             <div class="crayon-edit">
               <%= link_to edit_activite_path(activite) do %>
