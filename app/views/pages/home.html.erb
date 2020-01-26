@@ -2,6 +2,7 @@
 
 
 <div class="container">
+  <div id="meteo-widget" class="to_hide mt-5"><i class="fas fa-cloud-sun"></i> </div>
   <div class="boxes">
     <div class="boxes-item"><%= link_to activites_recap_path do  %><p>Temps de travail</p><% end %></div>
     <div class="boxes-item"><%= link_to legumes_recap_path do  %><p>Cultures</p><% end %></div>
@@ -13,4 +14,9 @@
   <div class="panier-home-mobile">
     <%= link_to new_activite_path do %><%= image_tag "panier.png", class: "panier-mobile" %> <% end %>
   </div>
+</div>
+
+
+<div class="meteo float-right hidden" id="widget-meteofrance" >
+<script charset='UTF-8' src='http://www.meteofrance.com/mf3-rpc-portlet/rest/vignettepartenaire/385280/type/VILLE_FRANCE/size/PAYSAGE_VIGNETTE' type='text/javascript'></script>
 </div>
