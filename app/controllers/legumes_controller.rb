@@ -17,7 +17,7 @@ class LegumesController < ApplicationController
   end
 
   def show
-    @legume = Legume.find(params[:id])
+    @legume = Legume.friendly.find(params[:id])
     @activites = Activite.where(["legume_id = ?", @legume.id])
   end
 

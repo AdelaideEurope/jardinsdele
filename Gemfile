@@ -19,6 +19,7 @@ gem 'webpacker'
 gem 'groupdate'
 gem 'jquery-rails', '~> 4.1', '>= 4.1.1'
 gem 'acts-as-taggable-on', '~> 6.5'
+gem 'friendly_id', '~> 5.2.4'
 
 
 group :development do
