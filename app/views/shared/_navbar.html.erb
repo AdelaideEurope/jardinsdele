@@ -17,8 +17,8 @@
         <li class="nav-item <%= 'active' if current_page?(legumes_recap_path) || current_page?(legumes_path) %>">
           <%= link_to "Cultures", legumes_recap_path, class: "nav-link with-border" %>
         </li>
-        <li class="nav-item">
-          <%= link_to "Ventes", "#", class: "nav-link" %>
+        <li class="nav-item <%= 'active' if current_page?(ventes_recap_path) || current_page?(ventes_path) %>">
+          <%= link_to "Ventes", ventes_recap_path, class: "nav-link" %>
         </li>
         <li class="nav-item dropdown">
           <%= image_tag "ele.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
