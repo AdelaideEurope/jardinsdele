@@ -28,15 +28,19 @@
               <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
               <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= legume.id %>">
-                  <i class="fas fa-comment-alt"></i>
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume.id %>">
+                  <% legume.commentaires.each do |commentaire| %>
+                    <% unless commentaire.description.empty? %>
+                      <i class="fas fa-comment-alt"></i>
+                    <% end %>
+                  <% end %>
                 </button>
               </div>
-              <div class="modal fade" id="exampleModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal fade" id="ModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLongTitle"><%= legume.nom %></h5>
+                      <h5 class="modal-title" id="modalLongTitle"><%= legume.nom %></h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -80,15 +84,17 @@
               <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
               <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= legume.id %>">
-                  <i class="fas fa-comment-alt"></i>
-                </button>
+                <% legume.commentaires.each do |commentaire| %>
+                  <% unless commentaire.description.empty? %>
+                    <i class="fas fa-comment-alt"></i>
+                  <% end %>
+                <% end %>
               </div>
-              <div class="modal fade" id="exampleModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal fade" id="ModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLongTitle"><%= legume.nom %></h5>
+                      <h5 class="modal-title" id="modalLongTitle"><%= legume.nom %></h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                         <span aria-hidden="true">&times;</span>
                       </button>

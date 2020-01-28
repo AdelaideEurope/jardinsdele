@@ -36,7 +36,11 @@
               </div>
               <div class="commentaire-all-activites">
                 <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= activite.id %>">
-                  <i class="fas fa-comment-alt"></i>
+                  <% activite.commentaires.each do |commentaire| %>
+                    <% unless commentaire.description.empty? %>
+                      <i class="fas fa-comment-alt"></i>
+                    <% end %>
+                  <% end %>
                 </button>
               </div>
               <div class="modal fade" id="exampleModalCenter<%= activite.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

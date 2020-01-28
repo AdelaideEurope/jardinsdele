@@ -32,7 +32,7 @@
       </div>
       <div class="toutes-ventes">
         <ul>
-          <% @ventes.sort_by(&:date).reverse.each do |vente| %>
+          <% @ventes.sort_by(&:date).reverse.first(3).each do |vente| %>
             <li>
               <div class="wrapper-toutes-ventes">
                 <div><%= vente.date.strftime("%d/%m") %></div>
@@ -61,7 +61,14 @@
             </li>
             <li>
               <div class="wrapper-recap-tout">
-                <div>Total impayés</div>
+                <div>CA de la semaine (S<%= Date.today.strftime("%W").to_i+1 %>)</div>
+                <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+              </div>
+            </li>
+            <li>
+              <div class="wrapper-recap-tout">
+                <% cemois = Date.today.month %>
+                <div>CA du mois (M<%= cemois %>) </div>
                 <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
               </div>
             </li>

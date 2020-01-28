@@ -1,6 +1,9 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
   <h2>Les points de vente</h2>
+  <%= link_to ventes_recap_path do %>
+   <div class="voir-tout-recap">Récap</div>
+  <% end %>
   <div class="liste-pointsdevente">
     <ul>
       <% @pointsdevente.sort_by(&:nom).each do |pointdevente| %>

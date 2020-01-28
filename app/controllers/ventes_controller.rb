@@ -1,6 +1,11 @@
 class VentesController < ApplicationController
   def index
     @ventes = Vente.all
+    @pointsdevente = VentePoint.all
+  end
+
+  def show
+    @vente = Vente.find(params[:id])
   end
 
   def new
@@ -11,7 +16,7 @@ class VentesController < ApplicationController
     @vente = Vente.new(vente_params)
     if @vente.save
       flash[:notice] = "Vente créée avec succès !"
-      redirect_to ventes_recap_path
+      redirect_to vente_path(@vente)
     else
       render :new
     end
@@ -27,5 +32,4 @@ private
   def vente_params
     params.require(:vente).permit(:date, :vente_point_id)
   end
-
 end

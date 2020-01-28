@@ -20,25 +20,38 @@
 }
 
 .tab-content {
-  .commentaires-liste {
+  .parlieu-liste {
     width: 40%;
     margin: 2% 30%;
   }
 }
 
 .tab-content {
+  .parsemaine-liste {
+    width: 50%;
+    margin: 2% 25%;
+  }
+  .parlieu-liste {
+    width: 80%;
+    margin: 2% 10%;
+  }
   .actions-liste {
     width: 50%;
     margin: 2% 25%;
   }
+  .commentaires-liste {
+    width: 30%;
+    margin: 2% 35%;
+  }
 }
 
-.actions-liste {
+
+
+.parsemaine-liste, .actions-liste {
   li {
     background: $light-gray;
     list-style: none;
     padding-left: 16px;
-    padding-top: 4px;
     margin-bottom: 4px;
     display: flex;
     justify-content: unset;

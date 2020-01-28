@@ -4,9 +4,9 @@
 <div class="container">
   <div id="meteo-widget" class="to_hide mt-5"><i class="fas fa-cloud-sun"></i> </div>
   <div class="boxes">
-    <div class="boxes-item"><%= link_to activites_recap_path do  %><p>Temps de travail</p><% end %></div>
-    <div class="boxes-item"><%= link_to legumes_recap_path do  %><p>Cultures</p><% end %></div>
-    <div class="boxes-item"><p>Ventes</p><%= image_tag "panier.png", class: "panier" %></div>
+    <%= link_to activites_recap_path do  %><div class="boxes-item"><p>Temps de travail</p></div><% end %>
+    <%= link_to legumes_recap_path do  %><div class="boxes-item"><p>Cultures</p></div><% end %>
+    <div class="boxes-item"><%= link_to ventes_recap_path do  %><p>Ventes</p><%= image_tag "panier.png", class: "panier" %><% end %></div>
   </div>
   <div class="activite-home-mobile">
     <%= link_to "Nouvelle activité", new_activite_path %>
