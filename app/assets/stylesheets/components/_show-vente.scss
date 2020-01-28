@@ -1,0 +1,10 @@
+.wrapper-ligne-vente {
+  display: grid;
+  grid-template-columns: 14% 14% 14% 14% 14% 14% 14% 14%;
+}
+
+.ligne-titre-vente {
+  ul {
+      list-style: none;
+  }
+}

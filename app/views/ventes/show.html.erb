@@ -1,0 +1,20 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <h2>Vente <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %></h2>
+  <div class="ligne-titre-vente">
+    <ul>
+      <li>
+        <div class="wrapper-ligne-vente mt-5">
+          <div>Légume</div>
+          <div>Planche</div>
+          <div>Prix unitaire HT</div>
+          <div>Prix unitaire TTC</div>
+          <div>Quantité</div>
+          <div>Unité</div>
+          <div>Montant HT</div>
+          <div>Montant TTC</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

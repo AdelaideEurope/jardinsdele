@@ -8,41 +8,84 @@
 
 <ul class="nav nav-pills justify-content-center mt-3" id="myTab" role="tablist">
   <li class="nav-item nav-item-show">
-    <a class="nav-link active mr-3" id="actions-tab" data-toggle="tab" href="#actions" role="tab" aria-controls="actions" aria-selected="false">Par mois</a>
+    <a class="nav-link active mr-3" id="parsemaine-tab" data-toggle="tab" href="#parsemaine" role="tab" aria-controls="parsemaine" aria-selected="false">Par semaine</a>
   </li>
   <li class="nav-item nav-item-show">
-    <a class="nav-link ml-3" id="commentaires-tab" data-toggle="tab" href="#commentaires" role="tab" aria-controls="commentaires" aria-selected="false">Par lieu</a>
+    <a class="nav-link ml-3" id="parlieu-tab" data-toggle="tab" href="#parlieu" role="tab" aria-controls="parlieu" aria-selected="false">Par lieu</a>
   </li>
 </ul>
 
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="actions" role="tabpanel" aria-labelledby="actions-tab">
-    <div class="actions-liste">
-      <% ventes_mois = @ventes.group_by { |m| m.date.beginning_of_month.month } %>
-      <% month = Date.today.strftime("%-m").to_i %>
-      <% while month > 0 %>
-        <% unless ventes_mois[month].nil? %>
-          <h3 class="mt-5"><%= Date::MONTHNAMES[month] %> </h3>
+  <div class="tab-pane fade show active" id="parsemaine" role="tabpanel" aria-labelledby="parsemaine-tab">
+    <div class="parsemaine-liste">
+      <% ventes_semaine = @ventes.group_by { |m| m.date.strftime("%W").to_i + 1} %>
+      <% week = Date.today.strftime("%W").to_i + 1%>
+      <% while week > 0 %>
+        <% unless ventes_semaine[week].nil? %>
+          <h3 class="mt-5">S<%= week %> (<%= rand(20..500) %>,<%= rand(10..99) %> €)</h3>
           <ul>
-            <% ventes_mois[month].sort_by(&:date).reverse.each do |vente| %>
+            <% ventes_semaine[week].sort_by(&:date).reverse.each do |vente| %>
               <li>
-                <div class="wrapper-ventes-par-mois">
-                <div><%= vente.date.strftime("%d/%m") %></div>
-                <div><%= vente.vente_point.nom %></div>
-                <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+                <div class="wrapper-ventes-par-semaine">
+                  <div><%= vente.date.strftime("%d/%m") %></div>
+                  <div><%= vente.vente_point.nom %></div>
+                  <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+                </div>
               </li>
             <% end %>
           </ul>
         <% end %>
-      <% month -= 1 %>
+      <% week -= 1 %>
       <% end %>
     </div>
   </div>
-  <div class="tab-pane fade" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
-    <div class="commentaires-liste">
-      <ul>
-        <li></li>
-      </ul>
+  <div class="tab-pane fade" id="parlieu" role="tabpanel" aria-labelledby="parlieu-tab">
+    <div class="parlieu-liste">
+      <% @pointsdevente.each do |pointdevente| %>
+        <% unless pointdevente.ventes(&:date).empty? %>
+          <h3 class="mt-5"><%= pointdevente.nom %></h3>
+            <ul>
+              <div class="wrapper-ventes-par-pointdevente">
+                <div>Facture</div>
+                <div>Date</div>
+                <div>Total vente</div>
+                <div>Montant réglé</div>
+                <div>Arrondi de vente</div>
+                <div>Reste à percevoir</div>
+              </div>
+                <% montantsregles = [] %>
+                <% totauxventes = [] %>
+                <% resteapercevoir = [] %>
+              <% pointdevente.ventes.sort_by(&:date).reverse.each do |vente| %>
+                <li>
+                  <div class="wrapper-ventes-par-mois">
+                    <div></div>
+                    <div><%= vente.date.strftime("%d/%m") %></div>
+                    <% totalvente = rand(20.00..199.99).truncate(2) %>
+                    <% totauxventes << totalvente %>
+                    <div> <%= totalvente %> €</div>
+                    <% montantregle = rand(20.00..199.99).truncate(2) %>
+                    <% montantsregles << montantregle %>
+                    <div> <%= montantregle %> €</div>
+                    <div><%= rand().truncate(2) %> €</div>
+                    <% apercevoir = (totalvente - montantregle).truncate(2) %>
+                    <% resteapercevoir << apercevoir %>
+                    <div><%= apercevoir %> €</div>
+                  </div>
+                </li>
+              <% end %>
+                <div class="ligne-total">  </div>
+                <div class="wrapper-total-pointdevente">
+                <div></div>
+                <div></div>
+                <div><%= totauxventes.sum.truncate(2) %> €</div>
+                <div><%= montantsregles.sum.truncate(2) %> €</div>
+                <div></div>
+                <div><%= resteapercevoir.sum.truncate(2) %> €</div>
+              </div>
+            </ul>
+          <% end %>
+        <% end %>
     </div>
   </div>
 </div>

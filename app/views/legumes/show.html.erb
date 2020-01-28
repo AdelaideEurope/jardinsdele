@@ -98,8 +98,10 @@
         <% @legume.commentaires.each do |commentaire| %>
           <% unless commentaire.description.empty? %>
             <li>
-              <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-              <div><%= commentaire.description %></div>
+              <div class="wrapper-commentaires-show">
+                <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
+                <div><%= commentaire.description %></div>
+              </div>
             </li>
           <% end %>
         <% end %>
