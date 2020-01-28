@@ -1,0 +1,79 @@
+.sample-ventes {
+  list-style: none;
+  margin-top: 24px;
+  .detail-vente {
+    width: 80%;
+    background: $light-gray;
+    list-style: none;
+    padding-left: 16px;
+    padding-top: 4px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding-right: 16px;
+  }
+  .image-vente {
+    width: 20%;
+  }
+  li {
+    display: flex;
+  }
+}
+
+.icone-vente {
+  height: 48px;
+}
+
+.wrapper-recap-ventes {
+  display: grid;
+  grid-template-columns: 16vw 6vw 6vw;
+  grid-gap: 10px;
+}
+
+.plus-recap {
+  display: flex;
+  justify-content: center;
+}
+
+.plus-rond-recap {
+  height: 36px;
+}
+
+.titre-recap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.voir-tout-recap-ventes {
+  border: solid 2px #A1BD7F;
+  border-radius: 24px;
+  padding: 4px 16px;
+}
+
+.toutes-ventes {
+  margin-top: 24px;
+  li {
+  background: $light-gray;
+  list-style: none;
+  padding-left: 16px;
+  padding-top: 4px;
+  margin-bottom: 4px;
+  }
+}
+
+.wrapper-toutes-ventes {
+  display: grid;
+  grid-template-columns: 16% 65% 6%;
+  grid-gap: 10px;
+}
+
+.wrapper-recap-tout {
+  display: grid;
+  grid-template-columns: 46% 12%;
+  grid-gap: 10px;
+}
+
+.wrapper-ventes-par-mois {
+  display: grid;
+  grid-template-columns: 8vw 34vw 6vw;
+  grid-gap: 10px;
+}

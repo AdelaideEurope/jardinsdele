@@ -13,6 +13,21 @@
   }
 }
 
+.liste-toutes-ventes {
+  margin-top: 36px;
+  li {
+  background: $light-gray;
+  list-style: none;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 4px;
+  margin-bottom: 4px;
+  }
+  ul {
+    width: 50%;
+  }
+}
+
 .wrapper-recap-pointsdevente {
   display: grid;
   grid-template-columns: 19vw 7vw 7vw 4vw 4vw;

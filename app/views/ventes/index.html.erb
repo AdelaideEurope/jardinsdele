@@ -1,0 +1,48 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <h2>Les ventes</h2>
+  <%= link_to ventes_recap_path do %>
+   <div class="voir-tout-recap">Récap</div>
+  <% end %>
+</div>
+
+<ul class="nav nav-pills justify-content-center mt-3" id="myTab" role="tablist">
+  <li class="nav-item nav-item-show">
+    <a class="nav-link active mr-3" id="actions-tab" data-toggle="tab" href="#actions" role="tab" aria-controls="actions" aria-selected="false">Par mois</a>
+  </li>
+  <li class="nav-item nav-item-show">
+    <a class="nav-link ml-3" id="commentaires-tab" data-toggle="tab" href="#commentaires" role="tab" aria-controls="commentaires" aria-selected="false">Par lieu</a>
+  </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="actions" role="tabpanel" aria-labelledby="actions-tab">
+    <div class="actions-liste">
+      <% ventes_mois = @ventes.group_by { |m| m.date.beginning_of_month.month } %>
+      <% month = Date.today.strftime("%-m").to_i %>
+      <% while month > 0 %>
+        <% unless ventes_mois[month].nil? %>
+          <h3 class="mt-5"><%= Date::MONTHNAMES[month] %> </h3>
+          <ul>
+            <% ventes_mois[month].sort_by(&:date).reverse.each do |vente| %>
+              <li>
+                <div class="wrapper-ventes-par-mois">
+                <div><%= vente.date.strftime("%d/%m") %></div>
+                <div><%= vente.vente_point.nom %></div>
+                <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      <% month -= 1 %>
+      <% end %>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
+    <div class="commentaires-liste">
+      <ul>
+        <li></li>
+      </ul>
+    </div>
+  </div>
+</div>

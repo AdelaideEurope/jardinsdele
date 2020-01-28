@@ -1,0 +1,84 @@
+<%= render 'shared/navbar' %>
+
+<div class="container mt-4">
+  <div class="columns">
+    <div class="left-col-ventes">
+      <div class="titre-recap">
+        <h2>Les points de vente</h2>
+        <%= link_to vente_points_path do %>
+          <div class="voir-tout-recap-ventes">Voir tout</div>
+        <% end %>
+      </div>
+      <ul class=sample-ventes>
+        <% counter = 1 %>
+        <% @pointsdevente[0..2].each do |point| %>
+          <li>
+            <div class="image-vente"><%= image_tag "numero#{counter}.png", class: "icone-vente" %>
+            </div>
+            <div class="wrapper-recap-ventes detail-vente">
+              <div><%= point.nom %></div>
+              <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+              <div><%= rand(1..50) %>,<%= rand(10..99) %> %</div>
+            </div>
+          </li>
+          <% counter += 1 %>
+        <% end %>
+      </ul>
+      <div class="titre-recap mt-5">
+        <h2>Les ventes</h2>
+        <%= link_to ventes_path do %>
+          <div class="voir-tout-recap-ventes">Voir tout</div>
+        <% end %>
+      </div>
+      <div class="toutes-ventes">
+        <ul>
+          <% @ventes.sort_by(&:date).reverse.each do |vente| %>
+            <li>
+              <div class="wrapper-toutes-ventes">
+                <div><%= vente.date.strftime("%d/%m") %></div>
+                <div><%= vente.vente_point.nom %></div>
+                <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="plus-recap">
+        <%= link_to new_vente_path do %>
+          <% image_tag "plus-rond.png", class: "plus-rond-recap" %>
+        <% end %>
+      </div>
+    </div>
+    <div class="right-col-ventes">
+      <h2>Le récap</h2>
+        <div class="toutes-ventes">
+          <ul>
+            <li>
+              <div class="wrapper-recap-tout">
+                <div>Total CA</div>
+                <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+              </div>
+            </li>
+            <li>
+              <div class="wrapper-recap-tout">
+                <div>Total impayés</div>
+                <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      <div class="titre-recap mt-5">
+        <h2>Les paniers</h2>
+        <%= link_to ventes_path do %>
+          <div class="voir-tout-recap-ventes">Voir tout</div>
+        <% end %>
+      </div>
+      <div class="plus-recap">
+        <%= link_to new_vente_path do %>
+          <% image_tag "plus-rond.png", class: "plus-rond-recap" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
