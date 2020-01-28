@@ -1,0 +1,2 @@
+class VentePoint < ApplicationRecord
+end

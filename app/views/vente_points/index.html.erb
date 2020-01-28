@@ -1,0 +1,29 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <h2>Les points de vente</h2>
+  <div class="liste-pointsdevente">
+    <ul>
+      <% @pointsdevente.sort_by(&:nom).each do |pointdevente| %>
+        <li>
+          <div class="wrapper-recap-pointsdevente">
+            <div><%= pointdevente.nom %></div>
+            <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+            <div><%= rand(1..50) %>,<%= rand(10..99) %> %</div>
+            <div><i class="fas fa-search"></i></div>
+            <div>
+              <%= link_to edit_vente_point_path(pointdevente) do %>
+                <i class="fas fa-pencil-alt"></i>
+              <% end %>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<div class="bottom-button fixed-bottom">
+  <%= link_to new_vente_point_path do %>
+    <% image_tag "plus-rond.png", class: "plus-rond" %>
+  <% end %>
+</div>

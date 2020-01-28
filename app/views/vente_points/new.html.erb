@@ -1,0 +1,11 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <%= simple_form_for @pointdevente do |f| %>
+    <%= f.input :nom, :label => "NOM" %>
+    <%= f.input :categorie, collection: ["Point de retrait", "Magasin", "AMAP", "Restaurant"], :label => "CATÉGORIE" %>
+    <div class="bottom-button fixed-bottom">
+      <%= f.submit  " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond" %>
+    </div>
+  <% end %>
+</div>
+
