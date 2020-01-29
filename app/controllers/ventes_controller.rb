@@ -6,6 +6,7 @@ class VentesController < ApplicationController
 
   def show
     @vente = Vente.find(params[:id])
+    @lignesdevente = VenteLigne.all
   end
 
   def new
