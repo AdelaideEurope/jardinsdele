@@ -37,7 +37,7 @@
               <div class="wrapper-toutes-ventes">
                 <div><%= vente.date.strftime("%d/%m") %></div>
                 <div><%= vente.vente_point.nom %></div>
-                <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+                <div><%= number_with_precision(@sommeventettc, precision: 2) %> €</div>
               </div>
             </li>
           <% end %>
