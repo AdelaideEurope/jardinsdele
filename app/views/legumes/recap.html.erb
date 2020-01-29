@@ -38,10 +38,12 @@
                 <%= planche.nom %>
               <% else %>
                 <% planche.activites.each do |activite| %>
-                  <% if activite.legume.nil? %>
+                  <% if activite.legume.nil? || activite.nom != "Plantation" %>
                     <%= planche.nom %>
                   <% else %>
-                    <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %></div>
+                    <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
+                      <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
+                    </div>
                   <% end %>
                 <% end %>
               <% end %>
@@ -58,10 +60,12 @@
                 <%= planche.nom %>
               <% else %>
                 <% planche.activites.each do |activite| %>
-                  <% if activite.legume.nil? %>
+                  <% if activite.legume.nil? || activite.nom != "Plantation" %>
                     <%= planche.nom %>
                   <% else %>
-                    <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %></div>
+                    <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
+                      <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
+                    </div>
                   <% end %>
                 <% end %>
               <% end %>
@@ -78,10 +82,12 @@
                 <%= planche.nom %>
               <% else %>
                 <% planche.activites.each do |activite| %>
-                  <% if activite.legume.nil? %>
+                  <% if activite.legume.nil? || activite.nom != "Plantation" %>
                     <%= planche.nom %>
                   <% else %>
-                    <div class="<%= activite.legume.legume_css %>-bg-color"><%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %></div>
+                    <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
+                      <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
+                    </div>
                   <% end %>
                 <% end %>
               <% end %>
@@ -120,10 +126,10 @@
                 <%= planche.nom %>
               <% else %>
                 <% planche.activites.each do |activite| %>
-                  <% if activite.legume.nil? %>
+                  <% if activite.legume.nil? || activite.nom != "Plantation" %>
                     <%= planche.nom %>
                   <% else %>
-                    <div class="<%= activite.legume.legume_css %>-bg-color">
+                    <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
                       <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
                     </div>
                   <% end %>
@@ -141,10 +147,10 @@
                 <%= planche.nom %>
               <% else %>
                 <% planche.activites.each do |activite| %>
-                  <% if activite.legume.nil? %>
+                  <% if activite.legume.nil? || activite.nom != "Plantation" %>
                     <%= planche.nom %>
                   <% else %>
-                    <div class="<%= activite.legume.legume_css %>-bg-color">
+                    <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
                       <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
                     </div>
                   <% end %>

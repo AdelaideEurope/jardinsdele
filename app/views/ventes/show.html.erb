@@ -15,6 +15,33 @@
           <div>Montant TTC</div>
         </div>
       </li>
+      <% @lignesdevente.each do |lignedevente| %>
+        <li>
+          <div class="wrapper-ligne-vente mt-5">
+            <div><%= lignedevente.legume.nom %></div>
+            <div></div>
+            <% puht = ttc_to_ht(lignedevente.prixunitairettc) %>
+            <div><%= number_with_precision(ttc_to_ht(lignedevente.prixunitairettc), precision: 2) %> €</div>
+            <% puttc = lignedevente.prixunitairettc %>
+            <div><%= number_with_precision(lignedevente.prixunitairettc, precision: 2) %> €</div>
+            <div>
+              <% if lignedevente.quantite.nil? %>
+              <%= 0 %>
+              <% else %>
+                <%= lignedevente.quantite %>
+              <% end %>
+            </div>
+            <div><%= lignedevente.legume.unite %></div>
+            <% ptht = puht * lignedevente.quantite %>
+            <div><%= number_with_precision(ptht, precision: 2) %> €</div>
+            <% ptttc = puttc * lignedevente.quantite %>
+            <div><%= number_with_precision(ptttc, precision: 2) %> €</div>
+          </div>
+        </li>
+      <% end %>
     </ul>
   </div>
 </div>
+
+<%= @prixttc %>
+

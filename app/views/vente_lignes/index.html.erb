@@ -1,0 +1,5 @@
+<%= render 'shared/navbar' %>
+
+<% @lignesdevente.each do |lignedevente| %>
+  <%= lignedevente.legume.nom %>
+<% end %>

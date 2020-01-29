@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_28_095737) do
+ActiveRecord::Schema.define(version: 2020_01_29_140713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,11 +59,12 @@ ActiveRecord::Schema.define(version: 2020_01_28_095737) do
 
   create_table "legumes", force: :cascade do |t|
     t.string "nom"
-    t.string "prix_general"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "legume_css"
     t.string "slug"
+    t.string "unite"
+    t.decimal "prix_general"
     t.index ["slug"], name: "index_legumes_on_slug", unique: true
   end
 
@@ -112,6 +113,20 @@ ActiveRecord::Schema.define(version: 2020_01_28_095737) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "vente_lignes", force: :cascade do |t|
+    t.bigint "vente_id"
+    t.bigint "legume_id"
+    t.integer "quantite"
+    t.decimal "prixunitaireht"
+    t.decimal "prixunitairettc"
+    t.decimal "totalht"
+    t.decimal "totalttc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["legume_id"], name: "index_vente_lignes_on_legume_id"
+    t.index ["vente_id"], name: "index_vente_lignes_on_vente_id"
+  end
+
   create_table "vente_points", force: :cascade do |t|
     t.string "nom"
     t.string "categorie"
@@ -134,5 +149,7 @@ ActiveRecord::Schema.define(version: 2020_01_28_095737) do
   add_foreign_key "activites", "planches", column: "planche_id"
   add_foreign_key "commentaires", "activites"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "vente_lignes", "legumes"
+  add_foreign_key "vente_lignes", "ventes"
   add_foreign_key "ventes", "vente_points"
 end
