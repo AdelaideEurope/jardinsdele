@@ -19,23 +19,23 @@
   <div class="tab-pane fade show active" id="parsemaine" role="tabpanel" aria-labelledby="parsemaine-tab">
     <div class="parsemaine-liste">
       <% ventes_semaine = @ventes.group_by { |m| m.date.strftime("%W").to_i + 1} %>
-      <% week = Date.today.strftime("%W").to_i + 1%>
-      <% while week > 0 %>
-        <% unless ventes_semaine[week].nil? %>
-          <h3 class="mt-5">S<%= week %> (<%= rand(20..500) %>,<%= rand(10..99) %> €)</h3>
+      <% @week = Date.today.strftime("%W").to_i + 1%>
+      <% while @week > 0 %>
+        <% unless ventes_semaine[@week].nil? %>
+          <h3 class="mt-5">S<%= @week %> (<%= rand(20..500) %>,<%= rand(10..99) %> €)</h3>
           <ul>
-            <% ventes_semaine[week].sort_by(&:date).reverse.each do |vente| %>
+            <% ventes_semaine[@week].sort_by(&:date).reverse.each do |vente| %>
               <li>
                 <div class="wrapper-ventes-par-semaine">
                   <div><%= vente.date.strftime("%d/%m") %></div>
-                  <div><%= vente.vente_point.nom %></div>
-                  <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+                  <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                  <div><%= number_with_precision(vente.vente_lignes.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
                 </div>
               </li>
             <% end %>
           </ul>
         <% end %>
-      <% week -= 1 %>
+      <% @week -= 1 %>
       <% end %>
     </div>
   </div>
@@ -61,10 +61,10 @@
                   <div class="wrapper-ventes-par-mois">
                     <div></div>
                     <div><%= vente.date.strftime("%d/%m") %></div>
-                    <% totalvente = rand(20.00..199.99).truncate(2) %>
+                    <% totalvente = vente.vente_lignes.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum %>
                     <% totauxventes << totalvente %>
-                    <div> <%= totalvente %> €</div>
-                    <% montantregle = rand(20.00..199.99).truncate(2) %>
+                    <div> <%= number_with_precision(totalvente, precision: 2) %> €</div>
+                    <% montantregle = rand(0.00..totalvente+10.00).truncate(2) %>
                     <% montantsregles << montantregle %>
                     <div> <%= montantregle %> €</div>
                     <div><%= rand().truncate(2) %> €</div>

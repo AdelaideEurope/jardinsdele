@@ -36,8 +36,8 @@
             <li>
               <div class="wrapper-toutes-ventes">
                 <div><%= vente.date.strftime("%d/%m") %></div>
-                <div><%= vente.vente_point.nom %></div>
-                <div><%= number_with_precision(@sommeventettc, precision: 2) %> €</div>
+                <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                <div><%= number_with_precision(vente.vente_lignes.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
               </div>
             </li>
           <% end %>
@@ -56,20 +56,20 @@
             <li>
               <div class="wrapper-recap-tout">
                 <div>Total CA</div>
-                <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+                <div><%= number_with_precision(@lignesdevente.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
               </div>
             </li>
             <li>
               <div class="wrapper-recap-tout">
                 <div>CA de la semaine (S<%= Date.today.strftime("%W").to_i+1 %>)</div>
-                <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+                <div><%= number_with_precision(@ventes_semaine.select { |vente| vente.vente_lignes.any? }.map { |vente| vente.vente_lignes }.flatten.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2)  %> €</div>
               </div>
             </li>
             <li>
               <div class="wrapper-recap-tout">
                 <% cemois = Date.today.month %>
                 <div>CA du mois (M<%= cemois %>) </div>
-                <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+                <div><%= number_with_precision(@ventes_mois.select { |vente| vente.vente_lignes.any? }.map { |vente| vente.vente_lignes }.flatten.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2)  %> €</div>
               </div>
             </li>
           </ul>
@@ -88,4 +88,6 @@
     </div>
   </div>
 </div>
+
+
 

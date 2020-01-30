@@ -5,7 +5,7 @@
     <ul>
       <li>
         <div class="wrapper-ligne-vente mt-5">
-          <div>Légume</div>
+          <div>Légume/Panier</div>
           <div>Planche</div>
           <div>Prix unitaire HT</div>
           <div>Prix unitaire TTC</div>
@@ -56,3 +56,9 @@
   </div>
 </div>
 
+
+<div class="bottom-button fixed-bottom">
+  <%= link_to ventes_recap_path do %>
+  <% image_tag "check-rond.png", class: "plus-rond" %>
+  <% end %>
+</div>

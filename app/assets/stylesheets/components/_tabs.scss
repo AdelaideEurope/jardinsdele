@@ -2,7 +2,7 @@
   .nav-link {
   color: $darker-grey;
   background-color: white;
-  border-bottom: solid 2px $darker-grey;
+  border-bottom: solid 2px $light-green;
   }
 }
 
@@ -10,7 +10,7 @@
   .nav-link.active {
   color: $darker-grey;
   background-color: white;
-  border-bottom: solid 2px $light-green;
+  border-bottom: solid 2px $darker-grey;
   }
 }
 
