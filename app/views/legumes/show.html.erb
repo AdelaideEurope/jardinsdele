@@ -22,12 +22,12 @@
         </div>
         <div class="recap-show-middle">
           <div class="recap-titre">Chiffre d'affaires</div>
-          <div class="recap-donnee"><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+          <div class="recap-donnee"><%= number_with_precision(@lignesdeventeparlegume.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
         </div>
         <div class="recap-show-right">
           <div class="recap-titre">Prix général</div>
           <div class="recap-donnee">
-            <%= @legume.prix_general %> €
+            <%= number_with_precision(@legume.prix_general, precision: 2) %> €
           </div>
         </div>
       </div>

@@ -23,7 +23,7 @@
             <div class="wrapper-recap-legumes detail-legume">
               <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %></div>
               <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
-              <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
+              <div><%= number_with_precision(@lignesdevente.where(["legume_id = ?", legume.id]).map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
             </div>
           </li>
         <% end %>

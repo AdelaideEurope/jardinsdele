@@ -2,11 +2,11 @@ class VentesController < ApplicationController
   def index
     @ventes = Vente.all
     @pointsdevente = VentePoint.all
-
   end
 
   def show
     @vente = Vente.find(params[:id])
+    @lignedevente = VenteLigne.new
     @lignesdevente = @vente.vente_lignes
     sommeventettc = []
     sommeventeht = []

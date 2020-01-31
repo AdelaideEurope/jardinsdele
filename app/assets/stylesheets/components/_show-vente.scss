@@ -1,6 +1,17 @@
 .wrapper-ligne-vente {
   display: grid;
   grid-template-columns: 14% 12% 12% 12% 12% 12% 12% 12%;
+  flex-grow: 1;
+  padding-left: 16px;
+}
+
+.wrapper-ligne-vente-titre {
+  display: grid;
+  grid-template-columns: 14% 12% 12% 12% 12% 12% 12% 12%;
+  flex-grow: 1;
+  background-color: $light-gray;
+  padding: 4px 0 4px 16px;
+  margin-bottom: 8px;
 }
 
 .ligne-titre-vente {
@@ -18,4 +29,26 @@ hr {
 
 .ligne-total-vente {
   font-weight: 500;
+}
+
+.titres-vente {
+  display: flex;
+}
+
+.petit-plus-rond {
+  height: 30px;
+  position: relative;
+  top: 42px;
+  left: 42px;
+}
+
+.right-col-new-ligne {
+  width: 50%;
+  margin-left: 2%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.new-ligne {
+  display: flex;
 }

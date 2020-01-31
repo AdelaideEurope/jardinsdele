@@ -3,6 +3,7 @@ class LegumesController < ApplicationController
     @legumes = Legume.all
     @commentaires = Commentaire.all
     @activites = Activite.all
+    @lignesdevente = VenteLigne.all
   end
 
   def recap
@@ -14,11 +15,14 @@ class LegumesController < ApplicationController
     @planches_d = Planche.all[60..64]
     @planches_e = Planche.all[65..69]
     @planches_f = Planche.all[70..74]
+    @lignesdevente = VenteLigne.all
   end
 
   def show
     @legume = Legume.friendly.find(params[:id])
     @activites = Activite.where(["legume_id = ?", @legume.id])
+    @lignesdeventeparlegume = VenteLigne.where(["legume_id = ?", @legume.id])
   end
 
 end
+

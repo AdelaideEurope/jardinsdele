@@ -4,15 +4,21 @@
   <div class="ligne-titre-vente">
     <ul>
       <li>
-        <div class="wrapper-ligne-vente mt-5">
-          <div>Légume/Panier</div>
-          <div>Planche</div>
-          <div>Prix unitaire HT</div>
-          <div>Prix unitaire TTC</div>
-          <div>Quantité</div>
-          <div>Unité</div>
-          <div>Montant HT</div>
-          <div>Montant TTC</div>
+        <div class="titres-vente">
+          <div class="wrapper-ligne-vente-titre mt-5">
+            <div>Légume/Panier</div>
+            <div>Planche</div>
+            <div>Prix unitaire HT</div>
+            <div>Prix unitaire TTC</div>
+            <div>Quantité</div>
+            <div>Unité</div>
+            <div>Montant HT</div>
+            <div>Montant TTC</div>
+          </div>
+          <div class="bouton-ajout-ligne">
+          <%= link_to new_vente_vente_ligne_path(@vente) do %>
+            <% image_tag "plus-rond.png", class: "petit-plus-rond" %>
+          <% end %>
         </div>
       </li>
       <% @lignesdevente.each do |lignedevente| %>
@@ -20,10 +26,10 @@
           <div class="wrapper-ligne-vente mt-1">
             <div><%= lignedevente.legume.nom %></div>
             <div></div>
-            <% puht = lignedevente.prixunitaireht %>
-            <% puttc = ht_to_ttc(puht) %>
-            <div><%= number_with_precision(puht, precision: 2) %> €</div>
-            <div><%= number_with_precision(puttc, precision: 2) %> €</div>
+            <%# puht = lignedevente.prixunitaireht %>
+            <%# puttc = ht_to_ttc(puht) %>
+            <div><%= number_with_precision(lignedevente.prixunitaireht, precision: 2) %> €</div>
+            <div><%= number_with_precision(lignedevente.prixunitairettc, precision: 2) %> €</div>
             <div>
               <% if lignedevente.quantite.nil? %>
               <%= 0 %>
@@ -32,10 +38,10 @@
               <% end %>
             </div>
             <div><%= lignedevente.legume.unite %></div>
-            <% ptht = puht * lignedevente.quantite %>
-            <% ptttc = puttc * lignedevente.quantite %>
-            <div><%= number_with_precision(ptht, precision: 2) %> €</div>
-            <div><%= number_with_precision(ptttc, precision: 2) %> €</div>
+            <%# ptht = puht * lignedevente.quantite %>
+            <%# ptttc = puttc * lignedevente.quantite %>
+            <div><%= number_with_precision(lignedevente.totalht, precision: 2) %> €</div>
+            <div><%= number_with_precision(lignedevente.totalttc, precision: 2) %> €</div>
           </div>
         </li>
       <% end %>
@@ -55,7 +61,6 @@
     </ul>
   </div>
 </div>
-
 
 <div class="bottom-button fixed-bottom">
   <%= link_to ventes_recap_path do %>

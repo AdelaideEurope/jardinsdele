@@ -1,0 +1,28 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <h2 class="mb-5">Nouvelle ligne pour la vente à <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %></h2>
+  <%= simple_form_for [@vente, @lignedevente] do |f| %>
+    <div class="new-ligne">
+      <div class="left-col">
+        <div id="ligne-legume">
+        <%= f.association :legume, label_method: :nom, :label => "LÉGUME",
+        input_html: { class: 'select2' }, input_html: { id: "legumesaisi" }  %>
+        </div>
+        <%= f.input :quantite, :label => "QUANTITÉ", input_html: { id: "quantitenew" } %>
+      </div>
+      <div class="right-col-new-ligne">
+        <div class="prixunitaire">
+          <%= f.input :prixunitaireht, :label => "PRIX UNITAIRE HT", input_html: { id: "puht" } %>
+          <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", input_html: { id: "puttc" } %>
+        </div>
+        <div class="prixtotal">
+          <%= f.input :totalht, :label => "PRIX TOTAL HT", input_html: { id: "ptht" } %>
+          <%= f.input :totalttc, :label => "PRIX TOTAL TTC", input_html: { id: "ptttc" } %>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-button fixed-bottom">
+      <%= f.submit  " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond" %>
+    </div>
+  <% end %>
+</div>
