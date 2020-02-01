@@ -1,6 +1,6 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
-  <h2>Vente <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %> - <%= @sommeventettc.nil? ? "O" : number_with_precision(@sommeventettc, precision: 2)%> €</h2>
+  <h2>Vente <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %> - <%= @vente.total_ttc.nil? ? @vente.total_ttc.to_i : number_with_precision(@vente.total_ttc, precision: 2)%> €</h2>
   <div class="ligne-titre-vente">
     <ul>
       <li>
@@ -54,8 +54,8 @@
             <div></div>
             <div></div>
             <div></div>
-            <div class="ligne-total-vente"><%= @sommeventeht.nil? ? "O" : number_with_precision(@sommeventeht, precision: 2)%> €</div>
-            <div class="ligne-total-vente"><%= @sommeventettc.nil? ? "O" : number_with_precision(@sommeventettc, precision: 2) %> €</div>
+            <div class="ligne-total-vente"><%= @vente.total_ht.nil? ? @vente.total_ht.to_i : number_with_precision(@vente.total_ht, precision: 2)%> €</div>
+            <div class="ligne-total-vente"><%= @vente.total_ttc.nil? ? @vente.total_ttc.to_i : number_with_precision(@vente.total_ttc, precision: 2)%> €</div>
           </div>
         </li>
     </ul>

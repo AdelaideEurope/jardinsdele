@@ -1,9 +1,11 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
-  <h2>Les ventes</h2>
-  <%= link_to ventes_recap_path do %>
-   <div class="voir-tout-recap">Récap</div>
-  <% end %>
+  <div class="titre-recap">
+    <h2>Les ventes</h2>
+    <%= link_to ventes_recap_path do %>
+      <div class="voir-tout-recap">Récap</div>
+    <% end %>
+  </div>
 </div>
 
 <ul class="nav nav-pills justify-content-center mt-3" id="myTab" role="tablist">
@@ -22,14 +24,14 @@
       <% @week = Date.today.strftime("%W").to_i + 1%>
       <% while @week > 0 %>
         <% unless ventes_semaine[@week].nil? %>
-          <h3 class="mt-5">S<%= @week %> (<%= rand(20..500) %>,<%= rand(10..99) %> €)</h3>
+          <h3 class="mt-5">S<%= @week %> (<%= number_with_precision(ventes_semaine[@week].map(&:total_ttc).sum, precision: 2) %> €)</h3>
           <ul>
             <% ventes_semaine[@week].sort_by(&:date).reverse.each do |vente| %>
               <li>
                 <div class="wrapper-ventes-par-semaine">
                   <div><%= vente.date.strftime("%d/%m") %></div>
                   <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
-                  <div><%= number_with_precision(vente.vente_lignes.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
+                  <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
                 </div>
               </li>
             <% end %>
@@ -54,21 +56,21 @@
                 <div>Reste à percevoir</div>
               </div>
                 <% montantsregles = [] %>
-                <% totauxventes = [] %>
+                <%# totauxventes = [] %>
                 <% resteapercevoir = [] %>
               <% pointdevente.ventes.sort_by(&:date).reverse.each do |vente| %>
                 <li>
                   <div class="wrapper-ventes-par-mois">
                     <div></div>
                     <div><%= vente.date.strftime("%d/%m") %></div>
-                    <% totalvente = vente.vente_lignes.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum %>
-                    <% totauxventes << totalvente %>
-                    <div> <%= number_with_precision(totalvente, precision: 2) %> €</div>
-                    <% montantregle = rand(0.00..totalvente+10.00).truncate(2) %>
+                    <%# totalvente = vente.vente_lignes.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum %>
+                    <%# totauxventes << totalvente %>
+                    <div> <%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
+                    <% montantregle = rand(0.00..vente.total_ttc+10.00).truncate(2) %>
                     <% montantsregles << montantregle %>
                     <div> <%= montantregle %> €</div>
                     <div><%= rand().truncate(2) %> €</div>
-                    <% apercevoir = (totalvente - montantregle).truncate(2) %>
+                    <% apercevoir = (vente.total_ttc - montantregle).truncate(2) %>
                     <% resteapercevoir << apercevoir %>
                     <div><%= apercevoir %> €</div>
                   </div>
@@ -78,10 +80,10 @@
                 <div class="wrapper-total-pointdevente">
                 <div></div>
                 <div></div>
-                <div><%= totauxventes.sum.truncate(2) %> €</div>
-                <div><%= montantsregles.sum.truncate(2) %> €</div>
+                <div><%= pointdevente.ventes.map(&:total_ttc).sum %> €</div>
+                <div><%= number_with_precision(montantsregles.sum, precision: 2) %> €</div>
                 <div></div>
-                <div><%= resteapercevoir.sum.truncate(2) %> €</div>
+                <div><%= number_with_precision(resteapercevoir.sum, precision: 2) %> €</div>
               </div>
             </ul>
           <% end %>

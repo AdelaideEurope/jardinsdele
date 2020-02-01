@@ -22,6 +22,8 @@ class LegumesController < ApplicationController
     @legume = Legume.friendly.find(params[:id])
     @activites = Activite.where(["legume_id = ?", @legume.id])
     @lignesdeventeparlegume = VenteLigne.where(["legume_id = ?", @legume.id])
+    @ventes = Vente.all
+    @catotal = @ventes.map(&:total_ttc).sum
   end
 
 end

@@ -1,12 +1,12 @@
 .wrapper-recap-temps {
   display: grid;
-  grid-template-columns: 24vw 7vw 7vw;
+  grid-template-columns: 4fr 1fr 1fr;
   grid-gap: 10px;
 }
 
 .wrapper-recap-activites {
   display: grid;
-  grid-template-columns: 8% 25% 25% 10% 12% 10% 1%;
+  grid-template-columns: 0.5fr 2fr 2fr 0.5fr 0.7fr 0.5fr 0.5fr;
   grid-gap: 10px;
   padding-top: 4px;
 }
@@ -17,4 +17,8 @@
 
 #chart-1 {
   margin-bottom: 150px;
+}
+
+.last-col-right {
+  text-align: right;
 }

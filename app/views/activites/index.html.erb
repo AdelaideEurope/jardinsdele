@@ -6,7 +6,12 @@
       <% duree = activite.heure_fin - activite.heure_debut %>
       <% h[activite.nom] += duree %>
     <% end %>
-    <h2>Totaux activités (<% total = h.values.sum %><%= Time.at(total).utc.strftime("%Hh%M") %>)</h2>
+    <div class="titre-recap">
+      <h2>Totaux activités (<% total = h.values.sum %><%= Time.at(total).utc.strftime("%Hh%M") %>)</h2>
+      <%= link_to activites_recap_path do %>
+        <div class="voir-tout-recap">Récap</div>
+      <% end %>
+    </div>
     <div class="duree-activites">
       <ul>
         <% h.each do |key, val| %>
@@ -15,7 +20,7 @@
             <div class="wrapper-recap-temps">
               <div><%= key %></div>
               <div><%= Time.at(val).utc.strftime("%Hh%M") %></div>
-              <div><%= pourcentage %> %</div>
+              <div class="last-col-right"><%= pourcentage %> %</div>
             </div>
           </li>
         <% end %>
@@ -25,9 +30,6 @@
   <div class="mt-5">
     <h2>Toutes les activités</h2>
   </div>
-  <%= link_to activites_recap_path do %>
-   <div class="voir-tout-recap">Récap</div>
-  <% end %>
   <div class="toutes-activites">
     <ul>
       <% @activites.sort_by(&:date).reverse.each do |activite| %>

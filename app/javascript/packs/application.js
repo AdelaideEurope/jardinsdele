@@ -19,7 +19,7 @@ if (document.getElementById('meteo-widget')) {
   meteoWidget();
 };
 
-if (document.getElementById('legumesaisi')) {
+if (document.getElementById('puht')) {
   autoFillPrix();
 };
 

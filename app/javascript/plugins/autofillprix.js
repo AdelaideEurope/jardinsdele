@@ -1,31 +1,30 @@
 const autoFillPrix = () => {
-  const getLegume = document.getElementById('legumesaisi');
   const getPUHT = document.getElementById('puht');
   const getPUTTC = document.getElementById('puttc');
   const getPTHT = document.getElementById('ptht');
   const getPTTTC = document.getElementById('ptttc');
   const getQuantite = document.getElementById('quantitenew');
 
-  getPUHT.addEventListener('blur', (event) => {
+  getPUHT.addEventListener('change', (event) => {
     const calculTVA = parseFloat(getPUHT.value * 5.5/(100));
     const totalPUTTC = parseFloat(getPUHT.value) + calculTVA;
-    const calculPUTTC = totalPUTTC.toPrecision(2)
+    const calculPUTTC = totalPUTTC
     getPUTTC.value = calculPUTTC;
     const totalHT = parseFloat(getPUHT.value) * parseFloat(getQuantite.value);
-    getPTHT.value = totalHT.toPrecision(2)
+    getPTHT.value = totalHT
     const totalTTC = parseFloat(getPUTTC.value) * parseFloat(getQuantite.value);
-    getPTTTC.value = totalTTC.toPrecision(2)
+    getPTTTC.value = totalTTC
   })
 
-  getPUTTC.addEventListener('blur', (event) => {
+  getPUTTC.addEventListener('change', (event) => {
     const calculTVA = parseFloat(getPUTTC.value * 5.5/(100));
     const totalPUHT = parseFloat(getPUTTC.value) - calculTVA;
-    const calculPUHT = totalPUHT.toPrecision(2)
+    const calculPUHT = totalPUHT
     getPUHT.value = calculPUHT;
     const totalTTC = parseFloat(getPUTTC.value) * parseFloat(getQuantite.value);
-    getPTTTC.value = totalTTC.toPrecision(2)
+    getPTTTC.value = totalTTC
     const totalHT = parseFloat(getPUHT.value) * parseFloat(getQuantite.value);
-    getPTHT.value = totalHT.toPrecision(2)
+    getPTHT.value = totalHT
   })
 
 

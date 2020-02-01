@@ -11,14 +11,15 @@
       </div>
       <ul class=sample-ventes>
         <% counter = 1 %>
-        <% @pointsdevente[0..2].each do |point| %>
+        <% @pointsdevente.sort_by(&:total_ttc).reverse.take(3).each do |point| %>
           <li>
             <div class="image-vente"><%= image_tag "numero#{counter}.png", class: "icone-vente" %>
             </div>
             <div class="wrapper-recap-ventes detail-vente">
               <div><%= point.nom %></div>
-              <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
-              <div><%= rand(1..50) %>,<%= rand(10..99) %> %</div>
+              <% capoint = point.ventes.map {|vente| vente.total_ttc}.sum %>
+              <div><%= number_with_precision(capoint, precision: 2) %> €</div>
+              <div><%= (capoint*100).fdiv(@catotal).round(2).nan? ? "0" : (capoint*100).fdiv(@catotal).round(2) %> %</div>
             </div>
           </li>
           <% counter += 1 %>
@@ -37,7 +38,7 @@
               <div class="wrapper-toutes-ventes">
                 <div><%= vente.date.strftime("%d/%m") %></div>
                 <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
-                <div><%= number_with_precision(vente.vente_lignes.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
+                <div><%= vente.total_ttc.nil? ? vente.total_ttc.to_i : number_with_precision(vente.total_ttc, precision: 2)%> €</div>
               </div>
             </li>
           <% end %>
@@ -56,20 +57,20 @@
             <li>
               <div class="wrapper-recap-tout">
                 <div>Total CA</div>
-                <div><%= number_with_precision(@lignesdevente.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
+                <div><%= @ventes.map(&:total_ttc).sum.nil? ? @ventes.map(&:total_ttc).sum.to_i : number_with_precision(@ventes.map(&:total_ttc).sum, precision: 2) %> €</div>
               </div>
             </li>
             <li>
               <div class="wrapper-recap-tout">
                 <div>CA de la semaine (S<%= Date.today.strftime("%W").to_i+1 %>)</div>
-                <div><%= number_with_precision(@ventes_semaine.select { |vente| vente.vente_lignes.any? }.map { |vente| vente.vente_lignes }.flatten.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2)  %> €</div>
+                <div><%= @ventes_semaine.empty? ? @ventes_semaine.map(&:total_ttc).sum.to_i : number_with_precision(@ventes_semaine.map(&:total_ttc).sum, precision: 2) %> €</div>
               </div>
             </li>
             <li>
               <div class="wrapper-recap-tout">
-                <% cemois = Date.today.month %>
-                <div>CA du mois (M<%= cemois %>) </div>
-                <div><%= number_with_precision(@ventes_mois.select { |vente| vente.vente_lignes.any? }.map { |vente| vente.vente_lignes }.flatten.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2)  %> €</div>
+                <%# cemois = Date.today.month %>
+                <div>CA du mois (M<%= @monthtoday %>) </div>
+                <div><%= @ventes_mois.map(&:total_ttc).sum.nil? ? @ventes_mois.map(&:total_ttc).sum.to_i : number_with_precision(@ventes_mois.map(&:total_ttc).sum, precision: 2) %> €</div>
               </div>
             </li>
           </ul>

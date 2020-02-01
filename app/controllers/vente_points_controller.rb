@@ -1,6 +1,8 @@
 class VentePointsController < ApplicationController
   def index
     @pointsdevente = VentePoint.all
+    @ventes = Vente.all
+    @catotal = @ventes.map(&:total_ttc).sum
   end
 
   def new
@@ -34,7 +36,7 @@ class VentePointsController < ApplicationController
 private
 
   def pointdevente_params
-    params.require(:vente_point).permit(:nom, :categorie)
+    params.require(:vente_point).permit(:nom, :categorie, :total_ht, :total_ttc)
   end
 
 end

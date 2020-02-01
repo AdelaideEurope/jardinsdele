@@ -1,26 +1,51 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
-  <h2>Les points de vente</h2>
-  <%= link_to ventes_recap_path do %>
-   <div class="voir-tout-recap">Récap</div>
-  <% end %>
+  <div class="titre-recap">
+    <h2>Les points de vente</h2>
+    <%= link_to ventes_recap_path do %>
+     <div class="voir-tout-recap">Récap</div>
+    <% end %>
+  </div>
   <div class="liste-pointsdevente">
-    <ul>
-      <% @pointsdevente.sort_by(&:nom).each do |pointdevente| %>
-        <li>
-          <div class="wrapper-recap-pointsdevente">
-            <div><%= pointdevente.nom %></div>
-            <div><%= rand(20..500) %>,<%= rand(10..99) %> €</div>
-            <div><%= rand(1..50) %>,<%= rand(10..99) %> %</div>
-            <div><i class="fas fa-search"></i></div>
-            <div>
-              <%= link_to edit_vente_point_path(pointdevente) do %>
-                <i class="fas fa-pencil-alt"></i>
-              <% end %>
+    <ul class="columns">
+      <div class="left-col">
+        <% moitie = @pointsdevente.length.fdiv(2) - 1 %>
+        <% @pointsdevente.sort_by(&:nom)[0..moitie].each do |pointdevente| %>
+          <% capoint = pointdevente.ventes.map {|vente| vente.total_ttc}.sum %>
+          <li>
+            <div class="wrapper-recap-pointsdevente">
+              <div><%= link_to ventes_path do %> <%= pointdevente.nom %> <% end %> </div>
+              <div><%= number_with_precision(capoint, precision: 2) %> €</div>
+              <div><%= (capoint*100).fdiv(@catotal).round(2).nan? ? "0" : (capoint*100).fdiv(@catotal).round(2) %> %</div>
+              <div>
+                <%= link_to edit_vente_point_path(pointdevente) do %>
+                  <i class="fas fa-pencil-alt"></i>
+                <% end %>
+              </div>
             </div>
-          </div>
-        </li>
-      <% end %>
+          </li>
+        <% end %>
+      </div>
+
+      <div class="right-col">
+        <% moitie2 = moitie + 1 %>
+        <% longueurarray = @pointsdevente.length %>
+        <% @pointsdevente.sort_by(&:nom)[moitie2..longueurarray].each do |pointdevente| %>
+          <% capoint = pointdevente.ventes.map {|vente| vente.total_ttc}.sum %>
+          <li>
+            <div class="wrapper-recap-pointsdevente">
+              <div><%= link_to ventes_path do %> <%= pointdevente.nom %> <% end %> </div>
+              <div><%= number_with_precision(capoint, precision: 2) %> €</div>
+              <div><%= (capoint*100).fdiv(@catotal).round(2) %> %</div>
+              <div>
+                <%= link_to edit_vente_point_path(pointdevente) do %>
+                  <i class="fas fa-pencil-alt"></i>
+                <% end %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </div>
     </ul>
   </div>
 </div>

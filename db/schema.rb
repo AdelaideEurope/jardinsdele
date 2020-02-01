@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_30_102325) do
+ActiveRecord::Schema.define(version: 2020_02_01_223814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,7 +123,9 @@ ActiveRecord::Schema.define(version: 2020_01_30_102325) do
     t.decimal "totalttc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "planche_id"
     t.index ["legume_id"], name: "index_vente_lignes_on_legume_id"
+    t.index ["planche_id"], name: "index_vente_lignes_on_planche_id"
     t.index ["vente_id"], name: "index_vente_lignes_on_vente_id"
   end
 
@@ -134,6 +136,8 @@ ActiveRecord::Schema.define(version: 2020_01_30_102325) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "total_ht", default: "0.0"
+    t.decimal "total_ttc", default: "0.0"
   end
 
   create_table "ventes", force: :cascade do |t|
@@ -141,8 +145,8 @@ ActiveRecord::Schema.define(version: 2020_01_30_102325) do
     t.bigint "vente_point_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "total_ht"
-    t.decimal "total_ttc"
+    t.decimal "total_ht", default: "0.0"
+    t.decimal "total_ttc", default: "0.0"
     t.index ["vente_point_id"], name: "index_ventes_on_vente_point_id"
   end
 
@@ -152,6 +156,7 @@ ActiveRecord::Schema.define(version: 2020_01_30_102325) do
   add_foreign_key "commentaires", "activites"
   add_foreign_key "taggings", "tags"
   add_foreign_key "vente_lignes", "legumes"
+  add_foreign_key "vente_lignes", "planches", column: "planche_id"
   add_foreign_key "vente_lignes", "ventes"
   add_foreign_key "ventes", "vente_points"
 end

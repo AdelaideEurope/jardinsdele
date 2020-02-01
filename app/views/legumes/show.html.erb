@@ -22,7 +22,8 @@
         </div>
         <div class="recap-show-middle">
           <div class="recap-titre">Chiffre d'affaires</div>
-          <div class="recap-donnee"><%= number_with_precision(@lignesdeventeparlegume.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
+          <% calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum %>
+          <div class="recap-donnee"><%= number_with_precision(calegume, precision: 2) %> €</div>
         </div>
         <div class="recap-show-right">
           <div class="recap-titre">Prix général</div>
@@ -38,7 +39,7 @@
         </div>
         <div class="recap-show-middle">
           <div class="recap-titre">% du CA total</div>
-          <div class="recap-donnee"><%= rand(1..50) %>,<%= rand(10..99) %> %</div>
+          <div class="recap-donnee"><%= (calegume*100).fdiv(@catotal).round(2) %> %</div>
         </div>
         <div class="recap-show-right-last">
           <div class="recap-titre"></div>
