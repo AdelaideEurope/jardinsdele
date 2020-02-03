@@ -7,7 +7,7 @@
   <%= simple_form_for @activite do |f| %>
   <div class="flex-container">
     <div class="flex-item">
-      <%= f.input :nom, :label => "ACTIVITÉ", collection: ["Plantation", "Bricolage", "Préparation planche", "Divers", "Vente (dont transport)", "Récolte et préparation vente"] %>
+      <%= f.input :nom, :label => "ACTIVITÉ", collection: ["Plantation", "Observation", "Bricolage", "Administratif", "Préparation planche", "Divers", "Vente (dont transport)", "Récolte et préparation vente"] %>
       <div class="to_hide">
           <%= f.input :date, as: :string, :label => "DATE", input_html: { class: "datepicker" } %>
           <%= f.input :heure_debut, :label => "HEURE DÉBUT" %>

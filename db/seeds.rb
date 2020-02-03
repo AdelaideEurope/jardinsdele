@@ -21,394 +21,338 @@ puts "Starting seed legume"
 Legume.create!({
   nom: "Autres aromates",
   prix_general: 0,
-  legume_css: "autres_aromates",
-  unite: "kg"
+  legume_css: "autres_aromates"
 })
 
 Legume.create!({
   nom: "Aubergine",
   prix_general: 3.80,
-  legume_css: "aubergine",
-  unite: "kg"
+  legume_css: "aubergine"
 })
 
 Legume.create!({
   nom: "Basilic",
   prix_general: 1.00,
-  legume_css: "basilic",
-  unite: "bouquet"
+  legume_css: "basilic"
 })
 
 Legume.create!({
   nom: "Betterave",
   prix_general: 2.80,
-  legume_css: "betterave",
-  unite: "kg"
+  legume_css: "betterave"
 })
 
 Legume.create!({
   nom: "Blette",
   prix_general: 2.90,
-  legume_css: "blette",
-  unite: "kg"
+  legume_css: "blette"
 })
 
 Legume.create!({
   nom: "Brocoli",
   prix_general: 3.20,
-  legume_css: "brocoli",
-  unite: "kg"
+  legume_css: "brocoli"
 })
 
 Legume.create!({
   nom: "Carotte",
   prix_general: 2.10,
-  legume_css: "carotte",
-  unite: "botte"
+  legume_css: "carotte"
 })
 
 Legume.create!({
   nom: "Cébette",
   prix_general: 1.50,
-  legume_css: "cebette",
-  unite: "botte"
+  legume_css: "cebette"
 })
 
 Legume.create!({
   nom: "Céleri branche",
   prix_general: 2.80,
-  legume_css: "celeri_branche",
-  unite: "kg"
+  legume_css: "celeri_branche"
 })
 
 Legume.create!({
   nom: "Céleri rave",
   prix_general: 2.90,
-  legume_css: "celeri_rave",
-  unite: "kg"
+  legume_css: "celeri_rave"
 })
 
 Legume.create!({
   nom: "Chou rave",
   prix_general: 3.00,
-  legume_css: "chou_rave",
-  unite: "kg"
+  legume_css: "chou_rave"
 })
 
 Legume.create!({
   nom: "Chou blanc",
   prix_general: 2.60,
-  legume_css: "chou_blanc",
-  unite: "kg"
+  legume_css: "chou_blanc"
 })
 
 Legume.create!({
   nom: "Chou de Bruxelles",
   prix_general: 4.00,
-  legume_css: "chou_de_bruxelles",
-  unite: "kg"
+  legume_css: "chou_de_bruxelles"
 })
 
 Legume.create!({
   nom: "Chou chinois",
   prix_general: 3.10,
-  legume_css: "chou_chinois",
-  unite: "kg"
+  legume_css: "chou_chinois"
 })
 
 Legume.create!({
   nom: "Chou kale",
   prix_general: 5.40,
-  legume_css: "chou_kale",
-  unite: "kg"
+  legume_css: "chou_kale"
 })
 
 Legume.create!({
   nom: "Chou rouge",
   prix_general: 2.50,
-  legume_css: "chou_rouge",
-  unite: "kg"
+  legume_css: "chou_rouge"
 })
 
 Legume.create!({
   nom: "Chou vert frisé",
   prix_general: 2.50,
-  legume_css: "chou_vert_frise",
-  unite: "kg"
+  legume_css: "chou_vert_frise"
 })
 
 Legume.create!({
   nom: "Chou-fleur",
   prix_general: 3.20,
-  legume_css: "chou_fleur",
-  unite: "kg"
+  legume_css: "chou_fleur"
 })
 
 Legume.create!({
   nom: "Concombre",
   prix_general: 1,
-  legume_css: "concombre",
-  unite: "pièce"
+  legume_css: "concombre"
 })
 
 Legume.create!({
   nom: "Coulis",
   prix_general: 0,
-  legume_css: "coulis",
-  unite: "pièce"
+  legume_css: "coulis"
 })
 
 Legume.create!({
   nom: "Courge",
   prix_general: "2,70",
-  legume_css: "courge",
-  unite: "kg"
+  legume_css: "courge"
 })
 
 Legume.create!({
   nom: "Courgette",
   prix_general: 2.60,
-  legume_css: "courgette",
-  unite: "kg"
+  legume_css: "courgette"
 })
 
 Legume.create!({
   nom: "Cresson",
   prix_general: 7.50,
-  legume_css: "cresson",
-  unite: "kg"
+  legume_css: "cresson"
 })
 
 Legume.create!({
   nom: "Échalote",
   prix_general: 5.40,
-  legume_css: "echalote",
-  unite: "kg"
+  legume_css: "echalote"
 })
 
 Legume.create!({
   nom: "Épinard",
   prix_general: 5.00,
-  legume_css: "epinard",
-  unite: "kg"
+  legume_css: "epinard"
 })
 
 Legume.create!({
   nom: "Fenouil",
   prix_general: 3.50,
-  legume_css: "fenouil",
-  unite: "kg"
+  legume_css: "fenouil"
 })
 
 Legume.create!({
   nom: "Fève",
   prix_general: 4.00,
-  legume_css: "feve",
-  unite: "kg"
+  legume_css: "feve"
 })
 
 Legume.create!({
   nom: "Fraise",
   prix_general: 10.00,
-  legume_css: "fraise",
-  unite: "kg"
+  legume_css: "fraise"
 })
 
 Legume.create!({
   nom: "Framboise",
   prix_general: 16.00,
-  legume_css: "framboise",
-  unite: "kg"
+  legume_css: "framboise"
 })
 
 Legume.create!({
   nom: "Haricot vert",
   prix_general: 6.60,
-  legume_css: "haricot_vert",
-  unite: "kg"
+  legume_css: "haricot_vert"
 })
 
 Legume.create!({
   nom: "Haricot coco",
   prix_general: 5.50,
-  legume_css: "haricot_coco",
-  unite: "kg"
+  legume_css: "haricot_coco"
 })
 
 Legume.create!({
   nom: "Mâche",
   prix_general: 10.00,
-  legume_css: "mache",
-  unite: "kg"
+  legume_css: "mache"
 })
 
 Legume.create!({
   nom: "Maïs",
   prix_general: 2.80,
-  legume_css: "mais",
-  unite: "kg"
+  legume_css: "mais"
 })
 
 Legume.create!({
   nom: "Mange-tout",
   prix_general: 8.00,
-  legume_css: "mange_tout",
-  unite: "kg"
+  legume_css: "mange_tout"
 })
 
 Legume.create!({
   nom: "Melon",
   prix_general: 2.60,
-  legume_css: "melon",
-  unite: "kg"
+  legume_css: "melon"
 })
 
 Legume.create!({
   nom: "Mesclun",
   prix_general: 10.00,
-  legume_css: "mesclun",
-  unite: "kg"
+  legume_css: "mesclun"
 })
 
 Legume.create!({
   nom: "Navet",
   prix_general: 2.60,
-  legume_css: "navet",
-  unite: "kg"
+  legume_css: "navet"
 })
 
 Legume.create!({
   nom: "Oignon",
   prix_general: 2.90,
-  legume_css: "oignon",
-  unite: "kg"
+  legume_css: "oignon"
 })
 
 Legume.create!({
   nom: "Panais",
   prix_general: 3.00,
-  legume_css: "panais",
-  unite: "kg"
+  legume_css: "panais"
 })
 
 Legume.create!({
   nom: "Patate douce",
   prix_general: 4.00,
-  legume_css: "patate_douce",
-  unite: "kg"
+  legume_css: "patate_douce"
 })
 
 Legume.create!({
   nom: "PDT nouvelle",
   prix_general: 5.00,
-  legume_css: "pdt_nouvelle",
-  unite: "kg"
+  legume_css: "pdt_nouvelle"
 })
 
 Legume.create!({
   nom: "Persil",
   prix_general: 1.00,
-  legume_css: "persil",
-  unite: "bouquet"
+  legume_css: "persil"
 })
 
 Legume.create!({
   nom: "Petit pois",
   prix_general: 7.00,
-  legume_css: "petit_pois",
-  unite: "kg"
+  legume_css: "petit_pois"
 })
 
 Legume.create!({
   nom: "Physalis",
   prix_general: 10.00,
-  legume_css: "physalis",
-  unite: "kg"
+  legume_css: "physalis"
 })
 
 Legume.create!({
   nom: "Poireau",
   prix_general: 3.15,
-  legume_css: "poireau",
-  unite: "kg"
+  legume_css: "poireau"
 })
 
 Legume.create!({
   nom: "Poivron",
   prix_general: 3.80,
-  legume_css: "poivron",
-  unite: "kg"
+  legume_css: "poivron"
 })
 
 Legume.create!({
   nom: "Pourpier",
   prix_general: 7.50,
-  legume_css: "pourpier",
-  unite: "kg"
+  legume_css: "pourpier"
 })
 
 Legume.create!({
   nom: "Radis noir",
   prix_general: 2.60,
-  legume_css: "radis_noir",
-  unite: "kg"
+  legume_css: "radis_noir"
 })
 
 Legume.create!({
   nom: "Radis rose",
   prix_general: 1.30,
-  legume_css: "radis_rose",
-  unite: "botte"
+  legume_css: "radis_rose"
 })
 
 Legume.create!({
   nom: "Roquette",
   prix_general: 10.00,
-  legume_css: "roquette",
-  unite: "kg"
+  legume_css: "roquette"
 })
 
 Legume.create!({
   nom: "Salade",
   prix_general: 1.10,
-  legume_css: "salade",
-  unite: "pièce"
+  legume_css: "salade"
 })
 
 Legume.create!({
   nom: "Tartinade",
   prix_general: 3.50,
-  legume_css: "tartinade",
-  unite: "pièce"
+  legume_css: "tartinade"
 })
 
 Legume.create!({
   nom: "Tisane",
   prix_general: 3.50,
-  legume_css: "tisane",
-  unite: "pièce"
+  legume_css: "tisane"
 })
 
 
 Legume.create!({
   nom: "Tomate",
   prix_general: 3.40,
-  legume_css: "tomate",
-  unite: "kg"
+  legume_css: "tomate"
 })
 
 Legume.create!({
   nom: "Tomate ancienne",
   prix_general: 3.90,
-  legume_css: "tomate_ancienne",
-  unite: "kg"
+  legume_css: "tomate_ancienne"
 })
 
 Legume.create!({
   nom: "Tomate cerise",
   prix_general: 7.50,
-  legume_css: "tomate_cerise",
-  unite: "kg"
+  legume_css: "tomate_cerise"
 })
 
 
