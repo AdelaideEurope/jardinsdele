@@ -1,0 +1,13 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <div class="commentaires-liste">
+    <ul>
+      <% @commentaires.sort.reverse.each do |commentaire| %>
+        <li>
+          <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
+          <div><%= commentaire.description %></div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

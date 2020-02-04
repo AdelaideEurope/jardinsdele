@@ -2,7 +2,10 @@
 
 
 <div class="container">
-  <div id="meteo-widget" class="to_hide mt-5"><i class="fas fa-cloud-sun"></i> </div>
+  <div class="icones-home">
+    <div class="to_hide mt-5"><%= link_to commentaires_path do %><i class="fas fa-comment-alt" id="commentaire-home"></i><% end %></div>
+    <div id="meteo-widget" class="to_hide mt-5"><i class="fas fa-cloud-sun"></i> </div>
+  </div>
   <div class="boxes">
     <%= link_to activites_recap_path do  %><div class="boxes-item"><p>Temps de travail</p></div><% end %>
     <%= link_to legumes_recap_path do  %><div class="boxes-item"><p>Cultures</p></div><% end %>

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :activites
   resources :legumes
   resources :vente_points
+  resources :commentaires
   resources :ventes do
     resources :vente_lignes
   end

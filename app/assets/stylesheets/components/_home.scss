@@ -11,3 +11,15 @@
   display: flex;
   justify-content: center;
 }
+
+#commentaire-home {
+  font-size: 36px;
+  color: $darker-grey;
+}
+
+.icones-home {
+  display: flex;
+  justify-content: space-around;
+  width: 15%;
+  margin-left: 80%;
+}
