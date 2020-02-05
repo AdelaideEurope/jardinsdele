@@ -1,0 +1,11 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <h2 class="mb-5">Modifier le légume</h2>
+  <div class="nouveau-legume">
+    <%= simple_form_for @legume do |f| %>
+      <%= f.input :nom, :label => "NOM" %>
+      <%= f.input :legume_css, :label => "NOM sans accent ni espace", placeholder: "ex : pdt_nouvelle, chou_rouge" %>
+      <%= f.input :prix_general, :label => "PRIX GÉNÉRAL", placeholder: "ex : 3.80, 1.00" %>
+    <% end %>
+  </div>
+</div>
