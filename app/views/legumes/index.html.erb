@@ -73,7 +73,7 @@
           <% planches = [] %>
           <li>
             <% legume.activites.each do |activite| %>
-              <% planches << activite.planche.nom %>
+              <% activite.planche.nil? ? "" : planches << activite.planche.nom  %>
               <% duree << activite.heure_fin - activite.heure_debut %>
             <% end %>
             <% duree = duree.sum %>
