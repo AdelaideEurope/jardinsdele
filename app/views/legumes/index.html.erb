@@ -12,7 +12,7 @@
   <div class="tous-legumes">
     <div class="liste-legume mr-3">
       <ul>
-        <% @legumes.first(28).each do |legume| %>
+        <% @legumes.sort_by(&:legume_css).first(29).each do |legume| %>
           <% duree = [] %>
           <% planches = [] %>
           <li>
@@ -68,7 +68,7 @@
 
     <div class="liste-legume ml-3">
       <ul>
-        <% @legumes.last(28).each do |legume| %>
+        <% @legumes.sort_by(&:legume_css).last(28).each do |legume| %>
           <% duree = [] %>
           <% planches = [] %>
           <li>
