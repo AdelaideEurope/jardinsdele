@@ -1,12 +1,18 @@
 class ActivitesController < ApplicationController
+
   def index
+    if current_user.admin != true
+      redirect_to activites_recap_path
+    end
     @activites = Activite.all
   end
 
   def new
+    if current_user.admin != true
+      redirect_to activites_recap_path
+    end
     @activite = Activite.new
     @activite.commentaires.build
-
   end
 
   def create
@@ -31,6 +37,9 @@ class ActivitesController < ApplicationController
   end
 
   def edit
+    if current_user.admin != true
+      redirect_to activites_recap_path
+    end
     @activite = Activite.find(params[:id])
   end
 
