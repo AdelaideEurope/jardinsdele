@@ -84,11 +84,13 @@
               <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
               <div><%= number_with_precision(@lignesdevente.where(["legume_id = ?", legume.id]).map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
               <div>
-                <% legume.commentaires.each do |commentaire| %>
-                  <% unless commentaire.description.empty? %>
-                    <i class="fas fa-comment-alt"></i>
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume.id %>">
+                  <% legume.commentaires.each do |commentaire| %>
+                    <% unless commentaire.description.empty? %>
+                      <i class="fas fa-comment-alt"></i>
+                    <% end %>
                   <% end %>
-                <% end %>
+                </button>
               </div>
               <div class="modal fade" id="ModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -99,7 +101,7 @@
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body commentaires-liste">
                       <ul>
                         <% legume.commentaires.each do |commentaire| %>
                           <% unless commentaire.description.empty? %>
