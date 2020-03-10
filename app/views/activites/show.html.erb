@@ -2,7 +2,7 @@
 
 <%= @activite.nom %>
 <% t = @activite.heure_fin - @activite.heure_debut %>
-<%= Time.at(t).utc.strftime("%Hh%M") %>
+<%= [total/3600, total/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %>
 S<%= @activite.date.strftime("%W").to_i+1 %>
 
 <%= @commentaire.nil? ? "" : @commentaire.description %>

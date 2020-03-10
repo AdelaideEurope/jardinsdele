@@ -7,7 +7,7 @@
       <% h[activite.nom] += duree %>
     <% end %>
     <div class="titre-recap">
-      <h2>Totaux activités (<% total = h.values.sum %><%= Time.at(total).utc.strftime("%Hh%M") %>)</h2>
+      <h2>Totaux activités (<% total = h.values.sum.to_i %><%= [total/3600, total/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %>)</h2>
       <%= link_to activites_recap_path do %>
         <div class="voir-tout-recap">Récap</div>
       <% end %>
@@ -19,7 +19,7 @@
           <li>
             <div class="wrapper-recap-temps">
               <div><%= key %></div>
-              <div><%= Time.at(val).utc.strftime("%Hh%M") %></div>
+              <div><%= [val.to_i/3600, val.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div class="last-col-right"><%= pourcentage %> %</div>
             </div>
           </li>
@@ -33,7 +33,7 @@
   <div class="toutes-activites">
     <ul>
       <% @activites.sort_by(&:date).reverse.each do |activite| %>
-        <% t= activite.heure_fin - activite.heure_debut %>
+        <% t = activite.heure_fin - activite.heure_debut %>
         <li>
           <div class="ligne-act">
             <div class="wrapper-recap-activites">
@@ -41,7 +41,7 @@
               <div><%= activite.nom %></div>
               <div><%= activite.legume != nil ? activite.legume.nom : "" %></div>
               <div><%= activite.planche != nil ? activite.planche.nom : "" %></div>
-              <div><%= Time.at(t).utc.strftime("%Hh%M") %></div>
+              <div><%= [t.to_i/3600, t.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div class="personne-activite">
                 <% if (activite.tag_list.count) > 2 %>
                   <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="élé"></i>

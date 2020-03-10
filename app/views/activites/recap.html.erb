@@ -23,7 +23,7 @@
               <div><%= activite.nom %></div>
               <div><%= activite.legume != nil ? activite.legume.nom : "" %> </div>
               <div><%= activite.planche != nil ? activite.planche.nom : "" %></div>
-              <div><%= Time.at(t).utc.strftime("%Hh%M") %></div>
+              <div><%= [t.to_i/3600, t.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div class="personne-activite">
                 <% if (activite.tag_list.count) > 2 %>
                   <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="élé"></i>
@@ -86,7 +86,7 @@
       <% duree = activite.heure_fin - activite.heure_debut %>
       <% h[activite.nom] += duree %>
     <% end %>
-    <h2>Temps de travail cette semaine (<% total = h.values.sum %><%= Time.at(total).utc.strftime("%Hh%M") %>)</h2>
+    <h2>Temps de travail cette semaine (<% total = h.values.sum.to_i %><%= [total/3600, total/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %>)</h2>
 
     <div class="duree-activites">
       <ul>
@@ -95,7 +95,7 @@
           <li>
             <div class="wrapper-recap-temps">
               <div><%= key %></div>
-              <div><%= Time.at(val).utc.strftime("%Hh%M") %></div>
+              <div><%= [val.to_i/3600, val.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div class="last-col-right"><%= pourcentage %> %</div>
             </div>
           </li>

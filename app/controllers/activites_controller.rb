@@ -2,6 +2,7 @@ class ActivitesController < ApplicationController
 
   def index
     if current_user.admin != true
+      flash[:notice] = "NON !"
       redirect_to activites_recap_path
     end
     @activites = Activite.all
