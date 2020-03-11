@@ -39,15 +39,15 @@
                   <% if planche.activites.empty? %>
                     <%= planche.nom %>
                   <% else %>
-                  <% planche.activites.filter { |activite| activite.nom == "Plantation" }.each do |activite| %>
-                    <% if activite.legume.nil? %>
-                      <%= planche.nom %>
-                    <% else %>
-                      <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
-                        <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
-                      </div>
+                    <% planche.activites.filter { |activite| activite.nom == "Plantation" }.each do |activite| %>
+                      <% if activite.legume.nil? %>
+                        <%= planche.nom %>
+                      <% else %>
+                        <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
+                          <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
+                        </div>
+                      <% end %>
                     <% end %>
-                  <% end %>
                   <% end %>
                 </li>
               <% end %>
@@ -63,18 +63,19 @@
           <ul class="lignes-planche">
             <% planches.each do |planche| %>
               <li>
-                <% if planche.activites.empty? %>
-                  <%= planche.nom %>
-                <% else %>
-                <% planche.activites.filter { |activite| activite.nom == "Plantation" }.each do |activite| %>
-                  <% if activite.legume.nil? %>
-                    <%= planche.nom %>
-                  <% else %>
-                    <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
-                      <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
-                    </div>
+                <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
+                <% if plantations.any? %>
+                  <% plantations.each do |activite| %>
+                    <% if activite.legume != nil? %>
+                      <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
+                        <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
+                      </div>
+                    <% else %>
+                      <%= planche.nom %>
+                    <% end %>
                   <% end %>
-                <% end %>
+                <% else %>
+                  <%= planche.nom %>
                 <% end %>
               </li>
             <% end %>
