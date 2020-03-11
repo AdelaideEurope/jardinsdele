@@ -25,7 +25,7 @@
             <div class="wrapper-legumes">
               <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %> </div>
               <div><%= planches.uniq.join(", ") %></div>
-              <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
+              <div><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div><%= number_with_precision(@lignesdevente.where(["legume_id = ?", legume.id]).map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
               <div>
                 <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume.id %>">
@@ -79,7 +79,7 @@
             <div class="wrapper-legumes">
               <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %></div>
               <div><%= planches.uniq.join(", ") %></div>
-              <div><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
+              <div><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div><%= number_with_precision(@lignesdevente.where(["legume_id = ?", legume.id]).map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
               <div>
                 <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume.id %>">

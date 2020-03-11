@@ -18,7 +18,7 @@
       <div class="recap-show-legume">
         <div class="recap-show-left">
           <div class="recap-titre">Temps de travail</div>
-          <div class="recap-donnee"><%= Time.at(duree).utc.strftime("%Hh%M") %></div>
+          <div class="recap-donnee"><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
         </div>
         <div class="recap-show-middle">
           <div class="recap-titre">Chiffre d'affaires</div>
@@ -73,7 +73,7 @@
                 <div class="date-commentaire"><%= activite.date.strftime("%d/%m") %></div>
                 <div><%= activite.nom %></div>
                 <div><%= activite.planche != nil ? activite.planche.nom : "" %></div>
-                <div><%= Time.at(t).utc.strftime("%Hh%M") %></div>
+                <div><%= [t.to_i/3600, t.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
                 <div class="personne-activite">
                   <% if (activite.tag_list.count) > 2 %>
                     <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="élé"></i>
