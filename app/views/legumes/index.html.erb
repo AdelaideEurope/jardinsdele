@@ -83,10 +83,8 @@
               <div><%= number_with_precision(@lignesdevente.where(["legume_id = ?", legume.id]).map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
               <div>
                 <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume.id %>">
-                  <% legume.commentaires.each do |commentaire| %>
-                    <% unless commentaire.description.empty? %>
-                      <i class="fas fa-comment-alt"></i>
-                    <% end %>
+                  <% if legume.commentaires.reject { |commentaire| commentaire.description.empty? }.any? %>
+                    <i class="fas fa-comment-alt"></i>
                   <% end %>
                 </button>
               </div>
