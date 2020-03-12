@@ -1,25 +1,20 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
   <div class="totaux-activites mt-4">
-    <% h = Hash.new { |h,k| h[k] = "".to_i } %>
-    <% @activites.each do |activite| %>
-      <% duree = activite.heure_fin - activite.heure_debut %>
-      <% h[activite.nom] += duree %>
-    <% end %>
     <div class="titre-recap">
-      <h2>Totaux activités (<% total = h.values.sum.to_i %><%= [total/3600, total/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %>)</h2>
+      <h2>Totaux activités (<%= @total_heures %>)</h2>
       <%= link_to activites_recap_path do %>
         <div class="voir-tout-recap">Récap</div>
       <% end %>
     </div>
-    <div class="duree-activites">
+    <div class="duree-activites-index">
       <ul>
-        <% h.each do |key, val| %>
-          <% pourcentage = (val*100).fdiv(total).round(2) %>
+        <% @totaux_activites.each do |nom_activite, total| %>
+          <% pourcentage = (total*100).fdiv(@total).round(2) %>
           <li>
             <div class="wrapper-recap-temps">
-              <div><%= key %></div>
-              <div><%= [val.to_i/3600, val.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+              <div><%= nom_activite %></div>
+              <div><%= [total.to_i/3600, total.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div class="last-col-right"><%= pourcentage %> %</div>
             </div>
           </li>
@@ -33,7 +28,7 @@
   <div class="toutes-activites">
     <ul>
       <% @activites.sort_by(&:date).reverse.each do |activite| %>
-        <% t = activite.heure_fin - activite.heure_debut %>
+        <% duree = activite.duree_activite(activite) %>
         <li>
           <div class="ligne-act">
             <div class="wrapper-recap-activites">
@@ -41,7 +36,7 @@
               <div><%= activite.nom %></div>
               <div><%= activite.legume != nil ? activite.legume.nom : "" %></div>
               <div><%= activite.planche != nil ? activite.planche.nom : "" %></div>
-              <div><%= [t.to_i/3600, t.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+              <div><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div class="personne-activite">
                 <% if (activite.tag_list.count) > 2 %>
                   <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="élé"></i>

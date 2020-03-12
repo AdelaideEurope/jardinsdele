@@ -29,6 +29,23 @@
   }
 }
 
+.duree-activites-index {
+  margin-top: 24px;
+  margin-bottom: 72px;
+
+  li {
+  background: $light-gray;
+  list-style: none;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 4px;
+  margin-bottom: 4px;
+  }
+  ul {
+    width: 50%;
+  }
+}
+
 .ligne-activite {
   display: flex;
   padding-right: 16px;

@@ -38,7 +38,7 @@ class LegumesController < ApplicationController
     @legumes = Legume.all
     @activites = Activite.all
     planches = Planche.all
-    @jardins = planches.group_by {|planche| planche.jardin}
+    @jardins = planches.group_by { |planche| planche.jardin }
     @lignesdevente = VenteLigne.all
   end
 

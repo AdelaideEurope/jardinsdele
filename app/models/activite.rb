@@ -14,4 +14,8 @@ class Activite < ApplicationRecord
       errors.add :heure_fin, ": doit être après l'heure de début"
     end
   end
+
+  def duree_activite(activite)
+    activite.heure_fin - activite.heure_debut
+  end
 end
