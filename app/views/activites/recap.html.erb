@@ -80,7 +80,6 @@
     </ul>
   </div>
   <div class="totaux-activites mt-5">
-    <%= @pourcentages %>
     <h2>Temps de travail cette semaine (<%= [@total/3600, @total/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %>)</h2>
     <div class="duree-activites">
       <ul>
@@ -95,8 +94,8 @@
           </li>
         <% end %>
       </ul>
-      <%= @donnees %>
-      <%= line_chart @donnees %>
+      <%#= @donnees %>
+      <%#= line_chart @donnees %>
     </div>
   </div>
 </div>
