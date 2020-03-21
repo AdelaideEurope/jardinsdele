@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'pages#landing'
   get 'home', to: 'pages#home'
+  get "/photos", to: "pages#photos"
   get "/activites-recap", to: "activites#recap"
   get "/legumes-recap", to: "legumes#recap"
   get "/ventes-recap", to: "ventes#recap"

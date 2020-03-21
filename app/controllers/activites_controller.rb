@@ -22,6 +22,8 @@ class ActivitesController < ApplicationController
     end
     @activite = Activite.new
     @activite.commentaires.build
+    planches = Planche.all
+    @jardins = planches.group_by { |planche| planche.jardin }
   end
 
   def create
@@ -72,6 +74,8 @@ class ActivitesController < ApplicationController
       redirect_to activites_recap_path
     end
     @activite = Activite.find(params[:id])
+    planches = Planche.all
+    @jardins = planches.group_by { |planche| planche.jardin }
   end
 
   def update
@@ -87,7 +91,7 @@ class ActivitesController < ApplicationController
 private
 
   def activite_params
-    params.require(:activite).permit(:nom, :legume_id, :planche_id, :date, :duree, :assistant_id, :tag_list, :heure_debut, :heure_fin, commentaires_attributes: [:id, :description, :activite_id])
+    params.require(:activite).permit(:nom, :legume_id, :planche_id, :date, :duree, :assistant_id, :tag_list, :heure_debut, :heure_fin, commentaires_attributes: [:id, :description, :activite_id], photos: [])
   end
 
   def convert_to_readable_hours(time)

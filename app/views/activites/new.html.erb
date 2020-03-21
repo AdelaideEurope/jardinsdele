@@ -2,6 +2,7 @@
 <div class="container mt-4">
   <h2 class="to_hide">Nouvelle activité</h2>
 </div>
+<%= image_tag "poivron.jpg", class: "poivron" %>
 <div class="container-form" id='mobile-container'>
 
   <%= simple_form_for @activite do |f| %>
@@ -18,7 +19,12 @@
     <div class="flex-item to_hide" id='new-activite-legumes'>
       <%= f.association :legume, label_method: :nom, :label => "LÉGUME",
       input_html: { class: 'select2' }  %>
-      <%= f.association :planche, label_method: :nom, :label => "PLANCHE", input_html: { class: 'select2planche' } %>
+      <div class="plancheselect">
+        <%= f.association :planche, label_method: :nom, :label => "PLANCHE", input_html: { class: 'select2planche' } %>
+        <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
+          <i class="fas fa-binoculars"></i>
+        </button>
+      </div>
     </div>
     <div class="flex-item to_hide" id='new-activite-tags'>
       <%= f.input :tag_list, :label => "ASSISTANT(S)" %>
@@ -27,12 +33,11 @@
           <%= m.input :description, :label => "COMMENTAIRE" %>
         </div>
       <% end %>
-      <%#= f.input :commentaire, :label => "COMMENTAIRE", input_html: {value: @commentaire.titre} %>
+      <%= f.input :photos, as: :file, :label => "PHOTO", input_html: { multiple: true } %>
     </div>
   </div>
 </div>
 <p class='hidden' id='new-activite-running'>Activité en cours...</p>
-<%= image_tag "poivron.jpg", class: "poivron" %>
 <div class="bottom-button fixed-bottom">
   <%= image_tag "play-rond.png", alt: "start-activity", id: 'play-button', class: 'play-rond mobile-hidden' %>
 </div>
@@ -42,4 +47,78 @@
 <div class="bottom-button fixed-bottom to_hide" id='save-button'>
   <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond" %>
   <% end %>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><h2>Les planches</h2></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="columns">
+          <div class="left-col">
+            <% jardins_left = ["Jardin D", "Jardin E", "Jardin F"] %>
+            <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
+              <div class="jardins">
+                <div class="jardins-titre"><p><%= jardin %></p></div>
+                <ul class="lignes-planche">
+                  <% planches.each do |planche| %>
+                    <li>
+                      <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
+                      <% if plantations.any? %>
+                        <% plantations.each do |activite| %>
+                          <% if activite.legume != nil? %>
+                            <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
+                              <%= planche.nom %> - <%= activite.legume.nom %>
+                            </div>
+                          <% else %>
+                            <%= planche.nom %>
+                          <% end %>
+                        <% end %>
+                      <% else %>
+                        <%= planche.nom %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+          <div class="right-col">
+            <% jardins_left = ["Jardin A", "Jardin B", "Jardin C"] %>
+            <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
+              <div class="jardins">
+                <div class="jardins-titre"><p><%= jardin %></p></div>
+                <ul class="lignes-planche">
+                  <% planches.each do |planche| %>
+                    <li>
+                      <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
+                      <% if plantations.any? %>
+                        <% plantations.each do |activite| %>
+                          <% if activite.legume != nil? %>
+                            <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
+                              <%= planche.nom %> - <%= activite.legume.nom %>
+                            </div>
+                          <% else %>
+                            <%= planche.nom %>
+                          <% end %>
+                        <% end %>
+                      <% else %>
+                        <%= planche.nom %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

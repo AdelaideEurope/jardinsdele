@@ -37,13 +37,13 @@
                 <% end %>
               </div>
               <div class="commentaire-all-activites">
-                <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= activite.id %>">
                   <% activite.commentaires.each do |commentaire| %>
                     <% unless commentaire.description.empty? %>
-                      <i class="fas fa-comment-alt"></i>
+                      <button type="button" data-toggle="modal" data-target="#exampleModalCenter<%= activite.id %>">
+                        <i class="fas fa-comment-alt"></i>
+                      </button>
                     <% end %>
                   <% end %>
-                </button>
               </div>
               <div class="modal fade" id="exampleModalCenter<%= activite.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -63,6 +63,35 @@
                               <div><%= commentaire.description %></div>
                             </li>
                           <% end %>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="photo-all-activites">
+                <% unless activite.photos.empty? %>
+                  <button type="button" data-toggle="modal" data-target="#modalCenter<%= activite.id+1000 %>">
+                    <i class="far fa-images"></i>
+                  </button>
+                <% end %>
+              </div>
+
+              <div class="modal fade" id="modalCenter<%= activite.id+1000 %>" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalLongTitle">Photos</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body photos-liste">
+                      <ul>
+                        <% activite.photos.each do |photo| %>
+                          <li>
+                            <%= cl_image_tag photo.key, width: 300, crop: :scale %>
+                          </li>
                         <% end %>
                       </ul>
                     </div>

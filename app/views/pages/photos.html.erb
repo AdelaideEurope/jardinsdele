@@ -1,0 +1,15 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <h2>Toutes les photos</h2>
+</div>
+
+<div class="masonry">
+  <% @activites.each do |activite| %>
+    <% activite.photos.each do |photo| %>
+      <div class="item">
+        <p><%= activite.nom %> du <%= activite.date.strftime("%d/%m") %></p>
+        <%= cl_image_tag photo.key, width: 500, crop: :fill %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

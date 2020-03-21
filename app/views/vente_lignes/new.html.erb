@@ -37,7 +37,7 @@
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content modal-content-planches">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"><h2>Les planches</h2></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -45,141 +45,64 @@
         </button>
       </div>
       <div class="modal-body">
-          <div class="columns">
-            <div class="left-col">
+        <div class="columns">
+          <div class="left-col">
+            <% jardins_left = ["Jardin D", "Jardin E", "Jardin F"] %>
+            <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
               <div class="jardins">
-                <div class="jardins-titre"><p>Jardin D (tunnel 1)</p></div>
+                <div class="jardins-titre"><p><%= jardin %></p></div>
                 <ul class="lignes-planche">
-                  <% @planches_d.each do |planche| %>
+                  <% planches.each do |planche| %>
                     <li>
-                      <% if planche.activites.empty? %>
-                        <%= planche.nom %>
-                      <% else %>
-                        <% planche.activites.each do |activite| %>
-                          <% if activite.legume.nil? || activite.nom != "Plantation" %>
-                            <%= planche.nom %>
-                          <% else %>
+                      <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
+                      <% if plantations.any? %>
+                        <% plantations.each do |activite| %>
+                          <% if activite.legume != nil? %>
                             <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
                               <%= planche.nom %> - <%= activite.legume.nom %>
                             </div>
+                          <% else %>
+                            <%= planche.nom %>
                           <% end %>
                         <% end %>
+                      <% else %>
+                        <%= planche.nom %>
                       <% end %>
                     </li>
                   <% end %>
                 </ul>
               </div>
-              <div class="jardins">
-                <div class="jardins-titre"><p>Jardin E (tunnel 2)</p></div>
-                <ul class="lignes-planche">
-                  <% @planches_e.each do |planche| %>
-                    <li>
-                      <% if planche.activites.empty? %>
-                        <%= planche.nom %>
-                      <% else %>
-                        <% planche.activites.each do |activite| %>
-                          <% if activite.legume.nil? || activite.nom != "Plantation" %>
-                            <%= planche.nom %>
-                          <% else %>
-                            <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
-                              <%= planche.nom %> - <%= activite.legume.nom %>
-                            </div>
-                          <% end %>
-                        <% end %>
-                      <% end %>
-                    </li>
-                  <% end %>
-                </ul>
-              </div>
-              <div class="jardins">
-                <div class="jardins-titre"><p>Jardin F (tunnel 3)</p></div>
-                <ul class="lignes-planche">
-                  <% @planches_f.each do |planche| %>
-                    <li>
-                      <% if planche.activites.empty? %>
-                        <%= planche.nom %>
-                      <% else %>
-                        <% planche.activites.each do |activite| %>
-                          <% if activite.legume.nil? || activite.nom != "Plantation" %>
-                            <%= planche.nom %>
-                          <% else %>
-                            <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
-                              <%= planche.nom %> - <%= activite.legume.nom %>
-                            </div>
-                          <% end %>
-                        <% end %>
-                      <% end %>
-                    </li>
-                  <% end %>
-                </ul>
-              </div>
-            </div>
-            <div class="right-col">
-              <div class="jardins"><div class="jardins-titre"><p>Jardin A</p></div>
-                <ul class="lignes-planche">
-                  <% @planches_a.each do |planche| %>
-                    <li>
-                      <% if planche.activites.empty? %>
-                        <%= planche.nom %>
-                      <% else %>
-                        <% planche.activites.each do |activite| %>
-                          <% if activite.legume.nil? || activite.nom != "Plantation" %>
-                            <%= planche.nom %>
-                          <% else %>
-                            <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
-                              <%= planche.nom %> - <%= activite.legume.nom %>
-                            </div>
-                          <% end %>
-                        <% end %>
-                      <% end %>
-                    </li>
-                  <% end %>
-                </ul>
-              </div>
-              <div class="jardins"><div class="jardins-titre"><p>Jardin B</p></div>
-                <ul class="lignes-planche">
-                  <% @planches_b.each do |planche| %>
-                    <li>
-                      <% if planche.activites.empty? %>
-                        <%= planche.nom %>
-                      <% else %>
-                        <% planche.activites.each do |activite| %>
-                          <% if activite.legume.nil? || activite.nom != "Plantation" %>
-                            <%= planche.nom %>
-                          <% else %>
-                            <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
-                              <%= planche.nom %> - <%= activite.legume.nom %>
-                            </div>
-                          <% end %>
-                        <% end %>
-                      <% end %>
-                    </li>
-                  <% end %>
-                </ul>
-              </div>
-              <div class="jardins"><div class="jardins-titre"><p>Jardin C</p></div>
-                <ul class="lignes-planche">
-                  <% @planches_c.each do |planche| %>
-                    <li>
-                      <% if planche.activites.empty? %>
-                        <%= planche.nom %>
-                      <% else %>
-                        <% planche.activites.each do |activite| %>
-                          <% if activite.legume.nil? || activite.nom != "Plantation" %>
-                            <%= planche.nom %>
-                          <% else %>
-                            <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
-                              <%= planche.nom %> - <%= activite.legume.nom %>
-                            </div>
-                          <% end %>
-                        <% end %>
-                      <% end %>
-                    </li>
-                  <% end %>
-                </ul>
-              </div>
-            </div>
+            <% end %>
           </div>
+          <div class="right-col">
+            <% jardins_left = ["Jardin A", "Jardin B", "Jardin C"] %>
+            <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
+              <div class="jardins">
+                <div class="jardins-titre"><p><%= jardin %></p></div>
+                <ul class="lignes-planche">
+                  <% planches.each do |planche| %>
+                    <li>
+                      <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
+                      <% if plantations.any? %>
+                        <% plantations.each do |activite| %>
+                          <% if activite.legume != nil? %>
+                            <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
+                              <%= planche.nom %> - <%= activite.legume.nom %>
+                            </div>
+                          <% else %>
+                            <%= planche.nom %>
+                          <% end %>
+                        <% end %>
+                      <% else %>
+                        <%= planche.nom %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
   </div>
