@@ -50,8 +50,11 @@
   <li class="nav-item nav-item-show">
     <a class="nav-link active mr-3" id="actions-tab" data-toggle="tab" href="#actions" role="tab" aria-controls="actions" aria-selected="false">Actions</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item nav-item-show">
     <a class="nav-link ml-3" id="commentaires-tab" data-toggle="tab" href="#commentaires" role="tab" aria-controls="commentaires" aria-selected="false">Commentaires</a>
+  </li>
+  <li class="nav-item nav-item-show">
+    <a class="nav-link ml-3" id="photos-tab" data-toggle="tab" href="#photos" role="tab" aria-controls="photos" aria-selected="false">Photos</a>
   </li>
 </ul>
 
@@ -103,4 +106,17 @@
       </ul>
     </div>
   </div>
+  <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">
+    <div class="photos-show-legume">
+      <% @activites.each do |activite| %>
+        <% activite.photos.each do |photo| %>
+          <figure class="gallery_item gallery_item-1">
+            <%= cl_image_tag photo.key, crop: :fill, :title => activite.date.strftime("%d/%m"), class: "gallery_img" %>
+          </figure>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>
+
+
