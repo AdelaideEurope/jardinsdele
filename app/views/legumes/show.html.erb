@@ -10,24 +10,14 @@
   </div>
   <div class="toutes-activites-show">
     <h3>Récap</h3>
-      <% h = Hash.new { |h,k| h[k] = "".to_i } %>
-      <% duree = [] %>
-      <% planches = [] %>
-      <% @legume.activites.each do |activite| %>
-        <% planches << activite.planche.nom %>
-        <% duree << activite.heure_fin - activite.heure_debut %>
-      <% end %>
-      <% duree = duree.sum %>
-      <% h[@legume.nom] += duree %>
       <div class="recap-show-legume">
         <div class="recap-show-left">
           <div class="recap-titre">Temps de travail</div>
-          <div class="recap-donnee"><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+          <div class="recap-donnee"><%= [@dureedulegume.to_i/3600, @dureedulegume.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
         </div>
         <div class="recap-show-middle">
           <div class="recap-titre">Chiffre d'affaires</div>
-          <% calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum %>
-          <div class="recap-donnee"><%= number_with_precision(calegume, precision: 2) %> €</div>
+          <div class="recap-donnee"><%= number_with_precision(@calegume, precision: 2) %> €</div>
         </div>
         <div class="recap-show-right">
           <div class="recap-titre">Prix général</div>
@@ -39,11 +29,11 @@
       <div class="recap-show-legume">
         <div class="recap-show-left">
           <div class="recap-titre">Nb de planches</div>
-          <div class="recap-donnee"><%= planches.length %></div>
+          <div class="recap-donnee"><%= @planchesdulegume.length %></div>
         </div>
         <div class="recap-show-middle">
           <div class="recap-titre">% du CA total</div>
-          <div class="recap-donnee"><%= (calegume*100).fdiv(@catotal).round(2) %> %</div>
+          <div class="recap-donnee"><%= @pourcentagedulegume %> %</div>
         </div>
         <div class="recap-show-right-last">
           <div class="recap-titre"></div>

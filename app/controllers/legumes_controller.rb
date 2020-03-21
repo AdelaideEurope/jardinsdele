@@ -59,6 +59,17 @@ class LegumesController < ApplicationController
     @lignesdeventeparlegume = VenteLigne.where(["legume_id = ?", @legume.id])
     @ventes = Vente.all
     @catotal = @ventes.map(&:total_ttc).sum
+    @totauxlegume = Hash.new { |h,k| h[k] = "".to_i }
+    @dureedulegume = []
+    @planchesdulegume = []
+    @legume.activites.each do |activite|
+      @planchesdulegume << activite.planche.nom
+      @dureedulegume << activite.heure_fin - activite.heure_debut
+    end
+    @dureedulegume = @dureedulegume.sum
+    @totauxlegume[@legume.nom] += @dureedulegume
+    @calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum
+    @pourcentagedulegume = (@calegume*100).fdiv(@catotal).round(2)
   end
 
   def legume_params
