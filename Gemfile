@@ -21,7 +21,7 @@ gem 'acts-as-taggable-on', '~> 6.5'
 gem 'friendly_id', '~> 5.2.4'
 gem 'chartkick'
 gem 'groupdate'
-
+gem 'cloudinary', '~> 1.12.0'
 
 
 group :development do

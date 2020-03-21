@@ -62,7 +62,7 @@ class LegumesController < ApplicationController
   end
 
   def legume_params
-    params.require(:legume).permit(:nom, :legume_css, :prix_general)
+    params.require(:legume).permit(:nom, :legume_css, :prix_general, :photo)
   end
 
 end

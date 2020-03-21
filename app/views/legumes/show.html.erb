@@ -6,7 +6,7 @@
           <i class="fas fa-pencil-alt title-show-legume"></i>
         <% end %>
     </h2>
-    <%= image_tag "#{@legume.nom.downcase.tr('éèâï', 'eeai')}.jpg", class: "icone-legume-show" %>
+    <%= cl_image_tag @legume.photo.key, height: 96, crop: :fill %>
   </div>
   <div class="toutes-activites-show">
     <h3>Récap</h3>

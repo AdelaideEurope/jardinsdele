@@ -13,7 +13,7 @@
         <% @legumes.sample(3).each do |legume| %>
           <% duree = [] %>
           <li>
-            <div class="image-legume"> <%= image_tag "#{legume.nom.downcase.tr('éèâï', 'eeai')}.jpg", class: "icone-legume" %>
+            <div class="image-legume"> <%= cl_image_tag legume.photo.key, height: 96, crop: :fill, class: "icone-legume" %>
             </div>
             <% legume.activites.each do |activite| %>
               <% duree << activite.heure_fin - activite.heure_debut %>
