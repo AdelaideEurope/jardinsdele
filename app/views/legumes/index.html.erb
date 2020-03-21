@@ -12,7 +12,7 @@
   <div class="tous-legumes">
     <div class="liste-legume mr-3">
       <ul>
-        <% @legumes.sort_by(&:legume_css).first(29).each do |legume| %>
+        <% @sorted_legumes.first(@firsthalf).each do |legume| %>
           <% duree = [] %>
           <% planches = [] %>
           <li>
@@ -66,7 +66,7 @@
 
     <div class="liste-legume ml-3">
       <ul>
-        <% @legumes.sort_by(&:legume_css).last(28).each do |legume| %>
+        <% @sorted_legumes.last(@secondhalf).each do |legume| %>
           <% duree = [] %>
           <% planches = [] %>
           <li>
@@ -115,6 +115,11 @@
             </div>
           </li>
         <% end %>
+      <div class="plus-recap">
+        <%= link_to new_legume_path do %>
+          <% image_tag "plus-rond.png", class: "plus-rond-recap" %>
+        <% end %>
+      </div>
       </ul>
     </div>
   </div>

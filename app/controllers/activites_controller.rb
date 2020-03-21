@@ -44,7 +44,6 @@ class ActivitesController < ApplicationController
     @activites_semaine = Activite.where('date >= ? AND date <= ?', DateTime.now.beginning_of_week, DateTime.now.end_of_week)
     @commentaires = Commentaire.all
     @nom_activites = @activites.map { |activite| activite.nom }.uniq
-    @data_graph = {}
     @months = ["01 Jan 2020", "01 Feb 2020", "01 Mar 2020", "01 Apr 2020", "01 May 2020", "01 Jun 2020"]
     @donnees = []
 

@@ -4,6 +4,9 @@ class LegumesController < ApplicationController
     @commentaires = Commentaire.all
     @activites = Activite.all
     @lignesdevente = VenteLigne.all
+    @firsthalf = (@legumes.length/2.to_f).ceil
+    @secondhalf = @legumes.length/2
+    @sorted_legumes = @legumes.sort_by(&:legume_css)
   end
 
   def new
