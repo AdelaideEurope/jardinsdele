@@ -1,7 +1,11 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
   <div class="top-title-img">
-    <h2><%= @legume.nom %></h2>
+    <h2><%= @legume.nom %>
+        <%= link_to edit_legume_path(@legume) do %>
+          <i class="fas fa-pencil-alt title-show-legume"></i>
+        <% end %>
+    </h2>
     <%= image_tag "#{@legume.nom.downcase.tr('éèâï', 'eeai')}.jpg", class: "icone-legume-show" %>
   </div>
   <div class="toutes-activites-show">

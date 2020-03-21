@@ -10,6 +10,10 @@ class LegumesController < ApplicationController
   end
 
   def new
+    if current_user.admin != true
+      flash[:notice] = "Malheureusement, vous ne pouvez pas accéder à cette page 😬"
+      redirect_to legumes_recap_path
+    end
     @legume = Legume.new
   end
 
@@ -24,6 +28,10 @@ class LegumesController < ApplicationController
   end
 
   def edit
+    if current_user.admin != true
+      flash[:notice] = "Malheureusement, vous ne pouvez pas accéder à cette page 😬"
+      redirect_to legumes_recap_path
+    end
     @legume = Legume.friendly.find(params[:id])
   end
 
