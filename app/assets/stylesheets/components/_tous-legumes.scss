@@ -77,7 +77,11 @@
 
 
 .date-commentaire {
-  width: 16%;
+  width: 75px;
+}
+
+.contenu-commentaire {
+  width: 600px;
 }
 
 .green-comment {
@@ -106,6 +110,10 @@
 
 .planche-nom {
   display: contents;
+}
+
+.ail-bg-color {
+  background-color: $ail;
 }
 
 .autres_aromates-bg-color {
