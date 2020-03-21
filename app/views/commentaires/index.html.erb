@@ -1,5 +1,12 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
+  <h2>Commentaires</h2>
+  <div class="recherche-commentaires">
+    <%= form_tag commentaires_path, method: :get, class: "form-inline" do %>
+      <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "" %>
+      <%= link_to "Chercher", commentaires_path, class: "voir-tout-recap" %>
+    <% end %>
+  </div>
   <div class="commentaires-liste">
     <ul>
       <% @commentaires.sort.reverse.each do |commentaire| %>
