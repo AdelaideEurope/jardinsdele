@@ -60,7 +60,7 @@
                           <% unless commentaire.description.empty? %>
                             <li>
                               <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-                              <div><%= commentaire.description %></div>
+                              <div class="contenu-commentaire"><%= commentaire.description %></div>
                             </li>
                           <% end %>
                         <% end %>
