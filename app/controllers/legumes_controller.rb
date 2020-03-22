@@ -63,8 +63,10 @@ class LegumesController < ApplicationController
     @dureedulegume = []
     @planchesdulegume = []
     @legume.activites.each do |activite|
-      @planchesdulegume << activite.planche.nom
       @dureedulegume << activite.heure_fin - activite.heure_debut
+    end
+    @legume.activites.filter { |activite| activite.nom == "Plantation" }.each do |activite|
+      @planchesdulegume << activite.planche.nom
     end
     @dureedulegume = @dureedulegume.sum
     @totauxlegume[@legume.nom] += @dureedulegume
