@@ -7,6 +7,7 @@ class ActivitesController < ApplicationController
     end
     @activites = Activite.all
     @totaux_activites = Hash.new { |h, k| h[k] = "".to_i }
+    @sorted_activites = @activites.order(date: :desc, heure_fin: :desc)
     @activites.each do |activite|
       duree = activite.heure_fin - activite.heure_debut
       @totaux_activites[activite.nom] += duree

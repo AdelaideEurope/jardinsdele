@@ -27,7 +27,7 @@
   </div>
   <div class="toutes-activites">
     <ul>
-      <% @activites.sort_by(&:date).reverse.each do |activite| %>
+      <% @sorted_activites.each do |activite| %>
         <% duree = activite.duree_activite(activite) %>
         <li>
           <div class="ligne-act">
