@@ -108,23 +108,41 @@
       <% end %>
     </ul>
   </div>
-  <div class="totaux-activites mt-5">
-    <h2>Temps de travail cette semaine (<%= [@total/3600, @total/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %>)</h2>
-    <div class="duree-activites">
-      <ul>
-        <% @totaux_activites_semaine.each do |nom_activite, total| %>
-          <% pourcentage = (total*100).fdiv(@total).round(2) %>
-          <li>
-            <div class="wrapper-recap-temps">
-              <div><%= nom_activite %></div>
-              <div><%= [total.to_i/3600, total.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
-              <div class="last-col-right"><%= pourcentage %> %</div>
-            </div>
-          </li>
-        <% end %>
-      </ul>
-      <%#= @donnees %>
-      <%#= line_chart @donnees %>
+  <div class="bilan-semaine mt-5">
+    <div class="totaux-jour">
+      <h2>Temps de travail cette semaine (<%= [@total/3600, @total/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %>)</h2>
+      <div class="duree-activites">
+        <ul>
+          <% @totaux_activites_semaine.each do |nom_activite, total| %>
+            <% pourcentage = (total*100).fdiv(@total).round(2) %>
+            <li>
+              <div class="wrapper-recap-temps">
+                <div><%= nom_activite %></div>
+                <div><%= [total.to_i/3600, total.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+                <div class="last-col-right"><%= pourcentage %> %</div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+        <%#= @donnees %>
+        <%#= line_chart @donnees %>
+      </div>
+    </div>
+    <div class="totaux-jour">
+      <h2>Et le nombre d'heures par jour...</h2>
+      <div class="duree-activites">
+        <ul>
+          <% @totaux_activites_jour.each do |jour, total| %>
+            <li>
+              <div class="wrapper-recap-temps">
+                <div><%= jour %></div>
+                <div></div>
+                <div class="last-col-right"><%= [total.to_i/3600, total.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %> </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

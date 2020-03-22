@@ -48,19 +48,15 @@ class ActivitesController < ApplicationController
     @sorted_activites_semaine = @activites_semaine.order(date: :desc, heure_fin: :desc)
     @commentaires = Commentaire.all
     @nom_activites = @activites.map { |activite| activite.nom }.uniq
-    @months = ["01 Jan 2020", "01 Feb 2020", "01 Mar 2020", "01 Apr 2020", "01 May 2020", "01 Jun 2020"]
-    @donnees = []
+    @totaux_activites = totaux_activites
 
-    @nom_activites.each do |nom|
-      data = { @months[0] => rand(1000..2000), @months[1] => rand(1000..2000), @months[2] => rand(1000..2000), @months[3] => rand(1000..2000), @months[4] => rand(1000..2000), @months[5] => rand(1000..2000) }
-      @donnees << { name: nom, data: data }
-    end
-
-    @totaux_activites = Hash.new { |h, k| h[k] = "".to_i }
-    @activites.each do |activite|
-      duree = activite.heure_fin - activite.heure_debut
-      @totaux_activites[activite.nom] += duree.to_i
-    end
+    # essai graph
+    # @months = ["01 Jan 2020", "01 Feb 2020", "01 Mar 2020", "01 Apr 2020", "01 May 2020", "01 Jun 2020"]
+    # @donnees = []
+    # @nom_activites.each do |nom|
+    #   data = { @months[0] => rand(1000..2000), @months[1] => rand(1000..2000), @months[2] => rand(1000..2000), @months[3] => rand(1000..2000), @months[4] => rand(1000..2000), @months[5] => rand(1000..2000) }
+    #   @donnees << { name: nom, data: data }
+    # end
 
     @totaux_activites_semaine = Hash.new { |h, k| h[k] = "".to_i }
     @activites_semaine.each do |activite|
@@ -68,6 +64,23 @@ class ActivitesController < ApplicationController
       @totaux_activites_semaine[activite.nom] += duree.to_i
     end
     @total = @totaux_activites_semaine.values.sum.to_i
+
+    @totaljoursemaine = Hash.new { |h, k| h[k] = "".to_i }
+    jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
+
+    @totaux_activites_jour = {}
+    counter = 0
+    until counter == 7
+      @activites_jour = Activite.where('date >= ? AND date <= ?', DateTime.now.beginning_of_week.beginning_of_day + counter.days, DateTime.now.beginning_of_week.end_of_day + counter.days)
+      dureedujour = []
+      @activites_jour.each do |activite|
+        dureeactivite = activite.heure_fin - activite.heure_debut
+        dureedujour << dureeactivite.to_i
+      end
+      dureedujour = dureedujour.sum.to_i
+      @totaux_activites_jour[jours[counter]] = dureedujour
+      counter += 1
+    end
   end
 
   def edit
@@ -100,4 +113,11 @@ private
     [time/3600, time/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h')
   end
 
+  def totaux_activites
+    @totaux_activites = Hash.new { |h, k| h[k] = "".to_i }
+    @activites.each do |activite|
+      duree = activite.heure_fin - activite.heure_debut
+      @totaux_activites[activite.nom] += duree.to_i
+    end
+  end
 end
