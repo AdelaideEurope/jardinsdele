@@ -1,7 +1,30 @@
 .recherche-commentaires {
   margin-bottom: 40px;
-  width: 362px;
+  width: 332px;
   display: flex;
   margin-left: auto;
-  margin-right: 14%;
+}
+
+.wrapper-recap-commentaires {
+  display: grid;
+  grid-template-columns: 4vw 12vw 12vw 40vw;
+  grid-gap: 10px;
+}
+
+
+.commentaires-liste-index {
+  li {
+    background: $light-gray;
+    list-style: none;
+    padding-left: 16px;
+    padding-top: 4px;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: unset;
+    padding-right: 16px;
+  }
+  ul {
+    margin-left: 4%;
+    margin-right: 4%;
+  }
 }

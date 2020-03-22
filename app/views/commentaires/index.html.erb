@@ -7,13 +7,17 @@
       <%= link_to "Chercher", commentaires_path, class: "voir-tout-recap" %>
     <% end %>
   </div>
-  <div class="commentaires-liste">
+  <div class="commentaires-liste-index">
     <ul>
       <% @commentaires.sort.reverse.each do |commentaire| %>
         <% unless commentaire.description.empty? %>
           <li>
-            <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-            <div class="contenu-commentaire"><%= commentaire.description %></div>
+            <div class="wrapper-recap-commentaires">
+              <div class="date-commentaire-index"><%= commentaire.activite.date.strftime("%d/%m") %></div>
+              <div class="activite-commentaire-index"><%= commentaire.activite.nom %></div>
+              <div class="legume-commentaire-index"><%= commentaire.activite.legume.nil? ? "" : commentaire.activite.legume.nom %></div>
+              <div class="contenu-commentaire-index"><%= commentaire.description %></div>
+            </div>
           </li>
         <% end %>
       <% end %>
