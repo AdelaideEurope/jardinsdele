@@ -59,7 +59,6 @@ class ActivitesController < ApplicationController
 
     @totaljoursemaine = Hash.new { |h, k| h[k] = "".to_i }
     jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
-
     @totaux_activites_jour = {}
     counter = 0
     until counter == 7

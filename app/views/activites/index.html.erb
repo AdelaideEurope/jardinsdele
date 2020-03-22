@@ -9,7 +9,7 @@
     </div>
     <div class="duree-activites-index">
       <ul>
-        <% @totaux_activites.each do |nom_activite, total| %>
+        <% @totaux_activites.sort.each do |nom_activite, total| %>
           <% pourcentage = (total*100).fdiv(@total).round(2) %>
           <li>
             <div class="wrapper-recap-temps">
