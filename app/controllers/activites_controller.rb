@@ -50,14 +50,6 @@ class ActivitesController < ApplicationController
     @nom_activites = @activites.map { |activite| activite.nom }.uniq
     @totaux_activites = totaux_activites
 
-    # essai graph
-    # @months = ["01 Jan 2020", "01 Feb 2020", "01 Mar 2020", "01 Apr 2020", "01 May 2020", "01 Jun 2020"]
-    # @donnees = []
-    # @nom_activites.each do |nom|
-    #   data = { @months[0] => rand(1000..2000), @months[1] => rand(1000..2000), @months[2] => rand(1000..2000), @months[3] => rand(1000..2000), @months[4] => rand(1000..2000), @months[5] => rand(1000..2000) }
-    #   @donnees << { name: nom, data: data }
-    # end
-
     @totaux_activites_semaine = Hash.new { |h, k| h[k] = "".to_i }
     @activites_semaine.each do |activite|
       duree = activite.heure_fin - activite.heure_debut
@@ -81,6 +73,31 @@ class ActivitesController < ApplicationController
       @totaux_activites_jour[jours[counter]] = dureedujour
       counter += 1
     end
+
+    # values for the graph
+    @totaux_for_graph = []
+    @activites_noms = @activites.map(&:nom).uniq
+    @activites_noms.each do |nomactivite|
+      @totaux_activites_mois = {}
+      mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+      @totaux_chq_activite_mois = {}
+      counter = 0
+      nbdemoisecoules = DateTime.now.month - DateTime.now.beginning_of_year.month + 1
+      until counter == nbdemoisecoules
+        @activites_mois = Activite.where('date >= ? AND date <= ? AND nom = ?', DateTime.now.beginning_of_year.beginning_of_month + counter.months, DateTime.now.beginning_of_year.end_of_month + counter.months, nomactivite)
+        dureedumois = []
+        @activites_mois.each do |activite|
+          dureeactivite = activite.heure_fin - activite.heure_debut
+          dureedumois << dureeactivite.to_i
+        end
+        dureedumois = dureedumois.sum.to_i / 3600.to_f
+        @totaux_chq_activite_mois[mois[counter]] = dureedumois.round(2)
+        counter += 1
+        @totaux_activites_mois[:name] = nomactivite
+        @totaux_activites_mois[:data] = @totaux_chq_activite_mois
+      end
+      @totaux_for_graph << @totaux_activites_mois
+    end
   end
 
   def edit
@@ -90,7 +107,7 @@ class ActivitesController < ApplicationController
     end
     @activite = Activite.find(params[:id])
     planches = Planche.all
-    @jardins = planches.group_by { |planche| planche.jardin }
+    @jardins = planches.group_by(&:jardin)
   end
 
   def update
