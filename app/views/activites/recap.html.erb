@@ -12,7 +12,7 @@
       <div class="voir-tout-recap">Voir tout</div>
      <% end %>
   </div>
-  <div class="toutes-activites">
+  <div class="toutes-activites toutes-activites-recap">
     <ul>
       <% @sorted_activites_semaine.each do |activite| %>
         <% duree = activite.duree_activite(activite) %>
@@ -108,7 +108,7 @@
       <% end %>
     </ul>
   </div>
-  <div class="bilan-semaine mt-5">
+  <div class="bilan-semaine mt-4">
     <div class="totaux-jour">
       <h2>Temps de travail cette semaine (<%= [@total/3600, @total/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %>)</h2>
       <div class="duree-activites">
