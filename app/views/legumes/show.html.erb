@@ -2,6 +2,9 @@
 <div class="container mt-4">
   <div class="top-title-img">
     <h2><%= @legume.nom %>
+      <% if @legume.famille.present? %>
+        <%= "(#{@legume.famille.downcase})" %>
+      <% end %>
         <%= link_to edit_legume_path(@legume) do %>
           <i class="fas fa-pencil-alt title-show-legume"></i>
         <% end %>
