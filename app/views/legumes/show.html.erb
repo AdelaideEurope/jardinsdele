@@ -36,7 +36,7 @@
         </div>
         <div class="recap-show-middle">
           <div class="recap-titre">% du CA total</div>
-          <div class="recap-donnee"><%= @pourcentagedulegume %> %</div>
+          <div class="recap-donnee"><%= @pourcentagedulegume.nan? ? "0" : @pourcentagedulegume %> %</div>
         </div>
         <div class="recap-show-right-last">
           <div class="recap-titre"></div>
