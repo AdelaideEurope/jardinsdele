@@ -1,0 +1,47 @@
+.cadres-paniers {
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr;
+  grid-gap: 12px;
+}
+
+.cadre-paniers {
+  width: 340px;
+  border: solid 2px $light-green;
+  margin-top: 48px;
+}
+
+.cadre-paniers-pointvente {
+  width: 340px;
+  border: solid 2px $light-green;
+  margin-top: 12px;
+}
+
+.titre-cadre-paniers {
+  text-align: center;
+  font-weight: bold;
+  padding-top: 12px;
+}
+
+
+.detail-paniers {
+  li {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+  }
+  padding: 16px;
+}
+
+.quantite-prix-legume-panier {
+  display: flex;
+  justify-content: space-between;
+  width: 48%;
+}
+
+.vente-paniers {
+  margin-top: 36px;
+}
+
+.total-panier {
+    width: 48%;
+}

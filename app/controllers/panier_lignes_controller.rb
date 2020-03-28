@@ -1,0 +1,2 @@
+class PanierLignesController < ApplicationController
+end

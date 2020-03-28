@@ -1,0 +1,61 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <h2>Les paniers de <%= @pointdevente.nom %></h2>
+  <% @pointdevente.ventes.each do |vente| %>
+    <% if vente.paniers.any? %>
+      <div class="vente-paniers">
+        <%= vente.date.strftime("%d/%m") %>
+        <div class="cadres-paniers">
+          <% vente.paniers.each do |panier| %>
+            <div class="cadre-paniers-pointvente">
+              <div class="titre-cadre-paniers">
+                <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
+              </div>
+              <div class="detail-paniers">
+                <ul>
+                  <% panier.panier_lignes.each do |ligne| %>
+                    <li>
+                      <div class="panier-nom-legume">
+                        <%= ligne.legume.nom %>
+                      </div>
+                      <div class="quantite-prix-legume-panier">
+                        <div class="panier-quantite-legume">
+                          <%= ligne.quantite %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                        </div>
+                        <div class="panier-prix-legume">
+                          <%= ligne.legume.prix_general %> €
+                        </div>
+                      </div>
+                    </li>
+                  <% end %>
+
+                  <hr align = "right" class="total-panier">
+                  <li>
+                    <div class="panier-nom-legume">
+                    </div>
+                    <!-- <div class="quantite-prix-legume-panier">
+                      <div class="panier-quantite-legume">
+                        Total réel :
+                      </div>
+                      <div class="panier-prix-legume">
+                        12 €
+                      </div>
+                    </div> -->
+                    <div class="quantite-prix-legume-panier">
+                      <div class="panier-quantite-legume">
+                        Écart :
+                      </div>
+                      <div class="panier-prix-legume">
+                        <%= 12 - panier.prix_ttc %>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

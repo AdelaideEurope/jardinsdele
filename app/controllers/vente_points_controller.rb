@@ -7,6 +7,12 @@ class VentePointsController < ApplicationController
     @secondhalf = @pointsdevente.length/2
   end
 
+  def show
+    @pointdevente = VentePoint.find(params[:id])
+    @ventes = Vente.all.where(vente_point_id: @pointdevente.id)
+    @paniers = Panier.all.where(vente_id: @ventes.ids)
+  end
+
   def new
     @pointdevente = VentePoint.new
   end

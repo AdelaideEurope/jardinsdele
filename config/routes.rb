@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   resources :commentaires
   resources :ventes do
     resources :vente_lignes
+    resources :paniers do
+      resources :panier_lignes
+    end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

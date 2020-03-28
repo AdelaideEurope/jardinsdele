@@ -1,0 +1,9 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <h2>Vente <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %></h2>
+  </%>
+  Panier <%= @panier.id %>
+  <% @lignesdepanier.each do |ligne| %>
+    <%= ligne.legume.nom %> - <%= ligne.quantite %>
+  <% end %>
+</div>

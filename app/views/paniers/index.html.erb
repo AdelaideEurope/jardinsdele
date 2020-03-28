@@ -1,0 +1,32 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <h2>Paniers de la vente de <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %></h2>
+  <div class="cadres-paniers">
+    <% @paniers.each do |panier| %>
+      <div class="cadre-paniers">
+        <div class="titre-cadre-paniers">
+          <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
+        </div>
+        <div class="detail-paniers">
+          <ul>
+            <% panier.panier_lignes.each do |ligne| %>
+              <li>
+                <div class="panier-nom-legume">
+                  <%= ligne.legume.nom %>
+                </div>
+                <div class="quantite-prix-legume-panier">
+                  <div class="panier-quantite-legume">
+                    <%= ligne.quantite %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                  </div>
+                  <div class="panier-prix-legume">
+                    <%= ligne.legume.prix_general %> €
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
