@@ -40,7 +40,7 @@
                   <% if plantations.any? %>
                     <% plantations.each do |activite| %>
                       <% if activite.legume != nil? %>
-                        <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
+                        <div class="ligne-planche <%= activite.legume.famille.tr("é", "e").downcase %>-bg-color">
                           <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
                         </div>
                       <% else %>
@@ -68,7 +68,7 @@
                 <% if plantations.any? %>
                   <% plantations.each do |activite| %>
                     <% if activite.legume != nil? %>
-                      <div class="ligne-planche <%= activite.legume.legume_css %>-bg-color">
+                      <div class="ligne-planche <%= activite.legume.famille.tr("é", "e").downcase %>-bg-color">
                         <%= planche.nom %> - <%= link_to legume_path(activite.legume) do %> <%= activite.legume.nom %> <% end %>
                       </div>
                     <% else %>

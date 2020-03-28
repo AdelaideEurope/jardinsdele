@@ -3,6 +3,8 @@ class VentePointsController < ApplicationController
     @pointsdevente = VentePoint.all
     @ventes = Vente.all
     @catotal = @ventes.map(&:total_ttc).sum
+    @firsthalf = (@pointsdevente.length/2.to_f).ceil
+    @secondhalf = @pointsdevente.length/2
   end
 
   def new

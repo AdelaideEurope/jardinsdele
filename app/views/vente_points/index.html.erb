@@ -9,8 +9,7 @@
   <div class="liste-pointsdevente">
     <ul class="columns">
       <div class="left-col">
-        <% moitie = @pointsdevente.length.fdiv(2) - 1 %>
-        <% @pointsdevente.sort_by(&:nom)[0..moitie].each do |pointdevente| %>
+        <% @pointsdevente.sort_by(&:nom).first(@firsthalf).each do |pointdevente| %>
           <% capoint = pointdevente.ventes.map {|vente| vente.total_ttc}.sum %>
           <li>
             <div class="wrapper-recap-pointsdevente">
@@ -28,9 +27,7 @@
       </div>
 
       <div class="right-col">
-        <% moitie2 = moitie + 1 %>
-        <% longueurarray = @pointsdevente.length %>
-        <% @pointsdevente.sort_by(&:nom)[moitie2..longueurarray].each do |pointdevente| %>
+        <% @pointsdevente.sort_by(&:nom).last(@secondhalf).each do |pointdevente| %>
           <% capoint = pointdevente.ventes.map {|vente| vente.total_ttc}.sum %>
           <li>
             <div class="wrapper-recap-pointsdevente">
