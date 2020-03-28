@@ -130,6 +130,10 @@
   height: 300px;
 }
 
+.modal-content-planches {
+  height: unset;
+}
+
 .avertissement {
   font-style: italic;
   color: $lighter-green;

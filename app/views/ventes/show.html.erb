@@ -16,18 +16,19 @@
             <div>Montant TTC</div>
           </div>
           <div class="bouton-ajout-ligne">
-          <%= link_to new_vente_vente_ligne_path(@vente) do %>
-            <% image_tag "plus-rond.png", class: "petit-plus-rond" %>
-          <% end %>
-        </div>
+            <%= link_to new_vente_vente_ligne_path(@vente) do %>
+              <% image_tag "plus-rond.png", class: "petit-plus-rond" %>
+            <% end %>
+          </div>
+          <div>
+            <%= image_tag "panier-plus.png", class: "panier-plus" %>
+          </div>
       </li>
       <% @lignesdevente.each do |lignedevente| %>
         <li>
           <div class="wrapper-ligne-vente mt-1">
             <div><%= lignedevente.legume.nom %></div>
             <div></div>
-            <%# puht = lignedevente.prixunitaireht %>
-            <%# puttc = ht_to_ttc(puht) %>
             <div><%= number_with_precision(lignedevente.prixunitaireht, precision: 2) %> €</div>
             <div><%= number_with_precision(lignedevente.prixunitairettc, precision: 2) %> €</div>
             <div>
@@ -38,8 +39,6 @@
               <% end %>
             </div>
             <div><%= lignedevente.legume.unite %></div>
-            <%# ptht = puht * lignedevente.quantite %>
-            <%# ptttc = puttc * lignedevente.quantite %>
             <div><%= number_with_precision(lignedevente.totalht, precision: 2) %> €</div>
             <div><%= number_with_precision(lignedevente.totalttc, precision: 2) %> €</div>
           </div>
