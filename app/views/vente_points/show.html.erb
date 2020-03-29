@@ -1,4 +1,6 @@
 <%= render 'shared/navbar' %>
+<%#= @ventes.group %>
+<%#= line_chart @ventes.group_by_week(:date).count %>
 <% unless @ventes_ac_panier.empty? %>
   <div class="container mt-4 mb-4">
       <h2>Les paniers de <%= @pointdevente.nom %></h2>
