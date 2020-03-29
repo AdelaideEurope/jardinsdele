@@ -10,6 +10,7 @@ class VentePointsController < ApplicationController
   def show
     @pointdevente = VentePoint.find(params[:id])
     @ventes = @pointdevente.ventes
+    @ventes_ac_panier = @ventes.select { |vente| vente.paniers.any? }
     @vente_recente = @pointdevente.ventes.last
     @paniers = Panier.all.where(vente_id: @ventes.ids)
     @ventes_moins_un = @ventes[0...-1]

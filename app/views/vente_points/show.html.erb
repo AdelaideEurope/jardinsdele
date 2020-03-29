@@ -1,69 +1,11 @@
 <%= render 'shared/navbar' %>
-<div class="container mt-4 mb-4">
-  <h2>Les paniers de <%= @pointdevente.nom %></h2>
-    <div class="vente-paniers">
-      <b><%= @vente_recente.date.strftime("%d/%m") %></b>
-      <div class="cadres-paniers">
-        <% @vente_recente.paniers.each do |panier| %>
-          <div class="cadre-paniers-pointvente">
-            <div class="titre-cadre-paniers">
-              <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
-            </div>
-            <div class="detail-paniers">
-              <ul>
-                <% panier.panier_lignes.each do |ligne| %>
-                  <li>
-                    <div class="panier-nom-legume">
-                      <%= ligne.legume.nom %>
-                    </div>
-                    <div class="quantite-prix-legume-panier">
-                      <div class="panier-quantite-legume">
-                        <%= ligne.quantite %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
-                      </div>
-                      <div class="panier-prix-legume">
-                        <%= ligne.legume.prix_general %> €
-                      </div>
-                    </div>
-                  </li>
-                <% end %>
-                <li>
-                  <div class="panier-nom-legume">
-                  </div>
-                  <!-- <div class="quantite-prix-legume-panier">
-                    <div class="panier-quantite-legume">
-                      Total réel :
-                    </div>
-                    <div class="panier-prix-legume">
-                      12 €
-                    </div>
-                  </div> -->
-                  <div class="total-panier">
-                    <div class="panier-quantite-legume">
-                      Écart :
-                    </div>
-                    <div class="panier-prix-legume">
-                      <%= 12 - panier.prix_ttc %>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        <% end %>
-      </div>
-  </div>
-  <div class="anciens-paniers">
-    <button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-      <%= image_tag "ancienspaniers.png", class: "anciens-paniers-img" %>
-    </button>
-  </div>
-  <div class="collapse" id="collapseExample">
-    <% @ventes_moins_un.sort.reverse.each do |vente| %>
-      <% if vente.paniers.any? %>
+<% unless @ventes_ac_panier.empty? %>
+  <div class="container mt-4 mb-4">
+      <h2>Les paniers de <%= @pointdevente.nom %></h2>
         <div class="vente-paniers">
-          <b><%= vente.date.strftime("%d/%m") %></b>
+          <b><%= @vente_recente.date.strftime("%d/%m") %></b>
           <div class="cadres-paniers">
-            <% vente.paniers.each do |panier| %>
+            <% @vente_recente.paniers.each do |panier| %>
               <div class="cadre-paniers-pointvente">
                 <div class="titre-cadre-paniers">
                   <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
@@ -110,8 +52,120 @@
               </div>
             <% end %>
           </div>
+      </div>
+      <% unless @ventes_moins_un.empty? %>
+        <div class="anciens-paniers">
+          <button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <%= image_tag "ancienspaniers.png", class: "anciens-paniers-img" %>
+          </button>
+        </div>
+
+      <div class="collapse" id="collapseExample">
+        <% @ventes_moins_un.sort.reverse.each do |vente| %>
+          <% if vente.paniers.any? %>
+            <div class="vente-paniers">
+              <b><%= vente.date.strftime("%d/%m") %></b>
+              <div class="cadres-paniers">
+                <% vente.paniers.each do |panier| %>
+                  <div class="cadre-paniers-pointvente">
+                    <div class="titre-cadre-paniers">
+                      <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
+                    </div>
+                    <div class="detail-paniers">
+                      <ul>
+                        <% panier.panier_lignes.each do |ligne| %>
+                          <li>
+                            <div class="panier-nom-legume">
+                              <%= ligne.legume.nom %>
+                            </div>
+                            <div class="quantite-prix-legume-panier">
+                              <div class="panier-quantite-legume">
+                                <%= ligne.quantite %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                              </div>
+                              <div class="panier-prix-legume">
+                                <%= ligne.legume.prix_general %> €
+                              </div>
+                            </div>
+                          </li>
+                        <% end %>
+                        <li>
+                          <div class="panier-nom-legume">
+                          </div>
+                          <!-- <div class="quantite-prix-legume-panier">
+                            <div class="panier-quantite-legume">
+                              Total réel :
+                            </div>
+                            <div class="panier-prix-legume">
+                              12 €
+                            </div>
+                          </div> -->
+                          <div class="total-panier">
+                            <div class="panier-quantite-legume">
+                              Écart :
+                            </div>
+                            <div class="panier-prix-legume">
+                              <%= 12 - panier.prix_ttc %>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
         <% end %>
       </div>
+    <div class="separateur-paniers-ventes"></div>
+  </div>
+      <% end %>
+      <% end %>
+  </div>
+<div class="container ventes-pointdevente">
+  <h2>Les ventes de <%= @pointdevente.nom %></h2>
+  <div class="parlieu-liste">
+    <% unless @ventes.empty? %>
+      <ul>
+        <div class="wrapper-ventes-par-pointdevente">
+          <div>Facture</div>
+          <div>Date</div>
+          <div>Total vente</div>
+          <div>Montant réglé</div>
+          <div>Arrondi de vente</div>
+          <div>Reste à percevoir</div>
+        </div>
+          <% montantsregles = [] %>
+          <%# totauxventes = [] %>
+          <% resteapercevoir = [] %>
+        <% @ventes.sort_by(&:date).reverse.each do |vente| %>
+          <li>
+            <div class="wrapper-ventes-par-mois">
+              <div></div>
+              <div><%= vente.date.strftime("%d/%m") %></div>
+              <%# totalvente = vente.vente_lignes.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum %>
+              <%# totauxventes << totalvente %>
+              <div> <%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
+              <% montantregle = rand(0.00..vente.total_ttc+10.00).truncate(2) %>
+              <% montantsregles << montantregle %>
+              <div> <%= montantregle %> €</div>
+              <div><%= rand().truncate(2) %> €</div>
+              <% apercevoir = (vente.total_ttc - montantregle).truncate(2) %>
+              <% resteapercevoir << apercevoir %>
+              <div><%= apercevoir %> €</div>
+            </div>
+          </li>
+        <% end %>
+          <div class="ligne-total">  </div>
+          <div class="wrapper-total-pointdevente">
+          <div></div>
+          <div></div>
+          <div><%= @pointdevente.ventes.map(&:total_ttc).sum %> €</div>
+          <div><%= number_with_precision(montantsregles.sum, precision: 2) %> €</div>
+          <div></div>
+          <div><%= number_with_precision(resteapercevoir.sum, precision: 2) %> €</div>
+        </div>
+      </ul>
     <% end %>
   </div>
 </div>

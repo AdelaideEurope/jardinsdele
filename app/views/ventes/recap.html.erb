@@ -16,7 +16,7 @@
             <div class="image-vente"><%= image_tag "numero#{counter}.png", class: "icone-vente" %>
             </div>
             <div class="wrapper-recap-ventes detail-vente">
-              <div><%= point.nom %></div>
+              <div><%= link_to vente_point_path(point) do %> <%= point.nom %> <% end %> </div>
               <% capoint = point.ventes.map {|vente| vente.total_ttc}.sum %>
               <div><%= number_with_precision(capoint, precision: 2) %> €</div>
               <div><%= (capoint*100).fdiv(@catotal).round(2).nan? ? "0" : (capoint*100).fdiv(@catotal).round(2) %> %</div>
