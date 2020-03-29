@@ -5,13 +5,13 @@
 }
 
 .cadre-paniers {
-  width: 340px;
+  width: 100%;
   border: solid 2px $light-green;
   margin-top: 48px;
 }
 
 .cadre-paniers-pointvente {
-  width: 340px;
+  width: 100%;
   border: solid 2px $light-green;
   margin-top: 12px;
 }
@@ -43,5 +43,22 @@
 }
 
 .total-panier {
-    width: 48%;
+  display: flex;
+  justify-content: space-between;
+  width: 48%;
+  border-top: solid 2px gray;
+  margin-top: 24px;
+  padding-top: 24px;
+}
+
+.panier-new-form {
+  margin-top: 48px;
+}
+
+.anciens-paniers-img {
+  width: 36px;
+}
+
+.anciens-paniers {
+  margin-top: 24px;
 }

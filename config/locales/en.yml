@@ -44,3 +44,9 @@ en:
               blank: "=> requis"
             prix_general:
               blank: "=> requis"
+        panier:
+          attributes:
+            prix_ttc:
+              blank: "=> requis"
+            quantite:
+              blank: "=> requis"

@@ -23,6 +23,11 @@
   height: 48px;
 }
 
+.panier-recap {
+  height: 30px;
+  padding-bottom: 4px;
+}
+
 .wrapper-recap-ventes {
   display: grid;
   grid-template-columns: 13vw 7vw 5vw;
@@ -106,4 +111,23 @@
 
 #parlieu {
   font-size: 14px;
+}
+
+.new-panier-recap {
+  padding: 100px 40px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.bouton-new_vente_modal {
+  text-align: center;
+  padding-top: 24px;
+}
+
+.dropdown-menu {
+  li {
+    list-style: none;
+    width: 220px;
+    padding-left: 8px;
+  }
 }

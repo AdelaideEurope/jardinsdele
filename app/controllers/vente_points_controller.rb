@@ -9,8 +9,10 @@ class VentePointsController < ApplicationController
 
   def show
     @pointdevente = VentePoint.find(params[:id])
-    @ventes = Vente.all.where(vente_point_id: @pointdevente.id)
+    @ventes = @pointdevente.ventes
+    @vente_recente = @pointdevente.ventes.last
     @paniers = Panier.all.where(vente_id: @ventes.ids)
+    @ventes_moins_un = @ventes[0...-1]
   end
 
   def new

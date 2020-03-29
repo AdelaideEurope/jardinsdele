@@ -34,6 +34,12 @@ class VentesController < ApplicationController
     @monthtoday = Date.today.month
     @ventes_mois = @ventes.select { |m| m.date.month == @monthtoday }
     @catotal = @ventes.map(&:total_ttc).sum
+    @paniers = @pointsdevente.map { |pointdevente| pointdevente.panier_ids }.flatten
+    @pointsdevente_panier = @pointsdevente.select { |pointdevente| pointdevente.paniers.any? }
+    @pointsdevente_ac_panier = Hash.new { |h, k| h[k] = "".to_i }
+    @pointsdevente_panier.each do |pointdevente|
+      @pointsdevente_ac_panier[pointdevente.nom] = pointdevente.id
+    end
   end
 
 private
