@@ -9,7 +9,12 @@
       <% end %>
     </div>
     <div>
-        <%= image_tag "panier-plus.png", class: "panier-plus" %>
+      <%= image_tag "panier-plus.png", class: "panier-plus" %>
+    </div>
+    <div>
+      <%= link_to vente_paniers_path(@vente) do %>
+        <% image_tag "composerpanier.png", class: "composer-panier" %>
+      <% end %>
     </div>
   </div>
   <div class="ligne-titre-vente">
@@ -48,22 +53,6 @@
           </div>
         </li>
       <% end %>
-
-      <% @paniers.each do |panier| %>
-        <li>
-          <div class="wrapper-ligne-vente mt-1">
-            <div>Panier à <%= panier.prix_ttc.to_i %> €</div>
-            <div></div>
-            <div></div>
-            <div><%= panier.prix_ttc.to_i %>.00 €</div>
-            <div><%= panier.quantite %></div>
-            <div></div>
-            <div></div>
-            <div><%= panier.prix_ttc.to_i * panier.quantite %>.00 €</div>
-          </div>
-        </li>
-      <% end %>
-
 
       <hr align = "right">
       <li>

@@ -29,24 +29,30 @@
                         </div>
                       </li>
                     <% end %>
+                  </ul>
+                  <div class="add-ligne">
+                    <%= link_to new_vente_panier_panier_ligne_path(@vente_recente, panier) do %>
+                      <% image_tag "plus-rond.png", class: "plus-rond-ligne" %>
+                    <% end %>
+                  </div>
+                  <ul>
                     <li>
-                      <div class="panier-nom-legume">
+                      <div>
                       </div>
-                      <!-- <div class="quantite-prix-legume-panier">
-                        <div class="panier-quantite-legume">
-                          Total réel :
-                        </div>
-                        <div class="panier-prix-legume">
-                          12 €
-                        </div>
-                      </div> -->
                       <div class="total-panier">
                         <div class="panier-quantite-legume">
-                          Écart :
+                          Total :
                         </div>
                         <div class="panier-prix-legume">
-                          <%= 12 - panier.prix_ttc %>
+                          <%= panier.prix_reel_ttc || 0 %>
                         </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div></div>
+                      <div class="ecart-panier">
+                        <div class="panier-quantite-legume">Écart :</div>
+                        <div class="panier-prix-legume"><%= (panier.prix_reel_ttc || 0) - panier.prix_ttc %></div>
                       </div>
                     </li>
                   </ul>
@@ -90,24 +96,25 @@
                             </div>
                           </li>
                         <% end %>
+                      </ul>
+                      <ul>
                         <li>
-                          <div class="panier-nom-legume">
+                          <div>
                           </div>
-                          <!-- <div class="quantite-prix-legume-panier">
-                            <div class="panier-quantite-legume">
-                              Total réel :
-                            </div>
-                            <div class="panier-prix-legume">
-                              12 €
-                            </div>
-                          </div> -->
                           <div class="total-panier">
                             <div class="panier-quantite-legume">
-                              Écart :
+                              Total :
                             </div>
                             <div class="panier-prix-legume">
-                              <%= 12 - panier.prix_ttc %>
+                              <%= panier.prix_reel_ttc || 0 %>
                             </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div></div>
+                          <div class="ecart-panier">
+                            <div class="panier-quantite-legume">Écart :</div>
+                            <div class="panier-prix-legume"><%= (panier.prix_reel_ttc || 0) - panier.prix_ttc %></div>
                           </div>
                         </li>
                       </ul>

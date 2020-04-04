@@ -1,9 +1,24 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
   <h2>Vente <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %></h2>
-  </%>
-  Panier <%= @panier.id %>
-  <% @lignesdepanier.each do |ligne| %>
-    <%= ligne.legume.nom %> - <%= ligne.quantite %>
-  <% end %>
+  <p>Panier à <%= @panier.prix_ttc %> € (<em>panier n° <%= @panier.id %> => info adé</em>)</p>
+  <div class="detail-paniers">
+    <ul>
+      <% @lignesdepanier.each do |ligne| %>
+        <li>
+          <div class="panier-nom-legume">
+            <%= ligne.legume.nom %>
+          </div>
+          <div class="quantite-prix-legume-panier">
+            <div class="panier-quantite-legume">
+              <%= ligne.quantite %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+            </div>
+            <div class="panier-prix-legume">
+              <%= ligne.legume.prix_general %> €
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 </div>

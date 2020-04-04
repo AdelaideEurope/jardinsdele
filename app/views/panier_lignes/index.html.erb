@@ -1,0 +1,6 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4 mb-4">
+  <% @lignes.each do |ligne| %>
+    <%= ligne.legume.nom %> - <%= ligne.quantite %>
+  <% end %>
+</div>

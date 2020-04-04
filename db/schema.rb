@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_04_074022) do
+ActiveRecord::Schema.define(version: 2020_04_04_115125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,7 +91,6 @@ ActiveRecord::Schema.define(version: 2020_04_04_074022) do
   end
 
   create_table "panier_lignes", force: :cascade do |t|
-    t.integer "quantite"
     t.decimal "prixunitaireht"
     t.decimal "prixunitairettc"
     t.decimal "totalht"
@@ -100,6 +99,7 @@ ActiveRecord::Schema.define(version: 2020_04_04_074022) do
     t.bigint "legume_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "quantite"
     t.index ["legume_id"], name: "index_panier_lignes_on_legume_id"
     t.index ["panier_id"], name: "index_panier_lignes_on_panier_id"
   end
@@ -165,7 +165,6 @@ ActiveRecord::Schema.define(version: 2020_04_04_074022) do
   create_table "vente_lignes", force: :cascade do |t|
     t.bigint "vente_id"
     t.bigint "legume_id"
-    t.integer "quantite"
     t.decimal "prixunitaireht"
     t.decimal "prixunitairettc"
     t.decimal "totalht"
@@ -173,6 +172,7 @@ ActiveRecord::Schema.define(version: 2020_04_04_074022) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "planche_id"
+    t.decimal "quantite"
     t.index ["legume_id"], name: "index_vente_lignes_on_legume_id"
     t.index ["planche_id"], name: "index_vente_lignes_on_planche_id"
     t.index ["vente_id"], name: "index_vente_lignes_on_vente_id"

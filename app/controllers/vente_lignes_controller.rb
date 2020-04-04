@@ -7,6 +7,9 @@ class VenteLignesController < ApplicationController
     @vente = Vente.find(params[:vente_id])
     @lignedevente = VenteLigne.new
     @legumes = Legume.all
+    @sorted_legumes = @legumes.sort_by(&:legume_css)
+    @firsthalf = (@sorted_legumes.length/2.to_f).ceil
+    @secondhalf = @sorted_legumes.length/2
     @activites = Activite.all
     planches = Planche.all
     @jardins = planches.group_by(&:jardin)

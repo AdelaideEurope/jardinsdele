@@ -1,0 +1,30 @@
+.new-ligne-form {
+  width: 50%;
+  margin: 0 25%;
+}
+
+.pu-ligne-panier {
+  display: flex;
+}
+
+.prix-ge {
+  display: flex;
+}
+
+.box-recolter {
+  li {
+    list-style: none;
+  }
+  border: solid 2px $light-green;
+  padding: 12px;
+  width: fit-content;
+}
+
+.recolte-img {
+  height: 142px;
+}
+
+.box-recolter {
+  display: flex;
+  margin: 0 0px 0 auto;
+}

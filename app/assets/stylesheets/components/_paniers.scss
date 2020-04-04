@@ -51,6 +51,12 @@
   padding-top: 24px;
 }
 
+.ecart-panier {
+  display: flex;
+  justify-content: space-between;
+  width: 48%;
+}
+
 .panier-new-form {
   margin-top: 48px;
 }
@@ -61,4 +67,13 @@
 
 .anciens-paniers {
   margin-top: 24px;
+}
+
+.plus-rond-ligne {
+  height: 24px;
+}
+
+.add-ligne {
+  display: flex;
+  justify-content: flex-end;
 }

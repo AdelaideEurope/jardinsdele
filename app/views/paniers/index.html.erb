@@ -1,9 +1,27 @@
 <%= render 'shared/navbar' %>
-<div class="container mt-4">
-  <h2>Paniers de la vente de <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %></h2>
+<div class="container mt-4 mb-4">
+    <h2>Paniers de la vente de <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %></h2>
+  <div class="box-recolter">
+    <div>
+      <%= image_tag "recolte.png", class: "recolte-img" %>
+    </div>
+    <div>
+      <h2>À récolter</h2>
+      <ul>
+        <% @arecolter.each do |legume, detail| %>
+        <li>
+          <%= legume %> : <%= detail[:quantite] %> <%= detail[:unite] %>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container mt-4 mb-4">
+
   <div class="cadres-paniers">
     <% @paniers.each do |panier| %>
-      <div class="cadre-paniers">
+      <div class="cadre-paniers-pointvente">
         <div class="titre-cadre-paniers">
           <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
         </div>
@@ -19,14 +37,46 @@
                     <%= ligne.quantite %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                   </div>
                   <div class="panier-prix-legume">
-                    <%= ligne.legume.prix_general %> €
+                    <%= ligne.prixunitairettc %> €
                   </div>
                 </div>
               </li>
             <% end %>
+          </ul>
+          <div class="add-ligne">
+            <%= link_to new_vente_panier_panier_ligne_path(@vente, panier) do %>
+              <% image_tag "plus-rond.png", class: "plus-rond-ligne" %>
+            <% end %>
+          </div>
+          <ul>
+            <li>
+              <div>
+              </div>
+              <div class="total-panier">
+                <div class="panier-quantite-legume">
+                  Total :
+                </div>
+                <div class="panier-prix-legume">
+                  <%= panier.prix_reel_ttc || 0 %> €
+                </div>
+              </div>
+            </li>
+            <li>
+              <div></div>
+              <div class="ecart-panier">
+                <div class="panier-quantite-legume">Écart :</div>
+                <div class="panier-prix-legume"><%= (panier.prix_reel_ttc || 0) - panier.prix_ttc %> €</div>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
     <% end %>
   </div>
 </div>
+<div class="bottom-button fixed-bottom">
+  <%= link_to new_vente_panier_path(@vente) do %>
+  <% image_tag "plus-rond.png", class: "plus-rond" %>
+  <% end %>
+</div>
+

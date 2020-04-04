@@ -38,6 +38,17 @@
               <div class="wrapper-toutes-ventes">
                 <div><%= vente.date.strftime("%d/%m") %></div>
                 <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                <div>
+                  <% if vente.paniers.any? %>
+                    <%= link_to vente_paniers_path(vente) do %>
+                      <%= image_tag "panier.png", alt: "panier", class: "panier-recap" %>
+                    <% end %>
+                  <% else %>
+                    <%= link_to vente_paniers_path(vente) do %>
+                      <%= image_tag "panier-plus-gris.png", alt: "panier", class: "panier-recap" %>
+                    <% end %>
+                  <% end %>
+                </div>
                 <div><%= vente.total_ttc.nil? ? vente.total_ttc.to_i : number_with_precision(vente.total_ttc, precision: 2)%> €</div>
               </div>
             </li>
@@ -68,7 +79,6 @@
             </li>
             <li>
               <div class="wrapper-recap-tout">
-                <%# cemois = Date.today.month %>
                 <div>CA du mois (M<%= @monthtoday %>) </div>
                 <div><%= @ventes_mois.map(&:total_ttc).sum.nil? ? "0.00" : number_with_precision(@ventes_mois.map(&:total_ttc).sum, precision: 2) %> €</div>
               </div>

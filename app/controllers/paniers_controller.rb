@@ -6,8 +6,14 @@ class PaniersController < ApplicationController
   end
 
   def index
-    @paniers = Panier.all
     @vente = Vente.find(params[:vente_id])
+    @paniers = Panier.all.where(vente_id: @vente.id)
+    @lignesdepanier = @vente.panier_lignes
+    @arecolter = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
+    @lignesdepanier.each do |ligne|
+    @arecolter[ligne.legume.nom][:unite] = ligne.legume.unite.pluralize
+    @arecolter[ligne.legume.nom][:quantite] += ligne.quantite
+    end
   end
 
   def new
@@ -25,7 +31,7 @@ class PaniersController < ApplicationController
     @panier = Panier.new(prix_ttc: prix_ttc, quantite: quantite, vente_id: vente_id)
     if @panier.save
       flash[:notice] = "Panier créé avec succès !"
-      redirect_to vente_panier_path(@vente, @panier)
+      redirect_to vente_paniers_path(@vente)
     else
       render :new
     end
