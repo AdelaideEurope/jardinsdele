@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_04_072930) do
+ActiveRecord::Schema.define(version: 2020_04_04_074022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(version: 2020_04_04_072930) do
     t.decimal "prix_ht"
     t.decimal "prix_ttc"
     t.integer "quantite"
+    t.decimal "prix_reel_ttc"
     t.index ["vente_id"], name: "index_paniers_on_vente_id"
   end
 
