@@ -33,7 +33,7 @@
       </div>
       <div class="toutes-ventes">
         <ul>
-          <% @ventes.sort_by(&:date).reverse.first(3).each do |vente| %>
+          <% @ventes.sort_by(&:date).reverse.first(5).each do |vente| %>
             <li>
               <div class="wrapper-toutes-ventes">
                 <div><%= vente.date.strftime("%d/%m") %></div>
@@ -44,7 +44,7 @@
                       <%= image_tag "panier.png", alt: "panier", class: "panier-recap" %>
                     <% end %>
                   <% else %>
-                    <%= link_to vente_paniers_path(vente) do %>
+                    <%= link_to new_vente_panier_path(vente) do %>
                       <%= image_tag "panier-plus-gris.png", alt: "panier", class: "panier-recap" %>
                     <% end %>
                   <% end %>
@@ -63,88 +63,27 @@
     </div>
     <div class="right-col-ventes">
       <h2>Le récap</h2>
-        <div class="toutes-ventes">
-          <ul>
-            <li>
-              <div class="wrapper-recap-tout">
-                <div>Total CA</div>
-                <div><%= @ventes.map(&:total_ttc).sum.nil? ? @ventes.map(&:total_ttc).sum.to_i : number_with_precision(@ventes.map(&:total_ttc).sum, precision: 2) %> €</div>
-              </div>
-            </li>
-            <li>
-              <div class="wrapper-recap-tout">
-                <div>CA de la semaine (S<%= Date.today.strftime("%W").to_i+1 %>)</div>
-                <div><%= @ventes_semaine.empty? ? "0.00" : number_with_precision(@ventes_semaine.map(&:total_ttc).sum, precision: 2) %> €</div>
-              </div>
-            </li>
-            <li>
-              <div class="wrapper-recap-tout">
-                <div>CA du mois (M<%= @monthtoday %>) </div>
-                <div><%= @ventes_mois.map(&:total_ttc).sum.nil? ? "0.00" : number_with_precision(@ventes_mois.map(&:total_ttc).sum, precision: 2) %> €</div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      <div class="titre-recap mt-5">
-        <h2>Les paniers</h2>
-      </div>
       <div class="toutes-ventes">
         <ul>
-          <% @pointsdevente_ac_panier.each do |nom, num| %>
-            <li>
-              <div class="wrapper-recap-tout">
-                <div><%= nom %></div>
-                <div>
-                  <%= link_to vente_point_path(num) do %>
-                    <%= image_tag "panier.png", alt: "panier", class: "panier-recap" %>
-                  <% end %>
-                </div>
-              </div>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-      <!-- Small modal -->
-      <div class="plus-recap">
-        <button type="button" class="btn" data-toggle="modal" data-target=".bd-example-modal-sm"><%= image_tag "plus-rond.png", class: "plus-rond-recap" %>
-        </button>
-      </div>
-      <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <div class="new-panier-recap">
-              <div class="new_vente_modal">
-                Créer une nouvelle vente
-                <div class="bouton-new_vente_modal">
-                  <%= link_to new_vente_path do %>
-                    <% image_tag "plus-rond.png", class: "plus-rond-recap" %>
-                  <% end %>
-                </div>
-              </div>
-              <div class="vente_existante_modal">
-                Ajouter à une vente déjà créée
-                <div class="bouton-new_vente_modal">
-                  <div class="btn-group">
-                    <button type="button" class="btn voir-tout-recap-ventes dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Ventes
-                    </button>
-                    <div class="dropdown-menu">
-                      <ul>
-                        <% @ventes.sort.reverse.each do |vente| %>
-                          <li>
-                            <%= link_to new_vente_panier_path(vente) do %>
-                              <%= vente.date.strftime("%d/%m") %> - <%= vente.vente_point.nom %>
-                            <% end %>
-                          </li>
-                        <% end %>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <li>
+            <div class="wrapper-recap-tout">
+              <div>Total CA</div>
+              <div><%= @ventes.map(&:total_ttc).sum.nil? ? @ventes.map(&:total_ttc).sum.to_i : number_with_precision(@ventes.map(&:total_ttc).sum, precision: 2) %> €</div>
             </div>
-          </div>
-        </div>
+          </li>
+          <li>
+            <div class="wrapper-recap-tout">
+              <div>CA de la semaine (S<%= Date.today.strftime("%W").to_i+1 %>)</div>
+              <div><%= @ventes_semaine.empty? ? "0.00" : number_with_precision(@ventes_semaine.map(&:total_ttc).sum, precision: 2) %> €</div>
+            </div>
+          </li>
+          <li>
+            <div class="wrapper-recap-tout">
+              <div>CA du mois (M<%= @monthtoday %>) </div>
+              <div><%= @ventes_mois.map(&:total_ttc).sum.nil? ? "0.00" : number_with_precision(@ventes_mois.map(&:total_ttc).sum, precision: 2) %> €</div>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

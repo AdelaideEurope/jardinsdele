@@ -20,13 +20,38 @@
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="parsemaine" role="tabpanel" aria-labelledby="parsemaine-tab">
     <div class="parsemaine-liste">
-      <% ventes_semaine = @ventes.group_by { |m| m.date.strftime("%W").to_i + 1} %>
-      <% @week = Date.today.strftime("%W").to_i + 1%>
+      <% unless @ventes_semaine[@week].nil? %>
+        <h3 class="mt-5">Ventes futures</h3>
+        <ul>
+            <% @ventes_futures.each do |vente| %>
+              <li>
+                <div class="wrapper-ventes-par-semaine-futures">
+                  <div><%= vente.date.strftime("%d/%m") %></div>
+                  <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                  <div>
+                    <% if vente.paniers.any? %>
+                      <%= link_to vente_paniers_path(vente) do %>
+                        <%= image_tag "panier.png", alt: "panier", class: "panier-recap" %>
+                      <% end %>
+                    <% else %>
+                      <%= link_to new_vente_panier_path(vente) do %>
+                        <%= image_tag "panier-plus-gris.png", alt: "panier", class: "panier-recap" %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
+                </div>
+              </li>
+            <% end %>
+        </ul>
+      <% end %>
+
+
       <% while @week > 0 %>
-        <% unless ventes_semaine[@week].nil? %>
-          <h3 class="mt-5">S<%= @week %> (<%= number_with_precision(ventes_semaine[@week].map(&:total_ttc).sum, precision: 2) %> €)</h3>
+        <% unless @ventes_semaine[@week].nil? %>
+          <h3 class="mt-5">S<%= @week %> (<%= number_with_precision(@ventes_semaine[@week].map(&:total_ttc).sum, precision: 2) %> €)</h3>
           <ul>
-            <% ventes_semaine[@week].sort_by(&:date).reverse.each do |vente| %>
+            <% @ventes_semaine[@week].sort_by(&:date).reverse.each do |vente| %>
               <li>
                 <div class="wrapper-ventes-par-semaine">
                   <div><%= vente.date.strftime("%d/%m") %></div>

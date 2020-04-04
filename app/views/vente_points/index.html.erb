@@ -31,9 +31,9 @@
           <% capoint = pointdevente.ventes.map {|vente| vente.total_ttc}.sum %>
           <li>
             <div class="wrapper-recap-pointsdevente">
-              <div><%= link_to ventes_path do %> <%= pointdevente.nom %> <% end %> </div>
+              <div><%= link_to vente_point_path(pointdevente) do %> <%= pointdevente.nom %> <% end %> </div>
               <div><%= number_with_precision(capoint, precision: 2) %> €</div>
-              <div><%= (capoint*100).fdiv(@catotal).round(2) %> %</div>
+              <div><%= (capoint*100).fdiv(@catotal).round(2).nan? ? "0" : (capoint*100).fdiv(@catotal).round(2) %> %</div>
               <div>
                 <%= link_to edit_vente_point_path(pointdevente) do %>
                   <i class="fas fa-pencil-alt"></i>

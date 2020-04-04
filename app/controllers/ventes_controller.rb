@@ -2,6 +2,9 @@ class VentesController < ApplicationController
   def index
     @ventes = Vente.all
     @pointsdevente = VentePoint.all
+    @ventes_semaine = @ventes.group_by { |m| m.date.strftime("%W").to_i + 1}
+    @week = Date.today.strftime("%W").to_i + 1
+    @ventes_futures = @ventes.select { |vente| vente.date > Date.today }.sort_by(&:date).reverse
   end
 
   def show
