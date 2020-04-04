@@ -17,10 +17,9 @@
     </div>
   </div>
 </div>
-<div class="container mt-4 mb-4">
-
+<div class="container mt-4">
   <div class="cadres-paniers">
-    <% @paniers.each do |panier| %>
+    <% @paniers.sort_by(&:prix_ttc).each do |panier| %>
       <div class="cadre-paniers-pointvente">
         <div class="titre-cadre-paniers">
           <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
@@ -74,6 +73,7 @@
     <% end %>
   </div>
 </div>
+
 <div class="bottom-button fixed-bottom">
   <%= link_to new_vente_panier_path(@vente) do %>
   <% image_tag "plus-rond.png", class: "plus-rond" %>

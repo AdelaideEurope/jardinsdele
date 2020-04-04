@@ -25,7 +25,7 @@
         <ul>
             <% @ventes_futures.each do |vente| %>
               <li>
-                <div class="wrapper-ventes-par-semaine-futures">
+                <div class="wrapper-ventes-par-semaine">
                   <div><%= vente.date.strftime("%d/%m") %></div>
                   <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
                   <div>
@@ -56,6 +56,13 @@
                 <div class="wrapper-ventes-par-semaine">
                   <div><%= vente.date.strftime("%d/%m") %></div>
                   <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                  <div>
+                    <% if vente.paniers.any? %>
+                      <%= link_to vente_paniers_path(vente) do %>
+                        <%= image_tag "panier.png", alt: "panier", class: "panier-recap" %>
+                      <% end %>
+                    <% end %>
+                  </div>
                   <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
                 </div>
               </li>

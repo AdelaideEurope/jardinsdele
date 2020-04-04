@@ -40,4 +40,14 @@ class PanierLignesController < ApplicationController
       render :new
     end
   end
+
+  def destroy
+    @lignedepanier = PanierLigne.find(params[:id])
+    @panier = @lignedepanier.panier
+    @pointdevente = @panier.vente.vente_point
+    @lignedepanier.destroy
+    @panier.prix_reel_ttc -= (@lignedepanier.quantite * @lignedepanier.prixunitairettc)
+    @panier.save
+    redirect_to vente_point_path(@pointdevente)
+  end
 end

@@ -6,7 +6,7 @@
       <h2>Les paniers de <%= @pointdevente.nom %></h2>
         <div class="vente-paniers">
           <b><%= @vente_recente.date.strftime("%d/%m") %></b>
-          <div class="cadres-paniers">
+          <div class="cadres-paniers-vente-point">
             <% @vente_recente.paniers.each do |panier| %>
               <div class="cadre-paniers-pointvente">
                 <div class="titre-cadre-paniers">
@@ -25,6 +25,11 @@
                           </div>
                           <div class="panier-prix-legume">
                             <%= ligne.legume.prix_general %> €
+                          </div>
+                          <div>
+                            <%= link_to vente_panier_panier_ligne_path(panier.vente, panier, ligne), method: :delete, data: { confirm: "Supprimer ?" }, :class => "delete-cross" do %>
+                              <i class="fas fa-trash"></i>
+                            <% end %>
                           </div>
                         </div>
                       </li>
@@ -73,7 +78,7 @@
           <% if vente.paniers.any? %>
             <div class="vente-paniers">
               <b><%= vente.date.strftime("%d/%m") %></b>
-              <div class="cadres-paniers">
+              <div class="cadres-paniers-vente-point">
                 <% vente.paniers.each do |panier| %>
                   <div class="cadre-paniers-pointvente">
                     <div class="titre-cadre-paniers">

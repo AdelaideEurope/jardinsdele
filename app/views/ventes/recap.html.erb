@@ -43,7 +43,7 @@
                     <%= link_to vente_paniers_path(vente) do %>
                       <%= image_tag "panier.png", alt: "panier", class: "panier-recap" %>
                     <% end %>
-                  <% else %>
+                  <% elsif vente.date >= Date.today %>
                     <%= link_to new_vente_panier_path(vente) do %>
                       <%= image_tag "panier-plus-gris.png", alt: "panier", class: "panier-recap" %>
                     <% end %>
@@ -89,5 +89,26 @@
   </div>
 </div>
 
-
+<div class="container">
+  <div class="mobile-paniers">
+    <h2>Prochains paniers</h2>
+    <div class="toutes-ventes">
+      <ul>
+        <% @ventes_panier.each do |vente| %>
+          <li>
+            <div class="wrapper-toutes-ventes">
+              <div><%= vente.date.strftime("%d/%m") %></div>
+              <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+              <div>
+                <%= link_to vente_paniers_path(vente) do %>
+                  <%= image_tag "panier.png", alt: "panier", class: "panier-recap" %>
+                <% end %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
 

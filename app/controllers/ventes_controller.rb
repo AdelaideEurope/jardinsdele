@@ -2,7 +2,7 @@ class VentesController < ApplicationController
   def index
     @ventes = Vente.all
     @pointsdevente = VentePoint.all
-    @ventes_semaine = @ventes.group_by { |m| m.date.strftime("%W").to_i + 1}
+    @ventes_semaine = @ventes.group_by { |m| m.date.strftime("%W").to_i + 1 }
     @week = Date.today.strftime("%W").to_i + 1
     @ventes_futures = @ventes.select { |vente| vente.date > Date.today }.sort_by(&:date).reverse
   end
@@ -32,17 +32,28 @@ class VentesController < ApplicationController
     @ventes = Vente.all
     @pointsdevente = VentePoint.all
     @lignesdevente = VenteLigne.all
-    @week = Date.today.strftime("%W").to_i+1
+    @week = Date.today.strftime("%W").to_i + 1
     @ventes_semaine = @ventes.select { |m| m.date.strftime("%W").to_i + 1 == @week }
     @monthtoday = Date.today.month
     @ventes_mois = @ventes.select { |m| m.date.month == @monthtoday }
     @catotal = @ventes.map(&:total_ttc).sum
     @paniers = @pointsdevente.map { |pointdevente| pointdevente.panier_ids }.flatten
+    @ventes_panier = @ventes.select { |vente| vente.paniers.any? && vente.date >= Date.today }
     @pointsdevente_panier = @pointsdevente.select { |pointdevente| pointdevente.paniers.any? }
     @pointsdevente_ac_panier = Hash.new { |h, k| h[k] = "".to_i }
     @pointsdevente_panier.each do |pointdevente|
       @pointsdevente_ac_panier[pointdevente.nom] = pointdevente.id
     end
+
+
+    # # @lignesdepanier = @ventes_panier.map(&:panier_lignes)
+    # @arecolter = Hash.new { |arecolter, vente| arecolter[vente] = { legume: { unite: "", quantite: "".to_f } } }
+    # @ventes_panier.each do |vente|
+    #   @legumes
+    #   @arecolter[vente.id][:legume] = vente.legume.nom
+    #   # @arecolter[ligne.legume.nom][:unite] = ligne.legume.unite.pluralize
+    #   # @arecolter[ligne.legume.nom][:quantite] += ligne.quantite
+    # end
   end
 
 private

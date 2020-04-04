@@ -1,139 +1,156 @@
-.sample-ventes {
-  list-style: none;
-  margin-top: 24px;
-  .detail-vente {
-    width: 80%;
+@media(max-width: 2000px) {
+  .sample-ventes {
+    list-style: none;
+    margin-top: 24px;
+    .detail-vente {
+      width: 80%;
+      background: $light-gray;
+      list-style: none;
+      padding-left: 16px;
+      padding-top: 4px;
+      margin-top: 2%;
+      margin-bottom: 2%;
+      padding-right: 16px;
+    }
+    .image-vente {
+      width: 20%;
+    }
+    li {
+      display: flex;
+    }
+  }
+
+  .icone-vente {
+    height: 48px;
+  }
+
+  .panier-recap {
+    height: 30px;
+    padding-bottom: 4px;
+  }
+
+  .wrapper-recap-ventes {
+    display: grid;
+    grid-template-columns: 13vw 7vw 5vw;
+    grid-gap: 10px;
+  }
+
+  .plus-recap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .plus-rond-recap {
+    height: 36px;
+  }
+
+  .titre-recap {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .voir-tout-recap-ventes {
+    border: solid 2px $light-green;
+    border-radius: 24px;
+    padding: 4px 16px;
+  }
+
+  .toutes-ventes {
+    margin-top: 24px;
+    li {
     background: $light-gray;
     list-style: none;
     padding-left: 16px;
     padding-top: 4px;
-    margin-top: 2%;
-    margin-bottom: 2%;
+    margin-bottom: 4px;
+    }
+  }
+
+  .wrapper-toutes-ventes {
+    display: grid;
+    grid-template-columns: 16% 48% 12% 6%;
+    grid-gap: 10px;
+  }
+
+  .wrapper-recap-tout {
+    display: flex;
+    justify-content: space-between;
     padding-right: 16px;
   }
-  .image-vente {
-    width: 20%;
+
+  .wrapper-ventes-par-mois {
+    display: grid;
+    grid-template-columns: 12vw 9vw 12vw 13vw 15vw 12vw;
+    grid-gap: 10px;
   }
-  li {
+
+  .wrapper-ventes-par-semaine {
+    display: grid;
+    grid-template-columns: 8vw 27vw 6vw 4vw;
+    grid-gap: 10px;
+  }
+
+  .wrapper-ventes-par-pointdevente {
+    display: grid;
+    grid-template-columns: 12vw 9vw 12vw 13vw 15vw 12vw;
+    grid-gap: 10px;
+    background-color: $light-gray;
+    margin-bottom: 1%;
+    padding-left: 16px;
+    font-weight: 500;
+  }
+
+  .wrapper-total-pointdevente {
+    display: grid;
+    grid-template-columns: 12vw 9vw 12vw 13vw 15vw 12vw;
+    grid-gap: 10px;
+    margin-bottom: 2%;
+    margin-top: 2%;
+    padding-left: 16px;
+    font-weight: 500;
+  }
+
+  #parlieu {
+    font-size: 14px;
+  }
+
+  .new-panier-recap {
+    padding: 100px 40px;
     display: flex;
+    justify-content: space-around;
+  }
+
+  .bouton-new_vente_modal {
+    text-align: center;
+    padding-top: 24px;
+  }
+
+  .dropdown-menu {
+    li {
+      list-style: none;
+      width: 220px;
+      padding-left: 8px;
+    }
+  }
+
+  .mobile-paniers {
+    display: none;
   }
 }
 
-.icone-vente {
-  height: 48px;
-}
 
-.panier-recap {
-  height: 30px;
-  padding-bottom: 4px;
-}
-
-.wrapper-recap-ventes {
-  display: grid;
-  grid-template-columns: 13vw 7vw 5vw;
-  grid-gap: 10px;
-}
-
-.plus-recap {
-  display: flex;
-  justify-content: center;
-}
-
-.plus-rond-recap {
-  height: 36px;
-}
-
-.titre-recap {
-  display: flex;
-  justify-content: space-between;
-}
-
-.voir-tout-recap-ventes {
-  border: solid 2px $light-green;
-  border-radius: 24px;
-  padding: 4px 16px;
-}
-
-.toutes-ventes {
-  margin-top: 24px;
-  li {
-  background: $light-gray;
-  list-style: none;
-  padding-left: 16px;
-  padding-top: 4px;
-  margin-bottom: 4px;
+@media(max-width: 720px) {
+  .columns {
+    display: none;
   }
-}
 
-.wrapper-toutes-ventes {
-  display: grid;
-  grid-template-columns: 16% 46% 12% 6%;
-  grid-gap: 10px;
-}
+  .wrapper-toutes-ventes {
+    display: grid;
+    grid-template-columns: 16% 60% 12%;
+    grid-gap: 10px;
+  }
 
-.wrapper-recap-tout {
-  display: flex;
-  justify-content: space-between;
-  padding-right: 16px;
-}
-
-.wrapper-ventes-par-mois {
-  display: grid;
-  grid-template-columns: 12vw 9vw 12vw 13vw 15vw 12vw;
-  grid-gap: 10px;
-}
-
-.wrapper-ventes-par-semaine {
-  display: grid;
-  grid-template-columns: 8vw 33vw 12vw;
-  grid-gap: 10px;
-}
-
-.wrapper-ventes-par-semaine-futures {
-  display: grid;
-  grid-template-columns: 8vw 27vw 6vw 4vw;
-  grid-gap: 10px;
-}
-
-.wrapper-ventes-par-pointdevente {
-  display: grid;
-  grid-template-columns: 12vw 9vw 12vw 13vw 15vw 12vw;
-  grid-gap: 10px;
-  background-color: $light-gray;
-  margin-bottom: 1%;
-  padding-left: 16px;
-  font-weight: 500;
-}
-
-.wrapper-total-pointdevente {
-  display: grid;
-  grid-template-columns: 12vw 9vw 12vw 13vw 15vw 12vw;
-  grid-gap: 10px;
-  margin-bottom: 2%;
-  margin-top: 2%;
-  padding-left: 16px;
-  font-weight: 500;
-}
-
-#parlieu {
-  font-size: 14px;
-}
-
-.new-panier-recap {
-  padding: 100px 40px;
-  display: flex;
-  justify-content: space-around;
-}
-
-.bouton-new_vente_modal {
-  text-align: center;
-  padding-top: 24px;
-}
-
-.dropdown-menu {
-  li {
-    list-style: none;
-    width: 220px;
-    padding-left: 8px;
+  .mobile-paniers {
+    display: unset;
   }
 }

@@ -1,8 +1,8 @@
 class PaniersController < ApplicationController
   def show
+    @vente = Vente.find(params[:vente_id])
     @panier = Panier.find(params[:id])
     @lignesdepanier = PanierLigne.all.where(panier_id: @panier.id)
-    @vente = @panier.vente
   end
 
   def index
@@ -11,8 +11,8 @@ class PaniersController < ApplicationController
     @lignesdepanier = @vente.panier_lignes
     @arecolter = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
     @lignesdepanier.each do |ligne|
-    @arecolter[ligne.legume.nom][:unite] = ligne.legume.unite.pluralize
-    @arecolter[ligne.legume.nom][:quantite] += ligne.quantite
+      @arecolter[ligne.legume.nom][:unite] = ligne.legume.unite.pluralize
+      @arecolter[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
     end
   end
 

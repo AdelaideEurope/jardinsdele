@@ -16,15 +16,13 @@
     list-style: none;
   }
   border: solid 2px $light-green;
-  padding: 12px;
+  padding: 24px 24px 12px 12px;
   width: fit-content;
+  border-radius: 8px;
+  display: flex;
+  margin: 0 0px 0 auto;
 }
 
 .recolte-img {
   height: 142px;
-}
-
-.box-recolter {
-  display: flex;
-  margin: 0 0px 0 auto;
 }
