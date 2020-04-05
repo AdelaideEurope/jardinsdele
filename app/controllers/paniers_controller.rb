@@ -16,7 +16,7 @@ class PaniersController < ApplicationController
     end
     @ventes = @vente.vente_point.ventes
     @ventes_panier = @ventes.select { |vente| vente.paniers.any? }
-    @ventes_moins_un = @ventes_panier[0...-1]
+    @ventes_moins_un = @ventes_panier.select { |vente| vente.date < @vente.date }
   end
 
   def new

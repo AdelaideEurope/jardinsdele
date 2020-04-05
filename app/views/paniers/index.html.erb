@@ -24,8 +24,10 @@
         <div class="cadre-paniers-pointvente">
           <div class="titre-cadre-paniers">
             <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
-            <%= link_to edit_vente_panier_path(@vente, panier) do %>
-              <i class="fas fa-pencil-alt"></i>
+            <% if panier.vente.date >= Date.yesterday %>
+              <%= link_to edit_vente_panier_path(@vente, panier) do %>
+                <i class="fas fa-pencil-alt"></i>
+              <% end %>
             <% end %>
           </div>
           <div class="detail-paniers">
@@ -42,25 +44,29 @@
                     <div class="panier-prix-legume">
                       <%= ligne.prixunitairettc %> €
                     </div>
-                    <div>
-                      <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete, data: { confirm: "Supprimer ?" }, :class => "delete-cross" do %>
-                        <i class="fas fa-trash"></i>
-                      <% end %>
-                    </div>
-                    <div>
-                      <%= link_to edit_vente_panier_panier_ligne_path(@vente, panier, ligne) do %>
-                        <i class="fas fa-pencil-alt"></i>
-                      <% end %>
-                    </div>
+                    <% if panier.vente.date >= Date.yesterday %>
+                      <div>
+                        <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete, data: { confirm: "Supprimer ?" }, :class => "delete-cross" do %>
+                          <i class="fas fa-trash"></i>
+                        <% end %>
+                      </div>
+                      <div>
+                        <%= link_to edit_vente_panier_panier_ligne_path(@vente, panier, ligne) do %>
+                          <i class="fas fa-pencil-alt"></i>
+                        <% end %>
+                      </div>
+                    <% end %>
                   </div>
                 </li>
               <% end %>
             </ul>
-            <div class="add-ligne">
-              <%= link_to new_vente_panier_panier_ligne_path(@vente, panier) do %>
-                <% image_tag "plus-rond.png", class: "plus-rond-ligne" %>
-              <% end %>
-            </div>
+            <% if panier.vente.date >= Date.yesterday %>
+              <div class="add-ligne">
+                <%= link_to new_vente_panier_panier_ligne_path(@vente, panier) do %>
+                  <% image_tag "plus-rond.png", class: "plus-rond-ligne" %>
+                <% end %>
+              </div>
+            <% end %>
             <ul>
               <li>
                 <div>

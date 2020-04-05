@@ -126,7 +126,7 @@
           <div class="wrapper-total-pointdevente">
           <div></div>
           <div></div>
-          <div><%= @pointdevente.ventes.map(&:total_ttc).sum %> €</div>
+          <div><%= number_with_precision(@pointdevente.ventes.map(&:total_ttc).sum, precision: 2) %> €</div>
           <div><%= number_with_precision(montantsregles.sum, precision: 2) %> €</div>
           <div></div>
           <div><%= number_with_precision(resteapercevoir.sum, precision: 2) %> €</div>

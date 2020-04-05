@@ -46,7 +46,7 @@
     </ul>
   </div>
 <%= line_chart @pointsdevente.map { |pointdevente|
-    {name: pointdevente.nom, data: pointdevente.ventes.group_by_month(:date, format: "%m").sum(:total_ttc), colors: ["#585563", "#A1BD7F", "#5B2E48"]}
+    {name: pointdevente.nom, data: pointdevente.ventes.group_by_month(:date).sum(:total_ttc), colors: ["#585563", "#A1BD7F", "#5B2E48"] }
 } %>
 </div>
 
