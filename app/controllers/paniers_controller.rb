@@ -14,6 +14,9 @@ class PaniersController < ApplicationController
       @arecolter[ligne.legume.nom][:unite] = ligne.legume.unite.pluralize
       @arecolter[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
     end
+    @ventes = @vente.vente_point.ventes
+    @ventes_panier = @ventes.select { |vente| vente.paniers.any? }
+    @ventes_moins_un = @ventes_panier[0...-1]
   end
 
   def new
@@ -36,4 +39,29 @@ class PaniersController < ApplicationController
       render :new
     end
   end
+
+  def edit
+    @vente = Vente.find(params[:vente_id])
+    @pointdevente = @vente.vente_point
+    @panier = Panier.find(params[:id])
+  end
+
+  def update
+    @vente = Vente.find(params[:vente_id])
+    @pointdevente = @vente.vente_point
+    @panier = Panier.find(params[:id])
+    if @panier.update(panier_params)
+      flash[:notice] = "Panier modifié avec succès !"
+      redirect_to vente_paniers_path(@vente)
+    else
+      render :edit
+    end
+  end
+
+private
+
+  def panier_params
+    params.require(:panier).permit(:prix_ttc, :quantite, :vente_id)
+  end
+
 end

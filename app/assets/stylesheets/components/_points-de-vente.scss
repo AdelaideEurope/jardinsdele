@@ -51,6 +51,42 @@
   margin-top: 32px;
 }
 
+.separateur-ventes-index {
+  height: 12px;
+  border-top: solid 2px $light-green;
+  width: 50%;
+  margin: -8% auto 0 auto;
+}
+
 .ventes-pointdevente {
   margin-top: 36px;
+}
+
+.infos-point-de-vente {
+  border: solid 2px $light-green;
+  border-radius: 8px;
+  width: 30%;
+  margin: 36px auto;
+  padding: 16px;
+}
+
+.vente-paniers {
+  padding-left: 8%;
+}
+
+.nouvelle-vente-item {
+  width: 40%;
+}
+
+.adresse-point-de-vente {
+  padding-left: 8%;
+}
+
+.fa-envelope {
+  margin-right: 8px;
+}
+
+
+.graphs-pv {
+  margin-bottom: 200px;
 }

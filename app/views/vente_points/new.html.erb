@@ -1,14 +1,22 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
   <h2 class="mb-5">Nouveau point de vente</h2>
-  <div class="nouvelle-vente">
-    <%= simple_form_for @pointdevente do |f| %>
-      <%= f.input :nom, :label => "NOM" %>
-      <%= f.input :categorie, collection: ["Point de retrait", "Magasin", "AMAP", "Restaurant", "Divers"], :label => "CATÉGORIE" %>
+  <%= simple_form_for @pointdevente do |f| %>
+    <div class="nouvelle-vente">
+      <div class="nouvelle-vente-item">
+        <%= f.input :nom, :label => "NOM" %>
+        <%= f.input :categorie, collection: ["Point de retrait", "Magasin", "AMAP", "Restaurant", "Divers"], :label => "CATÉGORIE" %>
+        <%= f.input :email, :label => "EMAIL" %>
+      </div>
+      <div class="nouvelle-vente-item">
+        <%= f.input :adresse, :label => "ADRESSE" %>
+        <%= f.input :code_postal, :label => "CODE POSTAL" %>
+        <%= f.input :ville, :label => "VILLE" %>
+      </div>
       <div class="bottom-button fixed-bottom">
         <%= f.submit  " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond" %>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>
 

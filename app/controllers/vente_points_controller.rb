@@ -47,7 +47,7 @@ class VentePointsController < ApplicationController
 private
 
   def pointdevente_params
-    params.require(:vente_point).permit(:nom, :categorie, :total_ht, :total_ttc)
+    params.require(:vente_point).permit(:nom, :categorie, :total_ht, :total_ttc, :adresse, :ville, :code_postal, :email)
   end
 
 end

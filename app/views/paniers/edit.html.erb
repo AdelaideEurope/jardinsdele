@@ -1,0 +1,18 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <h2>Modifier le panier</h2>
+  Vente à <%= @pointdevente.nom %> du <%= @vente.date.strftime("%d/%m") %>
+</div>
+
+<%= simple_form_for [@vente, @panier] do |f| %>
+  <div class="flex-container panier-new-form">
+    <div class="flex-item">
+      <%= f.input :prix_ttc, :label => "PRIX", required: true %>
+      <%= f.input :quantite, :label => "QUANTITE", required: true %>
+    </div>
+  </div>
+</div>
+<div class="bottom-button fixed-bottom">
+  <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond" %>
+  <% end %>
+</div>

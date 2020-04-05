@@ -41,6 +41,38 @@ class PanierLignesController < ApplicationController
     end
   end
 
+  def edit
+    @lignedepanier = PanierLigne.find(params[:id])
+    @panier = Panier.find(params[:panier_id])
+    @vente = Vente.find(params[:vente_id])
+    @pointdevente = @vente.vente_point
+    @legumes = Legume.all
+    @sorted_legumes = @legumes.sort_by(&:legume_css)
+    @firsthalf = (@sorted_legumes.length/2.to_f).ceil
+    @secondhalf = @sorted_legumes.length/2
+    @panier.prix_reel_ttc -= (@lignedepanier.quantite * @lignedepanier.prixunitairettc)
+    @panier.save
+  end
+
+  def update
+    @vente = Vente.find(params[:vente_id])
+    @panier = Panier.find(params[:panier_id])
+    @pointdevente = @vente.vente_point
+    panier_id = params[:panier_id]
+    prixunitairettc = params[:panier_ligne][:prixunitairettc]
+    quantite = params[:panier_ligne][:quantite]
+    legume = params[:panier_ligne][:legume_id]
+    @lignedepanier = PanierLigne.find(params[:id])
+    if @lignedepanier.update(prixunitairettc: prixunitairettc, quantite: quantite, panier_id: panier_id, legume_id: legume)
+      @panier.prix_reel_ttc += (@lignedepanier.quantite * @lignedepanier.prixunitairettc)
+      @panier.save
+      flash[:notice] = "Ligne modifiée avec succès !"
+      redirect_to vente_paniers_path(@vente)
+    else
+      render :edit
+    end
+  end
+
   def destroy
     @lignedepanier = PanierLigne.find(params[:id])
     @panier = @lignedepanier.panier
@@ -48,6 +80,6 @@ class PanierLignesController < ApplicationController
     @lignedepanier.destroy
     @panier.prix_reel_ttc -= (@lignedepanier.quantite * @lignedepanier.prixunitairettc)
     @panier.save
-    redirect_to vente_point_path(@pointdevente)
+    redirect_to vente_paniers_path(@panier.vente)
   end
 end

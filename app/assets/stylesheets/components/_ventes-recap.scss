@@ -26,7 +26,7 @@
 
   .panier-recap {
     height: 30px;
-    padding-bottom: 4px;
+    padding-bottom: 8px;
   }
 
   .wrapper-recap-ventes {
@@ -61,8 +61,9 @@
     background: $light-gray;
     list-style: none;
     padding-left: 16px;
-    padding-top: 4px;
+    padding-top: 8px;
     margin-bottom: 4px;
+    height: 36px;
     }
   }
 
@@ -86,7 +87,7 @@
 
   .wrapper-ventes-par-semaine {
     display: grid;
-    grid-template-columns: 8vw 27vw 6vw 4vw;
+    grid-template-columns: 8vw 27vw 5vw 4vw;
     grid-gap: 10px;
   }
 

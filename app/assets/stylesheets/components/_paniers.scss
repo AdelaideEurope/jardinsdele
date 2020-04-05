@@ -2,7 +2,6 @@
   display: grid;
   grid-template-columns: 2fr 2fr 2fr;
   grid-gap: 12px;
-  margin-bottom: 200px;
 }
 
 .cadres-paniers-vente-point {
@@ -42,12 +41,9 @@
 .quantite-prix-legume-panier {
   display: flex;
   justify-content: space-between;
-  width: 48%;
+  width: 80%;
 }
 
-.vente-paniers {
-  margin-top: 36px;
-}
 
 .total-panier {
   display: flex;
@@ -83,4 +79,32 @@
 .add-ligne {
   display: flex;
   justify-content: flex-end;
+}
+
+.panier-nom-legume {
+  width: 50%;
+}
+
+
+.tous-paniers-index {
+  margin-bottom: 200px;
+}
+
+.wrapper-paniers-index {
+  display: grid;
+  grid-template-columns: 8fr 6fr 0.2fr 0.2fr;
+  grid-gap: 8px;
+  text-align: end;
+}
+
+.toutes-dates-paniers {
+  margin-top: 36px;
+}
+
+.fa-search {
+  margin-left: 8px;
+}
+
+.vente-paniers-index-paniers {
+  margin-top: 36px;
 }

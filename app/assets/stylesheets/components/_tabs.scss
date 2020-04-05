@@ -27,7 +27,7 @@
 }
 
 .tab-content {
-  .parsemaine-liste {
+  .parsemaine-liste, .parmois-liste {
     width: 50%;
     margin: 2% 25%;
   }
@@ -47,7 +47,7 @@
 
 
 
-.parsemaine-liste, .actions-liste {
+.parsemaine-liste, .actions-liste, .parmois-liste {
   li {
     background: $light-gray;
     list-style: none;
@@ -56,6 +56,8 @@
     display: flex;
     justify-content: unset;
     padding-right: 16px;
+    padding-top: 8px;
+    height: 36px;
   }
 }
 

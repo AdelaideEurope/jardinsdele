@@ -85,9 +85,14 @@
           </li>
         </ul>
       </div>
+      <%= pie_chart @pointsdevente.group(:categorie).sum(:total_ttc), colors: ["#585563", "#A1BD7F", "#5B2E48"] %>
+
+      <%= @totaux_for_graph %>
     </div>
   </div>
 </div>
+
+
 
 <div class="container">
   <div class="mobile-paniers">

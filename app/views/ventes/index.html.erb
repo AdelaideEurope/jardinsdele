@@ -10,41 +10,39 @@
 
 <ul class="nav nav-pills justify-content-center mt-3" id="myTab" role="tablist">
   <li class="nav-item nav-item-show">
-    <a class="nav-link active mr-3" id="parsemaine-tab" data-toggle="tab" href="#parsemaine" role="tab" aria-controls="parsemaine" aria-selected="false">Par semaine</a>
+    <a class="nav-link active mr-3" id="parmois-tab" data-toggle="tab" href="#parmois" role="tab" aria-controls="parmois" aria-selected="false">Par mois</a>
   </li>
   <li class="nav-item nav-item-show">
-    <a class="nav-link ml-3" id="parlieu-tab" data-toggle="tab" href="#parlieu" role="tab" aria-controls="parlieu" aria-selected="false">Par lieu</a>
+    <a class="nav-link ml-3" id="parsemaine-tab" data-toggle="tab" href="#parsemaine" role="tab" aria-controls="parsemaine" aria-selected="false">Par semaine</a>
   </li>
 </ul>
 
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="parsemaine" role="tabpanel" aria-labelledby="parsemaine-tab">
+  <div class="tab-pane fade" id="parsemaine" role="tabpanel" aria-labelledby="parsemaine-tab">
     <div class="parsemaine-liste">
-      <% unless @ventes_semaine[@week].nil? %>
-        <h3 class="mt-5">Ventes futures</h3>
-        <ul>
-            <% @ventes_futures.each do |vente| %>
-              <li>
-                <div class="wrapper-ventes-par-semaine">
-                  <div><%= vente.date.strftime("%d/%m") %></div>
-                  <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
-                  <div>
-                    <% if vente.paniers.any? %>
-                      <%= link_to vente_paniers_path(vente) do %>
-                        <%= image_tag "panier.png", alt: "panier", class: "panier-recap" %>
-                      <% end %>
-                    <% else %>
-                      <%= link_to new_vente_panier_path(vente) do %>
-                        <%= image_tag "panier-plus-gris.png", alt: "panier", class: "panier-recap" %>
-                      <% end %>
+      <h3 class="mt-5">Ventes futures</h3>
+      <ul>
+          <% @ventes_futures.each do |vente| %>
+            <li>
+              <div class="wrapper-ventes-par-semaine">
+                <div><%= vente.date.strftime("%d/%m") %></div>
+                <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                <div>
+                  <% if vente.paniers.any? %>
+                    <%= link_to vente_paniers_path(vente) do %>
+                      <%= image_tag "panier.png", alt: "panier", class: "panier-recap" %>
                     <% end %>
-                  </div>
-                  <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
+                  <% else %>
+                    <%= link_to new_vente_panier_path(vente) do %>
+                      <%= image_tag "panier-plus-gris.png", alt: "panier", class: "panier-recap" %>
+                    <% end %>
+                  <% end %>
                 </div>
-              </li>
-            <% end %>
-        </ul>
-      <% end %>
+                <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
+              </div>
+            </li>
+          <% end %>
+      </ul>
 
 
       <% while @week > 0 %>
@@ -73,53 +71,58 @@
       <% end %>
     </div>
   </div>
-  <div class="tab-pane fade" id="parlieu" role="tabpanel" aria-labelledby="parlieu-tab">
-    <div class="parlieu-liste">
-      <% @pointsdevente.each do |pointdevente| %>
-        <% unless pointdevente.ventes(&:date).empty? %>
-          <h3 class="mt-5"><%= pointdevente.nom %></h3>
-            <ul>
-              <div class="wrapper-ventes-par-pointdevente">
-                <div>Facture</div>
-                <div>Date</div>
-                <div>Total vente</div>
-                <div>Montant réglé</div>
-                <div>Arrondi de vente</div>
-                <div>Reste à percevoir</div>
+  <div class="tab-pane fade show active" id="parmois" role="tabpanel" aria-labelledby="parmois-tab">
+    <%= column_chart @ventes.group_by_month(:date, format: "%m").sum(:total_ttc), colors: ["#A1BD7F"] %>
+    <div class="separateur-ventes-index"></div>
+    <div class="parmois-liste">
+      <h3 class="mt-5">Ventes futures</h3>
+      <ul>
+          <% @ventes_futures.each do |vente| %>
+            <li>
+              <div class="wrapper-ventes-par-semaine">
+                <div><%= vente.date.strftime("%d/%m") %></div>
+                <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                <div>
+                  <% if vente.paniers.any? %>
+                    <%= link_to vente_paniers_path(vente) do %>
+                      <%= image_tag "panier.png", alt: "panier", class: "panier-recap" %>
+                    <% end %>
+                  <% else %>
+                    <%= link_to new_vente_panier_path(vente) do %>
+                      <%= image_tag "panier-plus-gris.png", alt: "panier", class: "panier-recap" %>
+                    <% end %>
+                  <% end %>
+                </div>
+                <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
               </div>
-                <% montantsregles = [] %>
-                <%# totauxventes = [] %>
-                <% resteapercevoir = [] %>
-              <% pointdevente.ventes.sort_by(&:date).reverse.each do |vente| %>
-                <li>
-                  <div class="wrapper-ventes-par-mois">
-                    <div></div>
-                    <div><%= vente.date.strftime("%d/%m") %></div>
-                    <%# totalvente = vente.vente_lignes.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum %>
-                    <%# totauxventes << totalvente %>
-                    <div> <%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
-                    <% montantregle = rand(0.00..vente.total_ttc+10.00).truncate(2) %>
-                    <% montantsregles << montantregle %>
-                    <div> <%= montantregle %> €</div>
-                    <div><%= rand().truncate(2) %> €</div>
-                    <% apercevoir = (vente.total_ttc - montantregle).truncate(2) %>
-                    <% resteapercevoir << apercevoir %>
-                    <div><%= apercevoir %> €</div>
-                  </div>
-                </li>
-              <% end %>
-                <div class="ligne-total">  </div>
-                <div class="wrapper-total-pointdevente">
-                <div></div>
-                <div></div>
-                <div><%= pointdevente.ventes.map(&:total_ttc).sum %> €</div>
-                <div><%= number_with_precision(montantsregles.sum, precision: 2) %> €</div>
-                <div></div>
-                <div><%= number_with_precision(resteapercevoir.sum, precision: 2) %> €</div>
-              </div>
-            </ul>
+            </li>
           <% end %>
+      </ul>
+
+      <% while @month > 0 %>
+        <% unless @ventes_mois[@month].nil? %>
+          <h3 class="mt-5">M<%= @month %> (<%= number_with_precision(@ventes_mois[@month].map(&:total_ttc).sum, precision: 2) %> €)</h3>
+          <ul>
+            <% @ventes_mois[@month].sort_by(&:date).reverse.each do |vente| %>
+              <li>
+                <div class="wrapper-ventes-par-semaine">
+                  <div><%= vente.date.strftime("%d/%m") %></div>
+                  <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                  <div>
+                    <% if vente.paniers.any? %>
+                      <%= link_to vente_paniers_path(vente) do %>
+                        <%= image_tag "panier.png", alt: "panier", class: "panier-recap" %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
         <% end %>
+        <% @month -= 1 %>
+      <% end %>
     </div>
   </div>
 </div>

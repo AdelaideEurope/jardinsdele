@@ -3,8 +3,10 @@ class VentesController < ApplicationController
     @ventes = Vente.all
     @pointsdevente = VentePoint.all
     @ventes_semaine = @ventes.group_by { |m| m.date.strftime("%W").to_i + 1 }
+    @ventes_mois = @ventes.group_by { |m| m.date.month }
     @week = Date.today.strftime("%W").to_i + 1
     @ventes_futures = @ventes.select { |vente| vente.date > Date.today }.sort_by(&:date).reverse
+    @month = Date.today.month
   end
 
   def show
@@ -44,6 +46,7 @@ class VentesController < ApplicationController
     @pointsdevente_panier.each do |pointdevente|
       @pointsdevente_ac_panier[pointdevente.nom] = pointdevente.id
     end
+
 
 
     # # @lignesdepanier = @ventes_panier.map(&:panier_lignes)
