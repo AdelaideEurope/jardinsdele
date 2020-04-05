@@ -74,10 +74,10 @@
     </div>
   </div>
   <div class="tab-pane fade show active" id="parmois" role="tabpanel" aria-labelledby="parmois-tab">
-    <%= column_chart @ventes.group_by_month(:date, format: "%m").sum(:total_ttc), colors: ["#A1BD7F"] %>
-    <div class="separateur-ventes-index"></div>
-    <div class="parmois-liste">
-      <% unless @ventes_futures.empty? %>
+    <% unless @ventes_futures.empty? %>
+      <%= column_chart @ventes.group_by_month(:date, format: "%m").sum(:total_ttc), colors: ["#A1BD7F"] %>
+      <div class="separateur-ventes-index"></div>
+      <div class="parmois-liste">
         <h3 class="mt-5">Ventes futures</h3>
         <ul>
             <% @ventes_futures.each do |vente| %>
