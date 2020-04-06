@@ -44,7 +44,7 @@
                     <div class="panier-prix-legume">
                       <%= ligne.prixunitairettc %> €
                     </div>
-                    <% if panier.vente.date >= Date.yesterday %>
+                    <% if panier.vente.date > Date.yesterday %>
                       <div>
                         <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete, data: { confirm: "Supprimer ?" }, :class => "delete-cross" do %>
                           <i class="fas fa-trash"></i>
@@ -60,13 +60,11 @@
                 </li>
               <% end %>
             </ul>
-            <% if panier.vente.date >= Date.yesterday %>
-              <div class="add-ligne">
-                <%= link_to new_vente_panier_panier_ligne_path(@vente, panier) do %>
-                  <% image_tag "plus-rond.png", class: "plus-rond-ligne" %>
-                <% end %>
-              </div>
-            <% end %>
+            <div class="add-ligne">
+              <%= link_to new_vente_panier_panier_ligne_path(@vente, panier) do %>
+                <% image_tag "plus-rond.png", class: "plus-rond-ligne" %>
+              <% end %>
+            </div>
             <ul>
               <li>
                 <div>
@@ -89,6 +87,13 @@
               </li>
             </ul>
           </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="cadres-paniers">
+      <% @paniers.sort_by(&:prix_ttc).each do |panier| %>
+        <div class="valider-panier">
+          <%= image_tag "check-rond.png", class: "valider-panier-img" %>
         </div>
       <% end %>
     </div>

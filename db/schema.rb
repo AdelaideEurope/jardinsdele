@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_05_094203) do
+ActiveRecord::Schema.define(version: 2020_04_06_135143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 2020_04_05_094203) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "quantite"
+    t.string "unite"
     t.index ["legume_id"], name: "index_panier_lignes_on_legume_id"
     t.index ["panier_id"], name: "index_panier_lignes_on_panier_id"
   end
@@ -112,6 +113,7 @@ ActiveRecord::Schema.define(version: 2020_04_05_094203) do
     t.decimal "prix_ttc"
     t.integer "quantite"
     t.decimal "prix_reel_ttc"
+    t.boolean "valide", default: false
     t.index ["vente_id"], name: "index_paniers_on_vente_id"
   end
 

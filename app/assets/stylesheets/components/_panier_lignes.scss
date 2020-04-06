@@ -8,7 +8,8 @@
 }
 
 .prix-ge {
-  display: flex;
+  display: grid;
+  grid-template-columns: 16vw 8vw 8vw;
 }
 
 .box-recolter {
@@ -25,4 +26,20 @@
 
 .recolte-img {
   height: 142px;
+}
+
+.modal-content-legumes {
+  width: 840px !important;
+}
+
+.nom-legume-prixge {
+  width: 200px;
+}
+
+.prixge-legume {
+  width: 100px;
+}
+
+.unite-base-legume {
+  width: 100px;
 }

@@ -20,7 +20,7 @@
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content modal-content-planches">
+    <div class="modal-content modal-content-planches modal-content-legumes">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"><h2>Les prix généraux</h2></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -35,6 +35,7 @@
               <li class="prix-ge">
                 <div class="nom-legume-prixge"><%= legume.nom %></div>
                 <div class="prixge-legume"><%= legume.prix_general || "/" %> €</div>
+                <div class="unite-base-legume"><%= legume.unite || "/" %></div>
               </li>
               <% end %>
             </ul>
@@ -45,6 +46,7 @@
               <li class="prix-ge">
                 <div class="nom-legume-prixge"><%= legume.nom %></div>
                 <div class="prixge-legume"><%= legume.prix_general || "/" %> €</div>
+                <div class="unite-base-legume"><%= legume.unite || "/" %></div>
               </li>
               <% end %>
             </ul>
