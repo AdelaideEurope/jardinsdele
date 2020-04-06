@@ -3,8 +3,29 @@
   margin-top: 36px;
 }
 
+.tous-legumes-modal {
+  display: flex;
+  margin-top: 36px;
+  justify-content: center;
+}
+
 .liste-legume {
   width: 50%;
+  li {
+    height: 30px;
+    background: $light-gray;
+    list-style: none;
+    padding-left: 16px;
+    padding-top: 4px;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 16px;
+  }
+}
+
+.liste-legume-modal {
+  width: 46%;
   li {
     height: 30px;
     background: $light-gray;

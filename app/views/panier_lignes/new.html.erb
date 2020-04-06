@@ -28,8 +28,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="tous-legumes">
-          <div class="liste-legume mr-3">
+        <div class="tous-legumes-modal">
+          <div class="liste-legume-modal mr-3">
             <ul>
               <% @sorted_legumes.first(@firsthalf).each do |legume| %>
               <li class="prix-ge">
@@ -40,7 +40,7 @@
               <% end %>
             </ul>
           </div>
-          <div class="liste-legume ml-3">
+          <div class="liste-legume-modal ml-3">
             <ul>
               <% @sorted_legumes.last(@secondhalf).each do |legume| %>
               <li class="prix-ge">
