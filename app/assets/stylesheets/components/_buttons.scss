@@ -70,6 +70,13 @@
   padding: 4px 16px;
 }
 
+.panier-valide {
+  border: solid 2px $dark-grey;
+  border-radius: 24px;
+  padding: 4px 16px;
+  color: $dark-grey;
+}
+
 .valider-panier-img {
   height: 36px;
   margin-top: 12px

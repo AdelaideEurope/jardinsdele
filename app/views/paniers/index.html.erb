@@ -32,9 +32,9 @@
           </div>
           <div class="detail-paniers">
             <ul>
-              <% panier.panier_lignes.each do |ligne| %>
+              <% panier.panier_lignes.sort_by(&:created_at).each do |ligne| %>
                 <li>
-                  <% if panier.valide == false && panier.vente.date > Date.yesterday %>
+                  <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
                     <div class="panier-nom-legume">
                       <%= ligne.legume.nom %>
                     </div>
@@ -72,7 +72,7 @@
                 </li>
               <% end %>
             </ul>
-            <% if panier.valide == false && panier.vente.date > Date.yesterday %>
+            <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
               <div class="add-ligne">
                 <%= link_to new_vente_panier_panier_ligne_path(@vente, panier) do %>
                   <% image_tag "plus-rond.png", class: "plus-rond-ligne" %>
@@ -108,11 +108,16 @@
       <% @paniers.sort_by(&:prix_ttc).each do |panier| %>
         <div class="valider-panier">
           <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
-            <%= link_to ventes_recap_path do %>
-              <%= image_tag "check-rond.png", class: "valider-panier-img" %>
+
+            <%= simple_form_for [@vente, panier] do |f| %>
+                <div><%= f.hidden_field :valide, :value => true %></div>
+                <%= f.submit "Valider le panier", class: "voir-tout-recap", data: {:confirm => "Tu as bien tout checké ?"} %>
             <% end %>
+
+
+
           <% else %>
-              <%= image_tag "check-rond-gris.png", class: "valider-panier-img" %>
+              <div class="panier-valide">Panier validé !</div>
           <% end %>
         </div>
       <% end %>
@@ -137,20 +142,20 @@
                     </div>
                     <div class="detail-paniers">
                       <ul>
-                        <% panier.panier_lignes.each do |ligne| %>
+                        <% panier.panier_lignes.sort_by(&:created_at).each do |ligne| %>
                           <li>
                             <div class="panier-nom-legume">
                               <%= ligne.legume.nom %>
                             </div>
-                            <div class="quantite-prix-legume-panier">
+                            <div class="panier-valide-index">
                               <div class="panier-quantite-legume">
                                 <%= ligne.quantite %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                               </div>
                               <div class="panier-prix-legume">
-                                <%= ligne.legume.prix_general %> €
+                                <%= ligne.prixunitairettc %> €
                               </div>
                             </div>
-                          </li>
+                           </li>
                         <% end %>
                       </ul>
                       <ul>
@@ -162,7 +167,7 @@
                               Total :
                             </div>
                             <div class="panier-prix-legume">
-                              <%= panier.prix_reel_ttc || 0 %>
+                              <%= panier.prix_reel_ttc || 0 %> €
                             </div>
                           </div>
                         </li>
@@ -170,7 +175,7 @@
                           <div></div>
                           <div class="ecart-panier">
                             <div class="panier-quantite-legume">Écart :</div>
-                            <div class="panier-prix-legume"><%= (panier.prix_reel_ttc || 0) - panier.prix_ttc %></div>
+                            <div class="panier-prix-legume"><%= (panier.prix_reel_ttc || 0) - panier.prix_ttc %> €</div>
                           </div>
                         </li>
                       </ul>

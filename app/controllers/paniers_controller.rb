@@ -61,7 +61,7 @@ class PaniersController < ApplicationController
 private
 
   def panier_params
-    params.require(:panier).permit(:prix_ttc, :quantite, :vente_id)
+    params.require(:panier).permit(:prix_ttc, :quantite, :vente_id, :valide)
   end
 
 end

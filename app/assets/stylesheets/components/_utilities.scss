@@ -1,6 +1,7 @@
 a {
   text-decoration: none;
   color: inherit;
+  outline: none;
   &:hover {
     text-decoration: none;
     color: inherit;
@@ -20,4 +21,12 @@ h3 {
   font-size: 18px;
   padding-left: 32px;
   margin-bottom: 16px;
+}
+
+button {
+  outline: none;
+}
+
+input {
+  outline: none;
 }

@@ -117,7 +117,7 @@
 
 <div class="modal fade" id="modal-prixge" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content modal-content-planches">
+    <div class="modal-content modal-content-prixge">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"><h2>Les prix généraux</h2></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -125,23 +125,25 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="tous-legumes">
-          <div class="liste-legume mr-3">
+        <div class="tous-legumes-modal">
+          <div class="liste-legume-modal mr-3">
             <ul>
               <% @sorted_legumes.first(@firsthalf).each do |legume| %>
               <li class="prix-ge">
                 <div class="nom-legume-prixge"><%= legume.nom %></div>
                 <div class="prixge-legume"><%= legume.prix_general || "/" %> €</div>
+                <div class="unite-base-legume"><%= legume.unite || "/" %></div>
               </li>
               <% end %>
             </ul>
           </div>
-          <div class="liste-legume ml-3">
+          <div class="liste-legume-modal ml-3">
             <ul>
               <% @sorted_legumes.last(@secondhalf).each do |legume| %>
               <li class="prix-ge">
                 <div class="nom-legume-prixge"><%= legume.nom %></div>
                 <div class="prixge-legume"><%= legume.prix_general || "/" %> €</div>
+                <div class="unite-base-legume"><%= legume.unite || "/" %></div>
               </li>
               <% end %>
             </ul>

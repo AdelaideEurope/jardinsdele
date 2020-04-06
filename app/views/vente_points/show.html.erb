@@ -36,20 +36,20 @@
                         </div>
                         <div class="detail-paniers">
                           <ul>
-                            <% panier.panier_lignes.each do |ligne| %>
+                            <% panier.panier_lignes.sort_by(&:created_at).each do |ligne| %>
                               <li>
                                 <div class="panier-nom-legume">
                                   <%= ligne.legume.nom %>
                                 </div>
-                                <div class="quantite-prix-legume-panier">
+                                <div class="panier-valide-index">
                                   <div class="panier-quantite-legume">
                                     <%= ligne.quantite %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                                   </div>
                                   <div class="panier-prix-legume">
-                                    <%= ligne.legume.prix_general %> €
+                                    <%= ligne.prixunitairettc %> €
                                   </div>
                                 </div>
-                              </li>
+                               </li>
                             <% end %>
                           </ul>
                           <ul>
@@ -61,7 +61,7 @@
                                   Total :
                                 </div>
                                 <div class="panier-prix-legume">
-                                  <%= panier.prix_reel_ttc || 0 %>
+                                  <%= panier.prix_reel_ttc || 0 %> €
                                 </div>
                               </div>
                             </li>
@@ -69,7 +69,7 @@
                               <div></div>
                               <div class="ecart-panier">
                                 <div class="panier-quantite-legume">Écart :</div>
-                                <div class="panier-prix-legume"><%= (panier.prix_reel_ttc || 0) - panier.prix_ttc %></div>
+                                <div class="panier-prix-legume"><%= (panier.prix_reel_ttc || 0) - panier.prix_ttc %> €</div>
                               </div>
                             </li>
                           </ul>
@@ -89,9 +89,9 @@
 <% end %>
 
 <div class="container ventes-pointdevente">
-  <h3>Les ventes</h3>
-  <div class="parlieu-liste">
-    <% unless @ventes.empty? %>
+  <% unless @ventes.empty? %>
+    <h3>Les ventes</h3>
+    <div class="parlieu-liste">
       <ul>
         <div class="wrapper-ventes-par-pointdevente">
           <div>Facture</div>
@@ -132,7 +132,7 @@
           <div><%= number_with_precision(resteapercevoir.sum, precision: 2) %> €</div>
         </div>
       </ul>
-    <%= area_chart @ventes.group_by_week(:date).sum(:total_ttc), colors: ["#A1BD7F"] %>
-    <% end %>
-  </div>
+      <%= area_chart @ventes.group_by_week(:date).sum(:total_ttc), colors: ["#A1BD7F"] %>
+    </div>
+  <% end %>
 </div>
