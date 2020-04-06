@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get "/legumes-recap", to: "legumes#recap"
   get "/ventes-recap", to: "ventes#recap"
   resources :activites
+  resources :assistants, only: [:index]
   resources :legumes
   resources :vente_points
   resources :commentaires

@@ -1,0 +1,6 @@
+<%= render 'shared/navbar' %>
+<div class="container">
+  <% @assistants.each do |assistant| %>
+    <%= assistant.name %>
+  <% end %>
+</div>
