@@ -1,6 +1,6 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4 mb-4">
-    <h2>Paniers de la vente de <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %></h2>
+    <h2>Paniers de la <%= link_to vente_path(@vente) do %>vente de <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %><% end %></h2>
   <div class="box-recolter">
     <div>
       <%= image_tag "recolte.png", class: "recolte-img" %>
@@ -10,7 +10,7 @@
       <ul>
         <% @arecolter.each do |legume, detail| %>
         <li>
-          <%= legume %> : <%= detail[:quantite] %> <%= detail[:unite] %>
+          <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] %>
         </li>
         <% end %>
       </ul>
@@ -40,7 +40,12 @@
                     </div>
                     <div class="wrapper-paniers-index">
                       <div class="panier-quantite-legume">
-                        <%= ligne.quantite %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                        <%= rem_trailing_zero(ligne.quantite) %>
+                        <% if ligne.unite.nil? || ligne.unite == "" %>
+                          <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                        <% else %>
+                          <%= ligne.quantite > 1 ? ligne.unite.pluralize : ligne.unite %>
+                        <% end %>
                       </div>
                       <div class="panier-prix-legume">
                         <%= ligne.prixunitairettc %> €
@@ -62,7 +67,12 @@
                     </div>
                     <div class="panier-valide-index">
                       <div class="panier-quantite-legume">
-                        <%= ligne.quantite %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                        <%= rem_trailing_zero(ligne.quantite) %>
+                        <% if ligne.unite.nil? || ligne.unite == "" %>
+                          <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                        <% else %>
+                          <%= ligne.quantite > 1 ? ligne.unite.pluralize : ligne.unite %>
+                        <% end %>
                       </div>
                       <div class="panier-prix-legume">
                         <%= ligne.prixunitairettc %> €
@@ -115,7 +125,8 @@
             <% end %>
 
 
-
+          <% elsif panier.valide == false && panier.vente.date < Date.yesterday %>
+              <div></div>
           <% else %>
               <div class="panier-valide">Panier validé !</div>
           <% end %>

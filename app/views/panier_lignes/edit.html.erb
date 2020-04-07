@@ -9,6 +9,7 @@
         <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
           <i class="fas fa-binoculars"></i>
         </button>
+        <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
       </div>
       <%= f.input :quantite, :label => "QUANTITÉ", required: true %>
     <div class="bottom-button fixed-bottom">

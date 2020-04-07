@@ -11,7 +11,7 @@ class PaniersController < ApplicationController
     @lignesdepanier = @vente.panier_lignes
     @arecolter = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
     @lignesdepanier.each do |ligne|
-      @arecolter[ligne.legume.nom][:unite] = ligne.legume.unite.pluralize
+      @arecolter[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite.pluralize : ligne.unite.pluralize
       @arecolter[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
     end
     @ventes = @vente.vente_point.ventes
@@ -51,8 +51,39 @@ class PaniersController < ApplicationController
     @pointdevente = @vente.vente_point
     @panier = Panier.find(params[:id])
     if @panier.update(panier_params)
-      flash[:notice] = "Panier modifié avec succès !"
-      redirect_to vente_paniers_path(@vente)
+      if params[:panier][:valide] == "true"
+
+        if @vente.total_ht.nil?
+          sommeht = 0
+          sommettc = 0
+        else
+          sommeht = @vente.total_ht
+          sommettc = @vente.total_ttc
+        end
+        if @pointdevente.total_ht.nil?
+          sommepdvht = 0
+          sommepdvttc = 0
+        else
+          sommepdvht = @pointdevente.total_ht
+          sommepdvttc = @pointdevente.total_ttc
+        end
+        sommeht += ttc_to_ht(@panier.prix_ttc) * @panier.quantite
+        sommettc += @panier.prix_ttc * @panier.quantite
+        @vente.total_ht = sommeht
+        @vente.total_ttc = sommettc
+        sommepdvht += ttc_to_ht(@panier.prix_ttc) * @panier.quantite
+        sommepdvttc += @panier.prix_ttc * @panier.quantite
+        @pointdevente.total_ht = sommepdvht
+        @pointdevente.total_ttc = sommepdvttc
+        @pointdevente.save
+        @vente.save
+
+        flash[:notice] = "Panier validé avec succès !"
+        redirect_to vente_paniers_path(@vente)
+      else
+        flash[:notice] = "Panier modifié avec succès !"
+        redirect_to vente_paniers_path(@vente)
+      end
     else
       render :edit
     end
@@ -64,4 +95,7 @@ private
     params.require(:panier).permit(:prix_ttc, :quantite, :vente_id, :valide)
   end
 
+  def ttc_to_ht(prix)
+    prix - (prix * 5.5.fdiv(100))
+  end
 end

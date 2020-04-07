@@ -13,7 +13,7 @@ class VentesController < ApplicationController
     @vente = Vente.find(params[:id])
     @lignedevente = VenteLigne.new
     @lignesdevente = @vente.vente_lignes
-    @paniers = Panier.all.where(vente_id: @vente.id)
+    @paniers = Panier.all.where(vente_id: @vente.id).select { |panier| panier.valide == true }
   end
 
   def new

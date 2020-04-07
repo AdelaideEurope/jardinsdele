@@ -23,7 +23,8 @@ class PanierLignesController < ApplicationController
     prixunitairettc = params[:panier_ligne][:prixunitairettc]
     quantite = params[:panier_ligne][:quantite]
     legume = params[:panier_ligne][:legume_id]
-    @lignedepanier = PanierLigne.new(prixunitairettc: prixunitairettc, quantite: quantite, panier_id: panier_id, legume_id: legume)
+    unite = params[:panier_ligne][:unite].empty? ? Legume.find(params[:panier_ligne][:legume_id]).unite : params[:panier_ligne][:unite]
+    @lignedepanier = PanierLigne.new(prixunitairettc: prixunitairettc, quantite: quantite, panier_id: panier_id, legume_id: legume, unite: unite)
 
     if @lignedepanier.save
       if @panier.prix_reel_ttc.nil?

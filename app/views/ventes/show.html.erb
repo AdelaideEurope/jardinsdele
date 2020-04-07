@@ -8,9 +8,7 @@
         <% image_tag "plus-rond.png", class: "petit-plus-rond" %>
       <% end %>
     </div>
-    <div>
-      <%= image_tag "panier-plus.png", class: "panier-plus" %>
-    </div>
+
     <div>
       <%= link_to vente_paniers_path(@vente) do %>
         <% image_tag "composerpanier.png", class: "composer-panier" %>
@@ -53,6 +51,55 @@
           </div>
         </li>
       <% end %>
+        <div class="separateur-ventes"></div>
+      <% @paniers.each do |panier| %>
+        <li>
+          <div class="wrapper-ligne-vente mt-1">
+            <div>
+              <button class= "bouton-panier-vente" type="button" data-toggle="collapse" data-target="#collapse<%=panier.id%>" aria-expanded="false" aria-controls="collapse<%=panier.id%>">
+              Panier à <%= panier.prix_ttc.to_i %> €
+              </button>
+            </div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div>
+              <% if panier.quantite.nil? %>
+              <%= 0 %>
+              <% else %>
+                <%= panier.quantite %>
+              <% end %>
+            </div>
+            <div></div>
+            <div><%= number_with_precision(panier.quantite * ttc_to_ht(panier.prix_ttc), precision: 2) %> €</div>
+            <div><%= number_with_precision(panier.quantite * panier.prix_ttc, precision: 2) %> €</div>
+          </div>
+          <div class="collapse" id="collapse<%=panier.id%>">
+            <ul class="liste-detail-panier-vente">
+              <% panier.panier_lignes.each do |lignedevente| %>
+                <li>
+                  <div class="wrapper-ligne-vente mt-1">
+                    <div><%= lignedevente.legume.nom %></div>
+                    <div></div>
+                    <div><%= number_with_precision(ttc_to_ht(lignedevente.prixunitairettc), precision: 2) %> €</div>
+                    <div><%= number_with_precision(lignedevente.prixunitairettc, precision: 2) %> €</div>
+                    <div>
+                      <% if lignedevente.quantite.nil? %>
+                      <%= 0 %>
+                      <% else %>
+                        <%= lignedevente.quantite %>
+                      <% end %>
+                    </div>
+                    <div><%= lignedevente.legume.unite %></div>
+                    <div><%= number_with_precision((ttc_to_ht(lignedevente.prixunitairettc) * lignedevente.quantite), precision: 2) %> €</div>
+                    <div><%= number_with_precision((lignedevente.prixunitairettc * lignedevente.quantite), precision: 2) %> €</div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </li>
+      <% end %>
 
       <hr align = "right">
       <li>
@@ -72,8 +119,12 @@
 </div>
 
 
-<div class="bottom-button fixed-bottom">
-  <%= link_to ventes_recap_path do %>
-  <% image_tag "check-rond.png", class: "plus-rond" %>
-  <% end %>
-</div>
+
+
+
+
+<!-- <div class="bottom-button fixed-bottom"> -->
+  <%#= link_to ventes_recap_path do %>
+  <%# image_tag "check-rond.png", class: "plus-rond" %>
+  <%# end %>
+<!-- </div> -->

@@ -5,6 +5,7 @@
 
 .pu-ligne-panier {
   display: flex;
+  justify-content: space-between;
 }
 
 .prix-ge {
@@ -42,4 +43,8 @@
 
 .unite-base-legume {
   width: 128px;
+}
+
+.panier_ligne_unite {
+  width: 40%;
 }
