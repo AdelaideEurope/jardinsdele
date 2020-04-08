@@ -14,6 +14,8 @@ class VentesController < ApplicationController
     @lignedevente = VenteLigne.new
     @lignesdevente = @vente.vente_lignes
     @paniers = Panier.all.where(vente_id: @vente.id).select { |panier| panier.valide == true }
+    planches = Planche.all
+    @jardins = planches.group_by { |planche| planche.jardin }
   end
 
   def new

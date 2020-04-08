@@ -80,7 +80,11 @@
                 <li>
                   <div class="wrapper-ligne-vente mt-1">
                     <div><%= lignedevente.legume.nom %></div>
-                    <div><%= image_tag "plus-rond.png", class: "tout-petit-plus-rond" %> </div>
+                    <div>
+                      <button type="button" data-toggle="modal" data-target="#modal-select-planche">
+                        <%= image_tag "plus-rond.png", class: "tout-petit-plus-rond" %>
+                      </button>
+                    </div>
                     <div><%= number_with_precision(ttc_to_ht(lignedevente.prixunitairettc), precision: 2) %> €</div>
                     <div><%= number_with_precision(lignedevente.prixunitairettc, precision: 2) %> €</div>
                     <div><%= lignedevente.legume.unite %></div>
@@ -120,11 +124,75 @@
 
 
 
-
-
-
-<!-- <div class="bottom-button fixed-bottom"> -->
-  <%#= link_to ventes_recap_path do %>
-  <%# image_tag "check-rond.png", class: "plus-rond" %>
-  <%# end %>
-<!-- </div> -->
+<div class="modal fade" id="modal-select-planche" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-content-planches">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><h2>Les planches</h2></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="columns">
+          <div class="left-col">
+            <% jardins_left = ["Jardin D", "Jardin E", "Jardin F"] %>
+            <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
+              <div class="jardins">
+                <div class="jardins-titre"><p><%= jardin %></p></div>
+                <ul class="lignes-planche">
+                  <% planches.each do |planche| %>
+                    <li>
+                      <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
+                      <% if plantations.any? %>
+                        <% plantations.map {|plantation| plantation.legume}.uniq.each do |legume| %>
+                          <% if legume != nil? %>
+                            <div class="ligne-planche <%= legume.famille.tr("é", "e").downcase %>-bg-color">
+                              <%= planche.nom %> - <%= legume.nom %>
+                            </div>
+                          <% else %>
+                            <%= planche.nom %>
+                          <% end %>
+                        <% end %>
+                      <% else %>
+                        <%= planche.nom %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+          <div class="right-col">
+            <% jardins_left = ["Jardin A", "Jardin B", "Jardin C"] %>
+            <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
+              <div class="jardins">
+                <div class="jardins-titre"><p><%= jardin %></p></div>
+                <ul class="lignes-planche">
+                  <% planches.each do |planche| %>
+                    <li>
+                      <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
+                      <% if plantations.any? %>
+                        <% plantations.map {|plantation| plantation.legume}.uniq.each do |legume| %>
+                          <% if legume != nil? %>
+                            <div class="ligne-planche <%= legume.famille.tr("é", "e").downcase %>-bg-color">
+                              <%= planche.nom %> - <%= legume.nom %>
+                            </div>
+                          <% else %>
+                            <%= planche.nom %>
+                          <% end %>
+                        <% end %>
+                      <% else %>
+                        <%= planche.nom %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
