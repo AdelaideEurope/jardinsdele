@@ -86,6 +86,7 @@
 
 .panier-nom-legume {
   width: 50%;
+  font-size: 14px;
 }
 
 
@@ -116,4 +117,12 @@
   display: flex;
   justify-content: space-between;
   width: 48%;
+}
+
+.panier-quantite-legume {
+  font-size: 14px;
+}
+
+.panier-prix-legume {
+  font-size: 14px;
 }

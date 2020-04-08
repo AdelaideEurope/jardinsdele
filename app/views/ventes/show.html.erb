@@ -1,6 +1,6 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
-  <h2>Vente <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %> - <%= @vente.total_ttc.nil? ? @vente.total_ttc.to_i : number_with_precision(@vente.total_ttc, precision: 2)%> €</h2>
+  <h2>Vente <%= link_to vente_point_path(@vente.vente_point) do %><%= @vente.vente_point.nom %><% end %> du <%= @vente.date.strftime("%d/%m") %> - <%= @vente.total_ttc.nil? ? @vente.total_ttc.to_i : number_with_precision(@vente.total_ttc, precision: 2)%> €</h2>
 
   <div class="bouton-ajout-ligne">
     <div>
@@ -24,8 +24,8 @@
             <div>Planche</div>
             <div>PU HT</div>
             <div>PU TTC</div>
-            <div>Quantité</div>
             <div>Unité</div>
+            <div>Quantité</div>
             <div>Montant HT</div>
             <div>Montant TTC</div>
           </div>
@@ -38,14 +38,14 @@
             <div></div>
             <div><%= number_with_precision(lignedevente.prixunitaireht, precision: 2) %> €</div>
             <div><%= number_with_precision(lignedevente.prixunitairettc, precision: 2) %> €</div>
+            <div><%= lignedevente.legume.unite %></div>
             <div>
               <% if lignedevente.quantite.nil? %>
               <%= 0 %>
               <% else %>
-                <%= lignedevente.quantite %>
+                <%= rem_trailing_zero(lignedevente.quantite) %>
               <% end %>
             </div>
-            <div><%= lignedevente.legume.unite %></div>
             <div><%= number_with_precision(lignedevente.totalht, precision: 2) %> €</div>
             <div><%= number_with_precision(lignedevente.totalttc, precision: 2) %> €</div>
           </div>
@@ -63,6 +63,7 @@
             <div></div>
             <div></div>
             <div></div>
+            <div></div>
             <div>
               <% if panier.quantite.nil? %>
               <%= 0 %>
@@ -70,7 +71,6 @@
                 <%= panier.quantite %>
               <% end %>
             </div>
-            <div></div>
             <div><%= number_with_precision(panier.quantite * ttc_to_ht(panier.prix_ttc), precision: 2) %> €</div>
             <div><%= number_with_precision(panier.quantite * panier.prix_ttc, precision: 2) %> €</div>
           </div>
@@ -83,14 +83,14 @@
                     <div></div>
                     <div><%= number_with_precision(ttc_to_ht(lignedevente.prixunitairettc), precision: 2) %> €</div>
                     <div><%= number_with_precision(lignedevente.prixunitairettc, precision: 2) %> €</div>
+                    <div><%= lignedevente.legume.unite %></div>
                     <div>
                       <% if lignedevente.quantite.nil? %>
                       <%= 0 %>
                       <% else %>
-                        <%= lignedevente.quantite %>
+                        <%= rem_trailing_zero(lignedevente.quantite) %>
                       <% end %>
                     </div>
-                    <div><%= lignedevente.legume.unite %></div>
                     <div><%= number_with_precision((ttc_to_ht(lignedevente.prixunitairettc) * lignedevente.quantite), precision: 2) %> €</div>
                     <div><%= number_with_precision((lignedevente.prixunitairettc * lignedevente.quantite), precision: 2) %> €</div>
                   </div>

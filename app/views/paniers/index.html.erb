@@ -48,7 +48,7 @@
                         <% end %>
                       </div>
                       <div class="panier-prix-legume">
-                        <%= ligne.prixunitairettc %> €
+                        <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
                       </div>
                         <div>
                           <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete, data: { confirm: "Supprimer ?" }, :class => "delete-cross" do %>
@@ -75,7 +75,7 @@
                         <% end %>
                       </div>
                       <div class="panier-prix-legume">
-                        <%= ligne.prixunitairettc %> €
+                        <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
                       </div>
                     </div>
                   <% end %>
@@ -98,7 +98,7 @@
                     Total :
                   </div>
                   <div class="panier-prix-legume">
-                    <%= panier.prix_reel_ttc || 0 %> €
+                    <%= number_with_precision(panier.prix_reel_ttc, precision: 2) || 0.00 %> €
                   </div>
                 </div>
               </li>
@@ -106,7 +106,7 @@
                 <div></div>
                 <div class="ecart-panier">
                   <div class="panier-quantite-legume">Écart :</div>
-                  <div class="panier-prix-legume"><%= (panier.prix_reel_ttc || 0) - panier.prix_ttc %> €</div>
+                  <div class="panier-prix-legume"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
                 </div>
               </li>
             </ul>
@@ -178,7 +178,7 @@
                               Total :
                             </div>
                             <div class="panier-prix-legume">
-                              <%= panier.prix_reel_ttc || 0 %> €
+                              <%= panier.prix_reel_ttc || 0.00 %> €
                             </div>
                           </div>
                         </li>
@@ -186,7 +186,7 @@
                           <div></div>
                           <div class="ecart-panier">
                             <div class="panier-quantite-legume">Écart :</div>
-                            <div class="panier-prix-legume"><%= (panier.prix_reel_ttc || 0) - panier.prix_ttc %> €</div>
+                            <div class="panier-prix-legume"><%= (panier.prix_reel_ttc || 0.00) - panier.prix_ttc %> €</div>
                           </div>
                         </li>
                       </ul>

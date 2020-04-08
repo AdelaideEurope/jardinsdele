@@ -43,10 +43,10 @@
                                 </div>
                                 <div class="panier-valide-index">
                                   <div class="panier-quantite-legume">
-                                    <%= ligne.quantite %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                                    <%= rem_trailing_zero(ligne.quantite) %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                                   </div>
                                   <div class="panier-prix-legume">
-                                    <%= ligne.prixunitairettc %> €
+                                    <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
                                   </div>
                                 </div>
                                </li>
@@ -61,7 +61,7 @@
                                   Total :
                                 </div>
                                 <div class="panier-prix-legume">
-                                  <%= panier.prix_reel_ttc || 0 %> €
+                                  <%= number_with_precision(panier.prix_reel_ttc, precision: 2) || 0.00 %> €
                                 </div>
                               </div>
                             </li>
@@ -69,7 +69,7 @@
                               <div></div>
                               <div class="ecart-panier">
                                 <div class="panier-quantite-legume">Écart :</div>
-                                <div class="panier-prix-legume"><%= (panier.prix_reel_ttc || 0) - panier.prix_ttc %> €</div>
+                                <div class="panier-prix-legume"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
                               </div>
                             </li>
                           </ul>
@@ -102,23 +102,20 @@
           <div>Reste à percevoir</div>
         </div>
           <% montantsregles = [] %>
-          <%# totauxventes = [] %>
           <% resteapercevoir = [] %>
         <% @ventes.sort_by(&:date).reverse.each do |vente| %>
           <li>
             <div class="wrapper-ventes-par-mois">
               <div></div>
-              <div><%= vente.date.strftime("%d/%m") %></div>
-              <%# totalvente = vente.vente_lignes.map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum %>
-              <%# totauxventes << totalvente %>
+              <div><%= link_to vente_path(vente) do %><%= vente.date.strftime("%d/%m") %><% end %></div>
               <div> <%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
               <% montantregle = rand(0.00..vente.total_ttc+10.00).truncate(2) %>
               <% montantsregles << montantregle %>
-              <div> <%= montantregle %> €</div>
+              <div> <%= number_with_precision(montantregle, precision: 2) %> €</div>
               <div><%= rand().truncate(2) %> €</div>
-              <% apercevoir = (vente.total_ttc - montantregle).truncate(2) %>
+              <% apercevoir = (vente.total_ttc - montantregle) %>
               <% resteapercevoir << apercevoir %>
-              <div><%= apercevoir %> €</div>
+              <div><%= number_with_precision(apercevoir, precision: 2) %> €</div>
             </div>
           </li>
         <% end %>
