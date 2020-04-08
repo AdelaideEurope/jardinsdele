@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_06_135143) do
+ActiveRecord::Schema.define(version: 2020_04_08_210913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,8 +101,10 @@ ActiveRecord::Schema.define(version: 2020_04_06_135143) do
     t.datetime "updated_at", null: false
     t.decimal "quantite"
     t.string "unite"
+    t.bigint "planche_id"
     t.index ["legume_id"], name: "index_panier_lignes_on_legume_id"
     t.index ["panier_id"], name: "index_panier_lignes_on_panier_id"
+    t.index ["planche_id"], name: "index_panier_lignes_on_planche_id"
   end
 
   create_table "paniers", force: :cascade do |t|
@@ -175,6 +177,7 @@ ActiveRecord::Schema.define(version: 2020_04_06_135143) do
     t.datetime "updated_at", null: false
     t.bigint "planche_id"
     t.decimal "quantite"
+    t.string "unite"
     t.index ["legume_id"], name: "index_vente_lignes_on_legume_id"
     t.index ["planche_id"], name: "index_vente_lignes_on_planche_id"
     t.index ["vente_id"], name: "index_vente_lignes_on_vente_id"
@@ -210,6 +213,7 @@ ActiveRecord::Schema.define(version: 2020_04_06_135143) do
   add_foreign_key "commentaires", "activites"
   add_foreign_key "panier_lignes", "legumes"
   add_foreign_key "panier_lignes", "paniers"
+  add_foreign_key "panier_lignes", "planches", column: "planche_id"
   add_foreign_key "paniers", "ventes"
   add_foreign_key "taggings", "tags"
   add_foreign_key "vente_lignes", "legumes"

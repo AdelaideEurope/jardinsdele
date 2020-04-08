@@ -48,6 +48,10 @@ hr {
   padding-top: 2px;
 }
 
+.bouton-tout-petit-plus-rond {
+  padding-left: 2px;
+}
+
 .panier-plus {
   height: 30px;
   margin-left: 24px;
@@ -84,4 +88,17 @@ hr {
 .liste-detail-panier-vente {
   margin-bottom: 24px;
   color: $dark-grey;
+}
+
+.choix-planche-panier {
+  button {
+    color: $dark-grey;
+  }
+}
+
+.update-planche-modal {
+  color: $grey;
+  outline: none;
+  border: none;
+  background: content-box;
 }

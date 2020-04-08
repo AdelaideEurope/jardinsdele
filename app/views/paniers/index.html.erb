@@ -44,7 +44,7 @@
                         <% if ligne.unite.nil? || ligne.unite == "" %>
                           <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                         <% else %>
-                          <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.unite.pluralize : ligne.unite %>
+                          <%= ligne.quantite > 1 && ligne.unite != "kg" ? ligne.unite.pluralize : ligne.unite %>
                         <% end %>
                       </div>
                       <div class="panier-prix-legume">
@@ -160,10 +160,10 @@
                             </div>
                             <div class="panier-valide-index">
                               <div class="panier-quantite-legume">
-                                <%= ligne.quantite %> <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                                <%= rem_trailing_zero(ligne.quantite) %> <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                               </div>
                               <div class="panier-prix-legume">
-                                <%= ligne.prixunitairettc %> €
+                                <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
                               </div>
                             </div>
                            </li>
@@ -178,7 +178,7 @@
                               Total :
                             </div>
                             <div class="panier-prix-legume">
-                              <%= panier.prix_reel_ttc || 0.00 %> €
+                              <%= number_with_precision(panier.prix_reel_ttc, precision: 2) || 0.00 %> €
                             </div>
                           </div>
                         </li>
@@ -186,7 +186,7 @@
                           <div></div>
                           <div class="ecart-panier">
                             <div class="panier-quantite-legume">Écart :</div>
-                            <div class="panier-prix-legume"><%= (panier.prix_reel_ttc || 0.00) - panier.prix_ttc %> €</div>
+                            <div class="panier-prix-legume"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
                           </div>
                         </li>
                       </ul>

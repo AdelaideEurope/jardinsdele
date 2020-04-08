@@ -64,11 +64,20 @@ class PanierLignesController < ApplicationController
     quantite = params[:panier_ligne][:quantite]
     legume = params[:panier_ligne][:legume_id]
     @lignedepanier = PanierLigne.find(params[:id])
-    if @lignedepanier.update(prixunitairettc: prixunitairettc, quantite: quantite, panier_id: panier_id, legume_id: legume)
-      @panier.prix_reel_ttc += (@lignedepanier.quantite * @lignedepanier.prixunitairettc)
-      @panier.save
-      flash[:notice] = "Ligne modifiée avec succès !"
-      redirect_to vente_paniers_path(@vente)
+    planche = params[:panier_ligne][:planche_id]
+    unite = params[:panier_ligne][:unite]
+    if planche.nil?
+      if @lignedepanier.update(prixunitairettc: prixunitairettc, quantite: quantite, panier_id: panier_id, legume_id: legume, planche_id: planche, unite: unite)
+        @panier.prix_reel_ttc += (@lignedepanier.quantite * @lignedepanier.prixunitairettc)
+        @panier.save
+        flash[:notice] = "Ligne modifiée avec succès !"
+        redirect_to vente_paniers_path(@vente)
+      else
+        render :edit
+      end
+    elsif @lignedepanier.update(planche_id: planche)
+      flash[:notice] = "Planche ajoutée avec succès !"
+      redirect_to vente_path(@vente)
     else
       render :edit
     end

@@ -52,7 +52,6 @@ class PaniersController < ApplicationController
     @panier = Panier.find(params[:id])
     if @panier.update(panier_params)
       if params[:panier][:valide] == "true"
-
         if @vente.total_ht.nil?
           sommeht = 0
           sommettc = 0

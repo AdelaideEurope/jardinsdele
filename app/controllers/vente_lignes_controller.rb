@@ -20,7 +20,7 @@ class VenteLignesController < ApplicationController
     @vente = Vente.find(params[:vente_id])
     @lignedevente.vente = @vente
     @pointdevente = VentePoint.find(@vente.vente_point_id)
-
+    unite = params[:vente_ligne][:unite].empty? ? Legume.find(params[:vente_ligne][:legume_id]).unite : params[:vente_ligne][:unite]
     if @lignedevente.save
       if @vente.total_ht.nil?
         sommeht = 0
@@ -63,6 +63,7 @@ private
       :prixunitaireht,
       :prixunitairettc,
       :totalht,
-      :totalttc)
+      :totalttc,
+      :planche_id)
   end
 end
