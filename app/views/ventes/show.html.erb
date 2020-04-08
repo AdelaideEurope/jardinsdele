@@ -80,7 +80,7 @@
                 <li>
                   <div class="wrapper-ligne-vente mt-1">
                     <div><%= lignedevente.legume.nom %></div>
-                    <div></div>
+                    <div><%= image_tag "plus-rond.png", class: "tout-petit-plus-rond" %> </div>
                     <div><%= number_with_precision(ttc_to_ht(lignedevente.prixunitairettc), precision: 2) %> €</div>
                     <div><%= number_with_precision(lignedevente.prixunitairettc, precision: 2) %> €</div>
                     <div><%= lignedevente.legume.unite %></div>

@@ -10,7 +10,7 @@
       <ul>
         <% @arecolter.each do |legume, detail| %>
         <li>
-          <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] %>
+          <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] != "kg" ? detail[:unite].pluralize : detail[:unite] %>
         </li>
         <% end %>
       </ul>
@@ -42,9 +42,9 @@
                       <div class="panier-quantite-legume">
                         <%= rem_trailing_zero(ligne.quantite) %>
                         <% if ligne.unite.nil? || ligne.unite == "" %>
-                          <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                          <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                         <% else %>
-                          <%= ligne.quantite > 1 ? ligne.unite.pluralize : ligne.unite %>
+                          <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.unite.pluralize : ligne.unite %>
                         <% end %>
                       </div>
                       <div class="panier-prix-legume">
@@ -69,9 +69,9 @@
                       <div class="panier-quantite-legume">
                         <%= rem_trailing_zero(ligne.quantite) %>
                         <% if ligne.unite.nil? || ligne.unite == "" %>
-                          <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                          <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                         <% else %>
-                          <%= ligne.quantite > 1 ? ligne.unite.pluralize : ligne.unite %>
+                          <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.unite.pluralize : ligne.unite %>
                         <% end %>
                       </div>
                       <div class="panier-prix-legume">
@@ -160,7 +160,7 @@
                             </div>
                             <div class="panier-valide-index">
                               <div class="panier-quantite-legume">
-                                <%= ligne.quantite %> <%= ligne.quantite > 1 ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                                <%= ligne.quantite %> <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                               </div>
                               <div class="panier-prix-legume">
                                 <%= ligne.prixunitairettc %> €

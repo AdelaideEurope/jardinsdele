@@ -11,7 +11,7 @@ class PaniersController < ApplicationController
     @lignesdepanier = @vente.panier_lignes
     @arecolter = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
     @lignesdepanier.each do |ligne|
-      @arecolter[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite.pluralize : ligne.unite.pluralize
+      @arecolter[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
       @arecolter[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
     end
     @ventes = @vente.vente_point.ventes
