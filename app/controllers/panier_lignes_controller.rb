@@ -32,7 +32,7 @@ class PanierLignesController < ApplicationController
       else
         sommettc = @panier.prix_reel_ttc
       end
-      sommettc += (@lignedepanier.quantite * @lignedepanier.prixunitairettc)
+      sommettc += (@lignedepanier.quantite * @lignedepanier.prixunitairettc).round(2)
       @panier.prix_reel_ttc = sommettc
       @panier.save
       flash[:notice] = "Ligne créée avec succès !"

@@ -48,17 +48,6 @@ class VentesController < ApplicationController
     @pointsdevente_panier.each do |pointdevente|
       @pointsdevente_ac_panier[pointdevente.nom] = pointdevente.id
     end
-
-
-
-    # # @lignesdepanier = @ventes_panier.map(&:panier_lignes)
-    # @arecolter = Hash.new { |arecolter, vente| arecolter[vente] = { legume: { unite: "", quantite: "".to_f } } }
-    # @ventes_panier.each do |vente|
-    #   @legumes
-    #   @arecolter[vente.id][:legume] = vente.legume.nom
-    #   # @arecolter[ligne.legume.nom][:unite] = ligne.legume.unite.pluralize
-    #   # @arecolter[ligne.legume.nom][:quantite] += ligne.quantite
-    # end
   end
 
 private

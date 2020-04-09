@@ -291,8 +291,8 @@
                         </div>
                       </div>
                     </div>
-                    <div><%= number_with_precision(ttc_to_ht(lignedevente.prixunitairettc), precision: 2) %> €</div>
-                    <div><%= number_with_precision(lignedevente.prixunitairettc, precision: 2) %> €</div>
+                    <div><%= number_with_precision(ttc_to_ht(lignedevente.prixunitairettc).round(2), precision: 2) %> €</div>
+                    <div><%= number_with_precision(lignedevente.prixunitairettc.round(2), precision: 2) %> €</div>
                     <div><%= lignedevente.legume.unite %></div>
                     <div>
                       <% if lignedevente.quantite.nil? %>
@@ -301,8 +301,8 @@
                         <%= rem_trailing_zero(lignedevente.quantite) %>
                       <% end %>
                     </div>
-                    <div><%= number_with_precision((ttc_to_ht(lignedevente.prixunitairettc) * lignedevente.quantite), precision: 2) %> €</div>
-                    <div><%= number_with_precision((lignedevente.prixunitairettc * lignedevente.quantite), precision: 2) %> €</div>
+                    <div><%= number_with_precision((ttc_to_ht(lignedevente.prixunitairettc).round(2) * lignedevente.quantite), precision: 2) %> €</div>
+                    <div><%= number_with_precision((lignedevente.prixunitairettc * lignedevente.quantite).round(2), precision: 2) %> €</div>
                   </div>
                 </li>
               <% end %>

@@ -36,8 +36,8 @@
           <% @ventes.sort_by(&:date).reverse.first(5).each do |vente| %>
             <li>
               <div class="wrapper-toutes-ventes">
-                <div><%= vente.date.strftime("%d/%m") %></div>
-                <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                <div><%= link_to vente_path(vente) do %> <%= vente.date.strftime("%d/%m") %><% end %></div>
+                <div><%= link_to vente_point_path(vente.vente_point) do %> <%= vente.vente_point.nom %><% end %></div>
                 <div>
                   <% if vente.paniers.any? %>
                     <%= link_to vente_paniers_path(vente) do %>
@@ -86,8 +86,6 @@
         </ul>
       </div>
       <%= pie_chart @pointsdevente.group(:categorie).sum(:total_ttc), colors: ["#585563", "#A1BD7F", "#5B2E48"] %>
-
-      <%= @totaux_for_graph %>
     </div>
   </div>
 </div>
