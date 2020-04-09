@@ -9,14 +9,20 @@ class PaniersController < ApplicationController
     @vente = Vente.find(params[:vente_id])
     @paniers = Panier.all.where(vente_id: @vente.id)
     @lignesdepanier = @vente.panier_lignes
+    @pointdevente = @vente.vente_point
     @arecolter = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
-    @lignesdepanier.each do |ligne|
+    @lignesdepanier.sort_by(&:legume).each do |ligne|
       @arecolter[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
       @arecolter[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
     end
     @ventes = @vente.vente_point.ventes
     @ventes_panier = @ventes.select { |vente| vente.paniers.any? }
     @ventes_moins_un = @ventes_panier.select { |vente| vente.date < @vente.date }
+
+    @ecarts = Hash.new { |ecart, prixpanier| ecart[prixpanier] = "".to_i }
+    @pointdevente.paniers.where("valide = ?", true).each do |panier|
+      @ecarts[panier.prix_ttc] += (panier.prix_reel_ttc || 0.00) - panier.prix_ttc
+    end
   end
 
   def new
