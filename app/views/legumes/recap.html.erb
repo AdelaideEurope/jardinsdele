@@ -1,5 +1,4 @@
 <%= render 'shared/navbar' %>
-
 <div class="container mt-4">
   <div class="columns">
     <div class="left-col">
@@ -10,7 +9,7 @@
         <div class="voir-tout-recap-legumes">Voir tout</div><% end %>
       </div>
       <ul class=sample-legumes>
-        <% @legumes.sample(3).each do |legume| %>
+        <% @meilleurslegumes.each do |legume| %>
           <% duree = [] %>
           <li>
             <div class="image-legume"> <%= cl_image_tag legume.photo.key, height: 96, crop: :fill, class: "icone-legume" %>
@@ -41,7 +40,7 @@
                     <% plantations.map {|plantation| plantation.legume}.uniq.each do |legume| %>
                       <% if legume != nil? %>
                         <div class="ligne-planche <%= legume.famille.tr("é", "e").downcase %>-bg-color">
-                          <%= planche.nom %> - <%= legume.nom %>
+                          <%= planche.nom %> - <%= link_to legume_path(legume) do %><%= legume.nom %><% end %>
                         </div>
                       <% else %>
                         <%= planche.nom %>
@@ -69,7 +68,7 @@
                   <% plantations.map {|plantation| plantation.legume}.uniq.each do |legume| %>
                     <% if legume != nil? %>
                       <div class="ligne-planche <%= legume.famille.tr("é", "e").downcase %>-bg-color">
-                        <%= planche.nom %> - <%= legume.nom %>
+                        <%= planche.nom %> - <%= link_to legume_path(legume) do %><%= legume.nom %><% end %>
                       </div>
                     <% else %>
                       <%= planche.nom %>

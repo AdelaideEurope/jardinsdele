@@ -47,6 +47,13 @@ class LegumesController < ApplicationController
 
   def recap
     @legumes = Legume.all
+    @legumesparca = Hash.new { |hash, key| hash[key] = "".to_i }
+    @legumes.each do |legume|
+      @legumesparca[legume] = legume.vente_lignes.map { |ligne| ligne.totalttc.to_f }.sum
+    end
+    # legume.paniers.where(["valide = true"]).map {|panier| panier.panier_lignes}.map { |ligne| ligne.totalttc.to_f }.sum
+    @meilleurslegumes = @legumesparca.sort_by{ |k, v| v}.reverse.first(3).map {|legume| legume[0] }
+
     @activites = Activite.all
     planches = Planche.all
     @jardins = planches.group_by { |planche| planche.jardin }

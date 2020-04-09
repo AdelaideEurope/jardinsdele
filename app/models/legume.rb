@@ -5,6 +5,7 @@ class Legume < ApplicationRecord
   has_many :vente_lignes
   has_many :ventes, through: :vente_lignes
   has_many :panier_lignes
+  has_many :paniers, through: :panier_lignes
   has_many :ventes, through: :panier_lignes
   has_one_attached :photo
   extend FriendlyId
