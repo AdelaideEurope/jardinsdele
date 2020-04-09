@@ -29,7 +29,7 @@
               <div class="collapse" id="collapse-vente<%=vente.id%>">
                 <div class="card-body">
                   <div class="cadres-paniers-vente-point">
-                    <% vente.paniers.each do |panier| %>
+                    <% vente.paniers.sort_by(&:prix_ttc).each do |panier| %>
                       <div class="cadre-paniers-pointvente">
                         <div class="titre-cadre-paniers">
                           <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)

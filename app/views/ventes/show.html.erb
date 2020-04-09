@@ -54,7 +54,7 @@
       <% unless @paniers.empty? || @lignesdevente.empty? %>
         <div class="separateur-ventes"></div>
       <% end %>
-      <% @paniers.each do |panier| %>
+      <% @paniers.sort_by(&:prix_ttc).each do |panier| %>
         <li>
           <div class="wrapper-ligne-vente mt-1">
             <div>

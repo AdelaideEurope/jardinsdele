@@ -20,7 +20,7 @@
 <div class="container mt-4">
   <div class="tous-paniers-index">
     <div class="cadres-paniers">
-      <% @paniers.sort_by(&:prix_ttc).each do |panier| %>
+      <% @paniers.sort_by(&:prix_ttc).first(3).each do |panier| %>
         <div class="cadre-paniers-pointvente">
           <div class="titre-cadre-paniers">
             <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
@@ -115,7 +115,7 @@
       <% end %>
     </div>
     <div class="cadres-paniers">
-      <% @paniers.sort_by(&:prix_ttc).each do |panier| %>
+      <% @paniers.sort_by(&:prix_ttc).first(3).each do |panier| %>
         <div class="valider-panier">
           <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
 
@@ -133,6 +133,124 @@
         </div>
       <% end %>
     </div>
+    <% if @paniers.length > 3 %>
+      <div class="cadres-paniers">
+        <% @paniers.sort_by(&:prix_ttc)[3..6].each do |panier| %>
+          <div class="cadre-paniers-pointvente">
+            <div class="titre-cadre-paniers">
+              <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
+              <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+                <%= link_to edit_vente_panier_path(@vente, panier) do %>
+                  <i class="fas fa-pencil-alt"></i>
+                <% end %>
+              <% end %>
+            </div>
+            <div class="detail-paniers">
+              <ul>
+                <% panier.panier_lignes.sort_by(&:created_at).each do |ligne| %>
+                  <li>
+                    <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+                      <div class="panier-nom-legume">
+                        <%= ligne.legume.nom %>
+                      </div>
+                      <div class="wrapper-paniers-index">
+                        <div class="panier-quantite-legume">
+                          <%= rem_trailing_zero(ligne.quantite) %>
+                          <% if ligne.unite.nil? || ligne.unite == "" %>
+                            <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                          <% else %>
+                            <%= ligne.quantite > 1 && ligne.unite != "kg" ? ligne.unite.pluralize : ligne.unite %>
+                          <% end %>
+                        </div>
+                        <div class="panier-prix-legume">
+                          <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
+                        </div>
+                          <div>
+                            <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete, data: { confirm: "Supprimer ?" }, :class => "delete-cross" do %>
+                              <i class="fas fa-trash"></i>
+                            <% end %>
+                          </div>
+                          <div>
+                            <%= link_to edit_vente_panier_panier_ligne_path(@vente, panier, ligne) do %>
+                              <i class="fas fa-pencil-alt"></i>
+                            <% end %>
+                          </div>
+                      </div>
+                    <% else %>
+                      <div class="panier-nom-legume">
+                        <%= ligne.legume.nom %>
+                      </div>
+                      <div class="panier-valide-index">
+                        <div class="panier-quantite-legume">
+                          <%= rem_trailing_zero(ligne.quantite) %>
+                          <% if ligne.unite.nil? || ligne.unite == "" %>
+                            <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                          <% else %>
+                            <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.unite.pluralize : ligne.unite %>
+                          <% end %>
+                        </div>
+                        <div class="panier-prix-legume">
+                          <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
+                        </div>
+                      </div>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+              <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+                <div class="add-ligne">
+                  <%= link_to new_vente_panier_panier_ligne_path(@vente, panier) do %>
+                    <% image_tag "plus-rond.png", class: "plus-rond-ligne" %>
+                  <% end %>
+                </div>
+              <% end %>
+              <ul>
+                <li>
+                  <div>
+                  </div>
+                  <div class="total-panier">
+                    <div class="panier-quantite-legume">
+                      Total :
+                    </div>
+                    <div class="panier-prix-legume">
+                      <%= number_with_precision(panier.prix_reel_ttc, precision: 2) || 0.00 %> €
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div></div>
+                  <div class="ecart-panier">
+                    <div class="panier-quantite-legume">Écart :</div>
+                    <div class="panier-prix-legume"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="cadres-paniers">
+        <% @paniers.sort_by(&:prix_ttc)[3..6].each do |panier| %>
+          <div class="valider-panier">
+            <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+
+              <%= simple_form_for [@vente, panier] do |f| %>
+                  <div><%= f.hidden_field :valide, :value => true %></div>
+                  <%= f.submit "Valider le panier", class: "voir-tout-recap", data: {:confirm => "Tu as bien tout checké ?"} %>
+              <% end %>
+
+
+            <% elsif panier.valide == false && panier.vente.date < Date.yesterday %>
+                <div></div>
+            <% else %>
+                <div class="panier-valide">Panier validé !</div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+
     <% unless @ventes_moins_un.empty? %>
       <div class="anciens-paniers">
         <button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">

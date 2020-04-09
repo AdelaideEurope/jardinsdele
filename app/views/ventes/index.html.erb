@@ -26,8 +26,8 @@
             <% @ventes_futures.each do |vente| %>
               <li>
                 <div class="wrapper-ventes-par-semaine">
-                  <div><%= vente.date.strftime("%d/%m") %></div>
-                  <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                  <div><%= link_to vente_path(vente) do %><%= vente.date.strftime("%d/%m") %><% end %></div>
+                  <div><%= link_to vente_point_path(vente.vente_point) do %><%= vente.vente_point.nom %><%end%></div>
                   <div>
                     <% if vente.paniers.any? %>
                       <%= link_to vente_paniers_path(vente) do %>
@@ -51,11 +51,11 @@
         <% unless @ventes_semaine[@week].nil? %>
           <h3 class="mt-5">S<%= @week %> (<%= number_with_precision(@ventes_semaine[@week].map(&:total_ttc).sum, precision: 2) %> €)</h3>
           <ul>
-            <% @ventes_semaine[@week].sort_by(&:date).reverse.select { |vente| vente.date < Date.today}.each do |vente| %>
+            <% @ventes_semaine[@week].sort_by(&:date).reverse.select { |vente| vente.date <= Date.today}.each do |vente| %>
               <li>
                 <div class="wrapper-ventes-par-semaine">
-                  <div><%= vente.date.strftime("%d/%m") %></div>
-                  <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                  <div><%= link_to vente_path(vente) do %> <%= vente.date.strftime("%d/%m") %><% end %></div>
+                  <div><%= link_to vente_point_path(vente.vente_point) do %><%= vente.vente_point.nom %><%end%></div>
                   <div>
                     <% if vente.paniers.any? %>
                       <%= link_to vente_paniers_path(vente) do %>
@@ -74,17 +74,17 @@
     </div>
   </div>
   <div class="tab-pane fade show active" id="parmois" role="tabpanel" aria-labelledby="parmois-tab">
-    <% unless @ventes_futures.empty? %>
-      <%= column_chart @ventes.group_by_month(:date, format: "%m").sum(:total_ttc), colors: ["#A1BD7F"] %>
-      <div class="separateur-ventes-index"></div>
-      <div class="parmois-liste">
+    <%= column_chart @ventes.group_by_month(:date, format: "%m").sum(:total_ttc), colors: ["#A1BD7F"] %>
+    <div class="separateur-ventes-index"></div>
+    <div class="parmois-liste">
+      <% unless @ventes_futures.empty? %>
         <h3 class="mt-5">Ventes futures</h3>
         <ul>
             <% @ventes_futures.each do |vente| %>
               <li>
                 <div class="wrapper-ventes-par-semaine">
-                  <div><%= vente.date.strftime("%d/%m") %></div>
-                  <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                  <div><%= link_to vente_path(vente) do %> <%= vente.date.strftime("%d/%m") %><% end %></div>
+                  <div><%= link_to vente_point_path(vente.vente_point) do %><%= vente.vente_point.nom %><%end%></div>
                   <div>
                     <% if vente.paniers.any? %>
                       <%= link_to vente_paniers_path(vente) do %>
@@ -107,11 +107,11 @@
         <% unless @ventes_mois[@month].nil? %>
           <h3 class="mt-5">M<%= @month %> (<%= number_with_precision(@ventes_mois[@month].map(&:total_ttc).sum, precision: 2) %> €)</h3>
           <ul>
-            <% @ventes_mois[@month].sort_by(&:date).reverse.select { |vente| vente.date < Date.today}.each do |vente| %>
+            <% @ventes_mois[@month].sort_by(&:date).reverse.select { |vente| vente.date <= Date.today}.each do |vente| %>
               <li>
                 <div class="wrapper-ventes-par-semaine">
-                  <div><%= vente.date.strftime("%d/%m") %></div>
-                  <div><%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %><% end %></div>
+                  <div><%= link_to vente_path(vente) do %> <%= vente.date.strftime("%d/%m") %><% end %></div>
+                  <div><%= link_to vente_point_path(vente.vente_point) do %><%= vente.vente_point.nom %><%end%></div>
                   <div>
                     <% if vente.paniers.any? %>
                       <%= link_to vente_paniers_path(vente) do %>
