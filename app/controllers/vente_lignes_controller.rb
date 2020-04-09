@@ -53,6 +53,16 @@ class VenteLignesController < ApplicationController
     end
   end
 
+  def update
+    @vente = Vente.find(params[:vente_id])
+    @lignedevente = VenteLigne.find(params[:id])
+    planche = params[:vente_ligne][:planche_id]
+    if @lignedevente.update(planche_id: planche)
+      flash[:notice] = "Planche ajoutée avec succès !"
+      redirect_to vente_path(@vente)
+    end
+  end
+
 private
 
   def lignedevente_params
@@ -64,6 +74,7 @@ private
       :prixunitairettc,
       :totalht,
       :totalttc,
-      :planche_id)
+      :planche_id,
+      :unite)
   end
 end

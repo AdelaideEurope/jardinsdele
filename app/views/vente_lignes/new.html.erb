@@ -15,6 +15,7 @@
           </div>
         </div>
         <%= f.input :quantite, :label => "QUANTITÉ", input_html: { id: "quantitenew" } %>
+        <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
       </div>
 
       <div class="right-col-new-ligne">
