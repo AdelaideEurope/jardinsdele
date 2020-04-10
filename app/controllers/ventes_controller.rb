@@ -50,6 +50,23 @@ class VentesController < ApplicationController
     end
   end
 
+  def update
+    @vente = Vente.find(params[:id])
+    montant_regle = params[:vente][:montant_regle]
+    montant_arrondi = params[:vente][:montant_arrondi]
+    if montant_regle.nil? || montant_regle == ""
+      if @vente.update(montant_arrondi: montant_arrondi)
+        flash[:notice] = "Montant arrondi renseigné avec succès !"
+        redirect_to vente_path(@vente)
+      end
+    elsif montant_arrondi.nil? || montant_regle == ""
+      if @vente.update(montant_regle: montant_regle)
+        flash[:notice] = "Montant réglé renseigné avec succès !"
+        redirect_to vente_path(@vente)
+      end
+    end
+  end
+
 private
 
   def vente_params

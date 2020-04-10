@@ -109,3 +109,24 @@ hr {
   border: none;
   background: content-box;
 }
+
+.small-modal-montant-regle {
+  position: fixed !important;
+  top: 342px !important;
+  left: 75% !important;
+}
+
+.small-modal-montant-arrondi {
+  position: fixed !important;
+  top: 318px !important;
+  left: 75% !important;
+}
+
+.small-modal-montant-regle-content, .small-modal-montant-arrondi-content {
+  width: 200px !important;
+  height: 200px !important;
+}
+
+.bouton-montant-regle, .bouton-montant-arrondi {
+  padding-left: 0px;
+}

@@ -330,8 +330,28 @@
             <div></div>
             <div>Montant arrondi :</div>
             <div></div>
-            <div><%= number_with_precision(ttc_to_ht((@vente.total_ttc - 0.05)), precision: 2) %> €</div>
-            <div><%= number_with_precision((@vente.total_ttc - 0.05), precision: 2) %> €</div>
+            <div></div>
+            <div>
+              <button type="button" class="bouton-montant-arrondi" data-toggle="modal" data-target="#modal-montant-arrondi">
+                <% if @vente.montant_arrondi.nil? %>
+                  À renseigner
+                <% else %>
+                  <%= number_with_precision(@vente.montant_arrondi, precision: 2) %> €
+                <% end %>
+              </button>
+              <div class="modal fade" id="modal-montant-arrondi" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog small-modal-montant-arrondi" role="document">
+                  <div class="modal-content small-modal-montant-arrondi-content">
+                    <div class="modal-body">
+                      <%= simple_form_for @vente do |f| %>
+                        <%= f.input :montant_arrondi, :label => "Montant arrondi" %>
+                        <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "petit-save-rond" %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </li>
         </li>
@@ -343,7 +363,47 @@
             <div>Montant réglé :</div>
             <div></div>
             <div></div>
-            <div><%= number_with_precision(@vente.montant_regle, precision: 2) %> €</div>
+            <div>
+              <button type="button" class="bouton-montant-regle" data-toggle="modal" data-target="#modal-montant-regle">
+                <%= number_with_precision(@vente.montant_regle, precision: 2) %> €
+              </button>
+              <div class="modal fade" id="modal-montant-regle" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog small-modal-montant-regle" role="document">
+                  <div class="modal-content small-modal-montant-regle-content">
+                    <div class="modal-body">
+                      <%= simple_form_for @vente do |f| %>
+                        <%= f.input :montant_regle, :label => "Montant réglé" %>
+                        <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "petit-save-rond" %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        </li>
+          <div class="wrapper-ligne-vente-arrondi">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div>Reste à percevoir :</div>
+            <div></div>
+            <div></div>
+            <% if @vente.montant_arrondi.nil? || @vente.montant_arrondi == 0 %>
+              <% if (@vente.total_ttc - @vente.montant_regle) > 0 %>
+                <div class="ligne-total-vente text-danger"><%= number_with_precision(@vente.total_ttc - @vente.montant_regle, precision: 2) %> €</div>
+              <% else %>
+                <div class="ligne-total-vente text-success"><%= number_with_precision(@vente.total_ttc - @vente.montant_regle, precision: 2) %> €</div>
+              <% end %>
+            <% else %>
+              <% if (@vente.montant_arrondi - @vente.montant_regle) > 0 %>
+                <div class="ligne-total-vente text-danger"><%= number_with_precision(@vente.montant_arrondi - @vente.montant_regle, precision: 2) %> €</div>
+              <% else %>
+                <div class="ligne-total-vente text-success"><%= number_with_precision(@vente.montant_arrondi - @vente.montant_regle, precision: 2) %> €</div>
+              <% end %>
+            <% end %>
           </div>
         </li>
     </ul>
