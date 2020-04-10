@@ -130,3 +130,20 @@ hr {
 .bouton-montant-regle, .bouton-montant-arrondi {
   padding-left: 0px;
 }
+
+.panier-engagement-show {
+  height: 18px;
+  margin-left: 4px;
+}
+
+.commentaires-show-vente {
+  margin-top: 24px;
+  li {
+  background: $light-grey;
+  list-style: none;
+  padding-left: 16px;
+  padding-top: 8px;
+  margin-bottom: 4px;
+  height: 36px;
+  }
+}

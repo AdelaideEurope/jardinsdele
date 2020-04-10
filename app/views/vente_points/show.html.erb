@@ -32,8 +32,11 @@
                     <% vente.paniers.sort_by(&:prix_ttc).each do |panier| %>
                       <div class="cadre-paniers-pointvente">
                         <div class="titre-cadre-paniers">
-                          <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
+                          <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> <%= panier.quantite > 1 ? "panier".pluralize : "panier" %>)
                         </div>
+                        <% if panier.engagement == true %>
+                          <%= image_tag "panier_engagement.png", class: "panier-engagement" %>
+                        <% end %>
                         <div class="detail-paniers">
                           <ul>
                             <% panier.panier_lignes.sort_by(&:created_at).each do |ligne| %>
@@ -96,39 +99,69 @@
         <div class="wrapper-ventes-par-pointdevente">
           <div>Facture</div>
           <div>Date</div>
-          <div>Total vente</div>
+          <div>Total vente TTC</div>
+          <div>Montant arrondi</div>
           <div>Montant réglé</div>
-          <div>Arrondi de vente</div>
           <div>Reste à percevoir</div>
         </div>
-          <% montantsregles = [] %>
-          <% resteapercevoir = [] %>
         <% @ventes.sort_by(&:date).reverse.each do |vente| %>
           <li>
             <div class="wrapper-ventes-par-mois">
               <div></div>
               <div><%= link_to vente_path(vente) do %><%= vente.date.strftime("%d/%m") %><% end %></div>
-              <div> <%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
-              <% montantregle = rand(0.00..vente.total_ttc+10.00).truncate(2) %>
-              <% montantsregles << montantregle %>
-              <div> <%= number_with_precision(montantregle, precision: 2) %> €</div>
-              <div><%= rand().truncate(2) %> €</div>
-              <% apercevoir = (vente.total_ttc - montantregle) %>
-              <% resteapercevoir << apercevoir %>
-              <div><%= number_with_precision(apercevoir, precision: 2) %> €</div>
+              <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
+              <div><%= number_with_precision(vente.montant_arrondi || 0.00, precision: 2) %> €</div>
+              <div><%= number_with_precision(vente.montant_regle || 0.00, precision: 2) %> €</div>
+              <div>
+                <% if vente.montant_arrondi.nil? || vente.montant_arrondi == 0 %>
+                  <% if (vente.total_ttc - vente.montant_regle) > 0 %>
+                    <div class="ligne-total-vente text-danger"><%= number_with_precision(vente.total_ttc - vente.montant_regle, precision: 2) %> €</div>
+                  <% else %>
+                    <div class="ligne-total-vente text-success"><%= number_with_precision(vente.total_ttc - vente.montant_regle, precision: 2) %> €</div>
+                  <% end %>
+                <% else %>
+                  <% if (vente.montant_arrondi - vente.montant_regle) > 0 %>
+                    <div class="ligne-total-vente text-danger"><%= number_with_precision(vente.montant_arrondi - vente.montant_regle, precision: 2) %> €</div>
+                  <% else %>
+                    <div class="ligne-total-vente text-success"><%= number_with_precision(vente.montant_arrondi - vente.montant_regle, precision: 2) %> €</div>
+                  <% end %>
+                <% end %>
+              </div>
             </div>
           </li>
         <% end %>
-          <div class="ligne-total">  </div>
+          <div class="ligne-total"></div>
           <div class="wrapper-total-pointdevente">
           <div></div>
           <div></div>
           <div><%= number_with_precision(@pointdevente.ventes.map(&:total_ttc).sum, precision: 2) %> €</div>
-          <div><%= number_with_precision(montantsregles.sum, precision: 2) %> €</div>
-          <div></div>
-          <div><%= number_with_precision(resteapercevoir.sum, precision: 2) %> €</div>
+          <div><%= number_with_precision(@sommearrondis, precision: 2) %> €</div>
+          <div><%= number_with_precision(@sommeregles, precision: 2) %> €</div>
+          <% if @sommeapercevoir > 0 %>
+            <div class="text-danger">
+              <%= number_with_precision(@sommeapercevoir, precision: 2) %> €
+            </div>
+          <% else %>
+            <div class="text-success">
+              <%= number_with_precision(@sommeapercevoir, precision: 2) %> €
+            </div>
+          <% end %>
         </div>
       </ul>
+      <!-- <div class="separateur-paniers-ventes"></div>
+      <div class="parlieu-liste">
+        <ul>
+          <#% @commentaires.each do |commentaire| %>
+            <li>
+              <div class="wrapper-recap-commentaires">
+                <div class="date-commentaire-index"><%#= commentaire.vente.date.strftime("%d/%m") %></div>
+                <div class="contenu-commentaire-index"><%#= commentaire.description %></div>
+              </div>
+            </li>
+          <#% end %>
+        </ul> -->
+<!--       </div> -->
+     <!--  <div class="separateur-paniers-ventes"></div> -->
       <%= area_chart @ventes.group_by_week(:date).sum(:total_ttc), colors: ["#A1BD7F"] %>
     </div>
   <% end %>

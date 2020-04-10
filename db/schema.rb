@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_10_082249) do
+ActiveRecord::Schema.define(version: 2020_04_10_214111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,7 +64,9 @@ ActiveRecord::Schema.define(version: 2020_04_10_082249) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "activite_id"
+    t.bigint "vente_id"
     t.index ["activite_id"], name: "index_commentaires_on_activite_id"
+    t.index ["vente_id"], name: "index_commentaires_on_vente_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -116,6 +118,7 @@ ActiveRecord::Schema.define(version: 2020_04_10_082249) do
     t.integer "quantite"
     t.decimal "prix_reel_ttc"
     t.boolean "valide", default: false
+    t.boolean "engagement"
     t.index ["vente_id"], name: "index_paniers_on_vente_id"
   end
 
@@ -213,6 +216,7 @@ ActiveRecord::Schema.define(version: 2020_04_10_082249) do
   add_foreign_key "activites", "legumes"
   add_foreign_key "activites", "planches", column: "planche_id"
   add_foreign_key "commentaires", "activites"
+  add_foreign_key "commentaires", "ventes"
   add_foreign_key "panier_lignes", "legumes"
   add_foreign_key "panier_lignes", "paniers"
   add_foreign_key "panier_lignes", "planches", column: "planche_id"

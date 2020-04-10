@@ -23,13 +23,16 @@
       <% @paniers.sort_by(&:prix_ttc).first(3).each do |panier| %>
         <div class="cadre-paniers-pointvente">
           <div class="titre-cadre-paniers">
-            <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
+            <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> <%= panier.quantite > 1 ? "panier".pluralize : "panier" %>)
             <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
               <%= link_to edit_vente_panier_path(@vente, panier) do %>
                 <i class="fas fa-pencil-alt"></i>
               <% end %>
             <% end %>
           </div>
+            <% if panier.engagement == true %>
+              <%= image_tag "panier_engagement.png", class: "panier-engagement" %>
+            <% end %>
           <div class="detail-paniers">
             <ul>
               <% panier.panier_lignes.sort_by(&:created_at).each do |ligne| %>
@@ -113,7 +116,7 @@
                   <% end %>
                 </div>
               </li>
-              <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+              <% if panier.valide == false && panier.vente.date >= Date.yesterday && panier.engagement == true %>
                 <div class="bouton-ecart">
                   <button type="button" data-toggle="tooltip" data-html="true" title="<div>Écart cumulé : <%= @ecarts[panier.prix_ttc] %> €</div><div>Avec ce panier, l'écart sera de <%= @ecarts[panier.prix_ttc] + ((panier.prix_reel_ttc || 0.00) - panier.prix_ttc) %> €</div>">
                     <i class="far fa-question-circle"></i>
@@ -150,13 +153,16 @@
         <% @paniers.sort_by(&:prix_ttc)[3..6].each do |panier| %>
           <div class="cadre-paniers-pointvente">
             <div class="titre-cadre-paniers">
-              <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
+              <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> <%= panier.quantite > 1 ? "panier".pluralize : "panier" %>)
               <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
                 <%= link_to edit_vente_panier_path(@vente, panier) do %>
                   <i class="fas fa-pencil-alt"></i>
                 <% end %>
               <% end %>
             </div>
+            <% if panier.engagement == true %>
+              <%= image_tag "panier_engagement.png", class: "panier-engagement" %>
+            <% end %>
             <div class="detail-paniers">
               <ul>
                 <% panier.panier_lignes.sort_by(&:created_at).each do |ligne| %>
@@ -230,26 +236,23 @@
                   </div>
                 </li>
                 <li>
-                  <div></div>
-                  <div class="ecart-panier">
-                    <div class="panier-quantite-legume">Écart :</div>
-                    <% if (panier.prix_reel_ttc || 0.00) - panier.prix_ttc < 0 %>
-                      <div class="panier-prix-legume text-danger"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
-                    <% else %>
-                      <div class="panier-prix-legume"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
-                    <% end %>
-                  </div>
-                </li>
-                <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
-                  <div>Écart cumulé :
-                    <% if @ecarts[panier.prix_ttc] < 0 %>
-                      <div class="ecart-cumule text-danger"><%= @ecarts[panier.prix_ttc] %> €</div>
-                    <% else %>
-                      <%= @ecarts[panier.prix_ttc] %> €
-                    <% end %>
-                  </div>
-                  <div>Avec ce panier, l'écart sera de <%= @ecarts[panier.prix_ttc] + ((panier.prix_reel_ttc || 0.00) - panier.prix_ttc) %> €</div>
-                <% end %>
+                <div></div>
+                <div class="ecart-panier">
+                  <div class="panier-quantite-legume">Écart :</div>
+                  <% if (panier.prix_reel_ttc || 0.00) - panier.prix_ttc < 0 %>
+                    <div class="panier-prix-legume text-danger"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
+                  <% else %>
+                    <div class="panier-prix-legume text-success"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
+                  <% end %>
+                </div>
+              </li>
+              <% if panier.valide == false && panier.vente.date >= Date.yesterday && panier.engagement == true %>
+                <div class="bouton-ecart">
+                  <button type="button" data-toggle="tooltip" data-html="true" title="<div>Écart cumulé : <%= @ecarts[panier.prix_ttc] %> €</div><div>Avec ce panier, l'écart sera de <%= number_with_precision(@ecarts[panier.prix_ttc] + ((panier.prix_reel_ttc || 0.00) - panier.prix_ttc), precision: 2) %> €</div>">
+                    <i class="far fa-question-circle"></i>
+                  </button>
+                </div>
+              <% end %>
               </ul>
             </div>
           </div>
@@ -259,13 +262,10 @@
         <% @paniers.sort_by(&:prix_ttc)[3..6].each do |panier| %>
           <div class="valider-panier">
             <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
-
               <%= simple_form_for [@vente, panier] do |f| %>
                   <div><%= f.hidden_field :valide, :value => true %></div>
                   <%= f.submit "Valider le panier", class: "voir-tout-recap", data: {:confirm => "Tu as bien tout checké ?"} %>
               <% end %>
-
-
             <% elsif panier.valide == false && panier.vente.date < Date.yesterday %>
                 <div></div>
             <% else %>
@@ -293,8 +293,11 @@
                 <% vente.paniers.each do |panier| %>
                   <div class="cadre-paniers-pointvente">
                     <div class="titre-cadre-paniers">
-                      <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> paniers)
+                      <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> <%= panier.quantite > 1 ? "panier".pluralize : "panier" %>)
                     </div>
+                    <% if panier.engagement == true %>
+                      <%= image_tag "panier_engagement.png", class: "panier-engagement" %>
+                    <% end %>
                     <div class="detail-paniers">
                       <ul>
                         <% panier.panier_lignes.sort_by(&:created_at).each do |ligne| %>

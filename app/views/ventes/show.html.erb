@@ -168,6 +168,9 @@
             <div>
               <button class= "bouton-panier-vente" type="button" data-toggle="collapse" data-target="#collapse<%=panier.id%>" aria-expanded="false" aria-controls="collapse<%=panier.id%>">
               Panier à <%= panier.prix_ttc.to_i %> €
+              <% if panier.engagement == true %>
+                <%= image_tag "panier_engagement.png", class: "panier-engagement-show" %>
+              <% end %>
               </button>
             </div>
             <div></div>
@@ -407,6 +410,17 @@
           </div>
         </li>
     </ul>
+  </div>
+  <div class="separateur-paniers-ventes">
+    <div class="commentaires-show-vente">
+      <ul>
+        <% @vente.commentaires.each do |commentaire | %>
+          <li>
+            <%= commentaire.description %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </div>
 

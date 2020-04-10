@@ -7,7 +7,7 @@ class PaniersController < ApplicationController
 
   def index
     @vente = Vente.find(params[:vente_id])
-    @paniers = Panier.all.where(vente_id: @vente.id)
+    @paniers = @vente.paniers
     @lignesdepanier = @vente.panier_lignes
     @pointdevente = @vente.vente_point
     @arecolter = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
@@ -20,8 +20,8 @@ class PaniersController < ApplicationController
     @ventes_moins_un = @ventes_panier.select { |vente| vente.date < @vente.date }
 
     @ecarts = Hash.new { |ecart, prixpanier| ecart[prixpanier] = "".to_i }
-    @pointdevente.paniers.where("valide = ?", true).each do |panier|
-      @ecarts[panier.prix_ttc] += (panier.prix_reel_ttc || 0.00) - panier.prix_ttc
+    @pointdevente.paniers.where("valide = ? AND engagement = ?", true, true).each do |panier|
+      @ecarts[panier.prix_ttc] += ((panier.prix_reel_ttc || 0.00) - panier.prix_ttc)
     end
   end
 
@@ -37,7 +37,8 @@ class PaniersController < ApplicationController
     vente_id = params[:vente_id]
     prix_ttc = params[:panier][:prix_ttc]
     quantite = params[:panier][:quantite]
-    @panier = Panier.new(prix_ttc: prix_ttc, quantite: quantite, vente_id: vente_id)
+    engagement = params[:panier][:engagement]
+    @panier = Panier.new(prix_ttc: prix_ttc, quantite: quantite, vente_id: vente_id, engagement: engagement)
     if @panier.save
       flash[:notice] = "Panier créé avec succès !"
       redirect_to vente_paniers_path(@vente)
@@ -97,7 +98,7 @@ class PaniersController < ApplicationController
 private
 
   def panier_params
-    params.require(:panier).permit(:prix_ttc, :quantite, :vente_id, :valide)
+    params.require(:panier).permit(:prix_ttc, :quantite, :vente_id, :valide, :engagement)
   end
 
   def ttc_to_ht(prix)

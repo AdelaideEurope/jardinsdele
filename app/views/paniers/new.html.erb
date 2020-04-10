@@ -9,6 +9,8 @@
     <div class="flex-item">
       <%= f.input :prix_ttc, :label => "PRIX", required: true %>
       <%= f.input :quantite, :label => "QUANTITE", required: true %>
+      <%= f.input :engagement, as: :boolean, :label => "AVEC ENGAGEMENT", :input_html => { :checked => true } %>
+      <div class="engagement-info">Décocher la case si le panier est ponctuel</div>
     </div>
   </div>
 </div>

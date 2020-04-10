@@ -11,9 +11,18 @@ class VentePointsController < ApplicationController
     @pointdevente = VentePoint.find(params[:id])
     @ventes = @pointdevente.ventes
     @ventes_ac_panier = @ventes.select { |vente| vente.paniers.any? }
-    @vente_recente = @pointdevente.ventes.last
     @paniers = Panier.all.where(vente_id: @ventes.ids)
-    @ventes_moins_un = @ventes[0...-1]
+    @sommearrondis = @ventes.map {|vente| vente.montant_arrondi }.sum
+    @sommeregles = @ventes.map {|vente| vente.montant_regle }.sum
+    sommeapercevoir = @ventes.map do |vente|
+      if vente.montant_arrondi.nil? || vente.montant_arrondi == 0
+        sommeapercevoir << vente.total_ttc - vente.montant_regle
+      else
+        vente.montant_arrondi - vente.montant_regle
+      end
+    end
+    @sommeapercevoir = sommeapercevoir.sum
+    @commentaires = Commentaire.where(vente_id: @ventes.ids)
   end
 
   def new

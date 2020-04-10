@@ -20,6 +20,7 @@
   width: 100%;
   border: solid 2px $light-green;
   margin-top: 12px;
+  position: relative;
 }
 
 .titre-cadre-paniers {
@@ -131,4 +132,18 @@
   margin-top: 8px;
   display: flex;
   justify-content: flex-end;
+}
+
+.panier-engagement {
+  height: 24px;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.engagement-info {
+  color: $light-grey2;
+  font-size: 14px;
+  font-style: italic;
+  margin-top: -12px;
 }

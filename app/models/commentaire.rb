@@ -1,6 +1,6 @@
 class Commentaire < ApplicationRecord
   belongs_to :activite, optional: true
-  validates_presence_of :activite
+  belongs_to :vente, optional: true
   include PgSearch::Model
   pg_search_scope :global_search,
     against: [:description],

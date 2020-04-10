@@ -11,14 +11,25 @@
     <ul>
       <% @commentaires.sort.reverse.each do |commentaire| %>
         <% unless commentaire.description.empty? %>
-          <li>
-            <div class="wrapper-recap-commentaires">
-              <div class="date-commentaire-index"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-              <div class="activite-commentaire-index"><%= commentaire.activite.nom %></div>
-              <div class="legume-commentaire-index"><%= commentaire.activite.legume.nil? ? "" : commentaire.activite.legume.nom %></div>
-              <div class="contenu-commentaire-index"><%= commentaire.description %></div>
-            </div>
-          </li>
+          <% if commentaire.activite.nil?  %>
+            <li>
+              <div class="wrapper-recap-commentaires">
+                <div class="date-commentaire-index"><%= commentaire.vente.date.strftime("%d/%m") %></div>
+                <div class="activite-commentaire-index"><%= commentaire.vente.vente_point.nom %></div>
+                <div class="legume-commentaire-index"></div>
+                <div class="contenu-commentaire-index"><%= commentaire.description %></div>
+              </div>
+            </li>
+          <% else %>
+            <li>
+              <div class="wrapper-recap-commentaires">
+                <div class="date-commentaire-index"><%= commentaire.activite.date.strftime("%d/%m") %></div>
+                <div class="activite-commentaire-index"><%= commentaire.activite.nom %></div>
+                <div class="legume-commentaire-index"><%= commentaire.activite.legume.nil? ? "" : commentaire.activite.legume.nom %></div>
+                <div class="contenu-commentaire-index"><%= commentaire.description %></div>
+              </div>
+            </li>
+          <% end %>
         <% end %>
       <% end %>
     </ul>
