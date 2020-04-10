@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_210913) do
+ActiveRecord::Schema.define(version: 2020_04_10_082249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -203,6 +203,8 @@ ActiveRecord::Schema.define(version: 2020_04_08_210913) do
     t.datetime "updated_at", null: false
     t.decimal "total_ht", default: "0.0"
     t.decimal "total_ttc", default: "0.0"
+    t.decimal "montant_regle", default: "0.0"
+    t.decimal "montant_arrondi"
     t.index ["vente_point_id"], name: "index_ventes_on_vente_point_id"
   end
 

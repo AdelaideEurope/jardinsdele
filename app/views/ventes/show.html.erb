@@ -310,7 +310,6 @@
           </div>
         </li>
       <% end %>
-
       <hr align = "right">
       <li>
           <div class="wrapper-ligne-vente">
@@ -322,6 +321,29 @@
             <div></div>
             <div class="ligne-total-vente"><%= @vente.total_ht.nil? ? @vente.total_ht.to_i : number_with_precision(@vente.total_ht, precision: 2)%> €</div>
             <div class="ligne-total-vente"><%= @vente.total_ttc.nil? ? @vente.total_ttc.to_i : number_with_precision(@vente.total_ttc, precision: 2)%> €</div>
+          </div>
+        </li>
+          <div class="wrapper-ligne-vente-arrondi">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div>Montant arrondi :</div>
+            <div></div>
+            <div><%= number_with_precision(ttc_to_ht((@vente.total_ttc - 0.05)), precision: 2) %> €</div>
+            <div><%= number_with_precision((@vente.total_ttc - 0.05), precision: 2) %> €</div>
+          </div>
+        </li>
+        </li>
+          <div class="wrapper-ligne-vente-arrondi">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div>Montant réglé :</div>
+            <div></div>
+            <div></div>
+            <div><%= number_with_precision(@vente.montant_regle, precision: 2) %> €</div>
           </div>
         </li>
     </ul>

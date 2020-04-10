@@ -10,7 +10,7 @@ const autoFillPrix = () => {
     const totalPUTTC = Math.round(((parseFloat(getPUHT.value) + calculTVA) + Number.EPSILON) * 100) / 100;
     const calculPUTTC = totalPUTTC
     getPUTTC.value = calculPUTTC;
-    const totalHT = parseFloat(getPUHT.value) * parseFloat(getQuantite.value);
+    const totalHT = Math.round(((parseFloat(getPUHT.value) * parseFloat(getQuantite.value)) + Number.EPSILON) * 100) / 100;
     getPTHT.value = totalHT
     const totalTTC = parseFloat(getPUTTC.value) * parseFloat(getQuantite.value);
     getPTTTC.value = Math.round((totalTTC + Number.EPSILON) * 100) / 100
@@ -21,9 +21,9 @@ const autoFillPrix = () => {
     const totalPUHT = Math.round(((parseFloat(getPUTTC.value) - calculTVA) + Number.EPSILON) * 100) / 100;
     const calculPUHT = totalPUHT
     getPUHT.value = calculPUHT;
-    const totalTTC = parseFloat(getPUTTC.value) * parseFloat(getQuantite.value);
+    const totalTTC = Math.round(((parseFloat(getPUTTC.value) * parseFloat(getQuantite.value)) + Number.EPSILON) * 100) / 100;
     getPTTTC.value = totalTTC
-    const totalHT = parseFloat(getPUHT.value) * parseFloat(getQuantite.value);
+    const totalHT = Math.round(((parseFloat(getPUHT.value) * parseFloat(getQuantite.value)) + Number.EPSILON) * 100) / 100;
     getPTHT.value = totalHT
   })
 
