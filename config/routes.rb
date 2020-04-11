@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :vente_points
   resources :commentaires
   resources :ventes do
-    resources :commentaires, only: :create
+    resources :commentaires, only: [:create, :destroy]
     resources :vente_lignes
     resources :paniers do
       resources :panier_lignes

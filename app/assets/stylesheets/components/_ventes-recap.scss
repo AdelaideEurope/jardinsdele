@@ -69,7 +69,7 @@
 
   .wrapper-toutes-ventes {
     display: grid;
-    grid-template-columns: 16% 48% 12% 6%;
+    grid-template-columns: 16% 48% 12% 18%;
     grid-gap: 10px;
   }
 
@@ -81,7 +81,7 @@
 
   .wrapper-ventes-par-mois {
     display: grid;
-    grid-template-columns: 12vw 9vw 12vw 13vw 15vw 12vw;
+    grid-template-columns: 11vw 7vw 5vw 13vw 13.5vw 12vw 12vw;
     grid-gap: 10px;
   }
 
@@ -93,7 +93,7 @@
 
   .wrapper-ventes-par-pointdevente {
     display: grid;
-    grid-template-columns: 12vw 9vw 12vw 13vw 15vw 12vw;
+    grid-template-columns: 11vw 7vw 5vw 13vw 13.5vw 12vw 12vw;
     grid-gap: 10px;
     background-color: $light-grey;
     margin-bottom: 1%;
@@ -103,7 +103,7 @@
 
   .wrapper-total-pointdevente {
     display: grid;
-    grid-template-columns: 12vw 9vw 12vw 13vw 15vw 12vw;
+    grid-template-columns: 11vw 7vw 5vw 13vw 13.5vw 12vw 12vw;
     grid-gap: 10px;
     margin-bottom: 2%;
     margin-top: 2%;

@@ -1,5 +1,5 @@
 <%= render 'shared/navbar' %>
-
+<%=  @meilleurspointsdevente %>
 <div class="container mt-4">
   <div class="columns">
     <div class="left-col-ventes">
@@ -11,15 +11,14 @@
       </div>
       <ul class=sample-ventes>
         <% counter = 1 %>
-        <% @pointsdevente.sort_by(&:total_ttc).reverse.take(3).each do |point| %>
+        <% @pointsdevente.sort_by(&:total_ttc).reverse.first(3).each do |point| %>
           <li>
             <div class="image-vente"><%= image_tag "numero#{counter}.png", class: "icone-vente" %>
             </div>
             <div class="wrapper-recap-ventes detail-vente">
               <div><%= link_to vente_point_path(point) do %> <%= point.nom %> <% end %> </div>
-              <% capoint = point.ventes.map {|vente| vente.total_ttc}.sum %>
-              <div><%= number_with_precision(capoint, precision: 2) %> €</div>
-              <div><%= (capoint*100).fdiv(@catotal).round(2).nan? ? "0" : (capoint*100).fdiv(@catotal).round(2) %> %</div>
+              <div><%= number_with_precision(@pointsdeventeparca[point], precision: 2) %> €</div>
+              <div><%= (@pointsdeventeparca[point]*100).fdiv(@catotal).round(2).nan? ? "0" : (@pointsdeventeparca[point]*100).fdiv(@catotal).round(2) %> %</div>
             </div>
           </li>
           <% counter += 1 %>
@@ -49,7 +48,13 @@
                     <% end %>
                   <% end %>
                 </div>
-                <div><%= vente.total_ttc.nil? ? vente.total_ttc.to_i : number_with_precision(vente.total_ttc, precision: 2)%> €</div>
+                <div>
+                  <% if vente.montant_arrondi == 0 || vente.montant_arrondi.nil? %>
+                    <%= vente.total_ttc.nil? ? vente.total_ttc.to_i : number_with_precision(vente.total_ttc, precision: 2)%> €
+                  <% else %>
+                    <%= number_with_precision(vente.montant_arrondi, precision: 2) %> €
+                  <% end %>
+                </div>
               </div>
             </li>
           <% end %>
@@ -68,24 +73,24 @@
           <li>
             <div class="wrapper-recap-tout">
               <div>Total CA</div>
-              <div><%= @ventes.map(&:total_ttc).sum.nil? ? @ventes.map(&:total_ttc).sum.to_i : number_with_precision(@ventes.map(&:total_ttc).sum, precision: 2) %> €</div>
+              <div><%= number_with_precision(@catotal.to_f, precision: 2) %> €</div>
             </div>
           </li>
           <li>
             <div class="wrapper-recap-tout">
               <div>CA de la semaine (S<%= Date.today.strftime("%W").to_i+1 %>)</div>
-              <div><%= @ventes_semaine.empty? ? "0.00" : number_with_precision(@ventes_semaine.map(&:total_ttc).sum, precision: 2) %> €</div>
+              <div><%= number_with_precision(@casemaine, precision: 2) %> €</div>
             </div>
           </li>
           <li>
             <div class="wrapper-recap-tout">
               <div>CA du mois (M<%= @monthtoday %>) </div>
-              <div><%= @ventes_mois.map(&:total_ttc).sum.nil? ? "0.00" : number_with_precision(@ventes_mois.map(&:total_ttc).sum, precision: 2) %> €</div>
+              <div><%= number_with_precision(@camois, precision: 2) %> €</div>
             </div>
           </li>
         </ul>
       </div>
-      <%= pie_chart @pointsdevente.group(:categorie).sum(:total_ttc), colors: ["#585563", "#A1BD7F", "#5B2E48"] %>
+      <%= pie_chart @pointsdevente.group(:categorie).sum(:total_ttc), colors: ["#585563", "#A1BD7F", "#5B2E48", "#A1BD7F", "#5B2E48"] %>
     </div>
   </div>
 </div>

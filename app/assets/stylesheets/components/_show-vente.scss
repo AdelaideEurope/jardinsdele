@@ -148,7 +148,6 @@ hr {
   padding-left: 16px;
   padding-top: 8px;
   margin-bottom: 4px;
-  height: 36px;
   }
 }
 
@@ -170,4 +169,14 @@ hr {
 .submit-plus-commentaire-vente {
   display: flex;
   justify-content: center;
+}
+
+.commentaire-show-vente {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 16px;
+}
+
+.commentaire-show-vente-description {
+  width: 94%;
 }

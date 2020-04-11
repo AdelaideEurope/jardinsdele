@@ -35,8 +35,8 @@
 .ligne-total {
   height: 0px;
   border-bottom: 2px solid $dark-grey;
-  width: 72%;
-  margin: 2% 0% 0 28%;
+  width: 68%;
+  margin: 2% 12% 0 32%;
 }
 
 .parlieu-liste {
@@ -95,4 +95,14 @@
 
 .graphs-pv {
   margin-bottom: 200px;
+}
+
+.bouton-commentaire-liste-ventes {
+  padding-left: 0px;
+}
+
+.petit-plus-rond-vente-point {
+  height: 30px;
+  margin: 8px 0% 8px 94%;
+  display: flex;
 }

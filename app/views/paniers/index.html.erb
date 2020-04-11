@@ -54,7 +54,7 @@
                         <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
                       </div>
                         <div>
-                          <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete, data: { confirm: "Supprimer ?" }, :class => "delete-cross" do %>
+                          <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete, data: { confirm: "Supprimer ?" } do %>
                             <i class="fas fa-trash"></i>
                           <% end %>
                         </div>
@@ -184,7 +184,7 @@
                           <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
                         </div>
                           <div>
-                            <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete, data: { confirm: "Supprimer ?" }, :class => "delete-cross" do %>
+                            <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete, data: { confirm: "Supprimer ?" } do %>
                               <i class="fas fa-trash"></i>
                             <% end %>
                           </div>

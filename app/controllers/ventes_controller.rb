@@ -41,14 +41,12 @@ class VentesController < ApplicationController
     @ventes_semaine = @ventes.select { |m| m.date.strftime("%W").to_i + 1 == @week }
     @monthtoday = Date.today.month
     @ventes_mois = @ventes.select { |m| m.date.month == @monthtoday }
-    @catotal = @ventes.map(&:total_ttc).sum
-    @paniers = @pointsdevente.map { |pointdevente| pointdevente.panier_ids }.flatten
+    @catotal = @ventes.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
+    @casemaine = @ventes_semaine.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
+    @camois = @ventes_mois.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @ventes_panier = @ventes.select { |vente| vente.paniers.any? && vente.date >= Date.today }
-    @pointsdevente_panier = @pointsdevente.select { |pointdevente| pointdevente.paniers.any? }
-    @pointsdevente_ac_panier = Hash.new { |h, k| h[k] = "".to_i }
-    @pointsdevente_panier.each do |pointdevente|
-      @pointsdevente_ac_panier[pointdevente.nom] = pointdevente.id
-    end
+    venteparca
+
   end
 
   def update
@@ -80,6 +78,13 @@ private
 
   def ht_to_ttc(prix)
     prix + (prix * 5.5.fdiv(100))
+  end
+
+  def venteparca
+    @pointsdeventeparca = Hash.new { |hash, key| hash[key] = "".to_i }
+    @pointsdevente.each do |pointdevente|
+      @pointsdeventeparca[pointdevente] = pointdevente.ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
+    end
   end
 
 end

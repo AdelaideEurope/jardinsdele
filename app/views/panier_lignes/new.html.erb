@@ -5,13 +5,14 @@
     <%= simple_form_for [@vente, @panier, @lignedepanier] do |f| %>
       <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
       <div class="pu-ligne-panier">
-        <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true %>
+        <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "puttc-p" } %>
         <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
           <i class="fas fa-binoculars"></i>
         </button>
         <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
       </div>
-      <%= f.input :quantite, :label => "QUANTITÉ", required: true %>
+      <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantitenew-p" } %>
+      <%= f.input :totalttc, :label => "MONTANT TTC", input_html: { id: "ptttc-p" } %>
     <div class="bottom-button fixed-bottom">
     <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond" %>
     <% end %>

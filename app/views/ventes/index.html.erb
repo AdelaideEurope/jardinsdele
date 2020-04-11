@@ -52,7 +52,7 @@
                     <% end %>
                   </div>
                   <div>
-                    <%= number_with_precision(vente.total_ttc, precision: 2) %>
+                    <div><%= number_with_precision((vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi), precision: 2) %> €</div>
                   </div>
                 </div>
               </li>
@@ -89,7 +89,7 @@
                       <% end %>
                     <% end %>
                   </div>
-                  <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
+                  <div><%= number_with_precision((vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi), precision: 2) %> €</div>
                 </div>
               </li>
             <% end %>
@@ -134,7 +134,7 @@
                       <% end %>
                     <% end %>
                   </div>
-                  <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
+                  <div><%= number_with_precision((vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi), precision: 2) %> €</div>
                 </div>
               </li>
             <% end %>
@@ -169,7 +169,7 @@
                       <% end %>
                     <% end %>
                   </div>
-                  <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
+                  <div><%= number_with_precision((vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi), precision: 2) %> €</div>
                 </div>
               </li>
             <% end %>

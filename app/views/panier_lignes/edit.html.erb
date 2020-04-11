@@ -1,59 +1,61 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
   <h2 class="mb-5">Modifier une ligne pour le panier à <%= @panier.prix_ttc.to_i %> € de la vente du <%= @vente.date.strftime("%d/%m") %> à <%= @pointdevente.nom %></h2>
-  <div class="new-ligne-form">
-    <%= simple_form_for [@vente, @panier, @lignedepanier] do |f| %>
-      <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
-      <div class="pu-ligne-panier">
-        <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true %>
-        <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
-          <i class="fas fa-binoculars"></i>
-        </button>
-        <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
-      </div>
-      <%= f.input :quantite, :label => "QUANTITÉ", required: true %>
-    <div class="bottom-button fixed-bottom">
-    <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond" %>
-    <% end %>
+    <div class="new-ligne-form">
+      <%= simple_form_for [@vente, @panier, @lignedepanier] do |f| %>
+        <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
+        <div class="pu-ligne-panier">
+          <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "puttc-p" } %>
+          <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
+            <i class="fas fa-binoculars"></i>
+          </button>
+          <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
+        </div>
+        <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantitenew-p" } %>
+        <%= f.input :totalttc, :label => "MONTANT TTC", input_html: { id: "ptttc-p" } %>
+      <div class="bottom-button fixed-bottom">
+      <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond" %>
+      <% end %>
+    </div>
   </div>
-</div>
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content modal-content-planches modal-content-legumes">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><h2>Les prix généraux</h2></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="tous-legumes-modal">
-          <div class="liste-legume-modal mr-3">
-            <ul>
-              <% @sorted_legumes.first(@firsthalf).each do |legume| %>
-              <li class="prix-ge">
-                <div class="nom-legume-prixge"><%= legume.nom %></div>
-                <div class="prixge-legume"><%= legume.prix_general || "/" %> €</div>
-                <div class="unite-base-legume"><%= legume.unite || "/" %></div>
-              </li>
-              <% end %>
-            </ul>
-          </div>
-          <div class="liste-legume-modal ml-3">
-            <ul>
-              <% @sorted_legumes.last(@secondhalf).each do |legume| %>
-              <li class="prix-ge">
-                <div class="nom-legume-prixge"><%= legume.nom %></div>
-                <div class="prixge-legume"><%= legume.prix_general || "/" %> €</div>
-                <div class="unite-base-legume"><%= legume.unite || "/" %></div>
-              </li>
-              <% end %>
-            </ul>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content modal-content-planches modal-content-legumes">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><h2>Les prix généraux</h2></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="tous-legumes-modal">
+            <div class="liste-legume-modal mr-3">
+              <ul>
+                <% @sorted_legumes.first(@firsthalf).each do |legume| %>
+                <li class="prix-ge">
+                  <div class="nom-legume-prixge"><%= legume.nom %></div>
+                  <div class="prixge-legume"><%= legume.prix_general || "/" %> €</div>
+                  <div class="unite-base-legume"><%= legume.unite || "/" %></div>
+                </li>
+                <% end %>
+              </ul>
+            </div>
+            <div class="liste-legume-modal ml-3">
+              <ul>
+                <% @sorted_legumes.last(@secondhalf).each do |legume| %>
+                <li class="prix-ge">
+                  <div class="nom-legume-prixge"><%= legume.nom %></div>
+                  <div class="prixge-legume"><%= legume.prix_general || "/" %> €</div>
+                  <div class="unite-base-legume"><%= legume.unite || "/" %></div>
+                </li>
+                <% end %>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+<div id="savebeforeleaving"></div>

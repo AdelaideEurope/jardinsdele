@@ -418,7 +418,14 @@
       <ul>
         <% @vente.commentaires.each do |commentaire | %>
           <li>
-            <%= commentaire.description %>
+            <div class="commentaire-show-vente">
+              <div class="commentaire-show-vente-description"><%= commentaire.description %></div>
+              <div>
+                <%= link_to vente_commentaire_path(@vente, commentaire), method: :delete, data: { confirm: "Supprimer ?" } do %>
+                  <i class="fas fa-trash"></i>
+                <% end %>
+              </div>
+            </div>
           </li>
         <% end %>
       </ul>

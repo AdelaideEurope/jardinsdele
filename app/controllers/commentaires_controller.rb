@@ -19,6 +19,13 @@ class CommentairesController < ApplicationController
     end
   end
 
+  def destroy
+    @commentaire = Commentaire.find(params[:id])
+    @vente = @commentaire.vente
+    @commentaire.destroy
+    redirect_to vente_path(@vente)
+  end
+
   private
 
   def commentaire_params
