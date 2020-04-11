@@ -7,4 +7,21 @@ class CommentairesController < ApplicationController
       @commentaires = Commentaire.all
     end
   end
+
+  def create
+    @vente = Vente.find(params[:vente_id])
+    @commentaire = Commentaire.new(commentaire_params)
+    @commentaire.vente = @vente
+    if @commentaire.save
+      redirect_to vente_path(@vente)
+    else
+      render 'ventes/show'
+    end
+  end
+
+  private
+
+  def commentaire_params
+    params.require(:commentaire).permit(:description)
+  end
 end

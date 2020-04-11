@@ -6,4 +6,16 @@ class Vente < ApplicationRecord
   has_many :commentaires, dependent: :destroy
   validates :date, presence: true
   validates :vente_point, presence: true
+
+  def resteapercevoir
+    sommeapercevoir = []
+    if montant_arrondi.nil? || montant_arrondi == 0
+      sommeapercevoir << (total_ttc - montant_regle)
+    else
+      sommeapercevoir << montant_arrondi - montant_regle
+    end
+    @sommeapercevoir = sommeapercevoir.sum
+  end
 end
+
+

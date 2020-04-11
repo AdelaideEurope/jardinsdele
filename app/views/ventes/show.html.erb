@@ -1,5 +1,5 @@
 <%= render 'shared/navbar' %>
-<div class="container mt-4">
+<div class="container mt-4 mb-4">
   <h2>Vente <%= link_to vente_point_path(@vente.vente_point) do %><%= @vente.vente_point.nom %><% end %> du <%= @vente.date.strftime("%d/%m") %> - <%= @vente.total_ttc.nil? ? 0.00 : number_with_precision(@vente.total_ttc, precision: 2)%> €</h2>
 
   <div class="bouton-ajout-ligne">
@@ -411,8 +411,10 @@
         </li>
     </ul>
   </div>
-  <div class="separateur-paniers-ventes">
+
+    <div class="separateur-paniers-ventes mt-5"></div>
     <div class="commentaires-show-vente">
+      <h3><i class="fas fa-comment-alt"></i></h3>
       <ul>
         <% @vente.commentaires.each do |commentaire | %>
           <li>
@@ -421,7 +423,16 @@
         <% end %>
       </ul>
     </div>
-  </div>
+    <div class="plus-vente-show">
+      <%= simple_form_for([ @vente, @commentaire ]) do |f| %>
+        <%= f.input :description, as: :text, label: false, :placeholder => "Commentaire…" %>
+        <div class="submit-plus-commentaire-vente">
+          <%= f.submit  "", :type => :image, :src => image_path("plus-rond.png"), class: "img-plus-vente-show"%>
+        </div>
+      <% end %>
+    </div>
+
+
 </div>
 
 

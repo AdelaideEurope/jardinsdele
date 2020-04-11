@@ -26,7 +26,19 @@
             <% @ventes_futures.each do |vente| %>
               <li>
                 <div class="wrapper-ventes-par-semaine">
-                  <div><%= link_to vente_path(vente) do %><%= vente.date.strftime("%d/%m") %><% end %></div>
+                  <div>
+                    <% if vente.resteapercevoir > 0 %>
+                      <div class="text-danger">
+                        <%= link_to vente_path(vente) do %>
+                          <%= vente.date.strftime("%d/%m") %>
+                        <% end %>
+                      </div>
+                    <% else %>
+                      <%= link_to vente_path(vente) do %>
+                        <%= vente.date.strftime("%d/%m") %>
+                      <% end %>
+                    <% end %>
+                  </div>
                   <div><%= link_to vente_point_path(vente.vente_point) do %><%= vente.vente_point.nom %><%end%></div>
                   <div>
                     <% if vente.paniers.any? %>
@@ -39,7 +51,9 @@
                       <% end %>
                     <% end %>
                   </div>
-                  <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
+                  <div>
+                    <%= number_with_precision(vente.total_ttc, precision: 2) %>
+                  </div>
                 </div>
               </li>
             <% end %>
@@ -54,7 +68,19 @@
             <% @ventes_semaine[@week].sort_by(&:date).reverse.select { |vente| vente.date <= Date.today}.each do |vente| %>
               <li>
                 <div class="wrapper-ventes-par-semaine">
-                  <div><%= link_to vente_path(vente) do %> <%= vente.date.strftime("%d/%m") %><% end %></div>
+                  <div>
+                    <% if vente.resteapercevoir > 0 %>
+                      <div class="text-danger">
+                        <%= link_to vente_path(vente) do %>
+                          <%= vente.date.strftime("%d/%m") %>
+                        <% end %>
+                      </div>
+                    <% else %>
+                      <%= link_to vente_path(vente) do %>
+                        <%= vente.date.strftime("%d/%m") %>
+                      <% end %>
+                    <% end %>
+                  </div>
                   <div><%= link_to vente_point_path(vente.vente_point) do %><%= vente.vente_point.nom %><%end%></div>
                   <div>
                     <% if vente.paniers.any? %>
@@ -83,7 +109,19 @@
             <% @ventes_futures.each do |vente| %>
               <li>
                 <div class="wrapper-ventes-par-semaine">
-                  <div><%= link_to vente_path(vente) do %> <%= vente.date.strftime("%d/%m") %><% end %></div>
+                  <div>
+                    <% if vente.resteapercevoir > 0 %>
+                      <div class="text-danger">
+                        <%= link_to vente_path(vente) do %>
+                          <%= vente.date.strftime("%d/%m") %>
+                        <% end %>
+                      </div>
+                    <% else %>
+                      <%= link_to vente_path(vente) do %>
+                        <%= vente.date.strftime("%d/%m") %>
+                      <% end %>
+                    <% end %>
+                  </div>
                   <div><%= link_to vente_point_path(vente.vente_point) do %><%= vente.vente_point.nom %><%end%></div>
                   <div>
                     <% if vente.paniers.any? %>
@@ -110,7 +148,19 @@
             <% @ventes_mois[@month].sort_by(&:date).reverse.select { |vente| vente.date <= Date.today}.each do |vente| %>
               <li>
                 <div class="wrapper-ventes-par-semaine">
-                  <div><%= link_to vente_path(vente) do %> <%= vente.date.strftime("%d/%m") %><% end %></div>
+                  <div>
+                    <% if vente.resteapercevoir > 0 %>
+                      <div class="text-danger">
+                        <%= link_to vente_path(vente) do %>
+                          <%= vente.date.strftime("%d/%m") %>
+                        <% end %>
+                      </div>
+                    <% else %>
+                      <%= link_to vente_path(vente) do %>
+                        <%= vente.date.strftime("%d/%m") %>
+                      <% end %>
+                    <% end %>
+                  </div>
                   <div><%= link_to vente_point_path(vente.vente_point) do %><%= vente.vente_point.nom %><%end%></div>
                   <div>
                     <% if vente.paniers.any? %>

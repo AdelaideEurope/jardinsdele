@@ -11,6 +11,7 @@ class VentesController < ApplicationController
 
   def show
     @vente = Vente.find(params[:id])
+    @commentaire = Commentaire.new
     @lignedevente = VenteLigne.new
     @lignesdevente = @vente.vente_lignes
     @paniers = Panier.all.where(vente_id: @vente.id).select { |panier| panier.valide == true }

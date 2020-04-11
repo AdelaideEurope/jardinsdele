@@ -137,7 +137,11 @@ hr {
 }
 
 .commentaires-show-vente {
-  margin-top: 24px;
+  width: 50%;
+  margin: 0px auto 24px;
+  .fa-comment-alt {
+    font-size: 24px;
+  }
   li {
   background: $light-grey;
   list-style: none;
@@ -146,4 +150,24 @@ hr {
   margin-bottom: 4px;
   height: 36px;
   }
+}
+
+.plus-vente-show {
+  margin: 0 auto 48px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.img-plus-vente-show {
+  height: 24px;
+}
+
+#new_commentaire {
+  width: 100%;
+}
+
+.submit-plus-commentaire-vente {
+  display: flex;
+  justify-content: center;
 }
