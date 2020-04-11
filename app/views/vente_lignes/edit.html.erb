@@ -1,0 +1,151 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <h2 class="mb-5">Modifier la ligne pour la vente à <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %></h2>
+  <%= simple_form_for [@vente, @lignedevente] do |f| %>
+    <div class="new-ligne">
+      <div class="left-col">
+        <div id="ligne-legume">
+          <%= f.association :legume, label_method: :nom, :label => "LÉGUME",
+          input_html: { class: 'select2' } %>
+
+        </div>
+        <%= f.input :quantite, :label => "QUANTITÉ", input_html: { id: "quantitenew" } %>
+        <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
+      </div>
+
+      <div class="right-col-new-ligne">
+        <div class="prixunitaire">
+          <%= f.input :prixunitaireht, :label => "PRIX UNITAIRE HT", input_html: { id: "puht" } %>
+          <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", input_html: { id: "puttc" } %>
+        </div>
+        <div class="prixtotal">
+          <%= f.input :totalht, :label => "PRIX TOTAL HT", input_html: { id: "ptht" } %>
+          <%= f.input :totalttc, :label => "PRIX TOTAL TTC", input_html: { id: "ptttc" } %>
+        </div>
+      </div>
+
+      <div class="last-col-new-ligne">
+        <button type="button" class="btn" data-toggle="modal" data-target="#modal-prixge">
+          <i class="fas fa-binoculars"></i>
+        </button>
+      </div>
+    </div>
+    <div class="bottom-button fixed-bottom">
+      <%= f.submit  " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond" %>
+    </div>
+  <% end %>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-content-planches">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><h2>Les planches</h2></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="columns">
+          <div class="left-col">
+            <% jardins_left = ["Jardin D", "Jardin E", "Jardin F"] %>
+            <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
+              <div class="jardins">
+                <div class="jardins-titre"><p><%= jardin %></p></div>
+                <ul class="lignes-planche">
+                  <% planches.each do |planche| %>
+                    <li>
+                      <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
+                      <% if plantations.any? %>
+                        <% plantations.map {|plantation| plantation.legume}.uniq.each do |legume| %>
+                          <% if legume != nil? %>
+                            <div class="ligne-planche <%= legume.famille.tr("é", "e").downcase %>-bg-color">
+                              <%= planche.nom %> - <%= legume.nom %>
+                            </div>
+                          <% else %>
+                            <%= planche.nom %>
+                          <% end %>
+                        <% end %>
+                      <% else %>
+                        <%= planche.nom %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+          <div class="right-col">
+            <% jardins_left = ["Jardin A", "Jardin B", "Jardin C"] %>
+            <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
+              <div class="jardins">
+                <div class="jardins-titre"><p><%= jardin %></p></div>
+                <ul class="lignes-planche">
+                  <% planches.each do |planche| %>
+                    <li>
+                      <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
+                      <% if plantations.any? %>
+                        <% plantations.map {|plantation| plantation.legume}.uniq.each do |legume| %>
+                          <% if legume != nil? %>
+                            <div class="ligne-planche <%= legume.famille.tr("é", "e").downcase %>-bg-color">
+                              <%= planche.nom %> - <%= legume.nom %>
+                            </div>
+                          <% else %>
+                            <%= planche.nom %>
+                          <% end %>
+                        <% end %>
+                      <% else %>
+                        <%= planche.nom %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-prixge" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-content-prixge">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><h2>Les prix généraux</h2></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="tous-legumes-modal">
+          <div class="liste-legume-modal mr-3">
+            <ul>
+              <% @sorted_legumes.first(@firsthalf).each do |legume| %>
+              <li class="prix-ge">
+                <div class="nom-legume-prixge"><%= legume.nom %></div>
+                <div class="prixge-legume"><%= legume.prix_general || "/" %> €</div>
+                <div class="unite-base-legume"><%= legume.unite || "/" %></div>
+              </li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="liste-legume-modal ml-3">
+            <ul>
+              <% @sorted_legumes.last(@secondhalf).each do |legume| %>
+              <li class="prix-ge">
+                <div class="nom-legume-prixge"><%= legume.nom %></div>
+                <div class="prixge-legume"><%= legume.prix_general || "/" %> €</div>
+                <div class="unite-base-legume"><%= legume.unite || "/" %></div>
+              </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

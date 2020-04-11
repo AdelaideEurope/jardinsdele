@@ -63,7 +63,7 @@
 
       <% while @week > 0 %>
         <% unless @ventes_semaine[@week].nil? %>
-          <h3 class="mt-5">S<%= @week %> (<%= number_with_precision(@ventes_semaine[@week].map(&:total_ttc).sum, precision: 2) %> €)</h3>
+          <h3 class="mt-5">S<%= @week %> (<%= number_with_precision(@ventes_semaine[@week].map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum, precision: 2) %> €)</h3>
           <ul>
             <% @ventes_semaine[@week].sort_by(&:date).reverse.select { |vente| vente.date <= Date.today}.each do |vente| %>
               <li>
@@ -143,7 +143,7 @@
 
       <% while @month > 0 %>
         <% unless @ventes_mois[@month].nil? %>
-          <h3 class="mt-5">M<%= @month %> (<%= number_with_precision(@ventes_mois[@month].map(&:total_ttc).sum, precision: 2) %> €)</h3>
+          <h3 class="mt-5">M<%= @month %> (<%= number_with_precision(@ventes_mois[@month].select { |vente| vente.date <= Date.today}.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum, precision: 2) %> €)</h3>
           <ul>
             <% @ventes_mois[@month].sort_by(&:date).reverse.select { |vente| vente.date <= Date.today}.each do |vente| %>
               <li>

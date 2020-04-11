@@ -32,7 +32,7 @@
         </div>
       </li>
       <% @lignesdevente.sort_by(&:legume).each do |lignedevente| %>
-        <li>
+        <li class="ligne-vente-ac-modif">
           <div class="wrapper-ligne-vente mt-1">
             <div><%= lignedevente.legume.nom %></div>
             <div>
@@ -157,6 +157,7 @@
             <div><%= number_with_precision(lignedevente.totalht, precision: 2) %> €</div>
             <div><%= number_with_precision(lignedevente.totalttc, precision: 2) %> €</div>
           </div>
+          <div class="modifier-ligne"><%= link_to edit_vente_vente_ligne_path(@vente, lignedevente) do %> <i class="fas fa-pencil-alt"></i><% end %></div>
         </li>
       <% end %>
       <% unless @paniers.empty? || @lignesdevente.empty? %>

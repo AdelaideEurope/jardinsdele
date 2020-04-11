@@ -1,13 +1,13 @@
 .wrapper-ligne-vente {
   display: grid;
-  grid-template-columns: 3fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr 2fr 2fr;
+  grid-template-columns: 3fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr 2fr 1.6fr;
   flex-grow: 1;
   padding-left: 16px;
 }
 
 .wrapper-ligne-vente-arrondi {
   display: grid;
-  grid-template-columns: 3fr 1.5fr 1.5fr 1.5fr 2.5fr 0.5fr 2fr 2fr;
+  grid-template-columns: 3fr 1.5fr 1.5fr 1.5fr 2.5fr 0.5fr 2fr 1.6fr;
   flex-grow: 1;
   padding-left: 16px;
 }
@@ -34,7 +34,7 @@
 hr {
   border-top: 2px solid $dark-grey;
   margin-top: 2%;
-  width: 32%;
+  width: 28%;
 }
 
 .ligne-total-vente {
@@ -179,4 +179,14 @@ hr {
 
 .commentaire-show-vente-description {
   width: 94%;
+}
+
+.ligne-vente-ac-modif {
+  display: flex;
+  position: relative;
+}
+
+.modifier-ligne {
+  position: absolute;
+  right: -20px;
 }
