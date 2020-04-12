@@ -118,7 +118,7 @@
               </li>
               <% if panier.valide == false && panier.vente.date >= Date.yesterday && panier.engagement == true %>
                 <div class="bouton-ecart">
-                  <button type="button" data-toggle="tooltip" data-html="true" title="<div>Écart cumulé : <%= @ecarts[panier.prix_ttc] %> €</div><div>Avec ce panier, l'écart sera de <%= @ecarts[panier.prix_ttc] + ((panier.prix_reel_ttc || 0.00) - panier.prix_ttc) %> €</div>">
+                  <button type="button" data-toggle="tooltip" data-html="true" title="<div>Écart cumulé : <%= @ecarts[panier.prix_ttc] %> €</div><div>Avec ce panier, l'écart sera de <%= number_with_precision((@ecarts[panier.prix_ttc] + ((panier.prix_reel_ttc || 0.00) - panier.prix_ttc)), precision: 2) %> €</div>">
                     <i class="far fa-question-circle"></i>
                   </button>
                 </div>

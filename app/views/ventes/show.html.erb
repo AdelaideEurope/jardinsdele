@@ -1,6 +1,6 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4 mb-4">
-  <h2>Vente <%= link_to vente_point_path(@vente.vente_point) do %><%= @vente.vente_point.nom %><% end %> du <%= @vente.date.strftime("%d/%m") %> - <%= @vente.total_ttc.nil? ? 0.00 : number_with_precision(@vente.total_ttc, precision: 2)%> €</h2>
+  <h2>Vente <%= link_to vente_point_path(@vente.vente_point) do %><%= @vente.vente_point.nom %><% end %> du <%= @vente.date.strftime("%d/%m") %> - <%= number_with_precision((@vente.montant_arrondi.nil? || @vente.montant_arrondi.zero? ? @vente.total_ttc : @vente.montant_arrondi), precision: 2) %> €</h2>
 
   <div class="bouton-ajout-ligne">
     <div>
