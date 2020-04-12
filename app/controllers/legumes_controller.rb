@@ -54,10 +54,29 @@ class LegumesController < ApplicationController
     @meilleurslegumes = @legumesparca.sort_by{ |k, v| v}.reverse.first(3).map {|legume| legume[0] }
 
     @activites = Activite.all
-    planches = Planche.all
-    @jardins = planches.group_by { |planche| planche.jardin }
+    @planches = Planche.all
+    @jardins = @planches.group_by { |planche| planche.jardin }
     @lignesdevente = VenteLigne.all
+
+    # @affichageplantation = {}
+    # @planches.each do |planche|
+    #   @affichageplantation[planche.nom] = {}
+    #   planche.activites.sort_by(&:date).each do |activite|
+    #     unless activite.legume.nil?
+    #       @affichageplantation[planche.nom][activite.legume.nom] = activite.nom
+    #     end
+    #   end
+    # end
+
   end
+
+  # def legumes(legumes)
+
+  # end
+  # def legumes(legumes)
+  #     products.map do |product|
+  #       { id: product.id, name: product.name, size: product.size, prices: prices(product.prices) }
+  #     end
 
   def show
     @legume = Legume.friendly.find(params[:id])
