@@ -1,0 +1,90 @@
+<div class="container mt-4 mb-4">
+  <div class="infos-facture">
+    <div>Numéro de facture : <%= @vente.date_facture.strftime("%d%m") %><%= @vente.num_facture.to_s.rjust(4,'0') %></div>
+    <div>Mode de réglement : virement / chèque</div>
+    <div><b>Date de facturation : <%= @vente.date_facture.strftime("%d/%m/%Y") %></b></div>
+    <div>À régler avant le : <%= (@vente.date_facture + 1.month - 1.day).strftime("%d/%m/%Y") %></div>
+  </div>
+
+  <div class="coordonnees-ele">
+    <div class="jardinsdele">Les Jardins d'Elé</div>
+    <div class="adresse-ele">
+      <div>41, chemin Bourrelières</div>
+      <div>38410 Vaulnaveys-le-Bas</div>
+      <div>FRANCE</div>
+      <div>SIRET : 83519329300015</div>
+    </div>
+  </div>
+
+  <div class="alignement-coordonnees">
+    <div></div>
+    <div class="coordonnees-client">
+      <div class="nom-client"><%= @pointdevente.nom %></div>
+      <div class="adresse-client">
+        <div><%= @pointdevente.adresse %></div>
+        <div><%= @pointdevente.code_postal %> <%= @pointdevente.ville %></div>
+        <div>FRANCE</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="facture">FACTURE</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Réf.</th>
+        <th scope="col">Description</th>
+        <th scope="col">Qua.</th>
+        <th scope="col">Prix unit.</th>
+        <th scope="col">Montant</th>
+        <th scope="col">TVA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% counter = 1 %>
+      <% @lignesdevente.sort_by(&:legume).each do |lignedevente| %>
+      <tr>
+        <th scope="row">REF00<%= counter %></th>
+        <td><%= number_with_precision(lignedevente.legume.nom, precision: 2) %></td>
+        <td><%= lignedevente.quantite %></td>
+        <td><%= number_with_precision(lignedevente.prixunitaireht, precision: 2) %></td>
+        <td><%= number_with_precision(lignedevente.totalht, precision: 2) %></td>
+        <td>5.5</td>
+      </tr>
+      <% counter += 1 %>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="conditions-facture">Réserve de propriété (loi du 12/05/1980) : la marchandise reste notre propriété jusqu'au paiement intégral</div>
+
+  <table class="table table-recap">
+    <tr>
+      <thead>
+        <th scope="col">Total HT</th>
+        <th scope="col"><%= number_with_precision(@vente.total_ht, precision: 2) %> €</th>
+      <thead>
+    </tr>
+    <tbody>
+      <tr>
+        <td>Total TVA</th>
+        <td><%= number_with_precision(@vente.total_ttc - @vente.total_ht, precision: 2) %> €</th>
+      </tr>
+      <tr>
+        <td>Total TTC</th>
+        <td><%= number_with_precision(@vente.total_ttc, precision: 2) %> €</th>
+      </tr>
+      <tr>
+        <td>Déjà réglé</th>
+        <td><%= number_with_precision(@vente.montant_regle, precision: 2) %> €</th>
+      </tr>
+      <tr>
+        <td><b>NET à payer</b></th>
+        <td><%= number_with_precision(@vente.total_ttc - @vente.montant_regle, precision: 2) %> €</th>
+      </tr>
+  </table>
+  <div class="aimable-reglement">En votre aimable règlement</div>
+  <div class="reglement-anticipe">Escompte pour réglement anticipé de 0 % - Pénalité en cas de retard de paiement : 1,5 fois le taux d'intéret légal</div>
+  <div class="adresse-bas">Les Jardins d'Elé - 41, chemin Bourrelières 38410 Vaulnaveys-le-Bas - Tél. : 0671671001</div>
+</div>
+
+

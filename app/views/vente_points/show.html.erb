@@ -110,7 +110,11 @@
         <% @ventes.sort_by(&:date).reverse.each do |vente| %>
           <li>
             <div class="wrapper-ventes-par-mois">
-              <div></div>
+              <div>
+                <% if vente.num_facture != nil? %>
+                  <%= link_to vente_facture_path(vente) do %><%= vente.date_facture.strftime("%d%m") %><%= vente.num_facture.to_s.rjust(4,'0') %> <% end %>
+                <% end %>
+              </div>
               <div><%= link_to vente_path(vente) do %><%= vente.date.strftime("%d/%m") %><% end %></div>
               <div>
                 <% if vente.commentaires.any? %>

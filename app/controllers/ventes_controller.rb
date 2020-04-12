@@ -17,6 +17,7 @@ class VentesController < ApplicationController
     @paniers = Panier.all.where(vente_id: @vente.id).select { |panier| panier.valide == true }
     @planches = Planche.all
     @jardins = @planches.group_by { |planche| planche.jardin }
+    @num_factures = Vente.all.reject { |vente| vente.num_facture.nil? }.map { |vente| vente.num_facture}.last + 1
   end
 
   def new
@@ -48,11 +49,26 @@ class VentesController < ApplicationController
     venteparca
   end
 
+  def facture
+    @vente = Vente.find(params[:id])
+    @pointdevente = @vente.vente_point
+    @commentaire = Commentaire.new
+    @lignedevente = VenteLigne.new
+    @lignesdevente = @vente.vente_lignes
+    @paniers = Panier.all.where(vente_id: @vente.id).select { |panier| panier.valide == true }
+  end
+
   def update
     @vente = Vente.find(params[:id])
     montant_regle = params[:vente][:montant_regle]
     montant_arrondi = params[:vente][:montant_arrondi]
-    if montant_regle.nil? || montant_regle == ""
+    num_facture = params[:vente][:num_facture]
+    date_facture = params[:vente][:date_facture]
+    if montant_arrondi.nil? && montant_regle.nil?
+      if @vente.update(num_facture: num_facture, date_facture: date_facture)
+        redirect_to vente_facture_path(@vente)
+      end
+    elsif montant_regle.nil? || montant_regle == ""
       if @vente.update(montant_arrondi: montant_arrondi)
         flash[:notice] = "Montant arrondi renseigné avec succès !"
         redirect_to vente_path(@vente)

@@ -12,8 +12,8 @@ class VentePointsController < ApplicationController
     @ventes = @pointdevente.ventes
     @ventes_ac_panier = @ventes.select { |vente| vente.paniers.any? }
     @paniers = Panier.all.where(vente_id: @ventes.ids)
-    @sommearrondis = @ventes.map {|vente| vente.montant_arrondi }.sum
-    @sommeregles = @ventes.map {|vente| vente.montant_regle }.sum
+    @sommearrondis = @ventes.map {|vente| vente.montant_arrondi || 0 }.sum
+    @sommeregles = @ventes.map {|vente| vente.montant_regle || 0 }.sum
     sommeapercevoir = []
     @ventes.each do |vente|
       if vente.montant_arrondi.nil? || vente.montant_arrondi == 0

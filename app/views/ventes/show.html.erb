@@ -437,9 +437,15 @@
       <% end %>
     </div>
 
+    <div class="facture-vente">
+      <%= simple_form_for [@vente] do |f| %>
+        <div><%= f.hidden_field :num_facture, :value => "#{@num_factures}" %></div>
+        <div><%= f.hidden_field :date_facture, :value => "#{Date.today}" %></div>
+        <%= f.submit "", :type => :image, :src => image_path("facture.png"), class: "img-facture-vente", data: { confirm: 'Attention, ceci va générer un numéro de facture ! Tout est bon ?' }  %>
+      <% end %>
+    </div>
 
 </div>
-
 
 
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_10_214111) do
+ActiveRecord::Schema.define(version: 2020_04_12_210738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -208,6 +208,8 @@ ActiveRecord::Schema.define(version: 2020_04_10_214111) do
     t.decimal "total_ttc", default: "0.0"
     t.decimal "montant_regle", default: "0.0"
     t.decimal "montant_arrondi"
+    t.datetime "date_facture"
+    t.integer "num_facture"
     t.index ["vente_point_id"], name: "index_ventes_on_vente_point_id"
   end
 
