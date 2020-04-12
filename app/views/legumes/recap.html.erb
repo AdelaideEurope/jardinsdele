@@ -71,7 +71,7 @@
                           <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
                         </div>
                       <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
-                        <%= key %>
+                        <%= nomlegume.nom %>
                       <% end %>
                     <% end %>
                   <% end %>
@@ -82,8 +82,8 @@
         <% end %>
     </div>
     <div class="right-col">
-      <% jardins_left = ["Jardin A", "Jardin B", "Jardin C"] %>
-      <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
+      <% jardins_right = ["Jardin A", "Jardin B", "Jardin C"] %>
+      <% @jardins.select { |jardin, _value| jardins_right.include?(jardin)}.each do |jardin, planches| %>
         <div class="jardins">
           <div class="jardins-titre"><p><%= jardin %></p></div>
           <ul class="lignes-planche">
@@ -123,7 +123,7 @@
                           <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
                         </div>
                       <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
-                        <%= key %>
+                        <%= nomlegume.nom %>
                       <% end %>
                     <% end %>
                   <% end %>

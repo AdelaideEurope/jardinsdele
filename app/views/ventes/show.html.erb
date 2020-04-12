@@ -55,6 +55,7 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
+
                       <div class="modal-body">
                         <div class="columns">
                           <div class="left-col">
@@ -65,30 +66,65 @@
                                 <ul class="lignes-planche">
                                   <% planches.each do |planche| %>
                                     <li>
-                                      <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
-                                      <% if plantations.any? %>
-                                        <% plantations.map {|plantation| plantation.legume}.uniq.each do |legume| %>
-                                          <% if legume != nil? %>
-                                            <div class="ligne-planche <%= legume.famille.tr("é", "e").downcase %>-bg-color">
+                                      <% activitesplanche = {} %>
+                                      <% planche.activites.sort_by(&:date).each do |activite|  %>
+                                        <% unless activite.legume.nil? %>
+                                          <% activitesplanche[activite.legume] = [] %>
+                                        <% end %>
+                                      <% end %>
+                                       <% planche.activites.sort_by(&:date).each do |activite|  %>
+                                        <% unless activite.nil? || activite.legume.nil? %>
+                                          <% activitesplanche[activite.legume] << activite.nom %>
+                                        <% end %>
+                                      <% end %>
+                                      <% if activitesplanche.empty? %>
+                                        <%= simple_form_for [@vente, lignedevente] do |f| %>
+                                          <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
+                                          <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
+                                        <% end %>
+                                      <% elsif activitesplanche.length == 1 %>
+                                        <% activitesplanche.each do |nomlegume, array| %>
+                                          <% if array.include?("Plantation") && array.exclude?("Nettoyage planche") %>
+                                            <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                                               <%= simple_form_for [@vente, lignedevente] do |f| %>
                                                   <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
-                                                  <%= f.submit "#{planche.nom} - #{legume.nom}", class: "update-planche-modal" %>
-                                              <% end %>
+                                                  <%= f.submit "#{planche.nom} - #{nomlegume.nom}", class: "update-planche-modal" %>
+                                               <% end %>
+                                            </div>
+                                          <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
+                                            <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                                              <%= simple_form_for [@vente, lignedevente] do |f| %>
+                                                  <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
+                                                  <%= f.submit "#{planche.nom} - #{nomlegume.nom}", class: "update-planche-modal" %>
+                                               <% end %>
                                             </div>
                                           <% else %>
                                             <%= simple_form_for [@vente, lignedevente] do |f| %>
-                                                <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
-                                                <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
+                                              <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
+                                              <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
                                             <% end %>
                                           <% end %>
                                         <% end %>
                                       <% else %>
-                                        <%= simple_form_for [@vente, lignedevente] do |f| %>
-                                            <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
-                                            <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
+                                        <% activitesplanche.each do |nomlegume, array| %>
+                                          <% if array.include?("Plantation") && array.exclude?("Nettoyage planche") %>
+                                            <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                                              <%= simple_form_for [@vente, lignedevente] do |f| %>
+                                                  <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
+                                                  <%= f.submit "#{planche.nom} - #{nomlegume.nom}", class: "update-planche-modal" %>
+                                               <% end %>
+                                            </div>
+                                          <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
+                                            <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                                              <%= simple_form_for [@vente, lignedevente] do |f| %>
+                                                  <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
+                                                  <%= f.submit "#{planche.nom} - #{nomlegume.nom}", class: "update-planche-modal" %>
+                                               <% end %>
+                                            </div>
+                                          <% end %>
                                         <% end %>
                                       <% end %>
-                                    </li>
+                                   </li>
                                   <% end %>
                                 </ul>
                               </div>
@@ -102,35 +138,71 @@
                                 <ul class="lignes-planche">
                                   <% planches.each do |planche| %>
                                     <li>
-                                      <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
-                                      <% if plantations.any? %>
-                                        <% plantations.map {|plantation| plantation.legume}.uniq.each do |legume| %>
-                                          <% if legume != nil? %>
-                                            <div class="ligne-planche <%= legume.famille.tr("é", "e").downcase %>-bg-color">
+                                      <% activitesplanche = {} %>
+                                      <% planche.activites.sort_by(&:date).each do |activite|  %>
+                                        <% unless activite.legume.nil? %>
+                                          <% activitesplanche[activite.legume] = [] %>
+                                        <% end %>
+                                      <% end %>
+                                       <% planche.activites.sort_by(&:date).each do |activite|  %>
+                                        <% unless activite.nil? || activite.legume.nil? %>
+                                          <% activitesplanche[activite.legume] << activite.nom %>
+                                        <% end %>
+                                      <% end %>
+                                      <% if activitesplanche.empty? %>
+                                        <%= simple_form_for [@vente, lignedevente] do |f| %>
+                                          <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
+                                          <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
+                                        <% end %>
+                                      <% elsif activitesplanche.length == 1 %>
+                                        <% activitesplanche.each do |nomlegume, array| %>
+                                          <% if array.include?("Plantation") && array.exclude?("Nettoyage planche") %>
+                                            <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                                               <%= simple_form_for [@vente, lignedevente] do |f| %>
                                                   <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
-                                                  <%= f.submit "#{planche.nom} - #{legume.nom}", class: "update-planche-modal" %>
-                                              <% end %>
+                                                  <%= f.submit "#{planche.nom} - #{nomlegume.nom}", class: "update-planche-modal" %>
+                                               <% end %>
+                                            </div>
+                                          <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
+                                            <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                                              <%= simple_form_for [@vente, lignedevente] do |f| %>
+                                                  <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
+                                                  <%= f.submit "#{planche.nom} - #{nomlegume.nom}", class: "update-planche-modal" %>
+                                               <% end %>
                                             </div>
                                           <% else %>
                                             <%= simple_form_for [@vente, lignedevente] do |f| %>
-                                                <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
-                                                <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
+                                              <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
+                                              <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
                                             <% end %>
                                           <% end %>
                                         <% end %>
                                       <% else %>
-                                        <%= simple_form_for [@vente, lignedevente] do |f| %>
-                                            <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
-                                            <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
+                                        <% activitesplanche.each do |nomlegume, array| %>
+                                          <% if array.include?("Plantation") && array.exclude?("Nettoyage planche") %>
+                                            <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                                              <%= simple_form_for [@vente, lignedevente] do |f| %>
+                                                  <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
+                                                  <%= f.submit "#{planche.nom} - #{nomlegume.nom}", class: "update-planche-modal" %>
+                                               <% end %>
+                                            </div>
+                                          <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
+                                            <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                                              <%= simple_form_for [@vente, lignedevente] do |f| %>
+                                                  <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
+                                                  <%= f.submit "#{planche.nom} - #{nomlegume.nom}", class: "update-planche-modal" %>
+                                               <% end %>
+                                            </div>
+                                          <% end %>
                                         <% end %>
                                       <% end %>
-                                    </li>
+                                   </li>
                                   <% end %>
                                 </ul>
                               </div>
                             <% end %>
                           </div>
+
                         </div>
                       </div>
                     </div>
@@ -214,82 +286,7 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                              <div class="columns">
-                                <div class="left-col">
-                                  <% jardins_left = ["Jardin D", "Jardin E", "Jardin F"] %>
-                                  <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
-                                    <div class="jardins">
-                                      <div class="jardins-titre"><p><%= jardin %></p></div>
-                                      <ul class="lignes-planche">
-                                        <% planches.each do |planche| %>
-                                          <li>
-                                            <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
-                                            <% if plantations.any? %>
-                                              <% plantations.map {|plantation| plantation.legume}.uniq.each do |legume| %>
-                                                <% if legume != nil? %>
-                                                  <div class="ligne-planche <%= legume.famille.tr("é", "e").downcase %>-bg-color">
-                                                    <%= simple_form_for [@vente, panier, lignedevente] do |f| %>
-                                                        <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
-                                                        <%= f.submit "#{planche.nom} - #{legume.nom}", class: "update-planche-modal" %>
-                                                    <% end %>
-                                                  </div>
-                                                <% else %>
-                                                  <%= simple_form_for [@vente, panier, lignedevente] do |f| %>
-                                                      <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
-                                                      <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
-                                                  <% end %>
-                                                <% end %>
-                                              <% end %>
-                                            <% else %>
-                                              <%= simple_form_for [@vente, panier, lignedevente] do |f| %>
-                                                  <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
-                                                  <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
-                                              <% end %>
-                                            <% end %>
-                                          </li>
-                                        <% end %>
-                                      </ul>
-                                    </div>
-                                  <% end %>
-                                </div>
-                                <div class="right-col">
-                                  <% jardins_left = ["Jardin A", "Jardin B", "Jardin C"] %>
-                                  <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
-                                    <div class="jardins">
-                                      <div class="jardins-titre"><p><%= jardin %></p></div>
-                                      <ul class="lignes-planche">
-                                        <% planches.each do |planche| %>
-                                          <li>
-                                            <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
-                                            <% if plantations.any? %>
-                                              <% plantations.map {|plantation| plantation.legume}.uniq.each do |legume| %>
-                                                <% if legume != nil? %>
-                                                  <div class="ligne-planche <%= legume.famille.tr("é", "e").downcase %>-bg-color">
-                                                    <%= simple_form_for [@vente, panier, lignedevente] do |f| %>
-                                                        <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
-                                                        <%= f.submit "#{planche.nom} - #{legume.nom}", class: "update-planche-modal" %>
-                                                    <% end %>
-                                                  </div>
-                                                <% else %>
-                                                  <%= simple_form_for [@vente, panier, lignedevente] do |f| %>
-                                                      <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
-                                                      <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
-                                                  <% end %>
-                                                <% end %>
-                                              <% end %>
-                                            <% else %>
-                                              <%= simple_form_for [@vente, panier, lignedevente] do |f| %>
-                                                  <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
-                                                  <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
-                                              <% end %>
-                                            <% end %>
-                                          </li>
-                                        <% end %>
-                                      </ul>
-                                    </div>
-                                  <% end %>
-                                </div>
-                              </div>
+
                             </div>
                           </div>
                         </div>

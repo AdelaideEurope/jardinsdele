@@ -70,50 +70,103 @@
                 <ul class="lignes-planche">
                   <% planches.each do |planche| %>
                     <li>
-                      <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
-                      <% if plantations.any? %>
-                        <% plantations.map {|plantation| plantation.legume}.uniq.each do |legume| %>
-                          <% if legume != nil? %>
-                            <div class="ligne-planche <%= legume.famille.tr("é", "e").downcase %>-bg-color">
-                              <%= planche.nom %> - <%= legume.nom %>
+                      <% activitesplanche = {} %>
+                      <% planche.activites.sort_by(&:date).each do |activite|  %>
+                        <% unless activite.legume.nil? %>
+                          <% activitesplanche[activite.legume] = [] %>
+                        <% end %>
+                      <% end %>
+                       <% planche.activites.sort_by(&:date).each do |activite|  %>
+                        <% unless activite.nil? || activite.legume.nil? %>
+                          <% activitesplanche[activite.legume] << activite.nom %>
+                        <% end %>
+                      <% end %>
+                      <% if activitesplanche.empty? %>
+                        <%= planche.nom %>
+                      <% elsif activitesplanche.length == 1 %>
+                        <% activitesplanche.each do |nomlegume, array| %>
+                          <% if array.include?("Plantation") && array.exclude?("Nettoyage planche") %>
+                            <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                              <%= planche.nom %> - <%= nomlegume.nom %>
+                            </div>
+                          <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
+                            <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                              <%= planche.nom %> - <%= nomlegume.nom %>
                             </div>
                           <% else %>
                             <%= planche.nom %>
                           <% end %>
                         <% end %>
                       <% else %>
-                        <%= planche.nom %>
+                        <% activitesplanche.each do |nomlegume, array| %>
+                          <% if array.include?("Plantation") && array.exclude?("Nettoyage planche") %>
+                            <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                              <%= planche.nom %> - <%= nomlegume.nom %>
+                            </div>
+                          <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
+                            <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                              <%= planche.nom %> - <%= nomlegume.nom %>
+                            </div>
+                          <% end %>
+                        <% end %>
                       <% end %>
-                    </li>
+                   </li>
                   <% end %>
                 </ul>
               </div>
             <% end %>
           </div>
           <div class="right-col">
-            <% jardins_left = ["Jardin A", "Jardin B", "Jardin C"] %>
-            <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
+            <% jardins_right = ["Jardin A", "Jardin B", "Jardin C"] %>
+            <% @jardins.select { |jardin, _value| jardins_right.include?(jardin)}.each do |jardin, planches| %>
               <div class="jardins">
                 <div class="jardins-titre"><p><%= jardin %></p></div>
                 <ul class="lignes-planche">
                   <% planches.each do |planche| %>
-                    <li>
-                      <% plantations = planche.activites.filter { |activite| activite.nom == "Plantation" } %>
-                      <% if plantations.any? %>
-                        <% plantations.map {|plantation| plantation.legume}.uniq.each do |legume| %>
-                          <% if legume != nil? %>
-                            <div class="ligne-planche <%= legume.famille.tr("é", "e").downcase %>-bg-color">
-                              <%= planche.nom %> - <%= legume.nom %>
-                            </div>
-                          <% else %>
-                            <%= planche.nom %>
+                      <li>
+                        <% activitesplanche = {} %>
+                        <% planche.activites.sort_by(&:date).each do |activite|  %>
+                          <% unless activite.legume.nil? %>
+                            <% activitesplanche[activite.legume] = [] %>
                           <% end %>
                         <% end %>
-                      <% else %>
-                        <%= planche.nom %>
-                      <% end %>
-                    </li>
-                  <% end %>
+                         <% planche.activites.sort_by(&:date).each do |activite|  %>
+                          <% unless activite.nil? || activite.legume.nil? %>
+                            <% activitesplanche[activite.legume] << activite.nom %>
+                          <% end %>
+                        <% end %>
+                        <% if activitesplanche.empty? %>
+                          <%= planche.nom %>
+                        <% elsif activitesplanche.length == 1 %>
+                          <% activitesplanche.each do |nomlegume, array| %>
+                            <% if array.include?("Plantation") && array.exclude?("Nettoyage planche") %>
+                              <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                                <%= planche.nom %> - <%= nomlegume.nom %>
+                              </div>
+                            <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
+                              <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                                <%= planche.nom %> - <%= nomlegume.nom %>
+                              </div>
+                            <% else %>
+                              <%= planche.nom %>
+                            <% end %>
+                          <% end %>
+                        <% else %>
+                          <% activitesplanche.each do |nomlegume, array| %>
+                            <% if array.include?("Plantation") && array.exclude?("Nettoyage planche") %>
+                              <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                                <%= planche.nom %> - <%= nomlegume.nom %>
+                              </div>
+                            <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
+                              <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                                <%= planche.nom %> - <%= nomlegume.nom %>
+                              </div>
+                            <% end %>
+                          <% end %>
+                        <% end %>
+                     </li>
+                    <% end %>
+                  </ul>
                 </ul>
               </div>
             <% end %>
