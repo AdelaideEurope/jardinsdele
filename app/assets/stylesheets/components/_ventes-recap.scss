@@ -85,6 +85,12 @@
     grid-gap: 10px;
   }
 
+  .wrapper-ventes-pointdevente {
+    display: grid;
+    grid-template-columns: 11vw 7vw 5vw 12vw 12.5vw 12vw;
+    grid-gap: 10px;
+  }
+
   .wrapper-ventes-par-semaine {
     display: grid;
     grid-template-columns: 8vw 27vw 5vw 4vw;
@@ -93,7 +99,7 @@
 
   .wrapper-ventes-par-pointdevente {
     display: grid;
-    grid-template-columns: 11vw 7vw 5vw 12vw 12.5vw 12vw 12vw;
+    grid-template-columns: 11vw 7vw 5vw 12vw 12.5vw 12vw;
     grid-gap: 10px;
     background-color: $light-grey;
     margin-bottom: 1%;

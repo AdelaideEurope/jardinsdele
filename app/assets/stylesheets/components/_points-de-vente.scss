@@ -35,12 +35,17 @@
 .ligne-total {
   height: 0px;
   border-bottom: 2px solid $dark-grey;
-  width: 68%;
-  margin: 2% 12% 0 32%;
+  width: 64%;
+  margin: 2% 12% 0 36%;
 }
 
 .parlieu-liste {
   margin-top: 36px;
+}
+
+.parlieu-liste-vente-point {
+  width: 82%;
+  margin: 36px 9% 0 9%;
 }
 
 .separateur-ventes {

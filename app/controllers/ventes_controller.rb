@@ -18,8 +18,10 @@ class VentesController < ApplicationController
     @planches = Planche.all
     @jardins = @planches.group_by { |planche| planche.jardin }
     @factures_ac_num = Vente.all.reject { |vente| vente.num_facture.nil? }
-    unless @factures_ac_num.empty?
-      @factures_ac_num.map { |vente| vente.num_facture}.last + 1
+    if @factures_ac_num.empty?
+      @num_factures = 1
+    else
+      @num_factures = @factures_ac_num.map { |vente| vente.num_facture}.last + 1
     end
   end
 

@@ -97,20 +97,19 @@
 <div class="container ventes-pointdevente">
   <% unless @ventes.empty? %>
     <h3>Les ventes</h3>
-    <div class="parlieu-liste">
+    <div class="parlieu-liste-vente-point">
       <ul>
         <div class="wrapper-ventes-par-pointdevente">
           <div>Facture</div>
           <div>Date</div>
           <div><i class="fas fa-comment-alt"></i></div>
-          <div>Total vente TTC</div>
-          <div>Montant arrondi</div>
+          <div>Montant total</div>
           <div>Montant réglé</div>
           <div>Reste à percevoir</div>
         </div>
         <% @ventes.sort_by(&:date).reverse.each do |vente| %>
           <li>
-            <div class="wrapper-ventes-par-mois">
+            <div class="wrapper-ventes-pointdevente">
               <div>
                 <% unless vente.num_facture.nil? %>
                   <%= link_to vente_facture_path(vente) do %><%= vente.date_facture.strftime("%d%m") %><%= vente.num_facture.to_s.rjust(4,'0') %> <% end %>
@@ -124,8 +123,13 @@
                   </button>
                 <% end %>
               </div>
-              <div><%= number_with_precision(vente.total_ttc, precision: 2) %> €</div>
-              <div><%= number_with_precision(vente.montant_arrondi || 0.00, precision: 2) %> €</div>
+              <div>
+                <% if vente.montant_arrondi.nil? || vente.montant_arrondi == 0 %>
+                  <%= number_with_precision(vente.total_ttc, precision: 2) %> €
+                <% else %>
+                  <%= number_with_precision(vente.montant_arrondi, precision: 2) %> €
+                <% end %>
+              </div>
               <div><%= number_with_precision(vente.montant_regle || 0.00, precision: 2) %> €</div>
               <div>
                 <% if vente.montant_arrondi.nil? || vente.montant_arrondi == 0 %>
@@ -150,8 +154,7 @@
           <div></div>
           <div></div>
           <div></div>
-          <div><%= number_with_precision(@pointdevente.ventes.map(&:total_ttc).sum, precision: 2) %> €</div>
-          <div><%= number_with_precision(@sommearrondis, precision: 2) %> €</div>
+          <div><%= number_with_precision(@pointsdeventeparca[@pointdevente], precision: 2) %> €</div>
           <div><%= number_with_precision(@sommeregles, precision: 2) %> €</div>
           <% if @sommeapercevoir > 0 %>
             <div class="text-danger">

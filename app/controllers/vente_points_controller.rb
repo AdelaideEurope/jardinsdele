@@ -9,6 +9,7 @@ class VentePointsController < ApplicationController
 
   def show
     @pointdevente = VentePoint.find(params[:id])
+    @pointsdevente = VentePoint.all
     @ventes = @pointdevente.ventes
     @ventes_ac_panier = @ventes.select { |vente| vente.paniers.any? }
     @paniers = Panier.all.where(vente_id: @ventes.ids)
@@ -24,6 +25,7 @@ class VentePointsController < ApplicationController
     end
     @sommeapercevoir = sommeapercevoir.sum
     @commentaires = Commentaire.where(vente_id: @ventes.ids)
+    venteparca
   end
 
   def new
@@ -60,4 +62,10 @@ private
     params.require(:vente_point).permit(:nom, :categorie, :total_ht, :total_ttc, :adresse, :ville, :code_postal, :email)
   end
 
+  def venteparca
+    @pointsdeventeparca = Hash.new { |hash, key| hash[key] = "".to_i }
+    @pointsdevente.each do |pointdevente|
+      @pointsdeventeparca[pointdevente] = pointdevente.ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
+    end
+  end
 end
