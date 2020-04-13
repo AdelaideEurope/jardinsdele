@@ -3,12 +3,12 @@
   padding: 16px;
   border-radius: 8px;
   width: fit-content;
-  margin: 0 0% 0 66%;
+  height: fit-content;
 }
 
 .coordonnees-ele {
   margin-left: 96px;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 .jardinsdele {
@@ -101,5 +101,19 @@
 .details-facture {
   .table th {
     font-weight: unset;
+    border-top: none;
   }
+  .table {
+    width: 80%;
+    margin: 1% 10% 1rem 10%;
+  }
+}
+
+.facture-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo-ele-img {
+  height: 200px;
 }

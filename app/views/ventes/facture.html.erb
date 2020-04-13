@@ -1,9 +1,12 @@
 <div class="container mt-4 mb-4">
+  <div class="facture-top">
+  <div class="logoele"><%= image_tag "logo.png", class: "logo-ele-img" %> </div>
   <div class="infos-facture">
     <div>Numéro de facture : <%= link_to vente_path(@vente) do %><%= @vente.date_facture.strftime("%d%m") %><%= @vente.num_facture.to_s.rjust(4,'0') %> <% end %> </div>
     <div>Mode de réglement : virement / chèque</div>
     <div><b>Date de facturation : <%= @vente.date_facture.strftime("%d/%m/%Y") %></b></div>
     <div>À régler avant le : <%= (@vente.date_facture + 1.month - 1.day).strftime("%d/%m/%Y") %></div>
+  </div>
   </div>
 
   <div class="coordonnees-ele">
@@ -33,7 +36,6 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col"><b>Réf.</b></th>
           <th scope="col"><b>Description</b></th>
           <th scope="col"><b>Qua.</b></th>
           <th scope="col"><b>Prix unit.</b></th>
@@ -42,17 +44,14 @@
         </tr>
       </thead>
       <tbody>
-        <% counter = 1 %>
         <% @lignesdevente.sort_by(&:legume).each do |lignedevente| %>
         <tr>
-          <th scope="row">REF00<%= counter %></th>
-          <td><%= number_with_precision(lignedevente.legume.nom, precision: 2) %></td>
-          <td><%= lignedevente.quantite %></td>
+          <th scope="row"><%= number_with_precision(lignedevente.legume.nom, precision: 2) %></th>
+          <td><%= rem_trailing_zero(lignedevente.quantite) %></td>
           <td><%= number_with_precision(lignedevente.prixunitaireht, precision: 2) %></td>
           <td><%= number_with_precision(lignedevente.totalht, precision: 2) %></td>
           <td>5.5</td>
         </tr>
-        <% counter += 1 %>
         <% end %>
       </tbody>
     </table>
