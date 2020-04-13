@@ -40,6 +40,9 @@
     justify-content: space-between;
   }
   padding: 16px;
+  button {
+    padding: 0px;
+  }
 }
 
 .quantite-prix-legume-panier {
@@ -146,4 +149,10 @@
   font-size: 14px;
   font-style: italic;
   margin-top: -12px;
+}
+
+.modal-new-ligne-panier {
+  height: unset;
+  width: 400px !important;
+  text-align: left;
 }

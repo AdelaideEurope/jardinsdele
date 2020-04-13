@@ -6,7 +6,7 @@
       <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
       <div class="pu-ligne-panier">
         <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "puttc-p" } %>
-        <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
+        <button type="button" class="btn" data-toggle="modal" data-target="#modal-detailprixge-legumes">
           <i class="fas fa-binoculars"></i>
         </button>
         <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
@@ -20,11 +20,11 @@
 </div>
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-detailprixge-legumes" tabindex="-1" role="dialog" aria-labelledby="modal-detailprixge-legumesLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content modal-content-planches modal-content-legumes">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><h2>Les prix généraux</h2></h5>
+        <h5 class="modal-title" id="modal-detailprixge-legumesLabel"><h2>Les prix généraux</h2></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

@@ -24,7 +24,7 @@
         <div class="cadre-paniers-pointvente">
           <div class="titre-cadre-paniers">
             <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> <%= panier.quantite > 1 ? "panier".pluralize : "panier" %>)
-            <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+            <% if panier.valide == false %>
               <%= link_to edit_vente_panier_path(@vente, panier) do %>
                 <i class="fas fa-pencil-alt"></i>
               <% end %>
@@ -37,7 +37,7 @@
             <ul>
               <% panier.panier_lignes.sort_by(&:created_at).each do |ligne| %>
                 <li>
-                  <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+                  <% if panier.valide == false %>
                     <div class="panier-nom-legume">
                       <%= ligne.legume.nom %>
                     </div>
@@ -51,17 +51,39 @@
                         <% end %>
                       </div>
                       <div class="panier-prix-legume">
-                        <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
+                        <%= number_with_precision(ligne.prixunitairettc * ligne.quantite, precision: 2) %> €
                       </div>
                         <div>
-                          <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete, data: { confirm: "Supprimer ?" } do %>
+                          <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete do %>
                             <i class="fas fa-trash"></i>
                           <% end %>
                         </div>
                         <div>
-                          <%= link_to edit_vente_panier_panier_ligne_path(@vente, panier, ligne) do %>
+                          <button type="button" data-toggle="modal" data-target="#modal-edit-ligne-panier<%=ligne.id%>">
                             <i class="fas fa-pencil-alt"></i>
-                          <% end %>
+                          </button>
+                          <div class="modal fade" id="modal-edit-ligne-panier<%=ligne.id%>" tabindex="-1" role="dialog" aria-labelledby="modal-edit-ligne-panierLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content modal-new-ligne-panier">
+                                <div class="modal-body">
+                                    <div class="new-ligne-form">
+                                      <%= simple_form_for [@vente, panier, ligne] do |f| %>
+                                        <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
+                                        <div class="pu-ligne-panier">
+                                          <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "puttc-p" } %>
+                                          <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
+                                        </div>
+                                        <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantitenew-p" } %>
+
+                                      <div>
+                                      <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "submit-new-ligne" %>
+                                      <% end %>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                     </div>
                   <% else %>
@@ -74,22 +96,43 @@
                         <% if ligne.unite.nil? || ligne.unite == "" %>
                           <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                         <% else %>
-                          <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.unite.pluralize : ligne.unite %>
+                          <%= ligne.quantite > 1 && ligne.unite != "kg" ? ligne.unite.pluralize : ligne.unite %>
                         <% end %>
                       </div>
                       <div class="panier-prix-legume">
-                        <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
+                        <%= number_with_precision(ligne.prixunitairettc * ligne.quantite, precision: 2) %> €
                       </div>
                     </div>
                   <% end %>
                 </li>
               <% end %>
             </ul>
-            <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+            <% if panier.valide == false %>
               <div class="add-ligne">
-                <%= link_to new_vente_panier_panier_ligne_path(@vente, panier) do %>
-                  <% image_tag "plus-rond.png", class: "plus-rond-ligne" %>
-                <% end %>
+                <button type="button" data-toggle="modal" data-target="#modal-new-ligne-panier<%=panier.id%>">
+                  <%= image_tag "plus-rond.png", class: "plus-rond-ligne" %>
+                </button>
+              </div>
+              <div class="modal fade" id="modal-new-ligne-panier<%=panier.id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content modal-new-ligne-panier">
+                    <div class="modal-body">
+                        <div class="new-ligne-form">
+                          <%= simple_form_for [@vente, panier, @lignedepanier] do |f| %>
+                            <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
+                            <div class="pu-ligne-panier">
+                              <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "puttc-p" } %>
+                              <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
+                            </div>
+                            <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantitenew-p" } %>
+                          <div>
+                          <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "submit-new-ligne" %>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             <% end %>
             <ul>
@@ -99,9 +142,11 @@
                 <div class="total-panier">
                   <div class="panier-quantite-legume">
                     Total :
+                    <% total_panier = panier.panier_lignes.map {|ligne| ligne.quantite * ligne.prixunitairettc}.sum %>
                   </div>
                   <div class="panier-prix-legume">
-                    <%= number_with_precision(panier.prix_reel_ttc, precision: 2) || 0.00 %> €
+                    <% total_panier = panier.panier_lignes.map {|ligne| ligne.quantite * ligne.prixunitairettc}.sum %>
+                    <%= number_with_precision(total_panier, precision: 2) || 0.00 %> €
                   </div>
                 </div>
               </li>
@@ -109,16 +154,16 @@
                 <div></div>
                 <div class="ecart-panier">
                   <div class="panier-quantite-legume">Écart :</div>
-                  <% if (panier.prix_reel_ttc || 0.00) - panier.prix_ttc < 0 %>
-                    <div class="panier-prix-legume text-danger"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
+                  <% if (total_panier || 0.00) - panier.prix_ttc < 0 %>
+                    <div class="panier-prix-legume text-danger"><%= number_with_precision((total_panier || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
                   <% else %>
-                    <div class="panier-prix-legume text-success"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
+                    <div class="panier-prix-legume text-success"><%= number_with_precision((total_panier || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
                   <% end %>
                 </div>
               </li>
-              <% if panier.valide == false && panier.vente.date >= Date.yesterday && panier.engagement == true %>
+              <% if panier.valide == false && panier.engagement == true %>
                 <div class="bouton-ecart">
-                  <button type="button" data-toggle="tooltip" data-html="true" title="<div>Écart cumulé : <%= @ecarts[panier.prix_ttc] %> €</div><div>Avec ce panier, l'écart sera de <%= number_with_precision((@ecarts[panier.prix_ttc] + ((panier.prix_reel_ttc || 0.00) - panier.prix_ttc)), precision: 2) %> €</div>">
+                  <button type="button" data-toggle="tooltip" data-html="true" title="<div>Écart cumulé : <%= number_with_precision(@ecarts[panier.prix_ttc], precision: 2) %> €</div><div>Avec ce panier, l'écart sera de <%= number_with_precision((@ecarts[panier.prix_ttc] + ((total_panier || 0.00) - panier.prix_ttc)), precision: 2) %> €</div>">
                     <i class="far fa-question-circle"></i>
                   </button>
                 </div>
@@ -132,7 +177,7 @@
     <div class="cadres-paniers">
       <% @paniers.sort_by(&:prix_ttc).first(3).each do |panier| %>
         <div class="valider-panier">
-          <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+          <% if panier.valide == false %>
 
             <%= simple_form_for [@vente, panier] do |f| %>
                 <div><%= f.hidden_field :valide, :value => true %></div>
@@ -154,20 +199,20 @@
           <div class="cadre-paniers-pointvente">
             <div class="titre-cadre-paniers">
               <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> <%= panier.quantite > 1 ? "panier".pluralize : "panier" %>)
-              <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+              <% if panier.valide == false %>
                 <%= link_to edit_vente_panier_path(@vente, panier) do %>
                   <i class="fas fa-pencil-alt"></i>
                 <% end %>
               <% end %>
             </div>
-            <% if panier.engagement == true %>
-              <%= image_tag "panier_engagement.png", class: "panier-engagement" %>
-            <% end %>
+              <% if panier.engagement == true %>
+                <%= image_tag "panier_engagement.png", class: "panier-engagement" %>
+              <% end %>
             <div class="detail-paniers">
               <ul>
                 <% panier.panier_lignes.sort_by(&:created_at).each do |ligne| %>
                   <li>
-                    <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+                    <% if panier.valide == false %>
                       <div class="panier-nom-legume">
                         <%= ligne.legume.nom %>
                       </div>
@@ -181,17 +226,39 @@
                           <% end %>
                         </div>
                         <div class="panier-prix-legume">
-                          <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
+                          <%= number_with_precision(ligne.prixunitairettc * ligne.quantite, precision: 2) %> €
                         </div>
                           <div>
-                            <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete, data: { confirm: "Supprimer ?" } do %>
+                            <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete do %>
                               <i class="fas fa-trash"></i>
                             <% end %>
                           </div>
                           <div>
-                            <%= link_to edit_vente_panier_panier_ligne_path(@vente, panier, ligne) do %>
+                            <button type="button" data-toggle="modal" data-target="#modal-edit-ligne-panier<%=ligne.id%>">
                               <i class="fas fa-pencil-alt"></i>
-                            <% end %>
+                            </button>
+                            <div class="modal fade" id="modal-edit-ligne-panier<%=ligne.id%>" tabindex="-1" role="dialog" aria-labelledby="modal-edit-ligne-panierLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content modal-new-ligne-panier">
+                                  <div class="modal-body">
+                                      <div class="new-ligne-form">
+                                        <%= simple_form_for [@vente, panier, ligne] do |f| %>
+                                          <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
+                                          <div class="pu-ligne-panier">
+                                            <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "puttc-p" } %>
+                                            <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
+                                          </div>
+                                          <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantitenew-p" } %>
+
+                                        <div>
+                                        <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "submit-new-ligne" %>
+                                        <% end %>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                       </div>
                     <% else %>
@@ -204,22 +271,44 @@
                           <% if ligne.unite.nil? || ligne.unite == "" %>
                             <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                           <% else %>
-                            <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.unite.pluralize : ligne.unite %>
+                            <%= ligne.quantite > 1 && ligne.unite != "kg" ? ligne.unite.pluralize : ligne.unite %>
                           <% end %>
                         </div>
                         <div class="panier-prix-legume">
-                          <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
+                          <%= number_with_precision(ligne.prixunitairettc * ligne.quantite, precision: 2) %> €
                         </div>
                       </div>
                     <% end %>
                   </li>
                 <% end %>
               </ul>
-              <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+              <% if panier.valide == false %>
                 <div class="add-ligne">
-                  <%= link_to new_vente_panier_panier_ligne_path(@vente, panier) do %>
-                    <% image_tag "plus-rond.png", class: "plus-rond-ligne" %>
-                  <% end %>
+                  <button type="button" data-toggle="modal" data-target="#modal-new-ligne-panier<%=panier.id%>">
+                    <%= image_tag "plus-rond.png", class: "plus-rond-ligne" %>
+                  </button>
+                </div>
+                <div class="modal fade" id="modal-new-ligne-panier<%=panier.id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content modal-new-ligne-panier">
+                      <div class="modal-body">
+                          <div class="new-ligne-form">
+                            <%= simple_form_for [@vente, panier, @lignedepanier] do |f| %>
+                              <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
+                              <div class="pu-ligne-panier">
+                                <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "puttc-p" } %>
+                                <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
+                              </div>
+                              <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantitenew-p" } %>
+
+                            <div>
+                            <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "submit-new-ligne" %>
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               <% end %>
               <ul>
@@ -229,39 +318,42 @@
                   <div class="total-panier">
                     <div class="panier-quantite-legume">
                       Total :
+                      <% total_panier = panier.panier_lignes.map {|ligne| ligne.quantite * ligne.prixunitairettc}.sum %>
                     </div>
                     <div class="panier-prix-legume">
-                      <%= number_with_precision(panier.prix_reel_ttc, precision: 2) || 0.00 %> €
+                      <% total_panier = panier.panier_lignes.map {|ligne| ligne.quantite * ligne.prixunitairettc}.sum %>
+                      <%= number_with_precision(total_panier, precision: 2) || 0.00 %> €
                     </div>
                   </div>
                 </li>
                 <li>
-                <div></div>
-                <div class="ecart-panier">
-                  <div class="panier-quantite-legume">Écart :</div>
-                  <% if (panier.prix_reel_ttc || 0.00) - panier.prix_ttc < 0 %>
-                    <div class="panier-prix-legume text-danger"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
-                  <% else %>
-                    <div class="panier-prix-legume text-success"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
-                  <% end %>
-                </div>
-              </li>
-              <% if panier.valide == false && panier.vente.date >= Date.yesterday && panier.engagement == true %>
-                <div class="bouton-ecart">
-                  <button type="button" data-toggle="tooltip" data-html="true" title="<div>Écart cumulé : <%= @ecarts[panier.prix_ttc] %> €</div><div>Avec ce panier, l'écart sera de <%= number_with_precision(@ecarts[panier.prix_ttc] + ((panier.prix_reel_ttc || 0.00) - panier.prix_ttc), precision: 2) %> €</div>">
-                    <i class="far fa-question-circle"></i>
-                  </button>
-                </div>
-              <% end %>
+                  <div></div>
+                  <div class="ecart-panier">
+                    <div class="panier-quantite-legume">Écart :</div>
+                    <% if (total_panier || 0.00) - panier.prix_ttc < 0 %>
+                      <div class="panier-prix-legume text-danger"><%= number_with_precision((total_panier || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
+                    <% else %>
+                      <div class="panier-prix-legume text-success"><%= number_with_precision((total_panier || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
+                    <% end %>
+                  </div>
+                </li>
+                <% if panier.valide == false && panier.engagement == true %>
+                  <div class="bouton-ecart">
+                    <button type="button" data-toggle="tooltip" data-html="true" title="<div>Écart cumulé : <%= number_with_precision(@ecarts[panier.prix_ttc], precision: 2) %> €</div><div>Avec ce panier, l'écart sera de <%= number_with_precision((@ecarts[panier.prix_ttc] + ((total_panier || 0.00) - panier.prix_ttc)), precision: 2) %> €</div>">
+                      <i class="far fa-question-circle"></i>
+                    </button>
+                  </div>
+                <% end %>
               </ul>
             </div>
+
           </div>
         <% end %>
       </div>
       <div class="cadres-paniers">
         <% @paniers.sort_by(&:prix_ttc)[3..6].each do |panier| %>
           <div class="valider-panier">
-            <% if panier.valide == false && panier.vente.date >= Date.yesterday %>
+            <% if panier.valide == false %>
               <%= simple_form_for [@vente, panier] do |f| %>
                   <div><%= f.hidden_field :valide, :value => true %></div>
                   <%= f.submit "Valider le panier", class: "voir-tout-recap", data: {:confirm => "Tu as bien tout checké ?"} %>
@@ -290,7 +382,7 @@
             <div class="vente-paniers-index-paniers">
               <b><%= vente.date.strftime("%d/%m") %></b>
               <div class="cadres-paniers-vente-point">
-                <% vente.paniers.each do |panier| %>
+                <% vente.paniers.sort_by(&:prix_ttc).each do |panier| %>
                   <div class="cadre-paniers-pointvente">
                     <div class="titre-cadre-paniers">
                       <%= panier.prix_ttc.to_i %> € (<%= panier.quantite %> <%= panier.quantite > 1 ? "panier".pluralize : "panier" %>)
@@ -310,7 +402,7 @@
                                 <%= rem_trailing_zero(ligne.quantite) %> <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                               </div>
                               <div class="panier-prix-legume">
-                                <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
+                                <%= number_with_precision(ligne.prixunitairettc * ligne.quantite, precision: 2) %> €
                               </div>
                             </div>
                            </li>
@@ -323,9 +415,10 @@
                           <div class="total-panier">
                             <div class="panier-quantite-legume">
                               Total :
+                              <% total_panier = panier.panier_lignes.map {|ligne| ligne.quantite * ligne.prixunitairettc}.sum %>
                             </div>
                             <div class="panier-prix-legume">
-                              <%= number_with_precision(panier.prix_reel_ttc, precision: 2) || 0.00 %> €
+                              <%= number_with_precision(total_panier, precision: 2) || 0.00 %> €
                             </div>
                           </div>
                         </li>
@@ -333,10 +426,10 @@
                           <div></div>
                           <div class="ecart-panier">
                             <div class="panier-quantite-legume">Écart :</div>
-                            <% if (panier.prix_reel_ttc || 0.00) - panier.prix_ttc < 0 %>
-                            <div class="panier-prix-legume text-danger"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
+                            <% if (total_panier || 0.00) - panier.prix_ttc < 0 %>
+                              <div class="panier-prix-legume text-danger"><%= number_with_precision((total_panier || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
                             <% else %>
-                              <div class="panier-prix-legume"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
+                              <div class="panier-prix-legume"><%= number_with_precision((total_panier || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
                             <% end %>
                           </div>
                         </li>

@@ -23,6 +23,11 @@ class PaniersController < ApplicationController
     @pointdevente.paniers.where("valide = ? AND engagement = ?", true, true).each do |panier|
       @ecarts[panier.prix_ttc] += ((panier.prix_reel_ttc || 0.00) - panier.prix_ttc)
     end
+    @legumes = Legume.all
+    @sorted_legumes = @legumes.sort_by(&:legume_css)
+    @firsthalf = (@sorted_legumes.length/2.to_f).ceil
+    @secondhalf = @sorted_legumes.length/2
+    @lignedepanier = PanierLigne.new
   end
 
   def new
@@ -57,8 +62,12 @@ class PaniersController < ApplicationController
     @vente = Vente.find(params[:vente_id])
     @pointdevente = @vente.vente_point
     @panier = Panier.find(params[:id])
+    @lignesdepanier = @panier.panier_lignes
+    sommelignesttc = @lignesdepanier.map{|ligne|ligne.quantite * ligne.prixunitairettc}.sum.round(2)
+    @panier.prix_reel_ttc = sommelignesttc
     if @panier.update(panier_params)
       if params[:panier][:valide] == "true"
+        params[:panier][:prix_reel_ttc] = sommelignesttc
         if @vente.total_ht.nil?
           sommeht = 0
           sommettc = 0

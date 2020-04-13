@@ -17,7 +17,10 @@ class VentesController < ApplicationController
     @paniers = Panier.all.where(vente_id: @vente.id).select { |panier| panier.valide == true }
     @planches = Planche.all
     @jardins = @planches.group_by { |planche| planche.jardin }
-    @num_factures = Vente.all.reject { |vente| vente.num_facture.nil? }.map { |vente| vente.num_facture}.last + 1
+    @factures_ac_num = Vente.all.reject { |vente| vente.num_facture.nil? }
+    unless @factures_ac_num.empty?
+      @factures_ac_num.map { |vente| vente.num_facture}.last + 1
+    end
   end
 
   def new

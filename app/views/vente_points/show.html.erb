@@ -26,7 +26,7 @@
               </button>
               <div class="collapse" id="collapse-vente<%=vente.id%>">
                 <div class="card-body">
-                        <%= link_to new_vente_panier_path(vente) do %>
+                        <%= link_to vente_paniers_path(vente) do %>
                           <% image_tag "plus-rond.png", class: "petit-plus-rond-vente-point" %>
                         <% end %>
                   <div class="cadres-paniers-vente-point">
@@ -50,7 +50,7 @@
                                     <%= rem_trailing_zero(ligne.quantite) %> <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
                                   </div>
                                   <div class="panier-prix-legume">
-                                    <%= number_with_precision(ligne.prixunitairettc, precision: 2) %> €
+                                    <%= number_with_precision(ligne.prixunitairettc * ligne.quantite, precision: 2) %> €
                                   </div>
                                 </div>
                                </li>
@@ -65,7 +65,8 @@
                                   Total :
                                 </div>
                                 <div class="panier-prix-legume">
-                                  <%= number_with_precision(panier.prix_reel_ttc, precision: 2) || 0.00 %> €
+                                  <% total_panier = panier.panier_lignes.map {|ligne| ligne.quantite * ligne.prixunitairettc}.sum %>
+                                  <%= number_with_precision(total_panier, precision: 2) || 0.00 %> €
                                 </div>
                               </div>
                             </li>
@@ -73,7 +74,7 @@
                               <div></div>
                               <div class="ecart-panier">
                                 <div class="panier-quantite-legume">Écart :</div>
-                                <div class="panier-prix-legume"><%= number_with_precision((panier.prix_reel_ttc || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
+                                <div class="panier-prix-legume"><%= number_with_precision((total_panier || 0.00) - panier.prix_ttc, precision: 2) %> €</div>
                               </div>
                             </li>
                           </ul>
@@ -111,7 +112,7 @@
           <li>
             <div class="wrapper-ventes-par-mois">
               <div>
-                <% if vente.num_facture != nil? %>
+                <% unless vente.num_facture.nil? %>
                   <%= link_to vente_facture_path(vente) do %><%= vente.date_facture.strftime("%d%m") %><%= vente.num_facture.to_s.rjust(4,'0') %> <% end %>
                 <% end %>
               </div>
