@@ -1,5 +1,4 @@
 <%= render 'shared/navbar' %>
-<%=  @meilleurspointsdevente %>
 <div class="container mt-4">
   <div class="columns">
     <div class="left-col-ventes">
@@ -90,7 +89,7 @@
           </li>
         </ul>
       </div>
-      <%= pie_chart @pointsdevente.group(:categorie).sum(:total_ttc), colors: ["#585563", "#A1BD7F", "#5B2E48", "#A1BD7F", "#5B2E48"] %>
+      <%= pie_chart @pointsdeventeparcapourgraph, colors: ["#585563", "#A1BD7F", "#5B2E48", "#A1BD7F", "#5B2E48"] %>
     </div>
   </div>
 </div>

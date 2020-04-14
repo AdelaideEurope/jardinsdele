@@ -7,6 +7,7 @@ class VentesController < ApplicationController
     @week = Date.today.strftime("%W").to_i + 1
     @ventes_futures = @ventes.select { |vente| vente.date > Date.today }.sort_by(&:date).reverse
     @month = Date.today.month
+    ventespourgraph
   end
 
   def show
@@ -52,6 +53,7 @@ class VentesController < ApplicationController
     @camois = @ventes_mois.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @ventes_panier = @ventes.select { |vente| vente.paniers.any? && vente.date >= Date.today }
     venteparca
+    venteparcapourgraph
   end
 
   def facture
@@ -104,6 +106,20 @@ private
     @pointsdeventeparca = Hash.new { |hash, key| hash[key] = "".to_i }
     @pointsdevente.each do |pointdevente|
       @pointsdeventeparca[pointdevente] = pointdevente.ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
+    end
+  end
+
+  def venteparcapourgraph
+    @pointsdeventeparcapourgraph = Hash.new { |hash, key| hash[key] = "".to_i }
+    @pointsdevente.each do |pointdevente|
+      @pointsdeventeparcapourgraph[pointdevente.categorie] += pointdevente.ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
+    end
+  end
+
+  def ventespourgraph
+    @ventespourgraph = Hash.new { |hash, key| hash[key] = "".to_i }
+    @ventes.each do |vente|
+      @ventespourgraph[vente.date.month] += vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi
     end
   end
 
