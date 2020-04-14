@@ -26,7 +26,7 @@ if (document.getElementById('puht')) {
   autoFillPrix();
 };
 
-if (document.getElementById('puttc-p')) {
+if (document.querySelector('.prixunitairejs')) {
   autoFillPrixPanier();
 };
 
