@@ -26,7 +26,7 @@ if (document.getElementById('puht')) {
   autoFillPrix();
 };
 
-if (document.querySelector('.prixunitairejs')) {
+if (document.querySelector('#recolte-img')) {
   autoFillPrixPanier();
 };
 

@@ -3,7 +3,7 @@
     <h2>Paniers de la <%= link_to vente_path(@vente) do %>vente de <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %><% end %></h2>
   <div class="box-recolter">
     <div>
-      <%= image_tag "recolte.png", class: "recolte-img" %>
+      <%= image_tag "recolte.png", id: "recolte-img" %>
     </div>
     <div>
       <h2>À récolter</h2>
@@ -71,11 +71,11 @@
                                     <%= simple_form_for [@vente, panier, ligne] do |f| %>
                                       <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
                                       <div class="pu-ligne-panier">
-                                        <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { class: "prixunitairejs" } %>
+                                        <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitaire#{ligne.id}" } %>
                                         <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
                                       </div>
-                                        <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { class: "quantitejs" } %>
-                                        <%= f.input :totalttc, :label => "TOTAL TTC", input_html: { class: "prixtotaljs" } %>
+                                        <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantite#{ligne.id}" } %>
+                                        <%= f.input :totalttc, :label => "TOTAL TTC", input_html: { id: "prixtotal#{ligne.id}" } %>
                                       <div>
                                         <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), id: "submit-new-ligne" %>
                                       </div>
@@ -122,11 +122,11 @@
                         <%= simple_form_for [@vente, panier, @lignedepanier] do |f| %>
                           <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
                           <div class="pu-ligne-panier">
-                            <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitairejs#{counter}" } %>
+                            <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitairejs#{panier.id}" } %>
                             <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
                           </div>
-                            <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantitejs#{counter}" } %>
-                            <%= f.input :totalttc, :label => "TOTAL TTC", input_html: { id: "prixtotaljs#{counter}" } %>
+                            <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantitejs#{panier.id}" } %>
+                            <%= f.input :totalttc, :label => "TOTAL TTC", input_html: { id: "prixtotaljs#{panier.id}" } %>
                           <div>
                             <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), id: "submit-new-ligne" %>
                           </div>
@@ -249,11 +249,11 @@
                                       <%= simple_form_for [@vente, panier, ligne] do |f| %>
                                         <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
                                         <div class="pu-ligne-panier">
-                                          <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { class: "prixunitairejs" } %>
+                                          <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitaire#{ligne.id}" } %>
                                           <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
                                         </div>
-                                          <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { class: "quantitejs" } %>
-                                          <%= f.input :totalttc, :label => "TOTAL TTC", input_html: { class: "prixtotaljs" } %>
+                                          <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantite#{ligne.id}" } %>
+                                          <%= f.input :totalttc, :label => "TOTAL TTC", input_html: { id: "prixtotal#{ligne.id}" } %>
                                         <div>
                                           <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), id: "submit-new-ligne" %>
                                         </div>
