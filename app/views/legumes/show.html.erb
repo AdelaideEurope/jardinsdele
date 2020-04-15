@@ -36,7 +36,7 @@
             <ul>
               <% @quantitelegume.each do |unite, quantite| %>
                 <li>
-                  <%= rem_trailing_zero(quantite) %> <%= quantite > 1 && unite != "kg" ? unite.pluralize : unite %>
+                  <%= number_with_precision(rem_trailing_zero(quantite), precision: 2) %> <%= quantite > 1 && unite != "kg" ? unite.pluralize : unite %>
                 </li>
               <% end %>
             </ul>
