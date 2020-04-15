@@ -1,7 +1,7 @@
 <%= render 'shared/navbar' %>
   <div class="container mt-4 mb-4">
       <h2><%= @pointdevente.nom %></h2>
-      <% unless @pointdevente.adresse.nil? %>
+      <% unless @pointdevente.adresse.nil? || @pointdevente.adresse.empty? %>
         <div class="infos-point-de-vente">
           <div class="adresse-point-de-vente">
             <div><%= @pointdevente.adresse %></div>

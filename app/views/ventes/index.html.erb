@@ -58,8 +58,8 @@
               </li>
             <% end %>
         </ul>
-      <% end %>
       <div class="separateur-ventes-futures"></div>
+      <% end %>
 
       <% while @week > 0 %>
         <% unless @ventes_semaine[@week].nil? %>
@@ -139,8 +139,8 @@
               </li>
             <% end %>
         </ul>
+      <div class="separateur-ventes-futures"></div>
       <% end %>
-        <div class="separateur-ventes-futures"></div>
       <% while @month > 0 %>
         <% unless @ventes_mois[@month].nil? %>
           <h3 class="mt-5">M<%= @month %> (<%= number_with_precision(@ventes_mois[@month].map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum, precision: 2) %> €)</h3>
