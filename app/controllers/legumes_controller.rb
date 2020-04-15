@@ -78,6 +78,15 @@ class LegumesController < ApplicationController
     @totauxlegume[@legume.nom] += @dureedulegume
     @calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
     @pourcentagedulegume = (@calegume*100).fdiv(@catotal).round(2)
+    @pourcentagedulegume = (@calegume*100).fdiv(@catotal).round(2)
+
+    @quantitelegume = Hash.new { |hash, key| hash[key] = "".to_i }
+    @lignesdeventeparlegume.each do |ligne|
+      @quantitelegume[ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite] += ligne.quantite
+    end
+    @lignesdepanierparlegume.each do |ligne|
+      @quantitelegume[ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite] += ligne.quantite * ligne.panier.quantite
+    end
   end
 
   def legume_params

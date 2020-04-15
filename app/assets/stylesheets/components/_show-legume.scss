@@ -14,24 +14,34 @@
 }
 
 .recap-show-left, .recap-show-right {
-  display: grid;
-  grid-template-columns: 17vw 5vw;
-  background-color: $light-grey;
-  padding-left: 10px;
+  display: flex;
+  background-color: #F4F4F4;
+  justify-content: space-between;
+  width: 30%;
+  padding: 2px 16px;
 }
 
+.recap-show-left-quantite {
+  display: flex;
+  justify-content: space-between;
+  background-color: $light-grey;
+  width: 30%;
+  padding: 2px 16px;
+}
+
+.recap-donnee {
+  li {
+    padding-top: 0 !important;
+    text-align: right;
+  }
+}
 
 .recap-show-middle {
-  display: grid;
-  grid-template-columns: 15vw 6.5vw;
-  background-color: $light-grey;
-  padding-left: 10px;
-}
-
-.recap-show-right-last {
-  display: grid;
-  grid-template-columns: 17vw 5vw;
-  padding-left: 10px;
+  display: flex;
+  background-color: #F4F4F4;
+  justify-content: space-between;
+  width: 30%;
+  padding: 2px 16px;
 }
 
 .wrapper-commentaires-show {
