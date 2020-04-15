@@ -9,7 +9,7 @@
   <div class="liste-pointsdevente">
     <ul class="columns">
       <div class="left-col">
-        <% @pointsdevente.sort_by(&:nom).first(@firsthalf).each do |pointdevente| %>
+        <% @pointsdevente.sort_by(&:total_ttc).reverse.first(@firsthalf).each do |pointdevente| %>
           <% capoint = pointdevente.ventes.map {|vente| vente.total_ttc}.sum %>
           <li>
             <div class="wrapper-recap-pointsdevente">
@@ -27,7 +27,7 @@
       </div>
 
       <div class="right-col">
-        <% @pointsdevente.sort_by(&:nom).last(@secondhalf).each do |pointdevente| %>
+        <% @pointsdevente.sort_by(&:total_ttc).reverse.last(@secondhalf).each do |pointdevente| %>
           <% capoint = pointdevente.ventes.map {|vente| vente.total_ttc}.sum %>
           <li>
             <div class="wrapper-recap-pointsdevente">
