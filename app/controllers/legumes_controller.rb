@@ -49,7 +49,7 @@ class LegumesController < ApplicationController
     @legumes = Legume.all
     @legumesparca = Hash.new { |hash, key| hash[key] = "".to_i }
     @legumes.each do |legume|
-      @legumesparca[legume] = legume.vente_lignes.map { |ligne| ligne.totalttc.to_f }.sum
+      @legumesparca[legume] = legume.vente_lignes.map { |ligne| ligne.totalttc.to_f }.sum + legume.panier_lignes.map { |ligne| ligne.totalttc.to_f }
     end
     @meilleurslegumes = @legumesparca.sort_by{ |k, v| v}.reverse.first(3).map {|legume| legume[0] }
     @activites = Activite.all
@@ -62,6 +62,7 @@ class LegumesController < ApplicationController
     @legume = Legume.friendly.find(params[:id])
     @activites = Activite.where(["legume_id = ?", @legume.id])
     @lignesdeventeparlegume = VenteLigne.where(["legume_id = ?", @legume.id])
+    @lignesdepanierparlegume = PanierLigne.where(["legume_id = ?", @legume.id])
     @ventes = Vente.all
     @catotal = @ventes.map(&:total_ttc).sum
     @totauxlegume = Hash.new { |h,k| h[k] = "".to_i }
@@ -75,7 +76,7 @@ class LegumesController < ApplicationController
     end
     @dureedulegume = @dureedulegume.sum
     @totauxlegume[@legume.nom] += @dureedulegume
-    @calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum
+    @calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
     @pourcentagedulegume = (@calegume*100).fdiv(@catotal).round(2)
   end
 
