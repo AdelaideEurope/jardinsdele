@@ -23,6 +23,14 @@
           <% counter += 1 %>
         <% end %>
       </ul>
+      <div class="buttons-graphs">
+        <button type="button" data-toggle="collapse" data-target="#collapsegraphcategorie" aria-expanded="false" aria-controls="collapseExample">
+          <i class="fas fa-chart-pie"></i> catégories
+        </button>
+        <button type="button" data-toggle="collapse" data-target="#collapsegraphpdv" aria-expanded="false" aria-controls="collapseExample">
+          <i class="fas fa-chart-pie"></i> points de vente
+        </button>
+      </div>
       <div class="titre-recap mt-5">
         <h2>Les ventes</h2>
         <%= link_to ventes_path do %>
@@ -101,7 +109,31 @@
           </li>
         </ul>
       </div>
-      <%= pie_chart @pointsdeventeparcapourgraph, colors: ["#585563", "#A1BD7F", "#5B2E48", "#585563", "#A1BD7F", "#5B2E48", "#BABF79", "#79BF7E"] %>
+      <div class="box-recolter-recap">
+        <div>
+          <%= image_tag "recolte.png", id: "recolte-img" %>
+        </div>
+        <div>
+          <h2>À récolter aujourd'hui</h2>
+          <ul>
+            <% @arecolter_ajd.each do |legume, detail| %>
+            <li>
+              <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] != "kg" ? detail[:unite].pluralize : detail[:unite] %>
+            </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      <div class="collapse" id="collapsegraphcategorie">
+        <div class="graph-categorie">
+          <%= pie_chart @pointsdeventeparcapourgraph, colors: ["#585563", "#A1BD7F", "#5B2E48", "#585563", "#A1BD7F", "#5B2E48", "#BABF79", "#79BF7E"], width: "50%" %>
+          </div>
+      </div>
+      <div class="collapse" id="collapsegraphpdv">
+        <div class="graph-pdv">
+          <%= pie_chart @pointsdeventeca, colors: ["#585563", "#A1BD7F", "#5B2E48", "#585563", "#A1BD7F", "#5B2E48", "#BABF79", "#79BF7E"], width: "50%" %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

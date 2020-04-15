@@ -259,7 +259,7 @@
             <div><%= number_with_precision(panier.quantite * ttc_to_ht(panier.prix_ttc), precision: 2) %> €</div>
             <div><%= number_with_precision(panier.quantite * panier.prix_ttc, precision: 2) %> €</div>
           </div>
-          <div class="collapse" id="collapse<%=panier.id%>">
+          <div class="collapse show" id="collapse<%=panier.id%>">
             <ul class="liste-detail-panier-vente">
               <% panier.panier_lignes.sort_by(&:legume).each do |lignepanier| %>
                 <li>

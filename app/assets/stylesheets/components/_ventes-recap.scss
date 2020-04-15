@@ -143,6 +143,26 @@
   .mobile-paniers {
     display: none;
   }
+
+  .buttons-graphs {
+    display: flex;
+    justify-content: space-around;
+    button {
+      color: $light-grey2;
+    }
+  }
+
+  .box-recolter-recap {
+    li {
+      list-style: none;
+    }
+    border: solid 2px $light-green;
+    padding: 24px 24px 12px 12px;
+    width: fit-content;
+    border-radius: 8px;
+    display: flex;
+    margin: 48px auto 0 auto;
+  }
 }
 
 

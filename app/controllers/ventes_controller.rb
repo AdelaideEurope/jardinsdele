@@ -54,6 +54,19 @@ class VentesController < ApplicationController
     @ventes_panier = @ventes.select { |vente| vente.paniers.any? && vente.date >= Date.today }
     venteparca
     venteparcapourgraph
+    ventesparpointdeventepourgraph
+
+    @lignesdepaniertoday = PanierLigne.select { |ligne| ligne.panier.vente.date == Date.today }
+    @lignesdeventetoday = VenteLigne.select { |ligne| ligne.vente.date == Date.today }
+    @arecolter_ajd = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
+    @lignesdepaniertoday.sort_by(&:legume).each do |ligne|
+      @arecolter_ajd[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
+      @arecolter_ajd[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
+    end
+    @lignesdeventetoday.sort_by(&:legume).each do |ligne|
+      @arecolter_ajd[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
+      @arecolter_ajd[ligne.legume.nom][:quantite] += (ligne.quantite)
+    end
   end
 
   def facture
@@ -120,6 +133,13 @@ private
     @ventespourgraph = Hash.new { |hash, key| hash[key] = "".to_i }
     @ventes.each do |vente|
       @ventespourgraph[vente.date.month] += vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi
+    end
+  end
+
+  def ventesparpointdeventepourgraph
+    @pointsdeventeca = Hash.new { |hash, key| hash[key] = "".to_i }
+    @pointsdevente.each do |pointdevente|
+      @pointsdeventeca[pointdevente.nom] = pointdevente.ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     end
   end
 

@@ -83,8 +83,9 @@ class VenteLignesController < ApplicationController
     prixunitaireht = params[:vente_ligne][:prixunitaireht]
     totalttc = params[:vente_ligne][:totalttc]
     totalht = params[:vente_ligne][:totalht]
+    unite = params[:vente_ligne][:unite]
     if planche.nil?
-      if @lignedevente.update(legume_id: legume, quantite: quantite, prixunitairettc: prixunitairettc, prixunitaireht: prixunitaireht, totalht: totalht, totalttc: totalttc)
+      if @lignedevente.update(legume_id: legume, quantite: quantite, prixunitairettc: prixunitairettc, prixunitaireht: prixunitaireht, totalht: totalht, totalttc: totalttc, unite: unite)
         @vente.total_ttc += @lignedevente.totalttc
         @vente.total_ht += @lignedevente.totalht
         @pointdevente.total_ttc += @lignedevente.totalttc
