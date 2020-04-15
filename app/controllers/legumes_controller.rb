@@ -49,7 +49,7 @@ class LegumesController < ApplicationController
     @legumes = Legume.all
     @legumesparca = Hash.new { |hash, key| hash[key] = "".to_i }
     @legumes.each do |legume|
-      @legumesparca[legume] = legume.vente_lignes.map { |ligne| ligne.totalttc.to_f }.sum + legume.panier_lignes.map { |ligne| ligne.totalttc.to_f }
+      @legumesparca[legume] = legume.vente_lignes.map { |ligne| ligne.totalttc.to_f }.sum + legume.panier_lignes.map { |ligne| ligne.totalttc.to_f }.sum
     end
     @meilleurslegumes = @legumesparca.sort_by{ |k, v| v}.reverse.first(3).map {|legume| legume[0] }
     @activites = Activite.all
