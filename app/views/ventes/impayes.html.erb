@@ -5,7 +5,7 @@
   </div>
   <div class="impayes-liste mt-4">
     <ul>
-      <% @impayes.each do |vente| %>
+      <% @impayes.sort_by(&:date).reverse.each do |vente| %>
         <li>
           <div class="wrapper-ventes-impayes">
             <div>
