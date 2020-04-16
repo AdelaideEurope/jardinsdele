@@ -12,8 +12,7 @@
 }
 
 
-.lignes-planche {
-  width: 30%;
+.lignes-toutes-planches {
   li {
     background: $light-grey;
     list-style: none;
@@ -29,4 +28,14 @@
 .nom-planche {
   width: 12%;
   text-align: left;
+}
+
+.colonnes-de-planches {
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
+}
+
+.planches-par-nom, .planches-par-ca {
+  width: 40%;
 }

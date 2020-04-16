@@ -1,19 +1,43 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4 mb-4">
   <h2>Les planches</h2>
-  <ul class="lignes-planche mt-4">
-    <% @planches[0..-2].each do |planche| %>
-      <li>
-        <div class="details-planches">
-          <div class="nom-planche">
-            <%= planche.nom %>
-          </div>
-            <div class="infos-ventes-planches">
-              <div class="total-ventes-planche"><%= number_with_precision(@lignesgroupees[planche].sum, precision: 2) %> €</div>
-              <div class="pourcentage-ventes-planche"><%= number_with_precision((@lignesgroupees[planche].sum*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
+  <div class="colonnes-de-planches">
+    <div class="planches-par-nom">
+      <ul class="lignes-toutes-planches mt-4">
+        <h3>Par nom</h3>
+        <% @planches[0..-2].each do |planche| %>
+          <li>
+            <div class="details-planches">
+              <div class="nom-planche">
+                <%= planche.nom %>
+              </div>
+                <div class="infos-ventes-planches">
+                  <div class="total-ventes-planche"><%= number_with_precision(@lignesgroupees[planche], precision: 2) %> €</div>
+                  <div class="pourcentage-ventes-planche"><%= number_with_precision((@lignesgroupees[planche]*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
+                </div>
             </div>
-        </div>
-      </li>
-    <% end %>
-  </ul>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="planches-par-ca">
+      <ul class="lignes-toutes-planches mt-4">
+        <h3>Par CA</h3>
+        <% @lignesgroupees.sort_by{ |k, v| v}.reverse.each do |planche| %>
+          <li>
+            <div class="details-planches">
+              <div class="nom-planche">
+                <%= planche[0].nom %>
+              </div>
+                <div class="infos-ventes-planches">
+                  <div class="total-ventes-planche"><%= number_with_precision(planche[1], precision: 2) %> €</div>
+                  <div class="pourcentage-ventes-planche"><%= number_with_precision((planche[1]*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
+                </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 </div>

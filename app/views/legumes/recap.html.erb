@@ -27,14 +27,14 @@
       </div>
       <ul class="sample-legumes mb-5">
         <% counter = 1 %>
-        <% @lignesgroupees.first(3).reverse.each do |planche, ventes| %>
+        <% @lignesgroupees.sort_by{ |k, v| v}.reverse.first(3).each do |planche, ventes| %>
           <li>
             <div class="image-legume"> <%= image_tag "numero#{counter}.png", class: "icone-legume" %>
             </div>
             <div class="wrapper-recap-legumes detail-legume">
               <div><%= planche.nom %></div>
-              <div><%= number_with_precision(ventes.sum, precision: 2) %> €</div>
-              <div><%= number_with_precision((ventes.sum*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
+              <div><%= number_with_precision(ventes, precision: 2) %> €</div>
+              <div><%= number_with_precision((ventes*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
             </div>
           </li>
           <% counter += 1 %>
