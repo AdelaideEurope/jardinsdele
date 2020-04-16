@@ -78,6 +78,11 @@ class VentesController < ApplicationController
     @paniers = Panier.all.where(vente_id: @vente.id).select { |panier| panier.valide == true }
   end
 
+  def impayes
+    @ventes = Vente.all
+    @impayes = @ventes.select {|vente| vente.resteapercevoir > 0}
+  end
+
   def update
     @vente = Vente.find(params[:id])
     montant_regle = params[:vente][:montant_regle]

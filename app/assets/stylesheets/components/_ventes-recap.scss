@@ -97,6 +97,13 @@
     grid-gap: 10px;
   }
 
+  .wrapper-ventes-impayes {
+    display: grid;
+    grid-template-columns: 6vw 22vw 8vw 8vw;
+    grid-gap: 10px;
+    padding-right: 16px;
+  }
+
   .wrapper-ventes-par-pointdevente {
     display: grid;
     grid-template-columns: 11vw 7vw 5vw 12vw 12.5vw 12vw;

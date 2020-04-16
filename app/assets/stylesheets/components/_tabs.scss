@@ -70,6 +70,22 @@
   }
 }
 
+.impayes-liste {
+  width: 60%;
+  margin-top: 24px;
+  li {
+    background: $light-grey;
+    list-style: none;
+    padding-left: 16px;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: unset;
+    padding-right: 16px;
+    padding-top: 8px;
+    height: 36px;
+  }
+}
+
 .wrapper-activites-show {
   display: grid;
   grid-template-columns: 6vw 19vw 7vw 9vw 4vw;

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get "/legumes-recap", to: "legumes#recap"
   get "/ventes-recap", to: "ventes#recap"
   get "/ventes/:id/facture" , to: "ventes#facture", as: "vente_facture"
+  get "/ventes/impayes" , to: "ventes#impayes"
   resources :activites
   resources :assistants, only: [:index]
   resources :legumes

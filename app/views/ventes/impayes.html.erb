@@ -1,0 +1,31 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <div class="titre-recap">
+    <h2>Les impayés</h2>
+  </div>
+  <div class="impayes-liste mt-4">
+    <ul>
+      <% @impayes.each do |vente| %>
+        <li>
+          <div class="wrapper-ventes-impayes">
+            <div>
+              <%= link_to vente_path(vente) do %>
+                <%= vente.date.strftime("%d/%m") %>
+              <% end %>
+            </div>
+            <div>
+              <%= link_to vente_point_path(vente.vente_point) do %>
+                <%= vente.vente_point.nom %>
+              <%end%>
+            </div>
+            <div><%= number_with_precision((vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi), precision: 2) %> €
+            </div>
+            <div>
+              <%= number_with_precision(vente.resteapercevoir, precision: 2) %> €
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
