@@ -1,0 +1,32 @@
+.infos-ventes-planches {
+  display: flex;
+  justify-content: space-between;
+  width: 56%;
+}
+
+
+.details-planches {
+  display: flex;
+  justify-content: space-between;
+  width: 100%
+}
+
+
+.lignes-planche {
+  width: 30%;
+  li {
+    background: $light-grey;
+    list-style: none;
+    padding-left: 16px;
+    padding-top: 4px;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: unset;
+    padding-right: 16px;
+  }
+}
+
+.nom-planche {
+  width: 12%;
+  text-align: left;
+}

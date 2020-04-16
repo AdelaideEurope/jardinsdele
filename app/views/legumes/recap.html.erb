@@ -1,85 +1,97 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
-
-
   <div class="columns">
     <div class="left-col">
       <div class="titre-legumes">
         <h2>Les légumes (top 3)</h2>
-        <% h = Hash.new { |h,k| h[k] = "".to_i } %>
         <%= link_to legumes_path do %>
         <div class="voir-tout-recap-legumes">Voir tout</div><% end %>
       </div>
       <ul class=sample-legumes>
         <% @meilleurslegumes.each do |legume| %>
-          <% duree = [] %>
           <li>
             <div class="image-legume"> <%= cl_image_tag legume.photo.key, height: 96, crop: :fill, class: "icone-legume" %>
             </div>
-            <% legume.activites.each do |activite| %>
-              <% duree << activite.heure_fin - activite.heure_debut %>
-            <% end %>
-            <% duree = duree.sum %>
-            <% h[legume.nom] += duree %>
             <div class="wrapper-recap-legumes detail-legume">
               <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %></div>
-              <div><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+              <div><%= [@tempslegume[legume.nom].to_i/3600, @tempslegume[legume.nom].to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div><%= number_with_precision(@legumesparca[legume], precision: 2) %> €</div>
             </div>
           </li>
         <% end %>
       </ul>
-      <h2>Les planches</h2>
-        <% jardins_left = ["Jardin D", "Jardin E", "Jardin F"] %>
-        <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
-          <div class="jardins">
-            <div class="jardins-titre"><p><%= jardin %></p></div>
-            <ul class="lignes-planche">
-              <% planches.each do |planche| %>
-                <li>
-                  <% activitesplanche = {} %>
-                  <% planche.activites.sort_by(&:date).each do |activite|  %>
-                    <% unless activite.legume.nil? %>
-                      <% activitesplanche[activite.legume] = [] %>
-                    <% end %>
-                  <% end %>
-                   <% planche.activites.sort_by(&:date).each do |activite|  %>
-                    <% unless activite.nil? || activite.legume.nil? %>
-                      <% activitesplanche[activite.legume] << activite.nom %>
-                    <% end %>
-                  <% end %>
-                  <% if activitesplanche.empty? %>
-                    <%= planche.nom %>
-                  <% elsif activitesplanche.length == 1 %>
-                    <% activitesplanche.each do |nomlegume, array| %>
-                      <% if array.include?("Plantation") && array.exclude?("Nettoyage planche") %>
-                        <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
-                          <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
-                        </div>
-                      <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
-                        <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
-                          <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
-                        </div>
-                      <% else %>
-                        <%= planche.nom %>
-                      <% end %>
-                    <% end %>
-                  <% else %>
-                    <% activitesplanche.each do |nomlegume, array| %>
-                      <% if array.include?("Plantation") && array.exclude?("Nettoyage planche") %>
-                        <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
-                          <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
-                        </div>
-                      <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
-                        <%= nomlegume.nom %>
-                      <% end %>
-                    <% end %>
-                  <% end %>
-               </li>
-              <% end %>
-            </ul>
-          </div>
+      <div class="titre-legumes mt-5">
+        <h2>Les planches (top 3)</h2>
+        <%= link_to planches_path do %>
+        <div class="voir-tout-recap-legumes">Voir tout</div><% end %>
+      </div>
+      <ul class="sample-legumes mb-5">
+        <% counter = 1 %>
+        <% @lignesgroupees.first(3).reverse.each do |planche, ventes| %>
+          <li>
+            <div class="image-legume"> <%= image_tag "numero#{counter}.png", class: "icone-legume" %>
+            </div>
+            <div class="wrapper-recap-legumes detail-legume">
+              <div><%= planche.nom %></div>
+              <div><%= number_with_precision(ventes.sum, precision: 2) %> €</div>
+              <div><%= number_with_precision((ventes.sum*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
+            </div>
+          </li>
+          <% counter += 1 %>
         <% end %>
+      </ul>
+
+
+      <% jardins_left = ["Jardin D", "Jardin E", "Jardin F"] %>
+      <% @jardins.select { |jardin, _value| jardins_left.include?(jardin)}.each do |jardin, planches| %>
+        <div class="jardins">
+          <div class="jardins-titre"><p><%= jardin %></p></div>
+          <ul class="lignes-planche">
+            <% planches.each do |planche| %>
+              <li>
+                <% activitesplanche = {} %>
+                <% planche.activites.sort_by(&:date).each do |activite|  %>
+                  <% unless activite.legume.nil? %>
+                    <% activitesplanche[activite.legume] = [] %>
+                  <% end %>
+                <% end %>
+                 <% planche.activites.sort_by(&:date).each do |activite|  %>
+                  <% unless activite.nil? || activite.legume.nil? %>
+                    <% activitesplanche[activite.legume] << activite.nom %>
+                  <% end %>
+                <% end %>
+                <% if activitesplanche.empty? %>
+                  <%= planche.nom %>
+                <% elsif activitesplanche.length == 1 %>
+                  <% activitesplanche.each do |nomlegume, array| %>
+                    <% if array.include?("Plantation") && array.exclude?("Nettoyage planche") %>
+                      <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                        <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
+                      </div>
+                    <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
+                      <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                        <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
+                      </div>
+                    <% else %>
+                      <%= planche.nom %>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <% activitesplanche.each do |nomlegume, array| %>
+                    <% if array.include?("Plantation") && array.exclude?("Nettoyage planche") %>
+                      <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
+                        <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
+                      </div>
+                    <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
+                      <%= nomlegume.nom %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+             </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
     </div>
     <div class="right-col">
       <% jardins_right = ["Jardin A", "Jardin B", "Jardin C"] %>

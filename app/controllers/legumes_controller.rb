@@ -47,7 +47,7 @@ class LegumesController < ApplicationController
 
   def recap
     @legumes = Legume.all
-    @legumesparca = Hash.new { |hash, key| hash[key] = "".to_i }
+    @legumesparca = Hash.new { |hash, key| hash[key] = 0 }
     @legumes.each do |legume|
       @legumesparca[legume] = legume.vente_lignes.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + legume.panier_lignes.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
     end
@@ -56,6 +56,26 @@ class LegumesController < ApplicationController
     @planches = Planche.all
     @jardins = @planches.group_by { |planche| planche.jardin }
     @lignesdevente = VenteLigne.all
+    @lignesdepanier = PanierLigne.all
+    @ventes = Vente.all
+
+    @tempslegume = Hash.new { |h,k| h[k] = "".to_i }
+    @meilleurslegumes.each do |legume|
+      legume.activites.each do |activite|
+        duree = activite.heure_fin - activite.heure_debut
+        @tempslegume[legume.nom] += duree
+      end
+    end
+    @lignesgroupees = Hash.new { |hash, key| hash[key] = [] }
+    @planches.each do |planche|
+      @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
+        @lignesgroupees[planche] << lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
+      end
+      @lignesdevente.select { |lignedevente| lignedevente.planche == planche }.each do |lignedevente|
+        @lignesgroupees[planche] << (lignedevente.prixunitairettc) * (lignedevente.quantite)
+      end
+    end
+    @catotal = @ventes.map(&:total_ttc).sum
   end
 
   def show
@@ -77,7 +97,6 @@ class LegumesController < ApplicationController
     @dureedulegume = @dureedulegume.sum
     @totauxlegume[@legume.nom] += @dureedulegume
     @calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
-    @pourcentagedulegume = (@calegume*100).fdiv(@catotal).round(2)
     @pourcentagedulegume = (@calegume*100).fdiv(@catotal).round(2)
 
     @quantitelegume = Hash.new { |hash, key| hash[key] = "".to_i }

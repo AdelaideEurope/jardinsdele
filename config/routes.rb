@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :legumes
   resources :vente_points
   resources :commentaires
+  resources :planches
   resources :ventes do
     resources :commentaires, only: [:create, :destroy]
     resources :vente_lignes

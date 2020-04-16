@@ -1,0 +1,19 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4 mb-4">
+  <h2>Les planches</h2>
+  <ul class="lignes-planche mt-4">
+    <% @planches[0..-2].each do |planche| %>
+      <li>
+        <div class="details-planches">
+          <div class="nom-planche">
+            <%= planche.nom %>
+          </div>
+            <div class="infos-ventes-planches">
+              <div class="total-ventes-planche"><%= number_with_precision(@lignesgroupees[planche].sum, precision: 2) %> €</div>
+              <div class="pourcentage-ventes-planche"><%= number_with_precision((@lignesgroupees[planche].sum*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
+            </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>
