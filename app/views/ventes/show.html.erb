@@ -267,15 +267,15 @@
                     <div><%= lignepanier.legume.nom %></div>
                     <div class="choix-planche-panier">
                       <% if lignepanier.planche.nil? %>
-                        <button class="bouton-tout-petit-plus-rond" type="button" data-toggle="modal" data-target="#modal-select-planche-ligne-<%=lignepanier.id%>">
+                        <button class="bouton-tout-petit-plus-rond" type="button" data-toggle="modal" data-target="#modal-select-planche-ligne-panier-<%=lignepanier.id%>">
                           <%= image_tag "plus-rond.png", class: "tout-petit-plus-rond" %>
                         </button>
                       <% else %>
-                        <button class="bouton-tout-petit-plus-rond" type="button" data-toggle="modal" data-target="#modal-select-planche-ligne-<%=lignepanier.id%>">
+                        <button class="bouton-tout-petit-plus-rond" type="button" data-toggle="modal" data-target="#modal-select-planche-ligne-panier-<%=lignepanier.id%>">
                           <%= lignepanier.planche.nom %>
                         </button>
                       <% end %>
-                      <div class="modal fade" id="modal-select-planche-ligne-<%=lignepanier.id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal fade" id="modal-select-planche-ligne-panier-<%=lignepanier.id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content modal-content-planches">
                             <div class="modal-header">
