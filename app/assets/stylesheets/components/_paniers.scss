@@ -152,7 +152,23 @@
 }
 
 .modal-new-ligne-panier {
-  height: unset;
-  width: 400px !important;
+  height: 348px !important;
+  width: 700px !important;
   text-align: left;
+  position: fixed;
+  top: 20px;
+  left: 12px;
+}
+
+.modal-body-new-ligne-panier {
+  padding: 0 !important;
+}
+
+.qte-totalttc-new-ligne {
+  display: flex;
+  justify-content: space-around;
+}
+
+.submit-new-ligne {
+  margin-top: 24px;
 }

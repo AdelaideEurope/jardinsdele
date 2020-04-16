@@ -69,14 +69,16 @@
                                 <div class="modal-body">
                                   <div class="new-ligne-form">
                                     <%= simple_form_for [@vente, panier, ligne] do |f| %>
-                                      <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
                                       <div class="pu-ligne-panier">
+                                        <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
                                         <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitaire#{ligne.id}" } %>
                                         <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
                                       </div>
+                                      <div class="qte-totalttc-new-ligne">
                                         <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantite#{ligne.id}" } %>
                                         <%= f.input :totalttc, :label => "TOTAL TTC", input_html: { id: "prixtotal#{ligne.id}" } %>
-                                      <div>
+                                      </div>
+                                      <div class="submit-new-ligne">
                                         <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), id: "submit-new-ligne" %>
                                       </div>
                                     <% end %>
@@ -117,17 +119,19 @@
               <div class="modal fade" id="modal-new-ligne-panier<%=panier.id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content modal-new-ligne-panier">
-                    <div class="modal-body">
+                    <div class="modal-body modal-body-new-ligne-panier">
                       <div class="new-ligne-form">
                         <%= simple_form_for [@vente, panier, @lignedepanier] do |f| %>
-                          <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
                           <div class="pu-ligne-panier">
+                          <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
                             <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitairejs#{panier.id}" } %>
                             <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
                           </div>
+                          <div class="qte-totalttc-new-ligne">
                             <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantitejs#{panier.id}" } %>
                             <%= f.input :totalttc, :label => "TOTAL TTC", input_html: { id: "prixtotaljs#{panier.id}" } %>
-                          <div>
+                          </div>
+                          <div class="submit-new-ligne">
                             <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), id: "submit-new-ligne" %>
                           </div>
                         <% end %>
@@ -244,17 +248,19 @@
                             <div class="modal fade" id="modal-edit-ligne-panier<%=ligne.id%>" tabindex="-1" role="dialog" aria-labelledby="modal-edit-ligne-panierLabel" aria-hidden="true">
                               <div class="modal-dialog" role="document">
                                 <div class="modal-content modal-new-ligne-panier">
-                                  <div class="modal-body">
+                                  <div class="modal-body modal-body-new-ligne-panier">
                                     <div class="new-ligne-form">
                                       <%= simple_form_for [@vente, panier, ligne] do |f| %>
-                                        <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
                                         <div class="pu-ligne-panier">
+                                          <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
                                           <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitaire#{ligne.id}" } %>
                                           <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
                                         </div>
+                                        <div class="qte-totalttc-new-ligne">
                                           <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantite#{ligne.id}" } %>
                                           <%= f.input :totalttc, :label => "TOTAL TTC", input_html: { id: "prixtotal#{ligne.id}" } %>
-                                        <div>
+                                        </div>
+                                        <div class="submit-new-ligne">
                                           <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), id: "submit-new-ligne" %>
                                         </div>
                                       <% end %>
@@ -298,14 +304,16 @@
                       <div class="modal-body">
                         <div class="new-ligne-form">
                           <%= simple_form_for [@vente, panier, @lignedepanier] do |f| %>
-                            <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
                             <div class="pu-ligne-panier">
-                              <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitairejs#{counter}" } %>
+                            <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
+                              <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitairejs#{panier.id}" } %>
                               <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
                             </div>
-                              <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantitejs#{counter}" } %>
-                              <%= f.input :totalttc, :label => "TOTAL TTC", input_html: { id: "prixtotaljs#{counter}" } %>
-                            <div>
+                            <div class="qte-totalttc-new-ligne">
+                              <%= f.input :quantite, :label => "QUANTITÉ", required: true, input_html: { id: "quantitejs#{panier.id}" } %>
+                              <%= f.input :totalttc, :label => "TOTAL TTC", input_html: { id: "prixtotaljs#{panier.id}" } %>
+                            </div>
+                            <div class="submit-new-ligne">
                               <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), id: "submit-new-ligne" %>
                             </div>
                           <% end %>
