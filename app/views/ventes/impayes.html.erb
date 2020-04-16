@@ -1,7 +1,7 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
   <div class="titre-recap">
-    <h2>Les impayés</h2>
+    <h2>Les impayés (<%= number_with_precision(@totalimpayes, precision: 2) %> €)</h2>
   </div>
   <div class="impayes-liste mt-4">
     <ul>

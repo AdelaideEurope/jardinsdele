@@ -81,6 +81,7 @@ class VentesController < ApplicationController
   def impayes
     @ventes = Vente.all
     @impayes = @ventes.select {|vente| vente.resteapercevoir > 0}
+    @totalimpayes = @ventes.select {|vente| vente.resteapercevoir}.map {|vente| vente.resteapercevoir}.sum
   end
 
   def update
