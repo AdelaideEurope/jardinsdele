@@ -143,10 +143,10 @@
       <% end %>
       <% while @month > 0 %>
         <% unless @ventes_mois[@month].nil? %>
-        <button type="button" data-toggle="collapse" data-target="#ventesmois" aria-expanded="false" aria-controls="collapseExample">
-          <h3 class="mt-5">M<%= @month %> (<%= number_with_precision(@ventes_mois[@month].map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum, precision: 2) %> €)</h3>
+        <button type="button" data-toggle="collapse" data-target="#ventesmois<%=@month%>" aria-expanded="false" aria-controls="collapseExample">
+          <h3>M<%= @month %> (<%= number_with_precision(@ventes_mois[@month].map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum, precision: 2) %> €)</h3>
         </button>
-        <div class="collapse" id="ventesmois">
+        <div class="collapse" id="ventesmois<%=@month%>">
           <ul>
             <% @ventes_mois[@month].sort_by(&:date).reverse.each do |vente| %>
               <li>

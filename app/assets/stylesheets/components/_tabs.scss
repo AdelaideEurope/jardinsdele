@@ -31,6 +31,15 @@
     width: 50%;
     margin: 2% 25%;
   }
+  .parmois-liste {
+    display: flex;
+    flex-direction: column;
+    margin: 16px 24%;
+    h3 {
+      text-align: left;
+    }
+  }
+
   .parlieu-liste {
     width: 80%;
     margin: 2% 10%;
