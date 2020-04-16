@@ -2,7 +2,8 @@ class VentePointsController < ApplicationController
   def index
     @pointsdevente = VentePoint.all
     @ventes = Vente.all
-    @catotal = @ventes.map(&:total_ttc).sum
+    @catotal = @ventes.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
+    venteparca
     @firsthalf = (@pointsdevente.length/2.to_f).ceil
     @secondhalf = @pointsdevente.length/2
   end

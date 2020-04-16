@@ -1,6 +1,7 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
   <div class="titre-recap">
+
     <h2>Les points de vente</h2>
     <%= link_to ventes_recap_path do %>
      <div class="voir-tout-recap">Récap</div>
@@ -9,15 +10,14 @@
   <div class="liste-pointsdevente">
     <ul class="columns">
       <div class="left-col">
-        <% @pointsdevente.sort_by(&:total_ttc).reverse.first(@firsthalf).each do |pointdevente| %>
-          <% capoint = pointdevente.ventes.map {|vente| vente.total_ttc}.sum %>
+        <% @pointsdeventeparca.sort_by {|k,v| v}.reverse.each do |key, value| %>
           <li>
             <div class="wrapper-recap-pointsdevente">
-              <div><%= link_to vente_point_path(pointdevente) do %> <%= pointdevente.nom %> <% end %> </div>
-              <div><%= number_with_precision(capoint, precision: 2) %> €</div>
-              <div><%= (capoint*100).fdiv(@catotal).round(2).nan? ? "0" : (capoint*100).fdiv(@catotal).round(2) %> %</div>
+              <div><%= link_to vente_point_path(key) do %> <%= key.nom %> <% end %> </div>
+              <div><%= number_with_precision(value, precision: 2) %> €</div>
+              <div><%= (value*100).fdiv(@catotal).round(2).nan? ? "0" : (value*100).fdiv(@catotal).round(2) %> %</div>
               <div>
-                <%= link_to edit_vente_point_path(pointdevente) do %>
+                <%= link_to edit_vente_point_path(key) do %>
                   <i class="fas fa-pencil-alt"></i>
                 <% end %>
               </div>
@@ -26,26 +26,10 @@
         <% end %>
       </div>
 
-      <div class="right-col">
-        <% @pointsdevente.sort_by(&:total_ttc).reverse.last(@secondhalf).each do |pointdevente| %>
-          <% capoint = pointdevente.ventes.map {|vente| vente.total_ttc}.sum %>
-          <li>
-            <div class="wrapper-recap-pointsdevente">
-              <div><%= link_to vente_point_path(pointdevente) do %> <%= pointdevente.nom %> <% end %> </div>
-              <div><%= number_with_precision(capoint, precision: 2) %> €</div>
-              <div><%= (capoint*100).fdiv(@catotal).round(2).nan? ? "0" : (capoint*100).fdiv(@catotal).round(2) %> %</div>
-              <div>
-                <%= link_to edit_vente_point_path(pointdevente) do %>
-                  <i class="fas fa-pencil-alt"></i>
-                <% end %>
-              </div>
-            </div>
-          </li>
-        <% end %>
-      </div>
+
     </ul>
   </div>
-<%= line_chart @pointsdevente.map { |pointdevente|
+<%#= line_chart @pointsdevente.map { |pointdevente|
     {name: pointdevente.nom, data: pointdevente.ventes.group_by_month(:date).sum(:total_ttc), colors: ["#585563", "#A1BD7F", "#5B2E48"] }
 } %>
 </div>
