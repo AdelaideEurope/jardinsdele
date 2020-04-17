@@ -66,13 +66,17 @@ class LegumesController < ApplicationController
         @tempslegume[legume.nom] += duree
       end
     end
-    @lignesgroupees = Hash.new { |hash, key| hash[key] = "".to_f }
+    @lignesgroupees = Hash.new { |hash, key| hash[key] = {total: "".to_f, legumes: [] } }
     @planches.each do |planche|
       @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
-        @lignesgroupees[planche] += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
+        @lignesgroupees[planche][:total] += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
+        @lignesgroupees[planche][:legumes] << lignedepanier.legume.nom
       end
       @lignesdevente.select { |lignedevente| lignedevente.planche == planche }.each do |lignedevente|
-        @lignesgroupees[planche] += (lignedevente.prixunitairettc) * (lignedevente.quantite)
+        @lignesgroupees[planche][:total] += (lignedevente.prixunitairettc) * (lignedevente.quantite)
+        unless @lignesgroupees[planche][:legumes].include?(lignedevente.legume.nom)
+          @lignesgroupees[planche][:legumes] << lignedevente.legume.nom
+        end
       end
     end
 

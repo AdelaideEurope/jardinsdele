@@ -17,8 +17,8 @@
                 <%= planche.nom %>
               </div>
                 <div class="infos-ventes-planches">
-                  <div class="total-ventes-planche"><%= number_with_precision(@lignesgroupees[planche], precision: 2) %> €</div>
-                  <div class="pourcentage-ventes-planche"><%= number_with_precision((@lignesgroupees[planche]*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
+                  <div class="total-ventes-planche"><%= number_with_precision(@lignesgroupees[planche][:total], precision: 2) %> €</div>
+                  <div class="pourcentage-ventes-planche"><%= number_with_precision((@lignesgroupees[planche][:total]*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
                 </div>
             </div>
           </li>
@@ -36,8 +36,8 @@
                 <%= planche[0].nom %>
               </div>
                 <div class="infos-ventes-planches">
-                  <div class="total-ventes-planche"><%= number_with_precision(planche[1], precision: 2) %> €</div>
-                  <div class="pourcentage-ventes-planche"><%= number_with_precision((planche[1]*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
+                  <div class="total-ventes-planche"><%= number_with_precision(planche[1][:total], precision: 2) %> €</div>
+                  <div class="pourcentage-ventes-planche"><%= number_with_precision((planche[1][:total]*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
                 </div>
             </div>
           </li>
