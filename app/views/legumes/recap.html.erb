@@ -23,7 +23,8 @@
       <div class="titre-legumes mt-5">
         <h2>Les planches (top 3)</h2>
         <%= link_to planches_path do %>
-        <div class="voir-tout-recap-legumes">Voir tout</div><% end %>
+          <div class="voir-tout-recap-legumes">Voir tout</div>
+        <% end %>
       </div>
       <ul class="sample-legumes mb-5">
         <% counter = 1 %>
@@ -31,14 +32,28 @@
           <li>
             <div class="image-legume"> <%= image_tag "numero#{counter}.png", class: "icone-legume" %>
             </div>
-            <div class="wrapper-recap-legumes detail-legume">
+            <div class="wrapper-recap-planches detail-legume">
               <div><%= planche.nom %></div>
+              <div>
+                <% planche.vente_lignes.each do |ligne| %>
+                  <%= ligne.legume.nom %>
+                <% end %>
+              </div>
               <div><%= number_with_precision(ventes, precision: 2) %> €</div>
               <div><%= number_with_precision((ventes*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
             </div>
           </li>
           <% counter += 1 %>
         <% end %>
+          <li>
+            <div class="image-legume"> <%= image_tag "greenhouse.png", class: "icone-legume" %>
+            </div>
+            <div class="wrapper-recap-serres detail-legume">
+              <div>Sous serres</div>
+              <div><%= number_with_precision(@lignessousserre, precision: 2) %> €</div>
+              <div><%= number_with_precision((@lignessousserre*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
+            </div>
+          </li>
       </ul>
 
 

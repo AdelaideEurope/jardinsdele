@@ -1,6 +1,11 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4 mb-4">
-  <h2>Les planches</h2>
+  <div class="titre-recap">
+    <h2>Les planches</h2>
+    <%= link_to legumes_recap_path do %>
+      <div class="voir-tout-recap">Récap</div>
+    <% end %>
+  </div>
   <div class="colonnes-de-planches">
     <div class="planches-par-nom">
       <ul class="lignes-toutes-planches mt-4">

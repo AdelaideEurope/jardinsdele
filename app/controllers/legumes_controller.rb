@@ -75,6 +75,17 @@ class LegumesController < ApplicationController
         @lignesgroupees[planche] += (lignedevente.prixunitairettc) * (lignedevente.quantite)
       end
     end
+
+    @lignessousserre = 0
+    @planches.where("jardin = ? OR jardin = ? OR jardin = ?", "Jardin D", "Jardin E", "Jardin F").each do |planche|
+      @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
+        @lignessousserre += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
+      end
+      @lignesdevente.select { |lignedevente| lignedevente.planche == planche }.each do |lignedevente|
+        @lignessousserre += (lignedevente.prixunitairettc) * (lignedevente.quantite)
+      end
+    end
+
     @catotal = @ventes.map(&:total_ttc).sum
   end
 

@@ -75,3 +75,14 @@
   grid-gap: 10px;
 }
 
+.wrapper-recap-serres {
+  display: grid;
+  grid-template-columns: 16vw 6vw 6vw;
+  grid-gap: 10px;
+}
+
+.wrapper-recap-planches {
+  display: grid;
+  grid-template-columns: 4vw 11vw 6vw 6vw;
+  grid-gap: 10px;
+}
