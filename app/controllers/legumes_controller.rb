@@ -70,7 +70,9 @@ class LegumesController < ApplicationController
     @planches.each do |planche|
       @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
         @lignesgroupees[planche][:total] += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
-        @lignesgroupees[planche][:legumes] << lignedepanier.legume.nom
+        unless @lignesgroupees[planche][:legumes].include?(lignedepanier.legume.nom)
+          @lignesgroupees[planche][:legumes] << lignedepanier.legume.nom
+        end
       end
       @lignesdevente.select { |lignedevente| lignedevente.planche == planche }.each do |lignedevente|
         @lignesgroupees[planche][:total] += (lignedevente.prixunitairettc) * (lignedevente.quantite)
