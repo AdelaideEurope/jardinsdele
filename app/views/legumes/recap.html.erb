@@ -21,7 +21,7 @@
         <% end %>
       </ul>
       <div class="titre-legumes mt-5">
-        <h2>Les planches (top 3)</h2>
+        <h2>Les planches</h2>
         <%= link_to planches_path do %>
           <div class="voir-tout-recap-legumes">Voir tout</div>
         <% end %>
@@ -59,6 +59,34 @@
               <div>Sous serres</div>
               <div><%= number_with_precision(@lignessousserre, precision: 2) %> €</div>
               <div><%= number_with_precision((@lignessousserre*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
+            </div>
+          </li>
+          <li>
+            <div class="image-legume">
+              <%= image_tag "plancheplantee.png", class: "icone-legume" %>
+            </div>
+            <div class="wrapper-recap-serres detail-legume">
+              <div>Planches en cours</div>
+              <div>
+              </div>
+              <div>
+                <%#= @activitesplanche %>
+                <%= @planchesencours %>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="image-legume">
+              <%= image_tag "plancherecoltee.png", class: "icone-legume" %>
+            </div>
+            <div class="wrapper-recap-serres detail-legume">
+              <div>Planches en récolte</div>
+              <div>
+              </div>
+              <div>
+                <%#= @activitesplanche %>
+                <%= @planchesenrecolte %>
+              </div>
             </div>
           </li>
       </ul>

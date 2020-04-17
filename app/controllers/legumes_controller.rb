@@ -46,6 +46,7 @@ class LegumesController < ApplicationController
   end
 
   def recap
+    @activites = Activite.all
     @legumes = Legume.all
     @legumesparca = Hash.new { |hash, key| hash[key] = 0 }
     @legumes.each do |legume|
@@ -81,18 +82,48 @@ class LegumesController < ApplicationController
         end
       end
     end
+    @catotal = @ventes.map(&:total_ttc).sum
+    lignessousserre
+    planchesenrecolte
 
-    @lignessousserre = 0
-    @planches.where("jardin = ? OR jardin = ? OR jardin = ?", "Jardin D", "Jardin E", "Jardin F").each do |planche|
-      @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
-        @lignessousserre += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
+    planchesencours = []
+    @planches.each do |planche|
+      activitesplanche = {}
+      planche.activites.sort_by(&:date).each do |activite|
+        unless activite.legume.nil?
+          activitesplanche[activite.legume.nom] = []
+        end
       end
-      @lignesdevente.select { |lignedevente| lignedevente.planche == planche }.each do |lignedevente|
-        @lignessousserre += (lignedevente.prixunitairettc) * (lignedevente.quantite)
+       planche.activites.sort_by(&:date).each do |activite|
+        unless activite.nil? || activite.legume.nil?
+          activitesplanche[activite.legume.nom] << activite.nom
+        end
+      end
+      if activitesplanche.empty?
+        planche.nom
+      elsif activitesplanche.length == 1
+        activitesplanche.each do |nomlegume, array|
+          if array.include?("Plantation") && array.exclude?("Nettoyage planche")
+            planchesencours << planche.nom
+          elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche")
+            planchesencours << planche.nom
+          else
+            planche.nom
+          end
+        end
+      else
+        activitesplanche.each do |nomlegume, array|
+          if array.include?("Plantation") && array.exclude?("Nettoyage planche")
+            planchesencours << planche.nom
+          elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche")
+            planchesencours << planche.nom
+          end
+        end
       end
     end
+    @planchesencours = planchesencours.uniq.count - 1
 
-    @catotal = @ventes.map(&:total_ttc).sum
+
   end
 
   def show
@@ -125,9 +156,29 @@ class LegumesController < ApplicationController
     end
   end
 
+  private
+
   def legume_params
     params.require(:legume).permit(:nom, :legume_css, :prix_general, :photo, :famille)
   end
 
+  def lignessousserre
+    @lignessousserre = 0
+    @planches.where("jardin = ? OR jardin = ? OR jardin = ?", "Jardin D", "Jardin E", "Jardin F").each do |planche|
+      @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
+        @lignessousserre += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
+      end
+      @lignesdevente.select { |lignedevente| lignedevente.planche == planche }.each do |lignedevente|
+        @lignessousserre += (lignedevente.prixunitairettc) * (lignedevente.quantite)
+      end
+    end
+  end
+
+  def planchesenrecolte
+    planchesrecolte = []
+    planchesrecolte << @planches.select {|planche| planche.vente_lignes.any?}
+    planchesrecolte << @planches.select {|planche| planche.panier_lignes.any? }
+    @planchesenrecolte = planchesrecolte.flatten.uniq.count
+  end
 end
 
