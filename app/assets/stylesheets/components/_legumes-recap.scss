@@ -85,4 +85,6 @@
   display: grid;
   grid-template-columns: 4vw 11vw 6vw 6vw;
   grid-gap: 10px;
+  overflow-y: scroll;
+  height: 30px;
 }
