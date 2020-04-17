@@ -29,7 +29,7 @@
     <div class="planches-par-ca">
       <ul class="lignes-toutes-planches mt-4">
         <h3>Par CA</h3>
-        <% @lignesgroupees.sort_by{ |k, v| v}.reverse.each do |planche| %>
+        <% @lignesgroupees.sort_by{ |k, v| v[:total]}.reverse.each do |planche| %>
           <li>
             <div class="details-planches">
               <div class="nom-planche">

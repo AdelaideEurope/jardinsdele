@@ -4,13 +4,19 @@ class PlanchesController < ApplicationController
     @lignesdevente = VenteLigne.all
     @lignesdepanier = PanierLigne.all
     @ventes = Vente.all
-    @lignesgroupees = Hash.new { |hash, key| hash[key] = "".to_f }
+    @lignesgroupees = Hash.new { |hash, key| hash[key] = {total: "".to_f, legumes: [] } }
     @planches.each do |planche|
       @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
-        @lignesgroupees[planche] += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
+        @lignesgroupees[planche][:total] += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
+        unless @lignesgroupees[planche][:legumes].include?(lignedepanier.legume.nom)
+          @lignesgroupees[planche][:legumes] << lignedepanier.legume.nom
+        end
       end
       @lignesdevente.select { |lignedevente| lignedevente.planche == planche }.each do |lignedevente|
-        @lignesgroupees[planche] += (lignedevente.prixunitairettc) * (lignedevente.quantite)
+        @lignesgroupees[planche][:total] += (lignedevente.prixunitairettc) * (lignedevente.quantite)
+        unless @lignesgroupees[planche][:legumes].include?(lignedevente.legume.nom)
+          @lignesgroupees[planche][:legumes] << lignedevente.legume.nom
+        end
       end
     end
     @catotal = @ventes.map(&:total_ttc).sum
