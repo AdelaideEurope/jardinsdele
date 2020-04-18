@@ -5,7 +5,7 @@
     <%= simple_form_for @legume do |f| %>
       <%= f.input :nom, :label => "NOM", required: true %>
       <%= f.input :legume_css, :label => "NOM sans accent ni espace", placeholder: "ex : pdt_nouvelle, chou_rouge", required: true %>
-      <%= f.input :famille, :label => "FAMILLE", collection: ["Alliacées", "Apiacées", "Astéracées", "Brassicacées", "Chénopodacées", "Cucurbitacées", "Divers", "Fabacées", "Solanacées"] %>
+      <%= f.input :famille, :label => "FAMILLE", collection: ["Alliacées", "Apiacées", "Astéracées", "Brassicacées", "Chénopodacées", "Cucurbitacées", "Divers", "Fabacées", "Solanacées"], required: true %>
       <%= f.input :prix_general, :label => "PRIX GÉNÉRAL", placeholder: "ex : 3.80, 1.00", required: true %>
       <%= f.input :previ_legume, :label => "CA PRÉVISIONNEL", placeholder: "ex : 599, 293" %>
       <%= f.input :photo, as: :file, required: true %>
