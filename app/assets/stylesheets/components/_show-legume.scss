@@ -13,23 +13,26 @@
   margin-top: 1vh;
 }
 
-.recap-show-left, .recap-show-right {
-  display: flex;
+.col-show-leg {
+  width: 24%;
   background-color: #F4F4F4;
+  padding: 2px 8px;
+  display: flex;
   justify-content: space-between;
-  width: 30%;
-  padding: 2px 16px;
+  height: fit-content;
+  ul {
+    margin-bottom: 0;
+    li {
+      padding-top: 0;
+    }
+  }
 }
 
-.recap-show-left-quantite {
-  display: flex;
-  justify-content: space-between;
-  background-color: $light-grey;
-  width: 30%;
-  padding: 2px 16px;
-}
 
 .recap-donnee {
+  ul {
+    margin-bottom: 0 !important;
+  }
   li {
     padding-top: 0 !important;
     text-align: right;
@@ -42,6 +45,7 @@
   justify-content: space-between;
   width: 30%;
   padding: 2px 16px;
+  height: fit-content;
 }
 
 .wrapper-commentaires-show {

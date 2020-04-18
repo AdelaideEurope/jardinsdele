@@ -13,44 +13,85 @@
   </div>
   <div class="toutes-activites-show">
     <h3>Récap</h3>
-      <div class="recap-show-legume">
-        <div class="recap-show-left">
-          <div class="recap-titre">Temps de travail</div>
-          <div class="recap-donnee"><%= [@dureedulegume.to_i/3600, @dureedulegume.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+    <div class="recap-show-legume">
+      <div class="col-show-leg">
+        <div>
+          Temps de travail
         </div>
-        <div class="recap-show-middle">
-          <div class="recap-titre">Chiffre d'affaires</div>
-          <div class="recap-donnee"><%= number_with_precision(@calegume, precision: 2) %> €</div>
-        </div>
-        <div class="recap-show-right">
-          <div class="recap-titre">Prix général</div>
-          <div class="recap-donnee">
-            <%= number_with_precision(@legume.prix_general, precision: 2) %> €
-          </div>
+        <div>
+          <%= [@dureedulegume.to_i/3600, @dureedulegume.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %>
         </div>
       </div>
-      <div class="recap-show-legume">
-        <div class="recap-show-left-quantite">
-          <div class="recap-titre">Quantité vendue</div>
-          <div class="recap-donnee">
-            <ul>
+      <div class="col-show-leg">
+        <div>
+          Chiffre d'affaires
+        </div>
+        <div>
+          <%= number_with_precision(@calegume, precision: 2) %> €
+        </div>
+      </div>
+      <div class="col-show-leg">
+        <div>
+          Prévisionnel
+        </div>
+        <div>
+          <% if !@legume.previ_legume.nil? %>
+            <%= number_with_precision(@legume.previ_legume, precision: 2) %> €
+          <% else %>
+            Non renseigné
+          <% end %>
+        </div>
+      </div>
+      <div class="col-show-leg">
+        <div>
+          Prix général
+        </div>
+        <div>
+          <%= number_with_precision(@legume.prix_general, precision: 2) %> €
+        </div>
+      </div>
+    </div>
+    <div class="recap-show-legume">
+      <div class="col-show-leg">
+        <div>
+          Nb de planches
+        </div>
+        <div>
+          <%= @planchesdulegume.uniq.length %>
+        </div>
+      </div>
+      <div class="col-show-leg">
+        <div>
+          % du CA
+        </div>
+        <div>
+          <%= @pourcentagedulegume.nan? ? "0" : @pourcentagedulegume %> %
+        </div>
+      </div>
+      <div class="col-show-leg">
+        <div>
+          % du prévisionnel
+        </div>
+        <div>
+          <%= !@legume.previ_legume == nil? ? number_with_precision(((@calegume*100)/@legume.previ_legume), precision: 2) : 0.00  %> %
+        </div>
+      </div>
+      <div class="col-show-leg">
+        <div>
+          Vendu
+        </div>
+        <div>
+          <ul>
               <% @quantitelegume.each do |unite, quantite| %>
                 <li>
                   <%= number_with_precision(rem_trailing_zero(quantite), precision: 2) %> <%= quantite > 1 && unite != "kg" ? unite.pluralize : unite %>
                 </li>
               <% end %>
             </ul>
-          </div>
-        </div>
-        <div class="recap-show-middle">
-          <div class="recap-titre">% du CA total</div>
-          <div class="recap-donnee"><%= @pourcentagedulegume.nan? ? "0" : @pourcentagedulegume %> %</div>
-        </div>
-        <div class="recap-show-right">
-          <div class="recap-titre">Nb de planches</div>
-          <div class="recap-donnee"><%= @planchesdulegume.uniq.length %></div>
         </div>
       </div>
+    </div>
+
   </div>
 </div>
 

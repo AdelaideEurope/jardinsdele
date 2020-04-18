@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_12_210738) do
+ActiveRecord::Schema.define(version: 2020_04_18_072833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 2020_04_12_210738) do
     t.string "unite"
     t.decimal "prix_general"
     t.string "famille"
+    t.decimal "previ_legume"
     t.index ["slug"], name: "index_legumes_on_slug", unique: true
   end
 
