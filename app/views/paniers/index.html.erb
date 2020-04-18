@@ -10,7 +10,7 @@
       <ul>
         <% @arecolter.each do |legume, detail| %>
         <li>
-          <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] != "kg" ? detail[:unite].pluralize : detail[:unite] %>
+          <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:quantite] > 1 && detail[:unite] != "kg" ? detail[:unite].pluralize : detail[:unite] %>
         </li>
         <% end %>
       </ul>

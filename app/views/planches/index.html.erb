@@ -33,7 +33,9 @@
           <li>
             <div class="details-planches">
               <div class="nom-planche">
-                <%= planche[0].nom %>
+                <button type="button" data-toggle="collapse" data-target="#collapseplanche-detail<%=planche[0].nom%>" aria-expanded="false" aria-controls="collapseplanche-detail<%=planche[0].nom%>">
+                  <%= planche[0].nom %>
+                </button>
               </div>
                 <div class="infos-ventes-planches">
                   <div class="total-ventes-planche"><%= number_with_precision(planche[1][:total], precision: 2) %> €</div>
@@ -41,6 +43,17 @@
                 </div>
             </div>
           </li>
+          <div class="collapse" id="collapseplanche-detail<%=planche[0].nom%>">
+            <% unless planche[1][:legumes].empty? %>
+              <li>
+                <div class="nom-planche">
+                  <% planche[1][:legumes].each do |legume| %>
+                    <em><%= legume %></em>
+                  <% end %>
+                </div>
+              </li>
+            <% end %>
+          </div>
         <% end %>
       </ul>
     </div>
