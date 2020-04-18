@@ -29,6 +29,6 @@ class CommentairesController < ApplicationController
   private
 
   def commentaire_params
-    params.require(:commentaire).permit(:description)
+    params.require(:commentaire).permit(:description, :maladie_ravageur)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_18_072833) do
+ActiveRecord::Schema.define(version: 2020_04_18_160211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2020_04_18_072833) do
     t.datetime "date"
     t.time "heure_debut"
     t.time "heure_fin"
+    t.string "maladie_ravageur"
     t.index ["assistant_id"], name: "index_activites_on_assistant_id"
     t.index ["legume_id"], name: "index_activites_on_legume_id"
     t.index ["planche_id"], name: "index_activites_on_planche_id"

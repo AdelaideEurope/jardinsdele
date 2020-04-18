@@ -11,6 +11,12 @@
   grid-gap: 10px;
 }
 
+.wrapper-recap-commentaires-activite {
+  display: grid;
+  grid-template-columns: 4vw 12vw 12vw 38vw;
+  grid-gap: 10px;
+}
+
 
 .commentaires-liste-index {
   li {
@@ -27,4 +33,17 @@
     margin-left: 4%;
     margin-right: 4%;
   }
+}
+
+.ravageurs {
+  height: 36px;
+}
+
+.contenu-commentaire-index-img {
+  text-align: right;
+}
+
+.maladies {
+  color: $light-grey;
+  font-size: 1px;
 }

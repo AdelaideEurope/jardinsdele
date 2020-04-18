@@ -122,7 +122,7 @@ class ActivitesController < ApplicationController
 private
 
   def activite_params
-    params.require(:activite).permit(:nom, :legume_id, :planche_id, :date, :duree, :assistant_id, :tag_list, :heure_debut, :heure_fin, commentaires_attributes: [:id, :description, :activite_id], photos: [])
+    params.require(:activite).permit(:nom, :legume_id, :planche_id, :date, :duree, :assistant_id, :tag_list, :heure_debut, :heure_fin, :maladie_ravageur, commentaires_attributes: [:id, :description, :activite_id], photos: [])
   end
 
   def convert_to_readable_hours(time)

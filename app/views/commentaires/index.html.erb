@@ -22,11 +22,16 @@
             </li>
           <% else %>
             <li>
-              <div class="wrapper-recap-commentaires">
+              <div class="wrapper-recap-commentaires-activite">
                 <div class="date-commentaire-index"><%= commentaire.activite.date.strftime("%d/%m") %></div>
                 <div class="activite-commentaire-index"><%= commentaire.activite.nom %></div>
                 <div class="legume-commentaire-index"><%= commentaire.activite.legume.nil? ? "" : commentaire.activite.legume.nom %></div>
                 <div class="contenu-commentaire-index"><%= commentaire.description %></div>
+                <!-- <div class="contenu-commentaire-index-img">
+                  <#% unless commentaire.activite.maladie_ravageur.nil? %>
+                    <%#= image_tag "ravageurs.png", class: "ravageurs" %>
+                  <%# end %> -->
+                <!-- </div> -->
               </div>
             </li>
           <% end %>
