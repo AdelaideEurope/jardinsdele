@@ -22,6 +22,7 @@ class ActivitesController < ApplicationController
       redirect_to activites_recap_path
     end
     @activite = Activite.new
+    @previsionnel_planche = PrevisionnelPlanche.new
     @activite.commentaires.build
     planches = Planche.all
     @jardins = planches.group_by { |planche| planche.jardin }
@@ -29,6 +30,16 @@ class ActivitesController < ApplicationController
 
   def create
     @activite = Activite.new(activite_params)
+    legume_id = params[:activite][:legume_id]
+    planche_id = params[:activite][:planche_id]
+    nomactivite = params[:activite][:nom]
+    previ_legume = Legume.find(params[:activite][:legume_id]).previ_legume.nil? ? 0 : Legume.find(params[:activite][:legume_id]).previ_legume
+    nb_planche = Legume.find(params[:activite][:legume_id]).nb_planche.nil? ? 0 : Legume.find(params[:activite][:legume_id]).nb_planche
+    total_previ = (previ_legume / nb_planche).round(2).infinite? ? 0 : (previ_legume / nb_planche).round(2)
+    if nomactivite == "Plantation"
+      @previsionnel_planche = PrevisionnelPlanche.new(legume_id: legume_id, planche_id: planche_id, total_previ: total_previ)
+      @previsionnel_planche.save
+    end
     if @activite.save
       flash[:notice] = "Activité créée avec succès !"
       redirect_to activites_recap_path
@@ -105,12 +116,23 @@ class ActivitesController < ApplicationController
       redirect_to activites_recap_path
     end
     @activite = Activite.find(params[:id])
+    @previsionnel_planche = PrevisionnelPlanche.select { |previ| previ.created_at.to_i == @activite.created_at.to_i }.first
     planches = Planche.all
     @jardins = planches.group_by(&:jardin)
   end
 
   def update
     @activite = Activite.find(params[:id])
+    @previsionnel_planche = PrevisionnelPlanche.select { |previ| previ.created_at.to_i == @activite.created_at.to_i }.first
+    legume_id = params[:activite][:legume_id]
+    planche_id = params[:activite][:planche_id]
+    nomactivite = params[:activite][:nom]
+    previ_legume = Legume.find(params[:activite][:legume_id]).previ_legume.nil? ? 0 : Legume.find(params[:activite][:legume_id]).previ_legume
+    nb_planche = Legume.find(params[:activite][:legume_id]).nb_planche.nil? ? 0 : Legume.find(params[:activite][:legume_id]).nb_planche
+    total_previ = (previ_legume / nb_planche).round(2).infinite? ? 0 : (previ_legume / nb_planche).round(2)
+    if nomactivite == "Plantation"
+      @previsionnel_planche.update(legume_id: legume_id, planche_id: planche_id, total_previ: total_previ)
+    end
     if @activite.update(activite_params)
       flash[:notice] = "Activité modifiée avec succès !"
       redirect_to activites_recap_path

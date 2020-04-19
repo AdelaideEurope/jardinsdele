@@ -21,4 +21,8 @@ class PlanchesController < ApplicationController
     end
     @catotal = @ventes.map(&:total_ttc).sum
   end
+
+  def previsionnel_planches
+    @previsionnel_planches = PrevisionnelPlanche.all
+  end
 end

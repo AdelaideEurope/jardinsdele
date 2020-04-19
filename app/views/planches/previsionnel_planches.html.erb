@@ -1,0 +1,10 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4 mb-4">
+  <ul>
+    <% @previsionnel_planches.sort_by(&:planche).each do |previ| %>
+      <li>
+        <%= previ.planche.nom %> - <%= previ.legume.nom %> => <%= previ.total_previ %>
+      </li>
+    <% end %>
+  </ul>
+</div>

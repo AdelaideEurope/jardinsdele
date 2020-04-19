@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_18_160211) do
+ActiveRecord::Schema.define(version: 2020_04_19_081346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 2020_04_18_160211) do
     t.decimal "prix_general"
     t.string "famille"
     t.decimal "previ_legume"
+    t.decimal "nb_planche"
     t.index ["slug"], name: "index_legumes_on_slug", unique: true
   end
 
@@ -129,6 +130,16 @@ ActiveRecord::Schema.define(version: 2020_04_18_160211) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "jardin"
+  end
+
+  create_table "previsionnel_planches", force: :cascade do |t|
+    t.bigint "legume_id"
+    t.bigint "planche_id"
+    t.decimal "total_previ"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["legume_id"], name: "index_previsionnel_planches_on_legume_id"
+    t.index ["planche_id"], name: "index_previsionnel_planches_on_planche_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
@@ -225,6 +236,8 @@ ActiveRecord::Schema.define(version: 2020_04_18_160211) do
   add_foreign_key "panier_lignes", "paniers"
   add_foreign_key "panier_lignes", "planches", column: "planche_id"
   add_foreign_key "paniers", "ventes"
+  add_foreign_key "previsionnel_planches", "legumes"
+  add_foreign_key "previsionnel_planches", "planches", column: "planche_id"
   add_foreign_key "taggings", "tags"
   add_foreign_key "vente_lignes", "legumes"
   add_foreign_key "vente_lignes", "planches", column: "planche_id"

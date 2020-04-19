@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "/ventes-recap", to: "ventes#recap"
   get "/ventes/:id/facture" , to: "ventes#facture", as: "vente_facture"
   get "/ventes/impayes" , to: "ventes#impayes"
+  get "/planches/previsionnel_planches" , to: "planches#previsionnel_planches"
   resources :activites
   resources :assistants, only: [:index]
   resources :legumes

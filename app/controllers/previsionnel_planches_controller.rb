@@ -1,0 +1,3 @@
+class PrevisionnelPlanchesController < ApplicationController
+
+end

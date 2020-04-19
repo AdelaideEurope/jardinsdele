@@ -7,6 +7,7 @@ class Legume < ApplicationRecord
   has_many :panier_lignes
   has_many :paniers, through: :panier_lignes
   has_many :ventes, through: :panier_lignes
+  has_many :previsionnel_planches
   has_one_attached :photo
   extend FriendlyId
   friendly_id :legume_css, use: :slugged
