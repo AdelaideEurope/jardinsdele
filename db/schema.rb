@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_19_081346) do
+ActiveRecord::Schema.define(version: 2020_04_19_103821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,8 @@ ActiveRecord::Schema.define(version: 2020_04_19_081346) do
     t.decimal "total_previ"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "activite_id"
+    t.index ["activite_id"], name: "index_previsionnel_planches_on_activite_id"
     t.index ["legume_id"], name: "index_previsionnel_planches_on_legume_id"
     t.index ["planche_id"], name: "index_previsionnel_planches_on_planche_id"
   end
@@ -236,6 +238,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_081346) do
   add_foreign_key "panier_lignes", "paniers"
   add_foreign_key "panier_lignes", "planches", column: "planche_id"
   add_foreign_key "paniers", "ventes"
+  add_foreign_key "previsionnel_planches", "activites"
   add_foreign_key "previsionnel_planches", "legumes"
   add_foreign_key "previsionnel_planches", "planches", column: "planche_id"
   add_foreign_key "taggings", "tags"

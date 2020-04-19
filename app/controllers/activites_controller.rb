@@ -33,11 +33,16 @@ class ActivitesController < ApplicationController
     legume_id = params[:activite][:legume_id]
     planche_id = params[:activite][:planche_id]
     nomactivite = params[:activite][:nom]
+    activite_id = params[:activite][:id]
     previ_legume = Legume.find(params[:activite][:legume_id]).previ_legume.nil? ? 0 : Legume.find(params[:activite][:legume_id]).previ_legume
-    nb_planche = Legume.find(params[:activite][:legume_id]).nb_planche.nil? ? 0 : Legume.find(params[:activite][:legume_id]).nb_planche
-    total_previ = (previ_legume / nb_planche).round(2).infinite? ? 0 : (previ_legume / nb_planche).round(2)
+        nb_planche = Legume.find(params[:activite][:legume_id]).nb_planche.nil? ? 0 : Legume.find(params[:activite][:legume_id]).nb_planche
+    if previ_legume.zero? || nb_planche.zero?
+      total_previ = 0
+    else
+      total_previ = (previ_legume / nb_planche).round(2).infinite? ? 0 : (previ_legume / nb_planche).round(2)
+    end
     if nomactivite == "Plantation"
-      @previsionnel_planche = PrevisionnelPlanche.new(legume_id: legume_id, planche_id: planche_id, total_previ: total_previ)
+      @previsionnel_planche = PrevisionnelPlanche.new(legume_id: legume_id, planche_id: planche_id, total_previ: total_previ, activite_id: activite_id)
       @previsionnel_planche.save
     end
     if @activite.save
@@ -129,7 +134,11 @@ class ActivitesController < ApplicationController
     nomactivite = params[:activite][:nom]
     previ_legume = Legume.find(params[:activite][:legume_id]).previ_legume.nil? ? 0 : Legume.find(params[:activite][:legume_id]).previ_legume
     nb_planche = Legume.find(params[:activite][:legume_id]).nb_planche.nil? ? 0 : Legume.find(params[:activite][:legume_id]).nb_planche
-    total_previ = (previ_legume / nb_planche).round(2).infinite? ? 0 : (previ_legume / nb_planche).round(2)
+    if previ_legume.zero? || nb_planche.zero?
+      total_previ = 0
+    else
+      total_previ = (previ_legume / nb_planche).round(2).infinite? ? 0 : (previ_legume / nb_planche).round(2)
+    end
     if nomactivite == "Plantation"
       @previsionnel_planche.update(legume_id: legume_id, planche_id: planche_id, total_previ: total_previ)
     end
