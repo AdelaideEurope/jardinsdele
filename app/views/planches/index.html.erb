@@ -76,10 +76,11 @@
                 <i class="fas fa-long-arrow-alt-right"></i> <%= previ.legume.nom %>
                 <% realise = planche.vente_lignes.select { |ligne| ligne.legume == previ.legume }.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + planche.panier_lignes.select { |ligne| ligne.legume == previ.legume }.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
                 <% pourcent_previ_realise = number_with_precision((realise*100)/previ.total_previ, precision: 2) %>
+                <% if pourcent_previ_realise.to_f > 0 %>
                   <div class="progress progress-planches">
                     <div class="progress-bar bg-success" role="progressbar" style="width:<%=pourcent_previ_realise%>%" aria-valuenow="<%=pourcent_previ_realise%>" aria-valuemin="0" aria-valuemax="100"><%=pourcent_previ_realise%> %</div>
                   </div>
-
+                <% end %>
                 <table class="diff-previ-ca">
                   <tr>
                     <td><%= number_with_precision(previ.total_previ, precision: 2) %> €</td>
@@ -108,9 +109,11 @@
                 <i class="fas fa-long-arrow-alt-right"></i> <%= previ.planche.nom %>
                 <% realise = legume.vente_lignes.select { |ligne| ligne.planche == previ.planche }.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + legume.panier_lignes.select { |ligne| ligne.planche == previ.planche }.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
                 <% pourcent_previ_realise = number_with_precision((realise*100)/previ.total_previ, precision: 2) %>
+                <% if pourcent_previ_realise.to_f > 0 %>
                   <div class="progress progress-planches">
                     <div class="progress-bar bg-success" role="progressbar" style="width:<%=pourcent_previ_realise%>%" aria-valuenow="<%=pourcent_previ_realise%>" aria-valuemin="0" aria-valuemax="100"><%=pourcent_previ_realise%> %</div>
                   </div>
+                <% end %>
                 <table class="diff-previ-ca">
                   <tr>
                     <td><%= number_with_precision(previ.total_previ, precision: 2) %> €</td>
