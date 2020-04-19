@@ -7,7 +7,14 @@
       <%= f.input :legume_css, :label => "NOM sans accent ni espace", placeholder: "ex : pdt_nouvelle, chou_rouge", required: true %>
       <%= f.input :famille, :label => "FAMILLE", collection: ["Alliacées", "Apiacées", "Astéracées", "Brassicacées", "Chénopodacées", "Cucurbitacées", "Divers", "Fabacées", "Solanacées"], required: true %>
       <%= f.input :prix_general, :label => "PRIX GÉNÉRAL", placeholder: "ex : 3.80, 1.00", required: true %>
-      <%= f.input :previ_legume, :label => "CA PRÉVISIONNEL", placeholder: "ex : 599, 293" %>
+      <div class="previ-legume-new-edit">
+        <div class="previ-legume-new-edit-item">
+          <%= f.input :previ_legume, :label => "CA PRÉVI", placeholder: "ex : 599, 293" %>
+        </div>
+        <div class="previ-legume-new-edit-item">
+          <%= f.input :nb_planche, :label => "PLANCHES", placeholder: "ex : 6, 2" %>
+        </div>
+      </div>
       <%= f.input :photo, as: :file, required: true %>
       <div class="save-legume">
         <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond save-legume" %>

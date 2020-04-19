@@ -101,7 +101,7 @@
   </div>
   <div class="tab-pane fade show active" id="parmois" role="tabpanel" aria-labelledby="parmois-tab">
 
-    <%= data = [{
+    <%#= data = [{
       name: "Divers",
       data: [["3", 10], ["4", 28]]
     },
@@ -116,12 +116,12 @@
     %>
 
 
-<%= column_chart data, stacked: true %>
-<% @month = Date.today.month %>
-<%= ventes = @pointsdevente.find(9).ventes %>
-<% ventes.each do |vente| %>
-<%= vente.date %>
-<% end %>
+<%#= column_chart data, stacked: true %>
+<%# @month = Date.today.month %>
+<%#= ventes = @pointsdevente.find(9).ventes %>
+<%# ventes.each do |vente| %>
+<%#= vente.date %>
+<%# end %>
 
     <%= column_chart @ventespourgraph, colors: ["#A1BD7F"] %>
     <div class="separateur-ventes-index"></div>
