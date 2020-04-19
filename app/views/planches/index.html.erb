@@ -65,57 +65,66 @@
 <div class="colonnes-de-planches">
   <div class="planches-par-nom">
     <ul>
-      <% @planches[0..-2].each do |planche| %>
+      <% @planches.each do |planche| %>
         <li>
-          <%= planche.nom %>
-          <br>
-          <% planche.previsionnel_planches.each do |previ| %>
-            <% unless previ.nil? %>
-              <%= previ.legume.nom %>
-              <br>
-              => Prévisionnel : <%= previ.total_previ %> €
-              <br>
-              => Réalisé : <%= planche.vente_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + planche.panier_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %> €
-              <br>
+          <button type="button" data-toggle="collapse" data-target="#collapseplanches" aria-expanded="false" aria-controls="collapseplanches">
+            <%= planche.nom %>
+          </button>
+          <div class="collapse" id="collapseplanches">
+            <% planche.previsionnel_planches.each do |previ| %>
+              <% unless previ.nil? %>
+                <i class="fas fa-long-arrow-alt-right"></i> <%= previ.legume.nom %>
+                <% realise = planche.vente_lignes.select { |ligne| ligne.legume == previ.legume }.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + planche.panier_lignes.select { |ligne| ligne.legume == previ.legume }.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
+                <% pourcent_previ_realise = number_with_precision((realise*100)/previ.total_previ, precision: 2) %>
+                  <div class="progress progress-planches">
+                    <div class="progress-bar bg-success" role="progressbar" style="width:<%=pourcent_previ_realise%>%" aria-valuenow="<%=pourcent_previ_realise%>" aria-valuemin="0" aria-valuemax="100"><%=pourcent_previ_realise%> %</div>
+                  </div>
+
+                <table class="diff-previ-ca">
+                  <tr>
+                    <td><%= number_with_precision(previ.total_previ, precision: 2) %> €</td>
+                    <td><%= number_with_precision(realise, precision: 2) %> €</td>
+                    <td><%= (realise - previ.total_previ) > 0 ? "+#{number_with_precision((realise - previ.total_previ), precision: 2)}" : "#{number_with_precision((realise - previ.total_previ), precision: 2)}" %> €</td>
+                  </tr>
+                </table>
+              <% end %>
             <% end %>
-          <% end %>
+          </div>
         </li>
       <% end %>
     </ul>
   </div>
   <div class="planches-par-ca">
     <ul>
-      <% @legumes.sort_by(&:nom).each do |legume| %>
+      <% @legumes.sort_by(&:legume_css).each do |legume| %>
         <li>
-          <%= legume.nom %>
+          <button type="button" data-toggle="collapse" data-target="#collapselegumes" aria-expanded="false" aria-controls="collapselegumes">
+            <%= legume.nom %>
+          </button>
           <br>
-          <% legume.previsionnel_planches.each do |previ| %>
-            <% unless previ.nil? %>
-              <%= previ.planche.nom %>
-              <br>
-              => Prévisionnel : <%= number_with_precision(previ.total_previ, precision: 2) %> €
-              <br>
-              <% realise = legume.vente_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + legume.panier_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
-              => Réalisé : <%= number_with_precision(realise, precision: 2) %> €
-              <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" style="width:<%=number_with_precision((realise*100)/previ.total_previ, precision: 2)%>%" aria-valuenow="<%=number_with_precision((realise*100)/previ.total_previ, precision: 2)%>" aria-valuemin="0" aria-valuemax="100"><%=number_with_precision((realise*100)/previ.total_previ, precision: 2)%> %</div>
-              </div>
+          <div class="collapse" id="collapselegumes">
+            <% legume.previsionnel_planches.each do |previ| %>
+              <% unless previ.nil? %>
+                <i class="fas fa-long-arrow-alt-right"></i> <%= previ.planche.nom %>
+                <% realise = legume.vente_lignes.select { |ligne| ligne.planche == previ.planche }.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + legume.panier_lignes.select { |ligne| ligne.planche == previ.planche }.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
+                <% pourcent_previ_realise = number_with_precision((realise*100)/previ.total_previ, precision: 2) %>
+                  <div class="progress progress-planches">
+                    <div class="progress-bar bg-success" role="progressbar" style="width:<%=pourcent_previ_realise%>%" aria-valuenow="<%=pourcent_previ_realise%>" aria-valuemin="0" aria-valuemax="100"><%=pourcent_previ_realise%> %</div>
+                  </div>
+                <table class="diff-previ-ca">
+                  <tr>
+                    <td><%= number_with_precision(previ.total_previ, precision: 2) %> €</td>
+                    <td><%= number_with_precision(realise, precision: 2) %> €</td>
+                    <td><%= (realise - previ.total_previ) > 0 ? "+#{number_with_precision((realise - previ.total_previ), precision: 2)}" : "#{number_with_precision((realise - previ.total_previ), precision: 2)}" %> €</td>
+                  </tr>
+                </table>
+              <% end %>
             <% end %>
-          <% end %>
+          </div>
         </li>
       <% end %>
     </ul>
   </div>
-
-
 </div>
 
 
-
-    <!-- <ul>
-      <% @previsionnel_planches.sort_by(&:planche).each do |previ| %>
-        <li>
-          <%= previ.planche.nom %> - <%= previ.legume.nom %> => <%= previ.total_previ %>
-        </li>
-      <% end %>
-    </ul> -->

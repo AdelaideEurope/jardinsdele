@@ -12,12 +12,14 @@
   <div class="tous-legumes">
     <div class="liste-legume mr-3">
       <ul>
-        <div class="wrapper-legumes">
-          <div>Légume</div>
-          <div>Temps de travail</div>
-          <div>CA légume</div>
-          <div>% du prévi</div>
-        </div>
+        <li>
+          <div class="wrapper-legumes">
+            <div><b>Légume</b></div>
+            <div><b>Travail</b></div>
+            <div><b>CA</b></div>
+            <div><b>% prévi</b></div>
+          </div>
+        </li>
         <% @sorted_legumes.first(@firsthalf).each do |legume| %>
           <% duree = [] %>
           <% planches = [] %>
@@ -74,6 +76,14 @@
 
     <div class="liste-legume ml-3">
       <ul>
+        <li>
+          <div class="wrapper-legumes">
+            <div><b>Légume</b></div>
+            <div><b>Travail</b></div>
+            <div><b>CA</b></div>
+            <div><b>% prévi</b></div>
+          </div>
+        </li>
         <% @sorted_legumes.last(@secondhalf).each do |legume| %>
           <% duree = [] %>
           <% planches = [] %>
@@ -85,11 +95,12 @@
             <% duree = duree.sum %>
             <% h[legume.nom] += duree %>
             <div class="wrapper-legumes">
-              <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %></div>
-              <div class="planches-legumes-index"><%= planches.sort.uniq.join(", ") %></div>
+              <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %> </div>
+
               <div><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <% calegume = legume.vente_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + legume.panier_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
               <div><%= number_with_precision(calegume, precision: 2) %> €</div>
+              <div class="planches-legumes-index"><%= legume.previ_legume.nil? ? 0 : number_with_precision((calegume * 100) / legume.previ_legume, precision: 2) %> %</div>
               <div>
                 <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume.id %>">
                   <% if legume.commentaires.reject { |commentaire| commentaire.description.empty? }.any? %>
@@ -99,7 +110,7 @@
               </div>
               <div class="modal fade" id="ModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
+                  <div class="modal-content modal-commentaires-index-legumes">
                     <div class="modal-header">
                       <h5 class="modal-title" id="modalLongTitle"><%= legume.nom %></h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">

@@ -38,4 +38,30 @@
 
 .planches-par-nom, .planches-par-ca {
   width: 40%;
+  li {
+    list-style: none;
+    background-color: $light-grey;
+    text-align: center;
+    margin: 4px;
+  }
+}
+
+#collapselegumes, #collapseplanches {
+  padding: 8px 24px;
+  background-color: white;
+  text-align: left;
+}
+
+.fa-long-arrow-alt-right {
+  color: $light-green;
+}
+
+.progress-planches {
+  margin-top: 4px;
+}
+
+.diff-previ-ca {
+  width: 100%;
+  text-align: center;
+  margin-top: 8px;
 }
