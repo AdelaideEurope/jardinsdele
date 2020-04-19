@@ -12,6 +12,12 @@
   <div class="tous-legumes">
     <div class="liste-legume mr-3">
       <ul>
+        <div class="wrapper-legumes">
+          <div>Légume</div>
+          <div>Temps de travail</div>
+          <div>CA légume</div>
+          <div>% du prévi</div>
+        </div>
         <% @sorted_legumes.first(@firsthalf).each do |legume| %>
           <% duree = [] %>
           <% planches = [] %>
@@ -24,9 +30,11 @@
             <% h[legume.nom] += duree %>
             <div class="wrapper-legumes">
               <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %> </div>
-              <div class="planches-legumes-index"><%= planches.sort.uniq.join(", ") %></div>
+
               <div><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
-              <div><%= number_with_precision(@lignesdevente.where(["legume_id = ?", legume.id]).map { |ligne| ht_to_ttc(ligne.prixunitaireht) * (ligne.quantite || 0) }.sum, precision: 2) %> €</div>
+              <% calegume = legume.vente_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + legume.panier_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
+              <div><%= number_with_precision(calegume, precision: 2) %> €</div>
+              <div class="planches-legumes-index"><%= legume.previ_legume.nil? ? 0 : number_with_precision((calegume * 100) / legume.previ_legume, precision: 2) %> %</div>
               <div>
                 <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume.id %>">
                   <% if legume.commentaires.reject { |commentaire| commentaire.description.empty? }.any? %>
@@ -80,7 +88,8 @@
               <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %></div>
               <div class="planches-legumes-index"><%= planches.sort.uniq.join(", ") %></div>
               <div><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
-              <div><%= number_with_precision(@lignesdevente.where(["legume_id = ?", legume.id]).map { |ligne| ht_to_ttc(ligne.prixunitaireht) * ligne.quantite }.sum, precision: 2) %> €</div>
+              <% calegume = legume.vente_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + legume.panier_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
+              <div><%= number_with_precision(calegume, precision: 2) %> €</div>
               <div>
                 <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume.id %>">
                   <% if legume.commentaires.reject { |commentaire| commentaire.description.empty? }.any? %>

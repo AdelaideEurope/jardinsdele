@@ -1,9 +1,11 @@
 class PlanchesController < ApplicationController
   def index
     @planches = Planche.all
+    @previsionnel_planches = PrevisionnelPlanch.all
     @lignesdevente = VenteLigne.all
     @lignesdepanier = PanierLigne.all
     @ventes = Vente.all
+    @legumes = Legume.all
     @lignesgroupees = Hash.new { |hash, key| hash[key] = {total: "".to_f, legumes: [] } }
     @planches.each do |planche|
       @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
@@ -23,6 +25,6 @@ class PlanchesController < ApplicationController
   end
 
   def previsionnel_planches
-    @previsionnel_planches = PrevisionnelPlanche.all
+    @previsionnel_planches = PrevisionnelPlanch.all
   end
 end

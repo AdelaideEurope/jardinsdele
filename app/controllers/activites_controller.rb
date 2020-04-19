@@ -22,7 +22,7 @@ class ActivitesController < ApplicationController
       redirect_to activites_recap_path
     end
     @activite = Activite.new
-    @previsionnel_planche = PrevisionnelPlanche.new
+    @previsionnel_planche = PrevisionnelPlanch.new
     @activite.commentaires.build
     planches = Planche.all
     @jardins = planches.group_by { |planche| planche.jardin }
@@ -30,9 +30,10 @@ class ActivitesController < ApplicationController
 
   def create
     @activite = Activite.new(activite_params)
+    nomactivite = params[:activite][:nom]
+    if nomactivite == "Plantation"
     legume_id = params[:activite][:legume_id]
     planche_id = params[:activite][:planche_id]
-    nomactivite = params[:activite][:nom]
     activite_id = params[:activite][:id]
     previ_legume = Legume.find(params[:activite][:legume_id]).previ_legume.nil? ? 0 : Legume.find(params[:activite][:legume_id]).previ_legume
         nb_planche = Legume.find(params[:activite][:legume_id]).nb_planche.nil? ? 0 : Legume.find(params[:activite][:legume_id]).nb_planche
@@ -41,8 +42,7 @@ class ActivitesController < ApplicationController
     else
       total_previ = (previ_legume / nb_planche).round(2).infinite? ? 0 : (previ_legume / nb_planche).round(2)
     end
-    if nomactivite == "Plantation"
-      @previsionnel_planche = PrevisionnelPlanche.new(legume_id: legume_id, planche_id: planche_id, total_previ: total_previ, activite_id: activite_id)
+      @previsionnel_planche = PrevisionnelPlanch.new(legume_id: legume_id, planche_id: planche_id, total_previ: total_previ)
       @previsionnel_planche.save
     end
     if @activite.save
@@ -121,17 +121,18 @@ class ActivitesController < ApplicationController
       redirect_to activites_recap_path
     end
     @activite = Activite.find(params[:id])
-    @previsionnel_planche = PrevisionnelPlanche.select { |previ| previ.created_at.to_i == @activite.created_at.to_i }.first
+    @previsionnel_planche = PrevisionnelPlanch.select { |previ| previ.created_at.to_i == @activite.created_at.to_i }.first
     planches = Planche.all
     @jardins = planches.group_by(&:jardin)
   end
 
   def update
     @activite = Activite.find(params[:id])
-    @previsionnel_planche = PrevisionnelPlanche.select { |previ| previ.created_at.to_i == @activite.created_at.to_i }.first
+    @previsionnel_planche = PrevisionnelPlanch.select { |previ| previ.created_at.to_i == @activite.created_at.to_i }.first
+    nomactivite = params[:activite][:nom]
+    if nomactivite == "Plantation"
     legume_id = params[:activite][:legume_id]
     planche_id = params[:activite][:planche_id]
-    nomactivite = params[:activite][:nom]
     previ_legume = Legume.find(params[:activite][:legume_id]).previ_legume.nil? ? 0 : Legume.find(params[:activite][:legume_id]).previ_legume
     nb_planche = Legume.find(params[:activite][:legume_id]).nb_planche.nil? ? 0 : Legume.find(params[:activite][:legume_id]).nb_planche
     if previ_legume.zero? || nb_planche.zero?
@@ -139,7 +140,6 @@ class ActivitesController < ApplicationController
     else
       total_previ = (previ_legume / nb_planche).round(2).infinite? ? 0 : (previ_legume / nb_planche).round(2)
     end
-    if nomactivite == "Plantation"
       @previsionnel_planche.update(legume_id: legume_id, planche_id: planche_id, total_previ: total_previ)
     end
     if @activite.update(activite_params)
