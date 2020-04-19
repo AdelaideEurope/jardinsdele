@@ -159,7 +159,7 @@ class LegumesController < ApplicationController
   private
 
   def legume_params
-    params.require(:legume).permit(:nom, :legume_css, :prix_general, :photo, :famille, :previ_legume)
+    params.require(:legume).permit(:nom, :legume_css, :prix_general, :photo, :famille, :previ_legume, :nb_planche)
   end
 
   def lignessousserre
