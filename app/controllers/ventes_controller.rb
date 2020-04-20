@@ -8,6 +8,22 @@ class VentesController < ApplicationController
     @ventes_futures = @ventes.select { |vente| vente.date > Date.today }.sort_by(&:date).reverse
     @month = Date.today.month
     ventespourgraph
+    @ventes_mois_cate_pdv = @pointsdevente.map { |pointdevente| pointdevente.categorie }.uniq.map do |categorie|
+      { name: categorie, data: ventecategorie(categorie) }
+    end
+  end
+
+  def ventecategorie(categorie)
+    @months = (1..@month).to_a.reverse
+    @arr_mois = []
+    @months.each do |mois|
+      pointsdevente_cate = @pointsdevente.where("categorie = ?", categorie)
+      totauxvente = pointsdevente_cate.map(&:ventes).flatten.select { |vente| vente.date.month == mois }.map do |vente|
+        vente.montant_arrondi.nil? || vente.montant_arrondi == 0 ? vente.total_ttc : vente.montant_arrondi
+      end
+      @arr_mois << [mois, totauxvente.sum]
+    end
+    @arr_mois
   end
 
   def show
