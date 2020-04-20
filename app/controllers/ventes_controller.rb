@@ -11,6 +11,11 @@ class VentesController < ApplicationController
     @ventes_mois_cate_pdv = @pointsdevente.map { |pointdevente| pointdevente.categorie }.uniq.map do |categorie|
       { name: categorie, data: ventecategorie(categorie) }
     end
+    cate_colors = {"Point de retrait" => "#A1BD7F", "Magasin" => "#55828B", "AMAP" => "#BC4B51", "Restaurant" => "#F4E285", "Divers" => "#3A2449" }
+    @colors_categories = []
+    @ventes_mois_cate_pdv.each do |cate, _|
+      @colors_categories << cate_colors[cate[:name]]
+    end
   end
 
   def ventecategorie(categorie)
