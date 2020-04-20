@@ -25,13 +25,9 @@
           </li>
         <% end %>
       </div>
-
-
     </ul>
   </div>
-<%#= line_chart @pointsdevente.map { |pointdevente|
-    {name: pointdevente.nom, data: pointdevente.ventes.group_by_month(:date).sum(:total_ttc), colors: ["#585563", "#A1BD7F", "#5B2E48"] }
-} %>
+<%= line_chart @ventes_mois_pdv, colors: @colors %>
 </div>
 
 <div class="bottom-button fixed-bottom">

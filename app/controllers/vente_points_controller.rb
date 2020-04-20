@@ -6,6 +6,26 @@ class VentePointsController < ApplicationController
     venteparca
     @firsthalf = (@pointsdevente.length/2.to_f).ceil
     @secondhalf = @pointsdevente.length/2
+    @month = Date.today.month
+    @ventes_mois_pdv = @pointsdevente.map { |pointdevente|
+      { name: pointdevente.nom, data: vente_totaux(pointdevente) } }
+    pdv_colors = {"CG SMU" => "#849B68", "Les biaux légumes - Vizille" => "#9A3E43", "La Bonne Pioche" => "#7398A0", "Divers restos" => "#F4E285", "LJE VLB" => "#586846", "L'Épicerie" => "#3A585E", "Divers magasins" => "#466B72", "Divers !" => "#3A2449", "AMAP SMU" => "#C86B70", "René Thomas" => "#BACFA1", "La Corne d'Or" => "#F6E79B", "Divers" => "#3A2449"}
+    @colors = []
+    @ventes_mois_pdv.each do |pdv, _|
+      @colors << pdv_colors[pdv[:name]]
+    end
+  end
+
+  def vente_totaux(pdv)
+    @months = (1..@month).to_a.reverse
+    @arr_mois = []
+    @months.each do |mois|
+      totauxvente = pdv.ventes.select { |vente| vente.date.month == mois }.map do |vente|
+        vente.montant_arrondi.nil? || vente.montant_arrondi == 0 ? vente.total_ttc : vente.montant_arrondi
+      end
+      @arr_mois << [mois, totauxvente.sum]
+    end
+    @arr_mois
   end
 
   def show
