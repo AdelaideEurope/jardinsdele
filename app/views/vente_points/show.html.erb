@@ -47,7 +47,12 @@
                                 </div>
                                 <div class="panier-valide-index">
                                   <div class="panier-quantite-legume">
-                                    <%= rem_trailing_zero(ligne.quantite) %> <%= ligne.quantite > 1 && ligne.legume.unite != "kg" && !ligne.legume.unite.nil? ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                                    <%= rem_trailing_zero(ligne.quantite) %>
+                                    <% if ligne.unite.nil? || ligne.unite == "" %>
+                                      <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                                    <% else %>
+                                      <%= ligne.quantite > 1 && ligne.unite != "kg" ? ligne.unite.pluralize : ligne.unite %>
+                                    <% end %>
                                   </div>
                                   <div class="panier-prix-legume">
                                     <%= number_with_precision(ligne.prixunitairettc * ligne.quantite, precision: 2) %> €
