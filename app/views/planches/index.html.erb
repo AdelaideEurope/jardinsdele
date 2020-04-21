@@ -29,8 +29,20 @@
         <% planche[:legumes].each do |legume| %>
           <tr>
             <td></td>
-            <td><%= legume[:nom] %></td>
-            <td><%= number_with_precision(legume[:total], precision: 2) %> €</td>
+            <td>
+              <% if legume[:pourcentage_previ] > 100 %>
+                <div class="text-success"><%= legume[:nom] %></div>
+              <% else %>
+                <%= legume[:nom] %>
+              <% end %>
+            </td>
+            <td>
+              <% if legume[:pourcentage_previ] > 100 %>
+                <div class="text-success"><%= number_with_precision(legume[:total], precision: 2) %> €</div>
+              <% else %>
+                <%= number_with_precision(legume[:total], precision: 2) %> €
+              <% end %>
+            </td>
             <td><%= number_with_precision(legume[:previ], precision: 2) || number_with_precision(0.00, precision: 2) %> €</td>
             <td><%= number_with_precision(legume[:diff], precision: 2) %> €</td>
             <td></td>
