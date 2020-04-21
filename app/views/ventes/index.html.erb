@@ -19,6 +19,7 @@
 
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade" id="parsemaine" role="tabpanel" aria-labelledby="parsemaine-tab">
+    <%= column_chart @ventes_semaine_cate_pdv, id: "ventes-semaine-chart", stacked: true, colors: @colors_categories %>
     <div class="parsemaine-liste">
       <% unless @ventes_futures.empty? %>
         <h3 class="mt-5">Ventes futures</h3>
@@ -63,7 +64,7 @@
 
       <% while @week > 0 %>
         <% unless @ventes_semaine[@week].nil? %>
-          <h3 class="mt-5">S<%= @week %> (<%= number_with_precision(@ventes_semaine[@week].map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum, precision: 2) %> €)</h3>
+          <h3 class="mt-4">S<%= @week %> (<%= number_with_precision(@ventes_semaine[@week].map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum, precision: 2) %> €)</h3>
           <ul>
             <% @ventes_semaine[@week].sort_by(&:date).reverse.each do |vente| %>
               <li>

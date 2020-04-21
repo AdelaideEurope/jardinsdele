@@ -1,8 +1,14 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
   <div class="titre-recap">
-
-    <h2>Les points de vente</h2>
+    <div class="pdv_details">
+      <h2>Les points de vente</h2>
+      <div>
+        <button type="button" data-toggle="collapse" data-target="#collapsepdv_mois" aria-expanded="false" aria-controls="collapsepdv_mois">
+          <%= image_tag "pdv_monthly.png", class: "pdv_img" %>
+        </button>
+      </div>
+    </div>
     <%= link_to ventes_recap_path do %>
      <div class="voir-tout-recap">Récap</div>
     <% end %>
@@ -27,8 +33,35 @@
       </div>
     </ul>
   </div>
+  <div class="collapse" id="collapsepdv_mois">
+    <div class="mt-5 mb-5">
+      <table class="table_pdv_month">
+        <thead class="pdv-head">
+          <tr>
+            <td class="column_name_pdv">Point de vente</td>
+            <% @ventes_mois_pdv.first[:data].reverse.each do |month| %>
+            <td class="data_pdv_month"><%= month.first %></td>
+            <% end %>
+          </tr>
+        </thead>
+        <% @ventes_mois_pdv.each do |pdv| %>
+        <tr>
+          <td class="column_name_pdv">
+            <%= pdv[:name] %>
+          </td>
+            <% pdv[:data].reverse.each do |data_month| %>
+          <td class="data_pdv_month">
+            <%= number_with_precision(data_month.last, precision: 2) %> €
+          </td>
+          <% end %>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
 <%= column_chart @ventes_mois_pdv, stacked: true, colors: @colors %>
 </div>
+
 
 <div class="bottom-button fixed-bottom">
   <%= link_to new_vente_point_path do %>

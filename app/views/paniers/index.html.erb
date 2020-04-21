@@ -384,12 +384,12 @@
 
     <% unless @ventes_moins_un.empty? %>
       <div class="anciens-paniers">
-        <button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        <button type="button" data-toggle="collapse" data-target="#collapseAncienPaniers" aria-expanded="false" aria-controls="collapseAncienPaniers">
           <%= image_tag "ancienspaniers.png", class: "anciens-paniers-img" %>
         </button>
       </div>
 
-      <div class="collapse" id="collapseExample">
+      <div class="collapse" id="collapseAncienPaniers">
         <% @ventes_moins_un.sort.reverse.each do |vente| %>
           <% if vente.paniers.any? %>
             <div class="vente-paniers-index-paniers">

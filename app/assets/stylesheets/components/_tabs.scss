@@ -29,12 +29,12 @@
 .tab-content {
   .parsemaine-liste, .parmois-liste {
     width: 50%;
-    margin: 2% 25%;
+    margin: 0 24%;
   }
   .parmois-liste {
     display: flex;
     flex-direction: column;
-    margin: 16px 24%;
+    margin: 0px 24%;
     h3 {
       text-align: left;
     }

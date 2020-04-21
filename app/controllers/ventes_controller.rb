@@ -16,19 +16,10 @@ class VentesController < ApplicationController
     @ventes_mois_cate_pdv.each do |cate, _|
       @colors_categories << cate_colors[cate[:name]]
     end
-  end
 
-  def ventecategorie(categorie)
-    @months = (1..@month).to_a.reverse
-    @arr_mois = []
-    @months.each do |mois|
-      pointsdevente_cate = @pointsdevente.where("categorie = ?", categorie)
-      totauxvente = pointsdevente_cate.map(&:ventes).flatten.select { |vente| vente.date.month == mois }.map do |vente|
-        vente.montant_arrondi.nil? || vente.montant_arrondi == 0 ? vente.total_ttc : vente.montant_arrondi
-      end
-      @arr_mois << [mois, totauxvente.sum]
+    @ventes_semaine_cate_pdv = @pointsdevente.map { |pointdevente| pointdevente.categorie }.uniq.map do |categorie|
+      { name: categorie, data: vente_semaine_categorie(categorie) }
     end
-    @arr_mois
   end
 
   def show
@@ -72,7 +63,7 @@ class VentesController < ApplicationController
     @ventes_mois = @ventes.select { |m| m.date.month == @monthtoday }
     @catotal = @ventes.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @casemaine = @ventes_semaine.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
-    @camois = @ventes_mois.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
+    @camois = @ventes_mois.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @ventes_panier = @ventes.select { |vente| vente.paniers.any? && vente.date >= Date.today }
     venteparca
     venteparcapourgraph
@@ -91,13 +82,13 @@ class VentesController < ApplicationController
     end
     @caprevi = @legumes.select {|legume| !legume.previ_legume.nil? }.map { |legume| legume.previ_legume }.sum
 
-    pdv_colors = {"CG SMU" => "#849B68", "Les biaux légumes - Vizille" => "#9A3E43", "La Bonne Pioche" => "#7398A0", "Divers restos" => "#F4E285", "LJE VLB" => "#586846", "L'Épicerie" => "#3A585E", "Divers magasins" => "#466B72", "Divers !" => "#3A2449", "AMAP SMU" => "#C86B70", "René Thomas" => "#BACFA1", "La Corne d'Or" => "#F6E79B", "Divers" => "#3A2449"}
+    pdv_colors = { "CG SMU" => "#849B68", "Les biaux légumes - Vizille" => "#9A3E43", "La Bonne Pioche" => "#7398A0", "Divers restos" => "#F4E285", "LJE VLB" => "#586846", "L'Épicerie" => "#3A585E", "Divers magasins" => "#466B72", "Divers !" => "#3A2449", "AMAP SMU" => "#C86B70", "René Thomas" => "#BACFA1", "La Corne d'Or" => "#F6E79B", "Divers" => "#3A2449" }
     @colors = []
     @pointsdeventeca.each do |pdv, _|
       @colors << pdv_colors[pdv]
     end
 
-    cate_colors = {"Point de retrait" => "#A1BD7F", "Magasin" => "#55828B", "AMAP" => "#BC4B51", "Restaurant" => "#F4E285", "Divers" => "#3A2449"}
+    cate_colors = { "Point de retrait" => "#A1BD7F", "Magasin" => "#55828B", "AMAP" => "#BC4B51", "Restaurant" => "#F4E285", "Divers" => "#3A2449" }
     @colors_categories = []
     @pointsdeventeparcapourgraph.each do |cate, _|
       @colors_categories << cate_colors[cate]
@@ -183,6 +174,32 @@ private
     @pointsdevente.each do |pointdevente|
       @pointsdeventeca[pointdevente.nom] = pointdevente.ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     end
+  end
+
+  def ventecategorie(categorie)
+    @months = (1..@month).to_a.reverse
+    @arr_mois = []
+    @months.each do |mois|
+      pointsdevente_cate = @pointsdevente.where("categorie = ?", categorie)
+      totauxvente = pointsdevente_cate.map(&:ventes).flatten.select { |vente| vente.date.month == mois }.map do |vente|
+        vente.montant_arrondi.nil? || vente.montant_arrondi == 0 ? vente.total_ttc : vente.montant_arrondi
+      end
+      @arr_mois << [mois, totauxvente.sum]
+    end
+    @arr_mois
+  end
+
+  def vente_semaine_categorie(categorie)
+    @weeks = (1..@week).to_a.reverse
+    @arr_weeks = []
+    @weeks.each do |week|
+      pointsdevente_cate = @pointsdevente.where("categorie = ?", categorie)
+      totauxvente = pointsdevente_cate.map(&:ventes).flatten.select { |vente| vente.date.strftime("%W").to_i + 1 == week }.map do |vente|
+        vente.montant_arrondi.nil? || vente.montant_arrondi == 0 ? vente.total_ttc : vente.montant_arrondi
+      end
+      @arr_weeks << [week, totauxvente.sum]
+    end
+    @arr_weeks
   end
 
 end
