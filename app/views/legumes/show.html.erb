@@ -57,7 +57,7 @@
           Nb de planches 2020
         </div>
         <div>
-          <%= rem_trailing_zero(@legume.nb_planche) %>
+          <%= !@legume.nb_planche.nil? ? "Non renseigné" : rem_trailing_zero(@legume.nb_planche) %>
         </div>
       </div>
       <div class="col-show-leg">
