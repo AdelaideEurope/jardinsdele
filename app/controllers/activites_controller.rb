@@ -14,6 +14,10 @@ class ActivitesController < ApplicationController
     end
     @total = @totaux_activites.values.sum.to_i
     @total_heures = convert_to_readable_hours(@total)
+    @week = Date.today.strftime("%W").to_i + 1
+    @activites_par_semaine = @activites.map do |activite|
+      { name: activite, data: activites_semaine(activite) }
+    end
   end
 
   def new
@@ -151,6 +155,19 @@ class ActivitesController < ApplicationController
   end
 
 private
+
+  def activites_semaine(activite)
+    @weeks = (1..@week).to_a.reverse
+    @arr_weeks = []
+    totauxactivites = []
+    @weeks.each do |week|
+      if activite.date.strftime("%W").to_i + 1 == week
+        totauxactivites << activite.heure_fin - activite.heure_debut
+      end
+      @arr_weeks << [week, totauxactivites.sum]
+    end
+    @arr_weeks
+  end
 
   def activite_params
     params.require(:activite).permit(:nom, :legume_id, :planche_id, :date, :duree, :assistant_id, :tag_list, :heure_debut, :heure_fin, :maladie_ravageur, commentaires_attributes: [:id, :description, :activite_id], photos: [])

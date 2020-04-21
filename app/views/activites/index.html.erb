@@ -7,6 +7,8 @@
         <div class="voir-tout-recap">Récap</div>
       <% end %>
     </div>
+    <%= @arr_weeks %>
+    <%#= @activites_par_semaine %>
     <div class="duree-activites-index">
       <ul>
         <% @totaux_activites.sort.each do |nom_activite, total| %>

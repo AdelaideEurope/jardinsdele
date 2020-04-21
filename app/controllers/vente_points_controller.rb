@@ -8,7 +8,7 @@ class VentePointsController < ApplicationController
     @secondhalf = @pointsdevente.length/2
     @month = Date.today.month
     @ventes_mois_pdv = @pointsdevente.map { |pointdevente|
-      { name: pointdevente.nom, data: vente_totaux(pointdevente) } }
+      { name: pointdevente.nom, data: vente_totaux(pointdevente) } }.sort_by {|pointdevente| pointdevente[:data][0]}.reverse
     pdv_colors = {"CG SMU" => "#849B68", "Les biaux légumes - Vizille" => "#9A3E43", "La Bonne Pioche" => "#7398A0", "Divers restos" => "#F4E285", "LJE VLB" => "#586846", "L'Épicerie" => "#3A585E", "Divers magasins" => "#466B72", "Divers !" => "#3A2449", "AMAP SMU" => "#C86B70", "René Thomas" => "#BACFA1", "La Corne d'Or" => "#F6E79B", "Divers" => "#3A2449"}
     @colors = []
     @ventes_mois_pdv.each do |pdv, _|
