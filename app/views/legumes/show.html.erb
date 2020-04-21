@@ -38,7 +38,7 @@
           <% if !@legume.previ_legume.nil? %>
             <%= number_with_precision(@legume.previ_legume, precision: 2) %> €
           <% else %>
-            Non renseigné
+            Non rens.
           <% end %>
         </div>
       </div>
@@ -57,7 +57,7 @@
           Nb de planches 2020
         </div>
         <div>
-          <%= @legume.nb_planche.nil? ? "Non renseigné" : rem_trailing_zero(@legume.nb_planche) %>
+          <%= @legume.nb_planche.nil? ? "Non rens." : rem_trailing_zero(@legume.nb_planche) %>
         </div>
       </div>
       <div class="col-show-leg">
@@ -84,7 +84,7 @@
           <ul>
               <% @quantitelegume.each do |unite, quantite| %>
                 <li>
-                  <%= number_with_precision(rem_trailing_zero(quantite), precision: 2) %> <%= quantite > 1 && unite != "kg" ? unite.pluralize : unite %>
+                  <%= rem_trailing_zero(quantite) %> <%= quantite > 1 && unite != "kg" ? unite.pluralize : unite %>
                 </li>
               <% end %>
             </ul>
