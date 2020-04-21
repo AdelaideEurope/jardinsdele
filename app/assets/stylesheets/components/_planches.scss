@@ -65,3 +65,18 @@
   text-align: center;
   margin-top: 8px;
 }
+
+.table-planches {
+  width: 48%;
+  border-collapse: collapse;
+}
+
+.progress-bar-planches {
+  .td {
+  border-top: none;
+  }
+}
+
+.progress {
+  background-color: $light-grey !important;
+}
