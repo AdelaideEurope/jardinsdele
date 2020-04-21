@@ -18,6 +18,7 @@
     <% unless @ventes_ac_panier.empty? %>
       <div class="toutes-dates-paniers">
         <h3>Les paniers</h3>
+
         <% @ventes.sort_by(&:date).reverse.each do |vente| %>
           <% if vente.paniers.any? %>
             <div class="vente-paniers">
@@ -87,11 +88,10 @@
                       </div>
                     <% end %>
                   </div>
-
                 </div>
               </div>
-            <% end %>
-          </div>
+            </div>
+          <% end %>
         <% end %>
       </div>
 
