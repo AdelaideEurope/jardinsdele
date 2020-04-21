@@ -8,6 +8,12 @@
   </div>
 </div>
 
+<%= column_chart @ventes_mois_cate_pdv, stacked: true, colors: @colors_categories %>
+
+<div class="graph-semaine ">
+  <%= column_chart @ventes_semaine_cate_pdv, id: "ventes-semaine-chart", stacked: true, colors: @colors_categories %>
+</div>
+
 <ul class="nav nav-pills justify-content-center mt-3" id="myTab" role="tablist">
   <li class="nav-item nav-item-show">
     <a class="nav-link active mr-3" id="parmois-tab" data-toggle="tab" href="#parmois" role="tab" aria-controls="parmois" aria-selected="false">Par mois</a>
@@ -19,7 +25,6 @@
 
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade" id="parsemaine" role="tabpanel" aria-labelledby="parsemaine-tab">
-    <%= column_chart @ventes_semaine_cate_pdv, id: "ventes-semaine-chart", stacked: true, colors: @colors_categories %>
     <div class="parsemaine-liste">
       <% unless @ventes_futures.empty? %>
         <h3 class="mt-5">Ventes futures</h3>
@@ -101,10 +106,6 @@
     </div>
   </div>
   <div class="tab-pane fade show active" id="parmois" role="tabpanel" aria-labelledby="parmois-tab">
-
-    <%= column_chart @ventes_mois_cate_pdv, stacked: true, colors: @colors_categories %>
-
-    <div class="separateur-ventes-index"></div>
     <div class="parmois-liste">
       <% unless @ventes_futures.empty? %>
         <h3 class="mt-5">Ventes futures</h3>
