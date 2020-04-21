@@ -2,14 +2,14 @@
 <div class="container mt-4">
   <div class="totaux-activites mt-4">
     <div class="titre-recap">
-      <h2>Totaux activités (<%= @total_heures %>)</h2>
+      <h2>Temps de travail par semaine</h2>
       <%= link_to activites_recap_path do %>
         <div class="voir-tout-recap">Récap</div>
       <% end %>
     </div>
-    <%= @arr_weeks %>
-    <%#= @activites_par_semaine %>
+    <%= line_chart @activites_par_semaine, colors: ["#A1BD7F"] %>
     <div class="duree-activites-index">
+      <h2 class="mb-4">Depuis le début de la saison... <%= @total_heures %> !</h2>
       <ul>
         <% @totaux_activites.sort.each do |nom_activite, total| %>
           <% pourcentage = (total*100).fdiv(@total).round(2) %>
@@ -25,7 +25,7 @@
     </div>
   </div>
   <div class="mt-4">
-    <h2>Toutes les activités</h2>
+    <h2 class="mb-4">Toutes les activités</h2>
   </div>
   <div class="toutes-activites">
     <ul>

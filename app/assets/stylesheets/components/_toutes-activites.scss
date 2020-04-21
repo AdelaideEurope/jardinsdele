@@ -1,5 +1,4 @@
 .toutes-activites {
-  margin-top: 24px;
   margin-bottom: 32px;
   li {
   list-style: none;
@@ -14,8 +13,20 @@
 }
 
 .toutes-activites-recap {
+  margin-top: 24px;
+  margin-bottom: 32px;
   height: 25vh;
   overflow: scroll;
+  li {
+  list-style: none;
+  padding-top: 4px;
+  }
+  .wrapper-recap-activites {
+  background: $light-grey;
+  width: 96%;
+  padding-left: 16px;
+  padding-right: 16px;
+  }
 }
 
 .duree-activites {
@@ -35,7 +46,7 @@
 }
 
 .duree-activites-index {
-  margin-top: 24px;
+  margin-top: -100px;
   margin-bottom: 32px;
 
   li {

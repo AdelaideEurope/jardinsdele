@@ -15,10 +15,22 @@ class ActivitesController < ApplicationController
     @total = @totaux_activites.values.sum.to_i
     @total_heures = convert_to_readable_hours(@total)
     @week = Date.today.strftime("%W").to_i + 1
-    @activites_par_semaine = @activites.map do |activite|
-      { name: activite, data: activites_semaine(activite) }
-    end
+    @activites_par_semaine = activites_semaine
   end
+
+  def activites_semaine
+    @weeks = (1..@week).to_a.reverse
+    @arr_weeks = []
+    @weeks.each do |week|
+      totauxactivites = []
+      @activites.select {|activite| activite.date.strftime("%W").to_i + 1 == week }.map do |activite|
+        totauxactivites << activite.heure_fin - activite.heure_debut
+      end
+      @arr_weeks << [week, (totauxactivites.sum/3600).ceil]
+    end
+    @arr_weeks
+  end
+
 
   def new
     if current_user.admin != true
@@ -155,19 +167,6 @@ class ActivitesController < ApplicationController
   end
 
 private
-
-  def activites_semaine(activite)
-    @weeks = (1..@week).to_a.reverse
-    @arr_weeks = []
-    totauxactivites = []
-    @weeks.each do |week|
-      if activite.date.strftime("%W").to_i + 1 == week
-        totauxactivites << activite.heure_fin - activite.heure_debut
-      end
-      @arr_weeks << [week, totauxactivites.sum]
-    end
-    @arr_weeks
-  end
 
   def activite_params
     params.require(:activite).permit(:nom, :legume_id, :planche_id, :date, :duree, :assistant_id, :tag_list, :heure_debut, :heure_fin, :maladie_ravageur, commentaires_attributes: [:id, :description, :activite_id], photos: [])
