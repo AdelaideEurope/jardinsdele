@@ -65,7 +65,7 @@
           % du CA
         </div>
         <div>
-          <%= @pourcentagedulegume.nan? ? number_with_precision(0, precision: 2) : @pourcentagedulegume %> %
+          <%= @pourcentagedulegume.nan? ? number_with_precision(0, precision: 2) : number_with_precision(@pourcentagedulegume, precision: 2) %> %
         </div>
       </div>
       <div class="col-show-leg">
