@@ -36,14 +36,14 @@
             <tr>
               <td></td>
               <td>
-                <% if legume[:pourcentage_previ] > 100 %>
+                <% if legume[:diff].to_f > 0 %>
                   <div class="text-success"><%= legume[:nom] %></div>
                 <% else %>
                   <%= legume[:nom] %>
                 <% end %>
               </td>
               <td>
-                <% if legume[:pourcentage_previ] > 100 %>
+                <% if legume[:diff].to_f > 0 %>
                   <div class="text-success"><%= number_with_precision(legume[:total], precision: 2) %> €</div>
                 <% else %>
                   <%= number_with_precision(legume[:total], precision: 2) %> €
@@ -95,15 +95,15 @@
             <tr>
               <td></td>
               <td>
-                <% if planche[:pourcentage_previ] > 100 %>
+                <% if planche[:diff].to_f > 0 %>
                   <div class="text-success"><%= planche[:nom] %></div>
                 <% else %>
                   <%= planche[:nom] %>
                 <% end %>
               </td>
               <td>
-                <% if !legume[:pourcentage_previ].nil? && !legume[:pourcentage_previ] > 100 %>
-                  <div class="text-success"><%= number_with_precision(pla,che[:total], precision: 2) %> €</div>
+                <% if planche[:diff].to_f > 0 %>
+                  <div class="text-success"><%= number_with_precision(planche[:total], precision: 2) %> €</div>
                 <% else %>
                   <%= number_with_precision(planche[:total], precision: 2) %> €
                 <% end %>
