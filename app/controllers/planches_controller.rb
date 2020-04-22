@@ -10,6 +10,10 @@ class PlanchesController < ApplicationController
     @planches_legumes = @planches.map do |planche|
       { planche: planche.nom, legumes: legumes_planches(planche) }
     end
+
+    @legumes_planches = @legumes.map do |legume|
+      { legume: legume.nom, planches: planches_legume(legume) }
+    end
   end
 
   def legumes_planches(planche)
@@ -23,13 +27,33 @@ class PlanchesController < ApplicationController
     legumes.uniq
   end
 
+  def planches_legume(legume)
+    planches = []
+    @lignesdepanier.select { |lignedepanier| lignedepanier.legume == legume && !lignedepanier.planche.nil? }.each do |lignedepanier|
+      planches << { nom: lignedepanier.planche.nom, total: total_planche(legume, lignedepanier.planche), previ: previ_legume(lignedepanier.planche, legume), diff: total_planche(legume, lignedepanier.planche) - previ_legume(lignedepanier.planche, legume), pourcentage_previ: pourcentage_previ(legume, lignedepanier.planche) }
+    end
+    @lignesdevente.select { |lignedevente| lignedevente.legume == legume && !lignedevente.planche.nil? }.each do |lignedevente|
+      planches << { nom: lignedevente.planche.nom, total: total_planche(legume, lignedevente.planche), previ: previ_legume(lignedevente.planche, legume), diff: total_planche(legume, lignedevente.planche) - previ_legume(lignedevente.planche, legume), pourcentage_previ: pourcentage_previ(legume, lignedevente.planche) }
+    end
+    planches.uniq
+  end
+
   def total_legume(legume, planche)
+    @lignesdevente.select { |lignedevente| lignedevente.planche == planche && lignedevente.legume == legume }.map {|ligne| ligne.quantite * ligne.prixunitairettc }.sum + @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche && lignedepanier.legume == legume }.map {|ligne| ligne.quantite * ligne.prixunitairettc }.sum
+  end
+
+  def total_planche(legume, planche)
     @lignesdevente.select { |lignedevente| lignedevente.planche == planche && lignedevente.legume == legume }.map {|ligne| ligne.quantite * ligne.prixunitairettc }.sum + @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche && lignedepanier.legume == legume }.map {|ligne| ligne.quantite * ligne.prixunitairettc }.sum
   end
 
   def previ_planche(legume, planche)
     previ_planche = @previsionnel_planches.select { |previ| previ.planche == planche && previ.legume == legume }&.first&.total_previ
     previ_planche.nil? ? 0 : previ_planche
+  end
+
+  def previ_legume(planche, legume)
+    previ_legume = @previsionnel_planches.select { |previ| previ.planche == planche && previ.legume == legume }&.first&.total_previ
+    previ_legume.nil? ? 0 : previ_legume
   end
 
   def pourcentage_previ(legume, planche)

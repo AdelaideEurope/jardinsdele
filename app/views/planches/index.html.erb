@@ -6,128 +6,127 @@
       <div class="voir-tout-recap">Récap</div>
     <% end %>
   </div>
-  <table class="table-planches mt-4">
-    <th>
-      <td><b>Légume</b></td>
-      <td><b>Réalisé</b></td>
-      <td><b>Prév.</b></td>
-      <td><b>Diff.</b></td>
+  <div class="colonnes-de-planches mt-4">
+    <div class="titre-colonne-planches"><h3>Par planche</h3></div>
+    <div class="titre-colonne-planches"><h3>Par légume</h3></div>
+  </div>
+  <div class="colonnes-de-planches">
 
-    </th>
-    <% @planches_legumes.each do |planche| %>
-      <tr>
-        <td><b>
-          <%= planche[:planche] %>
-        </b></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
+    <table class="table-planches mt-4">
+      <th>
+        <td><b>Légume</b></td>
+        <td><b>Réalisé</b></td>
+        <td><b>Prév.</b></td>
+        <td><b>Diff.</b></td>
 
-        <% planche[:legumes].each do |legume| %>
-          <tr>
-            <td></td>
-            <td>
-              <% if legume[:pourcentage_previ] > 100 %>
-                <div class="text-success"><%= legume[:nom] %></div>
-              <% else %>
-                <%= legume[:nom] %>
-              <% end %>
-            </td>
-            <td>
-              <% if legume[:pourcentage_previ] > 100 %>
-                <div class="text-success"><%= number_with_precision(legume[:total], precision: 2) %> €</div>
-              <% else %>
-                <%= number_with_precision(legume[:total], precision: 2) %> €
-              <% end %>
-            </td>
-            <td><%= number_with_precision(legume[:previ], precision: 2) || number_with_precision(0.00, precision: 2) %> €</td>
-            <td><%= number_with_precision(legume[:diff], precision: 2) %> €</td>
-            <td></td>
-          </tr>
-          <% if legume[:pourcentage_previ].to_f > 0 %>
-            <tr class="progress-bar-planches">
-              <td colspan="5">
-                <div class="progress progress-planches">
-                  <div class="progress-bar bg-success" role="progressbar" style="width:<%=legume[:pourcentage_previ]%>%" aria-valuenow="<%=legume[:pourcentage_previ]%>" aria-valuemin="0" aria-valuemax="100"><%=number_with_precision(legume[:pourcentage_previ], precision: 2)%> %
-                  </div>
-                </div>
+      </th>
+      <% @planches_legumes.each do |planche| %>
+        <tr>
+          <td><b>
+            <%= planche[:planche] %>
+          </b></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+          <% planche[:legumes].each do |legume| %>
+            <tr>
+              <td></td>
+              <td>
+                <% if legume[:pourcentage_previ] > 100 %>
+                  <div class="text-success"><%= legume[:nom] %></div>
+                <% else %>
+                  <%= legume[:nom] %>
+                <% end %>
               </td>
+              <td>
+                <% if legume[:pourcentage_previ] > 100 %>
+                  <div class="text-success"><%= number_with_precision(legume[:total], precision: 2) %> €</div>
+                <% else %>
+                  <%= number_with_precision(legume[:total], precision: 2) %> €
+                <% end %>
+              </td>
+              <td><%= number_with_precision(legume[:previ], precision: 2) || number_with_precision(0.00, precision: 2) %> €</td>
+              <td><%= number_with_precision(legume[:diff], precision: 2) %> €</td>
+              <td></td>
             </tr>
+            <% if legume[:pourcentage_previ].to_f > 0 %>
+              <tr class="progress-bar-planches">
+                <td></td>
+                <td></td>
+                <td colspan="3">
+                  <div class="progress progress-planches">
+                    <div class="progress-bar bg-success" role="progressbar" style="width:<%=legume[:pourcentage_previ]%>%" aria-valuenow="<%=legume[:pourcentage_previ]%>" aria-valuemin="0" aria-valuemax="100"><%=number_with_precision(legume[:pourcentage_previ], precision: 2)%> %
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
-        <% end %>
 
-    <% end %>
-  </table>
+      <% end %>
+    </table>
 
-<!-- <div class="colonnes-de-planches">
-  <div class="planches-par-nom">
-    <ul>
-      <% @planches.each do |planche| %>
-        <li>
-          <button type="button" data-toggle="collapse" data-target="#collapseplanches" aria-expanded="false" aria-controls="collapseplanches">
-            <%= planche.nom %>
-          </button>
-          <div class="collapse" id="collapseplanches">
-            <% planche.previsionnel_planches.each do |previ| %>
-              <% unless previ.nil? %>
-                <i class="fas fa-long-arrow-alt-right"></i> <%= previ.legume.nom %>
-                <% realise = planche.vente_lignes.select { |ligne| ligne.legume == previ.legume }.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + planche.panier_lignes.select { |ligne| ligne.legume == previ.legume }.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
-                <% pourcent_previ_realise = number_with_precision((realise*100)/previ.total_previ, precision: 2) %>
-                <% if pourcent_previ_realise.to_f > 0 %>
-                  <div class="progress progress-planches">
-                    <div class="progress-bar bg-success" role="progressbar" style="width:<%=pourcent_previ_realise%>%" aria-valuenow="<%=pourcent_previ_realise%>" aria-valuemin="0" aria-valuemax="100"><%=pourcent_previ_realise%> %</div>
-                  </div>
+
+    <table class="table-planches mt-4">
+      <th>
+        <td><b>Planche</b></td>
+        <td><b>Réalisé</b></td>
+        <td><b>Prév.</b></td>
+        <td><b>Diff.</b></td>
+
+      </th>
+      <% @legumes_planches.each do |legume| %>
+        <tr>
+          <td><b>
+            <%= legume[:legume] %>
+          </b></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+          <% legume[:planches].each do |planche| %>
+            <tr>
+              <td></td>
+              <td>
+                <% if planche[:pourcentage_previ] > 100 %>
+                  <div class="text-success"><%= planche[:nom] %></div>
+                <% else %>
+                  <%= planche[:nom] %>
                 <% end %>
-                <table class="diff-previ-ca">
-                  <tr>
-                    <td><%= number_with_precision(previ.total_previ, precision: 2) %> €</td>
-                    <td><%= number_with_precision(realise, precision: 2) %> €</td>
-                    <td><%= (realise - previ.total_previ) > 0 ? "+#{number_with_precision((realise - previ.total_previ), precision: 2)}" : "#{number_with_precision((realise - previ.total_previ), precision: 2)}" %> €</td>
-                  </tr>
-                </table>
-              <% end %>
-            <% end %>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-  <div class="planches-par-ca">
-    <ul>
-      <% @legumes.sort_by(&:legume_css).each do |legume| %>
-        <li>
-          <button type="button" data-toggle="collapse" data-target="#collapselegumes" aria-expanded="false" aria-controls="collapselegumes">
-            <%= legume.nom %>
-          </button>
-          <br>
-          <div class="collapse" id="collapselegumes">
-            <% legume.previsionnel_planches.each do |previ| %>
-              <% unless previ.nil? %>
-                <i class="fas fa-long-arrow-alt-right"></i> <%= previ.planche.nom %>
-                <% realise = legume.vente_lignes.select { |ligne| ligne.planche == previ.planche }.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + legume.panier_lignes.select { |ligne| ligne.planche == previ.planche }.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
-                <% pourcent_previ_realise = number_with_precision((realise*100)/previ.total_previ, precision: 2) %>
-                <% if pourcent_previ_realise.to_f > 0 %>
-                  <div class="progress progress-planches">
-                    <div class="progress-bar bg-success" role="progressbar" style="width:<%=pourcent_previ_realise%>%" aria-valuenow="<%=pourcent_previ_realise%>" aria-valuemin="0" aria-valuemax="100"><%=pourcent_previ_realise%> %</div>
-                  </div>
+              </td>
+              <td>
+                <% if !legume[:pourcentage_previ].nil? && !legume[:pourcentage_previ] > 100 %>
+                  <div class="text-success"><%= number_with_precision(pla,che[:total], precision: 2) %> €</div>
+                <% else %>
+                  <%= number_with_precision(planche[:total], precision: 2) %> €
                 <% end %>
-                <table class="diff-previ-ca">
-                  <tr>
-                    <td><%= number_with_precision(previ.total_previ, precision: 2) %> €</td>
-                    <td><%= number_with_precision(realise, precision: 2) %> €</td>
-                    <td><%= (realise - previ.total_previ) > 0 ? "+#{number_with_precision((realise - previ.total_previ), precision: 2)}" : "#{number_with_precision((realise - previ.total_previ), precision: 2)}" %> €</td>
-                  </tr>
-                </table>
-              <% end %>
+              </td>
+              <td><%= number_with_precision(planche[:previ], precision: 2) || number_with_precision(0.00, precision: 2) %> €</td>
+              <td><%= number_with_precision(planche[:diff], precision: 2) %> €</td>
+              <td></td>
+            </tr>
+            <% if planche[:pourcentage_previ].to_f > 0 %>
+              <tr class="progress-bar-planches">
+                <td></td>
+                <td></td>
+                <td colspan="3">
+                  <div class="progress progress-planches">
+                    <div class="progress-bar bg-success" role="progressbar" style="width:<%=planche[:pourcentage_previ]%>%" aria-valuenow="<%=planche[:pourcentage_previ]%>" aria-valuemin="0" aria-valuemax="100"><%=number_with_precision(planche[:pourcentage_previ], precision: 2)%> %
+                    </div>
+                  </div>
+                </td>
+              </tr>
             <% end %>
-          </div>
-        </li>
+          <% end %>
+
       <% end %>
-    </ul>
+    </table>
   </div>
-</div>
- -->
 

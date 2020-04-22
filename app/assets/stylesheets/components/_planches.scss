@@ -32,7 +32,6 @@
 
 .colonnes-de-planches {
   display: flex;
-  width: 90%;
   justify-content: space-between;
 }
 
@@ -67,7 +66,7 @@
 }
 
 .table-planches {
-  width: 48%;
+  width: 46%;
   border-collapse: collapse;
 }
 
@@ -79,4 +78,8 @@
 
 .progress {
   background-color: $light-grey !important;
+}
+
+.titre-colonne-planches {
+  width: 46%;
 }
