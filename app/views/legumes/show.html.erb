@@ -73,7 +73,7 @@
           % du prévisionnel
         </div>
         <div>
-          <%= !@legume.previ_legume == nil? ? number_with_precision(((@calegume*100)/@legume.previ_legume), precision: 2) : 0.00  %> %
+          <%= !@legume.previ_legume == nil? ? number_with_precision(((@calegume*100)/@legume.previ_legume), precision: 2) : number_with_precision(0.00, precision: 2)  %> %
         </div>
       </div>
       <div class="col-show-leg">
