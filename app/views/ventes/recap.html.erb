@@ -119,21 +119,71 @@
       <div class="progress">
         <div class="progress-bar bg-success" role="progressbar" style="width: <%=(@catotal.to_f*100)/@caprevi%>%" aria-valuenow="<%=number_with_precision(((@catotal.to_f*100)/@caprevi), precision: 2) %>" aria-valuemin="0" aria-valuemax="100"><%=number_with_precision(((@catotal.to_f*100)/@caprevi), precision: 2)%> %</div>
       </div>
-      <div class="box-recolter-recap">
-        <div>
-          <%= image_tag "recolte.png", id: "recolte-img" %>
+
+      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="box-recolter-recap">
+              <div>
+                <%= image_tag "recolte.png", id: "recolte-img" %>
+              </div>
+              <div>
+                <h2>À récolter aujourd'hui</h2>
+                <ul>
+                  <% @arecolter_ajd.each do |legume, detail| %>
+                  <li>
+                    <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] != "kg" ? detail[:unite].pluralize : detail[:unite] %>
+                  </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="box-recolter-recap">
+              <div>
+                <%= image_tag "recolte.png", id: "recolte-img" %>
+              </div>
+              <div>
+                <h2>À récolter demain</h2>
+                <ul>
+                  <% @arecolter_j1.each do |legume, detail| %>
+                  <li>
+                    <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] != "kg" ? detail[:unite].pluralize : detail[:unite] %>
+                  </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="box-recolter-recap">
+              <div>
+                <%= image_tag "recolte.png", id: "recolte-img" %>
+              </div>
+              <div>
+                <h2>À récolter après-demain</h2>
+                <ul>
+                  <% @arecolter_j2.each do |legume, detail| %>
+                  <li>
+                    <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] != "kg" ? detail[:unite].pluralize : detail[:unite] %>
+                  </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <h2>À récolter aujourd'hui</h2>
-          <ul>
-            <% @arecolter_ajd.each do |legume, detail| %>
-            <li>
-              <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] != "kg" ? detail[:unite].pluralize : detail[:unite] %>
-            </li>
-            <% end %>
-          </ul>
-        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only text-success">Jour suivant</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only text-success">Jour précedent</span>
+        </a>
       </div>
+
       <div class="collapse" id="collapsegraphcategorie">
         <div class="graph-categorie">
           <%= pie_chart @pointsdeventeparcapourgraph, colors: @colors_categories, width: "50%" %>

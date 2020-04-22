@@ -68,18 +68,10 @@ class VentesController < ApplicationController
     venteparca
     venteparcapourgraph
     ventesparpointdeventepourgraph
+    arecolter_ajd
+    arecolter_j1
+    arecolter_j2
 
-    @lignesdepaniertoday = PanierLigne.select { |ligne| ligne.panier.vente.date == Date.today }
-    @lignesdeventetoday = VenteLigne.select { |ligne| ligne.vente.date == Date.today }
-    @arecolter_ajd = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
-    @lignesdepaniertoday.sort_by(&:legume).each do |ligne|
-      @arecolter_ajd[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
-      @arecolter_ajd[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
-    end
-    @lignesdeventetoday.sort_by(&:legume).each do |ligne|
-      @arecolter_ajd[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
-      @arecolter_ajd[ligne.legume.nom][:quantite] += (ligne.quantite)
-    end
     @caprevi = @legumes.select {|legume| !legume.previ_legume.nil? }.map { |legume| legume.previ_legume }.sum
 
     pdv_colors = { "CG SMU" => "#849B68", "Les biaux légumes - Vizille" => "#9A3E43", "La Bonne Pioche" => "#7398A0", "Divers restos" => "#F4E285", "LJE VLB" => "#586846", "L'Épicerie" => "#3A585E", "Divers magasins" => "#466B72", "Divers !" => "#3A2449", "AMAP SMU" => "#C86B70", "René Thomas" => "#BACFA1", "La Corne d'Or" => "#F6E79B", "Divers" => "#3A2449" }
@@ -138,6 +130,48 @@ private
 
   def vente_params
     params.require(:vente).permit(:date, :vente_point_id)
+  end
+
+  def arecolter_ajd
+    @lignesdepaniertoday = PanierLigne.select { |ligne| ligne.panier.vente.date == Date.today }
+    @lignesdeventetoday = VenteLigne.select { |ligne| ligne.vente.date == Date.today }
+    @arecolter_ajd = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
+    @lignesdepaniertoday.sort_by(&:legume).each do |ligne|
+      @arecolter_ajd[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
+      @arecolter_ajd[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
+    end
+    @lignesdeventetoday.sort_by(&:legume).each do |ligne|
+      @arecolter_ajd[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
+      @arecolter_ajd[ligne.legume.nom][:quantite] += (ligne.quantite)
+    end
+  end
+
+  def arecolter_j1
+    @lignesdepaniertomorrow = PanierLigne.select { |ligne| ligne.panier.vente.date == Date.tomorrow }
+    @lignesdeventetomorrow = VenteLigne.select { |ligne| ligne.vente.date == Date.tomorrow }
+    @arecolter_j1 = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
+    @lignesdepaniertomorrow.sort_by(&:legume).each do |ligne|
+      @arecolter_j1[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
+      @arecolter_j1[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
+    end
+    @lignesdeventetomorrow.sort_by(&:legume).each do |ligne|
+      @arecolter_j1[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
+      @arecolter_j1[ligne.legume.nom][:quantite] += (ligne.quantite)
+    end
+  end
+
+  def arecolter_j2
+    @lignesdepanierj2 = PanierLigne.select { |ligne| ligne.panier.vente.date == Date.today + 2.days }
+    @lignesdeventej2 = VenteLigne.select { |ligne| ligne.vente.date == Date.today + 2.days }
+    @arecolter_j2 = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
+    @lignesdepanierj2.sort_by(&:legume).each do |ligne|
+      @arecolter_j2[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
+      @arecolter_j2[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
+    end
+    @lignesdeventej2.sort_by(&:legume).each do |ligne|
+      @arecolter_j2[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
+      @arecolter_j2[ligne.legume.nom][:quantite] += (ligne.quantite)
+    end
   end
 
   def ttc_to_ht(prix)
