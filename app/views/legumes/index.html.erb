@@ -36,7 +36,7 @@
               <div><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <% calegume = legume.vente_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + legume.panier_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
               <div><%= number_with_precision(calegume, precision: 2) %> €</div>
-              <div class="planches-legumes-index"><%= legume.previ_legume.nil? ? 0.00 : number_with_precision((calegume * 100) / legume.previ_legume, precision: 2) %> %</div>
+              <div class="planches-legumes-index"><%= legume.previ_legume.nil? ? number_with_precision(0.00, precision: 2) : number_with_precision((calegume * 100) / legume.previ_legume, precision: 2) %> %</div>
               <div>
                 <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume.id %>">
                   <% if legume.commentaires.reject { |commentaire| commentaire.description.empty? }.any? %>
@@ -100,7 +100,7 @@
               <div><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <% calegume = legume.vente_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + legume.panier_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
               <div><%= number_with_precision(calegume, precision: 2) %> €</div>
-              <div class="planches-legumes-index"><%= legume.previ_legume.nil? ? 0.00 : number_with_precision((calegume * 100) / legume.previ_legume, precision: 2) %> %</div>
+              <div class="planches-legumes-index"><%= legume.previ_legume.nil? ? number_with_precision(0.00, precision: 2) : number_with_precision((calegume * 100) / legume.previ_legume, precision: 2) %> %</div>
               <div>
                 <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume.id %>">
                   <% if legume.commentaires.reject { |commentaire| commentaire.description.empty? }.any? %>
