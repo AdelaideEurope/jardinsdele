@@ -439,7 +439,7 @@
                     </div>
                     <div><%= number_with_precision(ttc_to_ht(lignepanier.prixunitairettc).round(2), precision: 2) %> €</div>
                     <div><%= number_with_precision(lignepanier.prixunitairettc.round(2), precision: 2) %> €</div>
-                    <div><%= lignepanier.legume.unite %></div>
+                    <div><%= lignepanier.unite.nil? || lignepanier.unite == "" ? lignepanier.legume.unite : lignepanier.unite %></div>
                     <div>
                       <% if lignepanier.quantite.nil? %>
                       <%= 0 %>
