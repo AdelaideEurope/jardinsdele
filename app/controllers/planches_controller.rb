@@ -12,7 +12,7 @@ class PlanchesController < ApplicationController
     end
 
     @legumes_planches = @legumes.map do |legume|
-      { legume: legume.nom, planches: planches_legume(legume) }
+      { legume: legume.nom, legume_css: legume.legume_css, planches: planches_legume(legume) }
     end
   end
 

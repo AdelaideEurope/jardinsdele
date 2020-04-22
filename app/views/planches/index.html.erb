@@ -70,16 +70,14 @@
       <% end %>
     </table>
 
-
     <table class="table-planches mt-4">
       <th>
         <td><b>Planche</b></td>
         <td><b>Réalisé</b></td>
         <td><b>Prév.</b></td>
         <td><b>Diff.</b></td>
-
       </th>
-      <% @legumes_planches.each do |legume| %>
+      <% @legumes_planches.sort_by {|hashlegume| hashlegume[:legume_css]}.each do |legume| %>
         <tr>
           <td><b>
             <%= legume[:legume] %>
