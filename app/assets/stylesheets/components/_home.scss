@@ -1,17 +1,3 @@
-#meteo-widget {
-  text-align: right;
-}
-
-.fa-cloud-sun {
-  font-size: 40px;
-  color: $darker-grey;
-}
-
-.box-meteo {
-  display: flex;
-  justify-content: center;
-}
-
 #commentaire-home {
   font-size: 36px;
   color: $darker-grey;
@@ -24,7 +10,193 @@
 
 .icones-home {
   display: flex;
-  justify-content: space-around;
-  width: 15%;
-  margin-left: 80%;
+  justify-content: space-between;
+  width: 12%;
+  margin-top: 24px;
 }
+
+.date-home {
+  font-size: 48px;
+  color: $darker-grey;
+}
+
+.barre-haut-home {
+  display: flex;
+  justify-content: space-between;
+}
+
+.box-oublier-home, .box-faire-home {
+  border: solid 2px $light-green;
+  border-radius: 8px;
+  background: white;
+  padding: 48px 24px 24px 24px;
+  width: 25%;
+}
+
+.titre-oublier, .titre-faire {
+  width: 25%;
+  z-index: 1000;
+}
+
+.inner-title {
+  width: fit-content;
+  padding: 12px;
+  background: $light-green;
+  margin-left: 24px;
+  color: white;
+}
+
+.box-recolter-home {
+  li {
+    list-style: none;
+  }
+  border: solid 2px $light-green;
+  padding: 24px 24px 12px 12px;
+  width: 80%;
+  border-radius: 8px;
+  display: flex;
+  margin: 0px auto 0 auto;
+  width: 40%;
+}
+
+.inner-box-recolter-home {
+  display: flex;
+}
+
+.boxes-oublier-faire-recolter {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: -24px;
+}
+
+.titres-boxes-oublier-faire-recolter {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 48px;
+}
+
+.titre-recolter {
+  width: 40%;
+  z-index: 1000;
+}
+
+.fa-chevron-right {
+  color: $light-green;
+  margin-right: 12px;
+}
+
+.detail-memo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.carousel-control-next-home {
+  right: 34%;
+  height: 60px;
+  top: 49%;
+  width: 60px;
+}
+
+.carousel-control-prev-home {
+  left: 34%;
+  height: 60px;
+  top: 49%;
+  width: 60px;
+}
+
+.tout-petit-plus-rond-home {
+  position: fixed;
+  top: 248px;
+  height: 20px;
+  z-index: 1000;
+}
+
+.ca-realise {
+  margin: 60px 0 0 0;
+  text-align: center;
+}
+
+.encouragements {
+  text-align: center;
+}
+// .all-memos-ne-pas-oublier {
+//   border: solid 2px $light-green;
+//   border-radius: 8px;
+//   background: white;
+//   padding: 48px 24px 24px 24px;
+//   position: fixed;
+//   width: 24%;
+// }
+
+// .all-memos-a-faire {
+//   border: solid 2px $light-green;
+//   border-radius: 8px;
+//   background: white;
+//   padding: 48px 24px 24px 24px;
+//   position: fixed;
+//   left: 78%;
+//   width: 24%;
+// }
+
+
+
+// .memos-home {
+//   position: absolute;
+// }
+
+// .ne-pas-oublier {
+//   background-color: $light-green;
+//   color: white;
+//   width: fit-content;
+//   padding: 12px 16px;
+//   position: relative;
+//   top: 24px;
+//   left: 24%;
+//   z-index: 10;
+// }
+
+// .a-faire {
+//   background-color: $light-green;
+//   color: white;
+//   width: fit-content;
+//   padding: 12px 16px;
+//   position: relative;
+//   top: 24px;
+//   left: 24%;
+//   z-index: 10;
+// }
+
+
+
+
+// #carouselarecolter-home {
+//   position: fixed;
+//   width: 36%;
+//   left: 36%;
+// }
+
+// .box-recolter-hom {
+//   li {
+//     list-style: none;
+//   }
+//   border: solid 2px $light-green;
+//   padding: 24px 24px 12px 12px;
+//   width: 80%;
+//   border-radius: 8px;
+//   display: flex;
+//   margin: 0px auto 0 auto;
+// }
+
+// .arecolter {
+//     position: relative;
+//     top: 24px;
+//     left: 16%;
+//     background-color: $light-green;
+//     width: fit-content;
+//     padding: 12px 16px;
+//     z-index: 10;
+//     color: white;
+// }
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_19_103821) do
+ActiveRecord::Schema.define(version: 2020_04_23_180034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,14 @@ ActiveRecord::Schema.define(version: 2020_04_19_103821) do
     t.decimal "previ_legume"
     t.decimal "nb_planche"
     t.index ["slug"], name: "index_legumes_on_slug", unique: true
+  end
+
+  create_table "memos", force: :cascade do |t|
+    t.text "description"
+    t.datetime "date"
+    t.string "categorie"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "panier_lignes", force: :cascade do |t|

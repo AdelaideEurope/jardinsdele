@@ -1,22 +1,170 @@
-<%= render 'shared/navbar_home' %>
-
-
+<%= render 'shared/navbar' %>
 <div class="container">
-  <div class="icones-home">
-    <div class="to_hide mt-5"><%= link_to commentaires_path do %><i class="fas fa-comment-alt" id="commentaire-home"></i><% end %></div>
-    <div class="to_hide mt-5"><%= link_to photos_path do %><i class="far fa-images" id="photo-home"></i><% end %>
-    </%></div>
+  <div class="barre-haut-home">
+    <div class="date-home"><%= @datedujour_jour %> <%= Date.today.strftime("%d") %> <%= @datedujour_mois %> <%= Date.today.year %></div>
+    <div class="icones-home">
+      <div><%= link_to commentaires_path do %><i class="fas fa-comment-alt" id="commentaire-home"></i><% end %></div>
+      <div><%= link_to photos_path do %><i class="far fa-images" id="photo-home"></i><% end %>
+      </%></div>
+    </div>
   </div>
-  <div class="boxes">
-    <%= link_to activites_recap_path do  %><div class="boxes-item"><p>Temps de travail</p></div><% end %>
-    <%= link_to legumes_recap_path do  %><div class="boxes-item"><p>Cultures</p></div><% end %>
-    <div class="boxes-item"><%= link_to ventes_recap_path do  %><p>Ventes</p><%= image_tag "panier.png", class: "panier" %><% end %></div>
+
+  <div class="titres-boxes-oublier-faire-recolter">
+    <div class="titre-oublier"><div class="inner-title">Ne pas oublier</div></div>
+    <div class="titre-recolter"><div class="inner-title">À recolter</div></div>
+    <div class="titre-faire"><div class="inner-title">À faire</div></div>
   </div>
-  <div class="activite-home-mobile">
-    <%= link_to "Nouvelle activité", new_activite_path %>
+
+  <div class="boxes-oublier-faire-recolter">
+    <div class="box-oublier-home">
+      <% if @memos_today.empty? %>
+        Esprit tranquille pour aujourd'hui...
+      <% else %>
+        <b>Aujourd'hui</b>
+        <% @memos_today.each do |memo| %>
+          <div class="detail-memo">
+            <div>
+            <i class="fas fa-chevron-right"></i><%= memo.description %></div>
+            <div class="crayon-edit-memo-home">
+              <%= link_to edit_memo_path(memo) do %>
+                <i class="fas fa-pencil-alt"></i>
+              <% end %>
+              <%= link_to memo_path(memo), method: :delete do %><i class="fas fa-trash"></i><% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+      <div class="mt-3">
+        <% if @memos_this_week_except_today.empty? && @memos_today.empty? %>
+          Et pour le reste de la semaine !
+        <% elsif @memos_today.empty? && !@memos_this_week_except_today.empty? %>
+          <b>Mais cette semaine...</b>
+        <% elsif !@memos_today.empty? && @memos_this_week_except_today.empty? %>
+          <b>Rien d'autre cette semaine</b>
+        <% elsif !@memos_today.empty? && !@memos_this_week_except_today.empty? %>
+          <b>Le reste de la semaine</b>
+        <% end %>
+      </div>
+
+      <% unless @memos_this_week_except_today.empty? %>
+        <% @memos_this_week_except_today.each do |memo| %>
+          <div class="detail-memo">
+            <div><i class="fas fa-chevron-right"></i><%= memo.description %> (<%= abreviation_jour(memo.date) %>)</div>
+            <div class="crayon-edit-memo-home">
+              <%= link_to edit_memo_path(memo) do %>
+                <i class="fas fa-pencil-alt"></i>
+              <% end %>
+              <%= link_to memo_path(memo), method: :delete do %><i class="fas fa-trash"></i><% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+      <div class="detail-memo">
+        <div></div>
+        <div class="crayon-edit-memo-home">
+          <%= link_to new_memo_path do %>
+            <%= image_tag "plus-rond.png", class: "tout-petit-plus-rond-home" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="box-recolter-home">
+      <div id="carouselarecolter-home" class="carousel slide" data-ride="carousel" data-interval="false">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="inner-box-recolter-home">
+              <div>
+                <%= image_tag "recolte.png", id: "recolte-img" %>
+              </div>
+              <div>
+                <h2>Aujourd'hui</h2>
+                <ul>
+                  <% @arecolter_ajd.each do |legume, detail| %>
+                  <li>
+                    <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] != "kg" ? detail[:unite].pluralize : detail[:unite] %>
+                  </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="inner-box-recolter-home">
+              <div>
+                <%= image_tag "recolte.png", id: "recolte-img" %>
+              </div>
+              <div>
+                <h2>Demain</h2>
+                <ul>
+                  <% @arecolter_j1.each do |legume, detail| %>
+                  <li>
+                    <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] != "kg" ? detail[:unite].pluralize : detail[:unite] %>
+                  </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="inner-box-recolter-home">
+              <div>
+                <%= image_tag "recolte.png", id: "recolte-img" %>
+              </div>
+              <div>
+                <h2>Après-demain</h2>
+                <ul>
+                  <% @arecolter_j2.each do |legume, detail| %>
+                  <li>
+                    <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] != "kg" ? detail[:unite].pluralize : detail[:unite] %>
+                  </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <a class="carousel-control-next carousel-control-prev-home" href="#carouselarecolter-home" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only text-success">Jour suivant</span>
+        </a>
+        <a class="carousel-control-next carousel-control-next-home" href="#carouselarecolter-home" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only text-success">Jour précedent</span>
+        </a>
+    </div>
+
+    <div class="box-faire-home">
+      <% unless @todo_this_week.empty? %>
+        <% @todo_this_week.each do |memo| %>
+          <div class="detail-memo">
+            <div><i class="fas fa-chevron-right"></i><%= memo.description %> (<%= abreviation_jour(memo.date) %>)</div>
+            <div class="crayon-edit-memo-home">
+              <%= link_to edit_memo_path(memo) do %>
+                <i class="fas fa-pencil-alt"></i>
+              <% end %>
+              <%= link_to memo_path(memo), method: :delete do %><i class="fas fa-trash"></i><% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+      <div class="detail-memo">
+        <div></div>
+        <div class="crayon-edit-memo-home">
+          <%= link_to new_memo_path do %>
+            <%= image_tag "plus-rond.png", class: "tout-petit-plus-rond-home" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="panier-home-mobile">
-    <%= link_to ventes_recap_path do %><%= image_tag "panier.png", class: "panier-mobile" %> <% end %>
-  </div>
+
+  <div class="ca-realise">Tu as déjà fait <b><%=number_with_precision((@catotal.to_f*100)/@caprevi, precision: 2)%> %</b> de ton prévisionnel et...</div>
+  <div class= "encouragements text-success"><%= @encouragement %></div>
+
 </div>
 

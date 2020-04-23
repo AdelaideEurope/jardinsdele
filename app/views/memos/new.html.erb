@@ -1,0 +1,14 @@
+<%= render 'shared/navbar' %>
+<div class="container mt-4">
+  <h2 class="mb-5">Nouvelle note</h2>
+  <div class="nouvelle-vente">
+    <%= simple_form_for @memo do |f| %>
+      <%= f.input :date, as: :string, :label => "DATE", input_html: { class: "datepicker" } %>
+      <%= f.input :description, :label => "TEXTE DE LA NOTE" %>
+      <%= f.input :categorie, :label => "CATÉGORIE", collection: ["Ne pas oublier", "À faire"]%>
+      <div class="bottom-button fixed-bottom">
+        <%= f.submit  " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond" %>
+      </div>
+    <% end %>
+  </div>
+</div>
