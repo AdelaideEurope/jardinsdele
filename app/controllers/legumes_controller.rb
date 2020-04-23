@@ -1,12 +1,13 @@
 class LegumesController < ApplicationController
   def index
     @legumes = Legume.all
+    @ventes = Vente.all
     @firsthalf = (@legumes.length/2.to_f).ceil
     @secondhalf = @legumes.length/2
     @tous_legumes_parlegume = @legumes.map { |legume|
-      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_previ: pourcentage_previ(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? } } }.sort_by { |hashlegume| hashlegume[:legume_css] }
+      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? } } }.sort_by { |hashlegume| hashlegume[:legume_css] }
     @tous_legumes_parca = @legumes.map { |legume|
-      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_previ: pourcentage_previ(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? && commentaire.description == "" } } }.sort_by { |hashlegume| hashlegume[:calegume] }.reverse
+      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? && commentaire.description == "" } } }.sort_by { |hashlegume| hashlegume[:calegume] }.reverse
   end
 
   def new
@@ -106,18 +107,22 @@ class LegumesController < ApplicationController
 
   private
 
-  def pourcentage_previ(legume)
-    if !calegume(legume).nil? && !legume.previ_legume.nil?
-      (calegume(legume)*100/legume.previ_legume).round(2)
-    else
-      0
-    end
+  def catotal_legumes
+    @ventes.map(&:total_ttc).sum
   end
 
   def calegume(legume)
     @lignesdeventeparlegume = VenteLigne.where(["legume_id = ?", legume.id])
     @lignesdepanierparlegume = PanierLigne.where(["legume_id = ?", legume.id])
     @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.select {|lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
+  end
+
+  def pourcentage_ca(legume)
+    if !calegume(legume).nil?
+      (calegume(legume)*100/catotal_legumes).round(2)
+    else
+      0
+    end
   end
 
   def legume_params

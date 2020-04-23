@@ -11,7 +11,6 @@
   margin-bottom: 24px;
   width: 36%;
   justify-content: space-between;
-  font-style: italic;
 }
 
 .tous-legumes-modal {
@@ -235,4 +234,12 @@
   height: 30px;
   margin-top: -8px;
   margin-left: 6px;
+}
+
+#par-nom-legume, #par-ca-legume {
+  cursor: pointer;
+}
+
+#par-nom-legume:hover, #par-ca-legume:hover {
+  font-style: italic;
 }

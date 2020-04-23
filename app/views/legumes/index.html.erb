@@ -20,7 +20,7 @@
             <div><b>Légume</b></div>
             <div><b><%= image_tag "work.png", class: "work-img" %></b></div>
             <div><b>CA</b></div>
-            <div><b>% prévi</b></div>
+            <div><b>% CA</b></div>
           </div>
         </li>
         <% @tous_legumes_parlegume.first(@firsthalf).each do |legume| %>
@@ -29,15 +29,15 @@
               <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
               <div><%= [legume[:duree].to_i/3600, legume[:duree].to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
-              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_previ], precision: 2) %> %</div>
+              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:nom] %>">
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css] %>">
                   <% if legume[:commentaires].any? %>
                     <i class="fas fa-comment-alt"></i>
                   <% end %>
                 </button>
               </div>
-              <div class="modal fade" id="ModalCenter<%= legume[:nom] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+              <div class="modal fade" id="ModalCenter<%= legume[:legume_css] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content modal-commentaires-index-legumes">
                     <div class="modal-header">
@@ -74,7 +74,7 @@
             <div><b>Légume</b></div>
             <div><b><%= image_tag "work.png", class: "work-img" %></b></div>
             <div><b>CA</b></div>
-            <div><b>% prévi</b></div>
+            <div><b>% CA</b></div>
           </div>
         </li>
         <% @tous_legumes_parlegume.last(@secondhalf).each do |legume| %>
@@ -83,15 +83,15 @@
               <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
               <div><%= [legume[:duree].to_i/3600, legume[:duree].to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
-              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_previ], precision: 2) %> %</div>
+              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:nom] %>">
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css] %>">
                   <% if legume[:commentaires].any? %>
                     <i class="fas fa-comment-alt"></i>
                   <% end %>
                 </button>
               </div>
-              <div class="modal fade" id="ModalCenter<%= legume[:nom] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+              <div class="modal fade" id="ModalCenter<%= legume[:legume_css] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content modal-commentaires-index-legumes">
                     <div class="modal-header">
@@ -136,7 +136,7 @@
             <div><b>Légume</b></div>
             <div><b><%= image_tag "work.png", class: "work-img" %></b></div>
             <div><b>CA</b></div>
-            <div><b>% prévi</b></div>
+            <div><b>% CA</b></div>
           </div>
         </li>
         <% @tous_legumes_parca.first(@firsthalf).each do |legume| %>
@@ -145,15 +145,15 @@
               <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
               <div><%= [legume[:duree].to_i/3600, legume[:duree].to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
-              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_previ], precision: 2) %> %</div>
-              <!-- <div>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:nom] %>">
+              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
+              <div>
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css] %>-ca">
                   <% if legume[:commentaires].any? %>
                     <i class="fas fa-comment-alt"></i>
                   <% end %>
                 </button>
               </div>
-              <div class="modal fade" id="ModalCenter<%= legume[:nom] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+              <div class="modal fade" id="ModalCenter<%= legume[:legume_css] %>-ca" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content modal-commentaires-index-legumes">
                     <div class="modal-header">
@@ -176,7 +176,7 @@
                     </div>
                   </div>
                 </div>
-              </div> -->
+              </div>
             </div>
           </li>
         <% end %>
@@ -190,7 +190,7 @@
             <div><b>Légume</b></div>
             <div><b><%= image_tag "work.png", class: "work-img" %></b></div>
             <div><b>CA</b></div>
-            <div><b>% prévi</b></div>
+            <div><b>% CA</b></div>
           </div>
         </li>
         <% @tous_legumes_parca.last(@secondhalf).each do |legume| %>
@@ -199,15 +199,15 @@
               <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
               <div><%= [legume[:duree].to_i/3600, legume[:duree].to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
               <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
-              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_previ], precision: 2) %> %</div>
-              <!-- <div>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:nom] %>">
+              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
+              <div>
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css] %>-ca">
                   <% if legume[:commentaires].any? %>
                     <i class="fas fa-comment-alt"></i>
                   <% end %>
                 </button>
               </div>
-              <div class="modal fade" id="ModalCenter<%= legume[:nom] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+              <div class="modal fade" id="ModalCenter<%= legume[:legume_css] %>-ca" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content modal-commentaires-index-legumes">
                     <div class="modal-header">
@@ -230,7 +230,7 @@
                     </div>
                   </div>
                 </div>
-              </div> -->
+              </div>
             </div>
           </li>
         <% end %>
