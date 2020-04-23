@@ -1,12 +1,12 @@
 class LegumesController < ApplicationController
   def index
     @legumes = Legume.all
-    @commentaires = Commentaire.all
-    @activites = Activite.all
-    @lignesdevente = VenteLigne.all
     @firsthalf = (@legumes.length/2.to_f).ceil
     @secondhalf = @legumes.length/2
-    @sorted_legumes = @legumes.sort_by(&:legume_css)
+    @tous_legumes_parlegume = @legumes.map { |legume|
+      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_previ: pourcentage_previ(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? } } }.sort_by { |hashlegume| hashlegume[:legume_css] }
+    @tous_legumes_parca = @legumes.map { |legume|
+      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_previ: pourcentage_previ(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? && commentaire.description == "" } } }.sort_by { |hashlegume| hashlegume[:calegume] }.reverse
   end
 
   def new
@@ -67,6 +67,83 @@ class LegumesController < ApplicationController
         @tempslegume[legume.nom] += duree
       end
     end
+    @catotal = @ventes.map(&:total_ttc).sum
+    lignessousserre
+    planchesenrecolte
+    lignesgroupees
+    planchesencours
+  end
+
+  def show
+    @legume = Legume.friendly.find(params[:id])
+    @activites = Activite.where(["legume_id = ?", @legume.id])
+    @lignesdeventeparlegume = VenteLigne.where(["legume_id = ?", @legume.id])
+    @lignesdepanierparlegume = PanierLigne.where(["legume_id = ?", @legume.id])
+    @ventes = Vente.all
+    @catotal = @ventes.map(&:total_ttc).sum
+    @totauxlegume = Hash.new { |h,k| h[k] = "".to_i }
+    @dureedulegume = []
+    @planchesdulegume = []
+    @legume.activites.each do |activite|
+      @dureedulegume << activite.heure_fin - activite.heure_debut
+    end
+    @legume.activites.filter { |activite| activite.nom == "Plantation" }.each do |activite|
+      @planchesdulegume << activite.planche.nom
+    end
+    @dureedulegume = @dureedulegume.sum
+    @totauxlegume[@legume.nom] += @dureedulegume
+    @calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
+    @pourcentagedulegume = (@calegume*100).fdiv(@catotal).round(2)
+
+    @quantitelegume = Hash.new { |hash, key| hash[key] = "".to_i }
+    @lignesdeventeparlegume.each do |ligne|
+      @quantitelegume[ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite] += ligne.quantite
+    end
+    @lignesdepanierparlegume.each do |ligne|
+      @quantitelegume[ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite] += ligne.quantite * ligne.panier.quantite
+    end
+  end
+
+  private
+
+  def pourcentage_previ(legume)
+    if !calegume(legume).nil? && !legume.previ_legume.nil?
+      (calegume(legume)*100/legume.previ_legume).round(2)
+    else
+      0
+    end
+  end
+
+  def calegume(legume)
+    @lignesdeventeparlegume = VenteLigne.where(["legume_id = ?", legume.id])
+    @lignesdepanierparlegume = PanierLigne.where(["legume_id = ?", legume.id])
+    @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.select {|lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
+  end
+
+  def legume_params
+    params.require(:legume).permit(:nom, :legume_css, :prix_general, :photo, :famille, :previ_legume, :nb_planche)
+  end
+
+  def lignessousserre
+    @lignessousserre = 0
+    @planches.where("jardin = ? OR jardin = ? OR jardin = ?", "Jardin D", "Jardin E", "Jardin F").each do |planche|
+      @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
+        @lignessousserre += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
+      end
+      @lignesdevente.select { |lignedevente| lignedevente.planche == planche }.each do |lignedevente|
+        @lignessousserre += (lignedevente.prixunitairettc) * (lignedevente.quantite)
+      end
+    end
+  end
+
+  def planchesenrecolte
+    planchesrecolte = []
+    planchesrecolte << @planches.select {|planche| planche.vente_lignes.any?}
+    planchesrecolte << @planches.select {|planche| planche.panier_lignes.any? }
+    @planchesenrecolte = planchesrecolte.flatten.uniq.count
+  end
+
+  def lignesgroupees
     @lignesgroupees = Hash.new { |hash, key| hash[key] = {total: "".to_f, legumes: [] } }
     @planches.each do |planche|
       @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
@@ -82,10 +159,9 @@ class LegumesController < ApplicationController
         end
       end
     end
-    @catotal = @ventes.map(&:total_ttc).sum
-    lignessousserre
-    planchesenrecolte
+  end
 
+  def planchesencours
     planchesencours = []
     @planches.each do |planche|
       activitesplanche = {}
@@ -122,63 +198,6 @@ class LegumesController < ApplicationController
       end
     end
     @planchesencours = planchesencours.uniq.count - 1
-
-
-  end
-
-  def show
-    @legume = Legume.friendly.find(params[:id])
-    @activites = Activite.where(["legume_id = ?", @legume.id])
-    @lignesdeventeparlegume = VenteLigne.where(["legume_id = ?", @legume.id])
-    @lignesdepanierparlegume = PanierLigne.where(["legume_id = ?", @legume.id])
-    @ventes = Vente.all
-    @catotal = @ventes.map(&:total_ttc).sum
-    @totauxlegume = Hash.new { |h,k| h[k] = "".to_i }
-    @dureedulegume = []
-    @planchesdulegume = []
-    @legume.activites.each do |activite|
-      @dureedulegume << activite.heure_fin - activite.heure_debut
-    end
-    @legume.activites.filter { |activite| activite.nom == "Plantation" }.each do |activite|
-      @planchesdulegume << activite.planche.nom
-    end
-    @dureedulegume = @dureedulegume.sum
-    @totauxlegume[@legume.nom] += @dureedulegume
-    @calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
-    @pourcentagedulegume = (@calegume*100).fdiv(@catotal).round(2)
-
-    @quantitelegume = Hash.new { |hash, key| hash[key] = "".to_i }
-    @lignesdeventeparlegume.each do |ligne|
-      @quantitelegume[ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite] += ligne.quantite
-    end
-    @lignesdepanierparlegume.each do |ligne|
-      @quantitelegume[ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite] += ligne.quantite * ligne.panier.quantite
-    end
-  end
-
-  private
-
-  def legume_params
-    params.require(:legume).permit(:nom, :legume_css, :prix_general, :photo, :famille, :previ_legume, :nb_planche)
-  end
-
-  def lignessousserre
-    @lignessousserre = 0
-    @planches.where("jardin = ? OR jardin = ? OR jardin = ?", "Jardin D", "Jardin E", "Jardin F").each do |planche|
-      @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
-        @lignessousserre += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
-      end
-      @lignesdevente.select { |lignedevente| lignedevente.planche == planche }.each do |lignedevente|
-        @lignessousserre += (lignedevente.prixunitairettc) * (lignedevente.quantite)
-      end
-    end
-  end
-
-  def planchesenrecolte
-    planchesrecolte = []
-    planchesrecolte << @planches.select {|planche| planche.vente_lignes.any?}
-    planchesrecolte << @planches.select {|planche| planche.panier_lignes.any? }
-    @planchesenrecolte = planchesrecolte.flatten.uniq.count
   end
 end
 

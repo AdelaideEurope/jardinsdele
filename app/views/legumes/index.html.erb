@@ -1,7 +1,6 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
   <h2>Les légumes</h2>
-  <% h = Hash.new { |h,k| h[k] = "".to_i } %>
 </div>
 <div class="img-legumes">
   <%= image_tag "radis.jpg", class: "radis" %>
@@ -9,6 +8,10 @@
   <%= image_tag "oignon.jpg", class: "oignon" %>
 </div>
 <div class="container">
+  <div class="tri-legume">
+  <div id="par-nom-legume">Nom de légume <i class="fas fa-sort-alpha-down"></i></div>
+  <div id="par-ca-legume">CA de légume <i class="fas fa-sort-amount-down"></i></div>
+  </div>
   <div class="tous-legumes">
     <div class="liste-legume mr-3">
       <ul>
@@ -20,42 +23,32 @@
             <div><b>% prévi</b></div>
           </div>
         </li>
-        <% @sorted_legumes.first(@firsthalf).each do |legume| %>
-          <% duree = [] %>
-          <% planches = [] %>
+        <% @tous_legumes_parlegume.first(@firsthalf).each do |legume| %>
           <li>
-            <% legume.activites.each do |activite| %>
-              <% activite.planche.nil? ? "" : planches << activite.planche.nom  %>
-              <% duree << activite.heure_fin - activite.heure_debut %>
-            <% end %>
-            <% duree = duree.sum %>
-            <% h[legume.nom] += duree %>
             <div class="wrapper-legumes">
-              <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %> </div>
-
-              <div><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
-              <% calegume = legume.vente_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + legume.panier_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
-              <div><%= number_with_precision(calegume, precision: 2) %> €</div>
-              <div class="planches-legumes-index"><%= legume.previ_legume.nil? ? number_with_precision(0.00, precision: 2) : number_with_precision((calegume * 100) / legume.previ_legume, precision: 2) %> %</div>
+              <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
+              <div><%= [legume[:duree].to_i/3600, legume[:duree].to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+              <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
+              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_previ], precision: 2) %> %</div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume.id %>">
-                  <% if legume.commentaires.reject { |commentaire| commentaire.description.empty? }.any? %>
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:nom] %>">
+                  <% if legume[:commentaires].any? %>
                     <i class="fas fa-comment-alt"></i>
                   <% end %>
                 </button>
               </div>
-              <div class="modal fade" id="ModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+              <div class="modal fade" id="ModalCenter<%= legume[:nom] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content modal-commentaires-index-legumes">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="modalLongTitle"><%= legume.nom %></h5>
+                      <h5 class="modal-title" id="modalLongTitle"><%= legume[:nom] %></h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body commentaires-liste">
                       <ul>
-                        <% legume.commentaires.each do |commentaire| %>
+                        <% legume[:commentaires].each do |commentaire| %>
                           <% unless commentaire.description.empty? %>
                             <li>
                               <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
@@ -84,42 +77,32 @@
             <div><b>% prévi</b></div>
           </div>
         </li>
-        <% @sorted_legumes.last(@secondhalf).each do |legume| %>
-          <% duree = [] %>
-          <% planches = [] %>
+        <% @tous_legumes_parlegume.last(@secondhalf).each do |legume| %>
           <li>
-            <% legume.activites.each do |activite| %>
-              <% activite.planche.nil? ? "" : planches << activite.planche.nom  %>
-              <% duree << activite.heure_fin - activite.heure_debut %>
-            <% end %>
-            <% duree = duree.sum %>
-            <% h[legume.nom] += duree %>
             <div class="wrapper-legumes">
-              <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %> </div>
-
-              <div><%= [duree.to_i/3600, duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
-              <% calegume = legume.vente_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc}.sum + legume.panier_lignes.map { |ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite}.sum %>
-              <div><%= number_with_precision(calegume, precision: 2) %> €</div>
-              <div class="planches-legumes-index"><%= legume.previ_legume.nil? ? number_with_precision(0.00, precision: 2) : number_with_precision((calegume * 100) / legume.previ_legume, precision: 2) %> %</div>
+              <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
+              <div><%= [legume[:duree].to_i/3600, legume[:duree].to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+              <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
+              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_previ], precision: 2) %> %</div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume.id %>">
-                  <% if legume.commentaires.reject { |commentaire| commentaire.description.empty? }.any? %>
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:nom] %>">
+                  <% if legume[:commentaires].any? %>
                     <i class="fas fa-comment-alt"></i>
                   <% end %>
                 </button>
               </div>
-              <div class="modal fade" id="ModalCenter<%= legume.id %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+              <div class="modal fade" id="ModalCenter<%= legume[:nom] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content modal-commentaires-index-legumes">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="modalLongTitle"><%= legume.nom %></h5>
+                      <h5 class="modal-title" id="modalLongTitle"><%= legume[:nom] %></h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body commentaires-liste">
                       <ul>
-                        <% legume.commentaires.each do |commentaire| %>
+                        <% legume[:commentaires].each do |commentaire| %>
                           <% unless commentaire.description.empty? %>
                             <li>
                               <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
@@ -132,6 +115,122 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </li>
+        <% end %>
+      <div class="plus-recap">
+        <%= link_to new_legume_path do %>
+          <% image_tag "plus-rond.png", class: "plus-rond-recap" %>
+        <% end %>
+      </div>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="tous-legumes-ca hidden">
+    <div class="liste-legume mr-3">
+      <ul>
+        <li>
+          <div class="wrapper-legumes">
+            <div><b>Légume</b></div>
+            <div><b><%= image_tag "work.png", class: "work-img" %></b></div>
+            <div><b>CA</b></div>
+            <div><b>% prévi</b></div>
+          </div>
+        </li>
+        <% @tous_legumes_parca.first(@firsthalf).each do |legume| %>
+          <li>
+            <div class="wrapper-legumes">
+              <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
+              <div><%= [legume[:duree].to_i/3600, legume[:duree].to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+              <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
+              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_previ], precision: 2) %> %</div>
+              <!-- <div>
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:nom] %>">
+                  <% if legume[:commentaires].any? %>
+                    <i class="fas fa-comment-alt"></i>
+                  <% end %>
+                </button>
+              </div>
+              <div class="modal fade" id="ModalCenter<%= legume[:nom] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content modal-commentaires-index-legumes">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalLongTitle"><%= legume[:nom] %></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body commentaires-liste">
+                      <ul>
+                        <% legume[:commentaires].each do |commentaire| %>
+                          <% unless commentaire.description.empty? %>
+                            <li>
+                              <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
+                              <div class="contenu-commentaire"><%= commentaire.description %></div>
+                            </li>
+                          <% end %>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="liste-legume ml-3">
+      <ul>
+        <li>
+          <div class="wrapper-legumes">
+            <div><b>Légume</b></div>
+            <div><b><%= image_tag "work.png", class: "work-img" %></b></div>
+            <div><b>CA</b></div>
+            <div><b>% prévi</b></div>
+          </div>
+        </li>
+        <% @tous_legumes_parca.last(@secondhalf).each do |legume| %>
+          <li>
+            <div class="wrapper-legumes">
+              <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
+              <div><%= [legume[:duree].to_i/3600, legume[:duree].to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+              <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
+              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_previ], precision: 2) %> %</div>
+              <!-- <div>
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:nom] %>">
+                  <% if legume[:commentaires].any? %>
+                    <i class="fas fa-comment-alt"></i>
+                  <% end %>
+                </button>
+              </div>
+              <div class="modal fade" id="ModalCenter<%= legume[:nom] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content modal-commentaires-index-legumes">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalLongTitle"><%= legume[:nom] %></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body commentaires-liste">
+                      <ul>
+                        <% legume[:commentaires].each do |commentaire| %>
+                          <% unless commentaire.description.empty? %>
+                            <li>
+                              <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
+                              <div class="contenu-commentaire"><%= commentaire.description %></div>
+                            </li>
+                          <% end %>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
             </div>
           </li>
         <% end %>

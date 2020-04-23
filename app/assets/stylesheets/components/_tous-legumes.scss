@@ -1,6 +1,17 @@
 .tous-legumes {
   display: flex;
-  margin-top: 36px;
+}
+
+.tous-legumes-ca {
+  display: flex;
+}
+
+.tri-legume {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  width: 36%;
+  justify-content: space-between;
+  font-style: italic;
 }
 
 .tous-legumes-modal {
