@@ -163,7 +163,10 @@
                   <i class="fas fa-pencil-alt"></i>
                 <% end %>
                 <%= link_to memo_path(memo), method: :delete do %><i class="fas fa-trash"></i><% end %>
-                <i class="fas fa-check"></i>
+                <%= simple_form_for [memo] do |f| %>
+                    <div><%= f.hidden_field :done, :value => true %>
+                    <%= f.submit "", :type => :image, :src => image_path("check-done.png") %></div>
+                <% end %>
               </div>
             </div>
           <% end %>
