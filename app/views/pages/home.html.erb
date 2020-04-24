@@ -145,7 +145,7 @@
 
     <div class="box-faire-home">
       <% unless @ventes_futures_semaine.empty? %>
-        <div class="box-faire-home-ventes pb-3">
+        <div class="box-faire-home-ventes">
           <% @ventes_futures_semaine.sort_by(&:date).each do |vente| %>
             <div class="detail-memo">
               <div class="description-memo"><i class="fas fa-chevron-right"></i>Livrer <%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %> (<%= abreviation_jour(vente.date) %>) <% end %></div>
@@ -153,8 +153,11 @@
           <% end %>
         </div>
       <% end %>
+      <% unless @ventes_futures_semaine.empty? || @todo_this_week.empty? %>
+        <div class="separateur-ventes-afaire my-3"></div>
+      <% end %>
       <% unless @todo_this_week.empty? %>
-        <div class="box-faire-home-memos mt-3">
+        <div class="box-faire-home-memos">
           <% @todo_this_week.sort_by(&:date).each do |memo| %>
             <div class="detail-memo">
               <div class="description-memo"><i class="fas fa-chevron-right"></i><%= memo.description %> (<%= abreviation_jour(memo.date) %>)</div>
@@ -186,6 +189,8 @@
 
   <div class="ca-realise">Tu as déjà fait <b><%=number_with_precision((@catotal.to_f*100)/@caprevi, precision: 2)%> %</b> de ton prévisionnel et...</div>
   <div class= "encouragements text-success"><%= @encouragement %></div>
+
+    <%= @ventesgraph %>
 
 </div>
 

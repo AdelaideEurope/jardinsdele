@@ -17,8 +17,9 @@ class PagesController < ApplicationController
     @todo_this_week = @memos.select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }
     date_home
     @catotal = @ventes.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
-    @caprevi = @legumes.select {|legume| !legume.previ_legume.nil? }.map { |legume| legume.previ_legume }.sum
+    @caprevi = @legumes.select { |legume| !legume.previ_legume.nil? }.map { |legume| legume.previ_legume }.sum
     encouragements
+    # @ventesgraph = @ventes.group_by_month { |u| u.date }.map { |vente| vente[1] }
   end
 
   def photos

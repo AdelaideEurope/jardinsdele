@@ -8,7 +8,7 @@ class VentesController < ApplicationController
     @ventes_futures = @ventes.select { |vente| vente.date > Date.today }.sort_by(&:date).reverse
     @month = Date.today.month
     ventespourgraph
-    @ventes_mois_cate_pdv = @pointsdevente.map { |pointdevente| pointdevente.categorie }.uniq.map do |categorie|
+    @ventes_mois_cate_pdv = @pointsdevente.map(&:categorie).uniq.map do |categorie|
       { name: categorie, data: ventecategorie(categorie) }
     end
     cate_colors = {"Point de retrait" => "#A1BD7F", "Magasin" => "#55828B", "AMAP" => "#BC4B51", "Restaurant" => "#F4E285", "Divers" => "#3A2449" }
@@ -17,7 +17,7 @@ class VentesController < ApplicationController
       @colors_categories << cate_colors[cate[:name]]
     end
 
-    @ventes_semaine_cate_pdv = @pointsdevente.map { |pointdevente| pointdevente.categorie }.uniq.map do |categorie|
+    @ventes_semaine_cate_pdv = @pointsdevente.map(&:categorie).uniq.map do |categorie|
       { name: categorie, data: vente_semaine_categorie(categorie) }
     end
   end
@@ -34,7 +34,7 @@ class VentesController < ApplicationController
     if @factures_ac_num.empty?
       @num_factures = 1
     else
-      @num_factures = @factures_ac_num.map { |vente| vente.num_facture}.last + 1
+      @num_factures = @factures_ac_num.map(&:num_facture).last + 1
     end
   end
 
@@ -61,7 +61,7 @@ class VentesController < ApplicationController
     @ventes_semaine = @ventes.select { |m| m.date.strftime("%W").to_i + 1 == @week }
     @monthtoday = Date.today.month
     @ventes_mois = @ventes.select { |m| m.date.month == @monthtoday }
-    @catotal = @ventes.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
+    @catotal = @ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @casemaine = @ventes_semaine.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @camois = @ventes_mois.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @ventes_panier = @ventes.select { |vente| vente.paniers.any? && vente.date >= Date.today }
@@ -72,7 +72,7 @@ class VentesController < ApplicationController
     arecolter_j1
     arecolter_j2
 
-    @caprevi = @legumes.select {|legume| !legume.previ_legume.nil? }.map { |legume| legume.previ_legume }.sum
+    @caprevi = @legumes.reject { |legume| legume.previ_legume.nil? }.map(&:previ_legume).sum
 
     pdv_colors = { "CG SMU" => "#849B68", "Les biaux légumes - Vizille" => "#9A3E43", "La Bonne Pioche" => "#7398A0", "Divers restos" => "#F4E285", "LJE VLB" => "#586846", "L'Épicerie" => "#3A585E", "Divers magasins" => "#466B72", "Divers !" => "#3A2449", "AMAP SMU" => "#C86B70", "René Thomas" => "#BACFA1", "La Corne d'Or" => "#F6E79B", "Divers" => "#3A2449" }
     @colors = []
@@ -99,8 +99,8 @@ class VentesController < ApplicationController
 
   def impayes
     @ventes = Vente.all
-    @impayes = @ventes.select {|vente| vente.resteapercevoir > 0}
-    @totalimpayes = @ventes.select {|vente| vente.resteapercevoir}.map {|vente| vente.resteapercevoir}.sum
+    @impayes = @ventes.select { |vente| vente.resteapercevoir > 0 }
+    @totalimpayes = @ventes.select {|vente| vente.resteapercevoir }.map(&:resteapercevoir).sum
   end
 
   def update
