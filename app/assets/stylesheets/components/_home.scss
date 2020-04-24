@@ -30,11 +30,11 @@
   border-radius: 8px;
   background: white;
   padding: 48px 24px 24px 24px;
-  width: 25%;
+  width: 28%;
 }
 
 .titre-oublier, .titre-faire {
-  width: 25%;
+  width: 28%;
   z-index: 1000;
 }
 
@@ -128,6 +128,12 @@
 
 .description-memo {
   width: 70%;
+}
+
+.crayon-edit-memo-home {
+  display: flex;
+  justify-content: space-between;
+  width: 25%;
 }
 // .all-memos-ne-pas-oublier {
 //   border: solid 2px $light-green;

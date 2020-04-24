@@ -8,7 +8,6 @@
       </%></div>
     </div>
   </div>
-
   <div class="titres-boxes-oublier-faire-recolter">
     <div class="titre-oublier"><div class="inner-title">Ne pas oublier</div></div>
     <div class="titre-recolter"><div class="inner-title">À récolter</div></div>
@@ -23,14 +22,16 @@
         <b>Aujourd'hui</b>
         <% @memos_today.each do |memo| %>
           <div class="detail-memo">
-            <div>
-            <i class="fas fa-chevron-right"></i><%= memo.description %></div>
+            <div class="description-memo"><i class="fas fa-chevron-right"></i><%= memo.description %></div>
             <div class="crayon-edit-memo-home">
               <%= link_to edit_memo_path(memo) do %>
                 <i class="fas fa-pencil-alt"></i>
               <% end %>
               <%= link_to memo_path(memo), method: :delete do %><i class="fas fa-trash"></i><% end %>
-              <i class="fas fa-check"></i>
+              <%= simple_form_for [memo] do |f| %>
+                  <div><%= f.hidden_field :done, :value => true %>
+                  <%= f.submit "", :type => :image, :src => image_path("check-done.png") %></div>
+              <% end %>
             </div>
           </div>
         <% end %>
@@ -57,7 +58,10 @@
                 <i class="fas fa-pencil-alt"></i>
               <% end %>
               <%= link_to memo_path(memo), method: :delete do %><i class="fas fa-trash"></i><% end %>
-              <i class="fas fa-check"></i>
+              <%= simple_form_for [memo] do |f| %>
+                <div><%= f.hidden_field :done, :value => true %>
+                <%= f.submit "", :type => :image, :src => image_path("check-done.png") %></div>
+              <% end %>
             </div>
           </div>
         <% end %>
@@ -65,7 +69,7 @@
 
       <div class="detail-memo">
         <div></div>
-        <div class="crayon-edit-memo-home">
+        <div class="crayon-new-memo-home">
           <%= link_to new_memo_path do %>
             <%= image_tag "plus-rond.png", class: "tout-petit-plus-rond-home" %>
           <% end %>
@@ -168,7 +172,7 @@
 
       <div class="detail-memo">
         <div></div>
-        <div class="crayon-edit-memo-home">
+        <div class="crayon-new-memo-home">
           <%= link_to new_memo_path do %>
             <%= image_tag "plus-rond.png", class: "tout-petit-plus-rond-home" %>
           <% end %>
