@@ -92,6 +92,10 @@
   justify-content: space-between;
 }
 
+.box-faire-home-ventes {
+  border-bottom: 1px dotted $light-green;
+}
+
 .carousel-control-next-home {
   right: 34%;
   height: 60px;
@@ -120,6 +124,10 @@
 
 .encouragements {
   text-align: center;
+}
+
+.description-memo {
+  width: 70%;
 }
 // .all-memos-ne-pas-oublier {
 //   border: solid 2px $light-green;
