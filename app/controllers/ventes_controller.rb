@@ -74,7 +74,7 @@ class VentesController < ApplicationController
     venteparca
     venteparcapourgraph
 
-    # pdv_colors = { "CG SMU" => "#849B68", "Les biaux légumes - Vizille" => "#9A3E43", "La Bonne Pioche" => "#7398A0", "Divers restos" => "#F4E285", "LJE VLB" => "#586846", "L'Épicerie" => "#3A585E", "Divers magasins" => "#466B72", "Divers !" => "#3A2449", "AMAP SMU" => "#C86B70", "René Thomas" => "#BACFA1", "La Corne d'Or" => "#F6E79B", "Divers" => "#3A2449" }
+    # pdv_colors = { "CG SMU" => "#849B68", "Les biaux légumes - Vizille" => "#9A3E43", "La Bonne Pioche" => "#7398A0", "Divers restos" => "#F4E285", "LJE VLB" => "#B6C3A1", "L'Épicerie" => "#3A585E", "Divers magasins" => "#466B72", "Divers !" => "#3A2449", "AMAP SMU" => "#C86B70", "René Thomas" => "#BACFA1", "La Corne d'Or" => "#F6E79B", "Divers" => "#3A2449" }
     @colors = []
     @pdvca = @pointsdeventeca.map do |pdv, totalcouleur|
       [pdv[:nom], totalcouleur[:total]]
@@ -135,7 +135,7 @@ private
   end
 
   def cate_colors2
-    @cate_colors2 = { "Point de retrait" => ["#A1BD7F", "#849B68", "#586846", "#879574", "#35452A", "#A1BD7F", "#849B68", "#586846", "#879574", "#35452A", "#A1BD7F", "#849B68", "#586846", "#879574", "#35452A"], "Magasin" => ["#55828B", "#3A585E", "#466B72", "#7398A0", "#7DA8AE", "#7DA8AE", "#55828B", "#3A585E", "#466B72", "#7398A0", "#7DA8AE", "#7DA8AE", "#55828B", "#3A585E", "#466B72", "#7398A0", "#7DA8AE", "#7DA8AE"], "AMAP" => ["#BC4B51", "#C86B70", "#9A3E43", "#BC4B51", "#550F10", "#E4A1A3", "#BC4B51", "#C86B70", "#9A3E43", "#BC4B51", "#550F10", "#E4A1A3", "#BC4B51", "#C86B70", "#9A3E43", "#BC4B51", "#550F10", "#E4A1A3"], "Restaurant" => ["#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699"], "Divers" => ["#3A2449", "#614E6D", "#9D8DA4", "#3A2449", "#614E6D", "#9D8DA4", "#3A2449", "#614E6D", "#9D8DA4", "#3A2449", "#614E6D", "#9D8DA4", "#3A2449", "#614E6D", "#9D8DA4"] }
+    @cate_colors2 = { "Point de retrait" => ["#A1BD7F", "#849B68", "#B6C3A1", "#879574", "#35452A", "#A1BD7F", "#849B68", "#B6C3A1", "#879574", "#35452A", "#A1BD7F", "#849B68", "#B6C3A1", "#879574", "#35452A"], "Magasin" => ["#55828B", "#A5CDD1", "#3A585E", "#466B72", "#7398A0", "#7DA8AE", "#55828B", "#A5CDD1", "#3A585E", "#466B72", "#7398A0", "#7DA8AE", "#55828B", "#A5CDD1", "#3A585E", "#466B72", "#7398A0", "#7DA8AE", "#55828B", "#A5CDD1", "#3A585E", "#466B72", "#7398A0", "#7DA8AE"], "AMAP" => ["#BC4B51", "#C86B70", "#9A3E43", "#BC4B51", "#773A39", "#E4A1A3", "#BC4B51", "#C86B70", "#9A3E43", "#BC4B51", "#773A39", "#E4A1A3", "#BC4B51", "#C86B70", "#9A3E43", "#BC4B51", "#773A39", "#E4A1A3"], "Restaurant" => ["#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699"], "Divers" => ["#3A2449", "#614E6D", "#9D8DA4", "#3A2449", "#614E6D", "#9D8DA4", "#3A2449", "#614E6D", "#9D8DA4", "#3A2449", "#614E6D", "#9D8DA4", "#3A2449", "#614E6D", "#9D8DA4"] }
   end
 
   def ventesparpointdeventepourgraph
@@ -151,7 +151,6 @@ private
       @pointsdeventeparca[pointdevente] = pointdevente.ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     end
   end
-
 
   def arecolter_ajd
     @lignesdepaniertoday = PanierLigne.select { |ligne| ligne.panier.vente.date == Date.today }
