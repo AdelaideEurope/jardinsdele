@@ -73,8 +73,6 @@ class VentesController < ApplicationController
     ventesparpointdeventepourgraph
     venteparca
     venteparcapourgraph
-
-    # pdv_colors = { "CG SMU" => "#849B68", "Les biaux légumes - Vizille" => "#9A3E43", "La Bonne Pioche" => "#7398A0", "Divers restos" => "#F4E285", "LJE VLB" => "#B6C3A1", "L'Épicerie" => "#3A585E", "Divers magasins" => "#466B72", "Divers !" => "#3A2449", "AMAP SMU" => "#C86B70", "René Thomas" => "#BACFA1", "La Corne d'Or" => "#F6E79B", "Divers" => "#3A2449" }
     @colors = []
     @pdvca = @pointsdeventeca.map do |pdv, totalcouleur|
       [pdv[:nom], totalcouleur[:total]]
@@ -83,7 +81,6 @@ class VentesController < ApplicationController
       @colors << totalcouleur[:couleur]
     end
 
-    # cate_colors = { "Point de retrait" => "#A1BD7F", "Magasin" => "#55828B", "AMAP" => "#BC4B51", "Restaurant" => "#F4E285", "Divers" => "#3A2449" }
     @colors_categories = []
     @pointsdeventeparcapourgraph.each do |cate, _|
       @colors_categories << @cate_colors2[cate][0]

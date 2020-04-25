@@ -28,6 +28,28 @@
   }
 }
 
+#chart-legume {
+  margin: 0 auto !important;
+}
+
+.table-show-legume-vente {
+  width: 80%;
+  overflow-x: scroll;
+  margin: 0 auto;
+}
+
+.table-show-legume {
+  table-layout: auto;
+  margin: 0 auto;
+  td {
+    padding: 16px;
+    text-align: center;
+  }
+  th {
+    padding-bottom: 16px;
+    text-align: center;
+  }
+}
 
 .recap-donnee {
   ul {
@@ -70,4 +92,36 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+#graph-legume, #tableau-legume {
+  width: fit-content;
+}
+
+#graph-legume:hover, #tableau-legume:hover {
+  font-style: italic;
+  cursor: pointer;
+}
+
+.icones-graph-tableau {
+  display: flex;
+  width: 100px;
+  justify-content: space-around;
+  font-size: 24px;
+  color: $light-grey2;
+  margin: 0 auto -8px;
+}
+
+.toutes-activites-show-legume {
+  margin-top: -24px;
+  margin-bottom: 48px;
+  li {
+  list-style: none;
+  padding-top: 4px;
+  }
+  .wrapper-recap-activites {
+  background: $light-grey;
+  width: 96%;
+  padding-left: 16px;
+  }
 }

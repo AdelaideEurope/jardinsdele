@@ -11,7 +11,7 @@
     </h2>
     <%= cl_image_tag @legume.photo.key, height: 96, crop: :fill %>
   </div>
-  <div class="toutes-activites-show">
+  <div class="toutes-activites-show-legume">
     <h3>Récap</h3>
     <div class="recap-show-legume">
       <div class="col-show-leg">
@@ -96,8 +96,50 @@
 </div>
 
 
+<div class="container">
+  <div class="icones-graph-tableau">
+    <div id="graph-legume"><i class="far fa-chart-bar"></i></i></div>
+    <div id="tableau-legume"><i class="fas fa-table"></i></i></div>
+  </div>
+</div>
 
-
+<div class="chart-legume">
+  <%= column_chart @ventes_legume_sem, id: "chart-legume", colors: ["#A1BD7F"], width: "50%" %>
+</div>
+  <div class="table-show-legume-vente mt-5 hidden", id="table-show-legume">
+    <table class="table-show-legume">
+        <thead>
+          <tr>
+            <th>Planche</th>
+            <% @ventes_legume_sem.reverse.each do |ventes_semaine| %>
+              <th>
+                S<%= ventes_semaine[0] %>
+              </th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="text-success">
+            <td></td>
+            <% @ventes_legume_sem.reverse.each do |ventes_semaine| %>
+              <td><%= number_with_precision(ventes_semaine[1], precision: 2) %> €</td>
+            <% end %>
+          </tr>
+          <% @planches_legumes.each do |planche| %>
+            <tr>
+              <td><%= planche[:nom] %></td>
+              <% planche[:ventes].each do |totaux| %>
+                <td>
+                  <% totaux.each do |_k, v| %>
+                    <%= number_with_precision(v, precision: 2) %> €
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
+  </div>
 <ul class="nav nav-pills justify-content-center mt-5" id="myTab" role="tablist">
   <li class="nav-item nav-item-show">
     <a class="nav-link active mr-3" id="actions-tab" data-toggle="tab" href="#actions" role="tab" aria-controls="actions" aria-selected="false">Actions</a>

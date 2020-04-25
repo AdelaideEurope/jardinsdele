@@ -14,7 +14,7 @@
   <%= column_chart @ventes_semaine_cate_pdv, id: "ventes-semaine-chart", stacked: true, colors: @colors_categories %>
 </div>
 
-<ul class="nav nav-pills justify-content-center mt-3" id="myTab" role="tablist">
+<ul class="nav nav-pills justify-content-center mt-3 mb-5" id="myTab" role="tablist">
   <li class="nav-item nav-item-show">
     <a class="nav-link active mr-3" id="parmois-tab" data-toggle="tab" href="#parmois" role="tab" aria-controls="parmois" aria-selected="false">Par mois</a>
   </li>
@@ -143,7 +143,7 @@
               </li>
             <% end %>
         </ul>
-      <div class="separateur-ventes-futures"></div>
+        <div class="separateur-ventes-futures"></div>
       <% end %>
       <% while @month > 0 %>
         <% unless @ventes_mois[@month].nil? %>

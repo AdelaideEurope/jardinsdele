@@ -9,6 +9,7 @@ import { closingWindow } from 'plugins/closingwindow';
 import 'select2/dist/css/select2.css';
 import { initSelect2 } from 'plugins/init_select2';
 import { hideLegume } from 'plugins/hide_legumes';
+import { hideLegumeShow } from 'plugins/hide_legume_show';
 
 require("chartkick");
 require("chart.js");
@@ -23,6 +24,10 @@ if (document.getElementById('play-button')) {
 
 if (document.getElementById('par-ca-legume')) {
   hideLegume();
+};
+
+if (document.getElementById('chart-legume')) {
+  hideLegumeShow();
 };
 
 

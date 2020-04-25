@@ -21,7 +21,7 @@
             <div class="wrapper-recap-pointsdevente">
               <div><%= link_to vente_point_path(key) do %> <%= key.nom %> <% end %> </div>
               <div><%= number_with_precision(value, precision: 2) %> €</div>
-              <div><%= (value*100).fdiv(@catotal).round(2).nan? ? "0" : (value*100).fdiv(@catotal).round(2) %> %</div>
+              <div><%= (value*100).fdiv(@catotal).round(2).nan? ? number_with_precision(0.00, precision: 2) : number_with_precision((value*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
               <div>
                 <%= link_to edit_vente_point_path(key) do %>
                   <i class="fas fa-pencil-alt"></i>
