@@ -171,7 +171,7 @@
           <% end %>
         </div>
       </ul>
-      <%= area_chart @ventes.group_by_week(:date).sum(:total_ttc), colors: ["#A1BD7F"] %>
+      <%= column_chart @ventes.group_by_week(:date).sum(:total_ttc), colors: ["#A1BD7F"] %>
     </div>
   <% end %>
 </div>
