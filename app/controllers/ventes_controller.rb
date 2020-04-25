@@ -65,27 +65,29 @@ class VentesController < ApplicationController
     @casemaine = @ventes_semaine.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @camois = @ventes_mois.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @ventes_panier = @ventes.select { |vente| vente.paniers.any? && vente.date >= Date.today }
-    venteparca
-    venteparcapourgraph
-    ventesparpointdeventepourgraph
     arecolter_ajd
     arecolter_j1
     arecolter_j2
-
     @caprevi = @legumes.reject { |legume| legume.previ_legume.nil? }.map(&:previ_legume).sum
+    cate_colors2
+    ventesparpointdeventepourgraph
+    venteparca
+    venteparcapourgraph
 
-    pdv_colors = { "CG SMU" => "#849B68", "Les biaux légumes - Vizille" => "#9A3E43", "La Bonne Pioche" => "#7398A0", "Divers restos" => "#F4E285", "LJE VLB" => "#586846", "L'Épicerie" => "#3A585E", "Divers magasins" => "#466B72", "Divers !" => "#3A2449", "AMAP SMU" => "#C86B70", "René Thomas" => "#BACFA1", "La Corne d'Or" => "#F6E79B", "Divers" => "#3A2449" }
+    # pdv_colors = { "CG SMU" => "#849B68", "Les biaux légumes - Vizille" => "#9A3E43", "La Bonne Pioche" => "#7398A0", "Divers restos" => "#F4E285", "LJE VLB" => "#586846", "L'Épicerie" => "#3A585E", "Divers magasins" => "#466B72", "Divers !" => "#3A2449", "AMAP SMU" => "#C86B70", "René Thomas" => "#BACFA1", "La Corne d'Or" => "#F6E79B", "Divers" => "#3A2449" }
     @colors = []
-    @pointsdeventeca.each do |pdv, _|
-      @colors << pdv_colors[pdv]
+    @pdvca = @pointsdeventeca.map do |pdv, totalcouleur|
+      [pdv[:nom], totalcouleur[:total]]
+    end
+    @pointsdeventeca.each do |pdv, totalcouleur|
+      @colors << totalcouleur[:couleur]
     end
 
-    cate_colors = { "Point de retrait" => "#A1BD7F", "Magasin" => "#55828B", "AMAP" => "#BC4B51", "Restaurant" => "#F4E285", "Divers" => "#3A2449" }
+    # cate_colors = { "Point de retrait" => "#A1BD7F", "Magasin" => "#55828B", "AMAP" => "#BC4B51", "Restaurant" => "#F4E285", "Divers" => "#3A2449" }
     @colors_categories = []
     @pointsdeventeparcapourgraph.each do |cate, _|
-      @colors_categories << cate_colors[cate]
+      @colors_categories << @cate_colors2[cate][0]
     end
-
   end
 
   def facture
@@ -131,6 +133,25 @@ private
   def vente_params
     params.require(:vente).permit(:date, :vente_point_id)
   end
+
+  def cate_colors2
+    @cate_colors2 = { "Point de retrait" => ["#A1BD7F", "#849B68", "#586846", "#879574", "#35452A", "#A1BD7F", "#849B68", "#586846", "#879574", "#35452A", "#A1BD7F", "#849B68", "#586846", "#879574", "#35452A"], "Magasin" => ["#55828B", "#3A585E", "#466B72", "#7398A0", "#7DA8AE", "#7DA8AE", "#55828B", "#3A585E", "#466B72", "#7398A0", "#7DA8AE", "#7DA8AE", "#55828B", "#3A585E", "#466B72", "#7398A0", "#7DA8AE", "#7DA8AE"], "AMAP" => ["#BC4B51", "#C86B70", "#9A3E43", "#BC4B51", "#550F10", "#E4A1A3", "#BC4B51", "#C86B70", "#9A3E43", "#BC4B51", "#550F10", "#E4A1A3", "#BC4B51", "#C86B70", "#9A3E43", "#BC4B51", "#550F10", "#E4A1A3"], "Restaurant" => ["#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699", "#F4E285", "#F4E285", "#FCF699"], "Divers" => ["#3A2449", "#614E6D", "#9D8DA4", "#3A2449", "#614E6D", "#9D8DA4", "#3A2449", "#614E6D", "#9D8DA4", "#3A2449", "#614E6D", "#9D8DA4", "#3A2449", "#614E6D", "#9D8DA4"] }
+  end
+
+  def ventesparpointdeventepourgraph
+    @pointsdeventeca = Hash.new { |hash, key| hash[key] = "".to_i }
+    @pointsdevente.each_with_index do |pointdevente, index|
+      @pointsdeventeca[pointdevente] = { total: pointdevente.ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum, couleur: @cate_colors2[pointdevente.categorie][index] }
+    end
+  end
+
+  def venteparca
+    @pointsdeventeparca = Hash.new { |hash, key| hash[key] = "".to_i }
+    @pointsdevente.each do |pointdevente|
+      @pointsdeventeparca[pointdevente] = pointdevente.ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
+    end
+  end
+
 
   def arecolter_ajd
     @lignesdepaniertoday = PanierLigne.select { |ligne| ligne.panier.vente.date == Date.today }
@@ -182,13 +203,6 @@ private
     prix + (prix * 5.5.fdiv(100))
   end
 
-  def venteparca
-    @pointsdeventeparca = Hash.new { |hash, key| hash[key] = "".to_i }
-    @pointsdevente.each do |pointdevente|
-      @pointsdeventeparca[pointdevente] = pointdevente.ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
-    end
-  end
-
   def venteparcapourgraph
     @pointsdeventeparcapourgraph = Hash.new { |hash, key| hash[key] = "".to_i }
     @pointsdevente.each do |pointdevente|
@@ -203,12 +217,6 @@ private
     end
   end
 
-  def ventesparpointdeventepourgraph
-    @pointsdeventeca = Hash.new { |hash, key| hash[key] = "".to_i }
-    @pointsdevente.each do |pointdevente|
-      @pointsdeventeca[pointdevente.nom] = pointdevente.ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
-    end
-  end
 
   def ventecategorie(categorie)
     @months = (1..@month).to_a.reverse
@@ -229,11 +237,10 @@ private
     @weeks.each do |week|
       pointsdevente_cate = @pointsdevente.where("categorie = ?", categorie)
       totauxvente = pointsdevente_cate.map(&:ventes).flatten.select { |vente| vente.date.strftime("%W").to_i + 1 == week }.map do |vente|
-        vente.montant_arrondi.nil? || vente.montant_arrondi == 0 ? vente.total_ttc : vente.montant_arrondi
+        vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi
       end
       @arr_weeks << [week, totauxvente.sum]
     end
     @arr_weeks
   end
-
 end

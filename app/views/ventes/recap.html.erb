@@ -1,5 +1,10 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
+
+  <%#= @pdvca %>
+  <%#= @pointsdeventeca %>
+<%#= pie_chart @pdvca, colors: @colors %>
+  <%#= @colors %>
   <div class="columns">
     <div class="left-col-ventes">
       <div class="titre-recap">
@@ -191,7 +196,7 @@
       </div>
       <div class="collapse" id="collapsegraphpdv">
         <div class="graph-pdv">
-          <%= pie_chart @pointsdeventeca, colors: @colors %>
+          <%= pie_chart @pdvca, colors: @colors %>
         </div>
       </div>
     </div>
