@@ -39,11 +39,11 @@ class PlanchesController < ApplicationController
   end
 
   def total_legume(legume, planche)
-    @lignesdevente.select { |lignedevente| lignedevente.planche == planche && lignedevente.legume == legume }.map {|ligne| ligne.quantite * ligne.prixunitairettc }.sum + @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche && lignedepanier.legume == legume }.map {|ligne| ligne.quantite * ligne.prixunitairettc }.sum
+    @lignesdevente.select { |lignedevente| lignedevente.planche == planche && lignedevente.legume == legume }.map {|ligne| ligne.quantite * ligne.prixunitairettc }.sum + @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche && lignedepanier.legume == legume }.map {|ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite }.sum
   end
 
   def total_planche(legume, planche)
-    @lignesdevente.select { |lignedevente| lignedevente.planche == planche && lignedevente.legume == legume }.map {|ligne| ligne.quantite * ligne.prixunitairettc }.sum + @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche && lignedepanier.legume == legume }.map {|ligne| ligne.quantite * ligne.prixunitairettc }.sum
+    @lignesdevente.select { |lignedevente| lignedevente.planche == planche && lignedevente.legume == legume }.map {|ligne| ligne.quantite * ligne.prixunitairettc }.sum + @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche && lignedepanier.legume == legume }.map {|ligne| ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite }.sum
   end
 
   def previ_planche(legume, planche)
