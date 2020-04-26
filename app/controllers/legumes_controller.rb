@@ -133,9 +133,10 @@ class LegumesController < ApplicationController
     @lignesdeventeparlegume.each do |ligne|
       @plancheslegumes << ligne.planche
     end
-    @plancheslegumes = @plancheslegumes.uniq - [nil]
-    @planches_legumes_graph = @plancheslegumes.sort.map do |planche|
-      { nom: planche.nom, ventes: ventes_semaines_graph(planche) }
+    @plancheslegumes = @plancheslegumes.uniq
+    @planches_legumes_graph = @plancheslegumes.map do |planche|
+      nomplanche = planche.nil? ? "Autres planches" : planche.nom
+      { nom: nomplanche, ventes: ventes_semaines_graph(planche) }
     end
   end
 
@@ -165,7 +166,7 @@ class LegumesController < ApplicationController
       @lignesdeventeparlegume.select { |ligne| ligne.vente.date.strftime("%W").to_i + 1 == week && ligne.planche == planche }.each do |ligne|
         totauxlegume += ligne.prixunitairettc * ligne.quantite
       end
-      @lignesdepanierparlegume.select {|lignedepanier| lignedepanier.panier.valide == true }.select { |ligne| ligne.panier.vente.date.strftime("%W").to_i + 1 == week && ligne.planche == planche }.each do |ligne|
+      @lignesdepanierparlegume.select { |lignedepanier| lignedepanier.panier.valide == true }.select { |ligne| ligne.panier.vente.date.strftime("%W").to_i + 1 == week && ligne.planche == planche }.each do |ligne|
         totauxlegume += ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite
       end
       @arr_weeks << [week, totauxlegume]
