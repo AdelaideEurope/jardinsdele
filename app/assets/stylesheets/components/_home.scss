@@ -97,6 +97,22 @@
   margin-top: -24px;
 }
 
+.boxes-forms {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.box-form-2 {
+  width: 38%;
+  text-align: center;
+}
+
+.box-form-1 {
+  width: 30%;
+  text-align: center;
+}
+
 .titres-boxes-oublier-faire-recolter {
   display: flex;
   width: 100%;
@@ -163,8 +179,8 @@
   display: flex;
   justify-content: space-between;
   position: absolute;
-  width: 50%;
-  left: 25%;
+  width: 24%;
+  left: 38%;
   bottom: -10px;
 }
 
@@ -234,6 +250,8 @@
 
 .form-new-todo-home {
   display: flex;
+  width: 80%;
+  margin: 0 auto;
 }
 // .all-memos-ne-pas-oublier {
 //   border: solid 2px $light-green;
