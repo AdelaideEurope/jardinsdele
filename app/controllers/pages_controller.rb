@@ -16,6 +16,9 @@ class PagesController < ApplicationController
     week = Date.today.strftime("%W").to_i + 1
     @todo_this_week = @memos.select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }.reject { |memo| memo.date < Date.today }.select { |memo| memo.done == false }
     date_home
+    next_week = Date.today.strftime("%W").to_i + 2
+    @todo_next_week = @memos.select { |memo| memo.date.strftime("%W").to_i + 1 == next_week }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }.reject { |memo| memo.date < Date.today }.select { |memo| memo.done == false }
+    date_home
     @catotal = @ventes.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @caprevi = @legumes.select { |legume| !legume.previ_legume.nil? }.map { |legume| legume.previ_legume }.sum
     encouragements

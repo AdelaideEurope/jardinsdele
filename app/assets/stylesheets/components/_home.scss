@@ -29,7 +29,7 @@
   border: solid 2px $light-green;
   border-radius: 8px;
   background: white;
-  padding: 48px 24px 24px 24px;
+  padding: 48px 24px 48px 24px;
   width: 28%;
 }
 
@@ -47,6 +47,7 @@
 }
 
 .box-recolter-home {
+  position: relative;
   li {
     list-style: none;
   }
@@ -54,9 +55,12 @@
   padding: 24px 24px 12px 12px;
   width: 80%;
   border-radius: 8px;
-  display: flex;
   margin: 0px auto 0 auto;
   width: 40%;
+}
+
+.contenu-box-recolter-home {
+  display: flex;
 }
 
 .inner-box-recolter-home {
@@ -105,6 +109,51 @@
   top: 49%;
   width: 60px;
 }
+
+.carousel-control-next-home-faire {
+
+  height: 60px !important;
+  top: 49%;
+  width: 60px !important;
+}
+
+.carousel-control-prev-home-faire {
+
+  height: 60px !important;
+  top: 49%;
+  width: 60px !important;
+}
+
+.box-faire-home {
+  position: relative;
+  .carousel-control-next {
+    position: relative;
+
+  }
+  .carousel-control-prev {
+    position: relative;
+
+  }
+}
+
+.carousel-controls {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 50%;
+  left: 25%;
+  bottom: -10px;
+}
+
+.carousel-controls-recolter {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 110%;
+  left: -5%;
+  bottom: 48px;
+}
+
 
 .tout-petit-plus-rond-home {
   position: fixed;
