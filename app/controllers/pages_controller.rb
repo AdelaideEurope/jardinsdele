@@ -7,14 +7,14 @@ class PagesController < ApplicationController
     @legumes = Legume.all
     @memos_today = @memos.where("date = ? AND categorie = ?", Date.today, "Ne pas oublier").select { |memo| memo.done == false }
     week = Date.today.strftime("%W").to_i + 1
-    @memos_this_week_except_today = @memos.select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "Ne pas oublier" }.reject { |memo| memo.date == Date.today }.select { |memo| memo.done == false }
+    @memos_this_week_except_today = @memos.select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "Ne pas oublier" }.reject { |memo| memo.date <= Date.today }.select { |memo| memo.done == false }
     arecolter_ajd
     arecolter_j1
     arecolter_j2
     @ventes_futures_semaine = @ventes.select { |vente| vente.date.strftime("%W").to_i + 1 == week }.reject { |vente| vente.date < Date.today }
 
     week = Date.today.strftime("%W").to_i + 1
-    @todo_this_week = @memos.select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }
+    @todo_this_week = @memos.select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }.reject { |memo| memo.date < Date.today }.select { |memo| memo.done == false }
     date_home
     @catotal = @ventes.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @caprevi = @legumes.select { |legume| !legume.previ_legume.nil? }.map { |legume| legume.previ_legume }.sum
