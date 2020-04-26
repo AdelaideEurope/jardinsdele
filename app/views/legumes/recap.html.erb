@@ -133,8 +133,7 @@
                         <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
                       </div>
                     <% elsif array.exclude?("Plantation") && array.include?("Nettoyage planche") %>
-                        <%= planche.nom %>
-                      </div>
+                      <%= planche.nom %>
                     <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
                       <%= nomlegume.nom %>
                     <% end %>
