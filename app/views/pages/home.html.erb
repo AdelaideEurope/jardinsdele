@@ -163,8 +163,23 @@
             <% unless @ventes_futures_semaine.empty? || @todo_this_week.empty? %>
               <div class="separateur-ventes-afaire my-3"></div>
             <% end %>
-            <% unless @todo_this_week.empty? %>
+            <% unless @todo_pas_faits.empty? %>
               <div class="box-faire-home-memos">
+                <% @todo_pas_faits.sort_by(&:date).each do |memo| %>
+                  <div class="detail-memo">
+                    <div class="description-memo text-danger"><i class="fas fa-chevron-right text-danger"></i><%= memo.description %></div>
+                    <div class="crayon-edit-memo-home">
+                      <%= link_to edit_memo_path(memo) do %>
+                        <i class="fas fa-pencil-alt"></i>
+                      <% end %>
+                      <%= link_to memo_path(memo), method: :delete do %><i class="fas fa-trash"></i><% end %>
+                      <%= simple_form_for [memo] do |f| %>
+                          <div class="afaire-done"><%= f.hidden_field :done, :value => true %>
+                          <%= f.submit "", :type => :image, :src => image_path("check-done.png") %></div>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
                 <% @todo_this_week.sort_by(&:date).each do |memo| %>
                   <div class="detail-memo">
                     <div class="description-memo"><i class="fas fa-chevron-right"></i><%= memo.description %> (<%= abreviation_jour(memo.date) %>)</div>
