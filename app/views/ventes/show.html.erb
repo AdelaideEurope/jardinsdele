@@ -340,7 +340,7 @@
                                                      <% end %>
                                                   </div>
                                                 <% elsif array.exclude?("Plantation") && array.include?("Nettoyage planche") %>
-                                                  <%= simple_form_for [@vente, lignedevente] do |f| %>
+                                                  <%= simple_form_for [@vente, panier, lignepanier] do |f| %>
                                                     <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
                                                     <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
                                                   <% end %>s
@@ -368,7 +368,7 @@
                                                      <% end %>
                                                   </div>
                                                 <% elsif array.exclude?("Plantation") && array.include?("Nettoyage planche") %>
-                                                  <%= simple_form_for [@vente, lignedevente] do |f| %>
+                                                  <%= simple_form_for [@vente, panier, lignepanier] do |f| %>
                                                     <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
                                                     <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
                                                   <% end %>
@@ -422,7 +422,7 @@
                                                      <% end %>
                                                   </div>
                                                 <% elsif array.exclude?("Plantation") && array.include?("Nettoyage planche") %>
-                                                  <%= simple_form_for [@vente, lignedevente] do |f| %>
+                                                  <%= simple_form_for [@vente, panier, lignepanier] do |f| %>
                                                     <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
                                                     <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
                                                   <% end %>
@@ -450,7 +450,7 @@
                                                      <% end %>
                                                   </div>
                                                 <% elsif array.exclude?("Plantation") && array.include?("Nettoyage planche") %>
-                                                  <%= simple_form_for [@vente, lignedevente] do |f| %>
+                                                  <%= simple_form_for [@vente, panier, lignepanier] do |f| %>
                                                     <div><%= f.hidden_field :planche_id, :value => "#{planche.id}" %></div>
                                                     <%= f.submit "#{planche.nom}", class: "update-planche-modal" %>
                                                   <% end %>
