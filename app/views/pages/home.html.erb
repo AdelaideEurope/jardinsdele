@@ -155,8 +155,10 @@
                 <% end %>
               </div>
             <% end %>
-            <div class="separateur-ventes-afaire my-3">
-            </div>
+            <% unless @ventes_futures_semaine.empty? %>
+              <div class="separateur-ventes-afaire my-3">
+              </div>
+            <% end %>
             <div class="box-faire-home-memos">
               <% unless @todo_pas_faits.empty? %>
                 <% @todo_pas_faits.sort_by(&:date).each do |memo| %>
