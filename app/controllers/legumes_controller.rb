@@ -105,7 +105,8 @@ class LegumesController < ApplicationController
     end
     @ventes_legume_sem = legume_totaux(@legume)
     plancheslegumes
-    # @ventes_legume_sem_planches = @plancheslegumes.each do |planche|
+    plancheslegumes_graph
+    @planches_legume_graph = @planches_legumes_graph.map { |value| { name: value[:nom], data: value[:ventes] } }
   end
 
   private
@@ -124,6 +125,20 @@ class LegumesController < ApplicationController
     end
   end
 
+  def plancheslegumes_graph
+    @plancheslegumes = []
+    @lignesdepanierparlegume.each do |ligne|
+      @plancheslegumes << ligne.planche
+    end
+    @lignesdeventeparlegume.each do |ligne|
+      @plancheslegumes << ligne.planche
+    end
+    @plancheslegumes = @plancheslegumes.uniq - [nil]
+    @planches_legumes_graph = @plancheslegumes.sort.map do |planche|
+      { nom: planche.nom, ventes: ventes_semaines_graph(planche) }
+    end
+  end
+
   def ventes_semaines(planche)
     @week = Date.today.strftime("%W").to_i + 1
     @weeks = (1..@week).to_a.reverse
@@ -137,6 +152,23 @@ class LegumesController < ApplicationController
         totauxlegume += ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite
       end
       @arr_weeks << { "S#{week}".to_sym => totauxlegume }
+    end
+    @arr_weeks
+  end
+
+  def ventes_semaines_graph(planche)
+    @week = Date.today.strftime("%W").to_i + 1
+    @weeks = (1..@week).to_a.reverse
+    @arr_weeks = []
+    @weeks.reverse.each do |week|
+      totauxlegume = 0
+      @lignesdeventeparlegume.select { |ligne| ligne.vente.date.strftime("%W").to_i + 1 == week && ligne.planche == planche }.each do |ligne|
+        totauxlegume += ligne.prixunitairettc * ligne.quantite
+      end
+      @lignesdepanierparlegume.select {|lignedepanier| lignedepanier.panier.valide == true }.select { |ligne| ligne.panier.vente.date.strftime("%W").to_i + 1 == week && ligne.planche == planche }.each do |ligne|
+        totauxlegume += ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite
+      end
+      @arr_weeks << [week, totauxlegume]
     end
     @arr_weeks
   end

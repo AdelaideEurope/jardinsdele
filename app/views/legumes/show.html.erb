@@ -95,7 +95,6 @@
   </div>
 </div>
 
-
 <div class="container">
   <div class="icones-graph-tableau">
     <div id="graph-legume"><i class="far fa-chart-bar"></i></i></div>
@@ -104,7 +103,7 @@
 </div>
 
 <div class="chart-legume">
-  <%= column_chart @ventes_legume_sem, id: "chart-legume", colors: ["#A1BD7F"], width: "50%" %>
+  <%= column_chart @planches_legume_graph, id: "chart-legume", stacked: true, colors: ["#A1BD7F", "#89023E", "#ED7B84", "#FFD9DA", "#D6D5B3"], width: "50%" %>
 </div>
   <div class="table-show-legume-vente mt-5 hidden", id="table-show-legume">
     <table class="table-show-legume">
