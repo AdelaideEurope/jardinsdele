@@ -118,6 +118,8 @@
                       <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                         <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
                       </div>
+                    <% elsif array.exclude?("Plantation") && array.include?("Nettoyage planche") %>
+                      <%= planche.nom %>
                     <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
                       <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                         <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
@@ -172,6 +174,8 @@
                         <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                           <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
                         </div>
+                      <% elsif array.exclude?("Plantation") && array.include?("Nettoyage planche") %>
+                        <%= planche.nom %>
                       <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
                         <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                           <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
@@ -186,6 +190,8 @@
                         <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                           <%= planche.nom %> - <%= link_to legume_path(nomlegume) do %><%= nomlegume.nom %><% end %>
                         </div>
+                      <% elsif array.exclude?("Plantation") && array.include?("Nettoyage planche") %>
+                        <%= planche.nom %>
                       <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
                         <%= nomlegume.nom %>
                       <% end %>

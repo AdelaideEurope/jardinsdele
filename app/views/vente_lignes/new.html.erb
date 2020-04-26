@@ -80,6 +80,8 @@
                             <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                               <%= planche.nom %> - <%= nomlegume.nom %>
                             </div>
+                          <% elsif array.exclude?("Plantation") && array.include?("Nettoyage planche") %>
+                            <%= planche.nom %>
                           <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
                             <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                               <%= planche.nom %> - <%= nomlegume.nom %>
@@ -94,6 +96,8 @@
                             <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                               <%= planche.nom %> - <%= nomlegume.nom %>
                             </div>
+                          <% elsif array.exclude?("Plantation") && array.include?("Nettoyage planche") %>
+                            <%= planche.nom %>
                           <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
                             <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                               <%= planche.nom %> - <%= nomlegume.nom %>
@@ -134,6 +138,8 @@
                               <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                                 <%= planche.nom %> - <%= nomlegume.nom %>
                               </div>
+                            <% elsif array.exclude?("Plantation") && array.include?("Nettoyage planche") %>
+                              <%= planche.nom %>
                             <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
                               <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                                 <%= planche.nom %> - <%= nomlegume.nom %>
@@ -148,6 +154,8 @@
                               <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                                 <%= planche.nom %> - <%= nomlegume.nom %>
                               </div>
+                            <% elsif array.exclude?("Plantation") && array.include?("Nettoyage planche") %>
+                              <%= planche.nom %>
                             <% elsif (["Plantation", "Nettoyage planche"] - array.uniq).empty? && array.reverse.index("Plantation") < array.reverse.index("Nettoyage planche") %>
                               <div class="ligne-planche <%= nomlegume.famille.tr("é", "e").downcase %>-bg-color">
                               <%= planche.nom %> - <%= nomlegume.nom %>
