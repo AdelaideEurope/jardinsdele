@@ -59,7 +59,7 @@
               <% end %>
               <%= link_to memo_path(memo), method: :delete do %><i class="fas fa-trash"></i><% end %>
               <%= simple_form_for [memo] do |f| %>
-                <div><%= f.hidden_field :done, :value => true %>
+                <div class="oublier-done"><%= f.hidden_field :done, :value => true %>
                 <%= f.submit "", :type => :image, :src => image_path("check-done.png") %></div>
               <% end %>
             </div>
@@ -174,7 +174,7 @@
                       <% end %>
                       <%= link_to memo_path(memo), method: :delete do %><i class="fas fa-trash"></i><% end %>
                       <%= simple_form_for [memo] do |f| %>
-                          <div><%= f.hidden_field :done, :value => true %>
+                          <div class="afaire-done"><%= f.hidden_field :done, :value => true %>
                           <%= f.submit "", :type => :image, :src => image_path("check-done.png") %></div>
                       <% end %>
                     </div>

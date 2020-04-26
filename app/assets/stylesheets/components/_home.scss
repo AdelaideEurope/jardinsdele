@@ -181,6 +181,10 @@
   width: 25%;
 }
 
+.afaire-done:hover, .oublier-done:hover {
+  cursor: pointer;
+}
+
 .separateur-ventes-afaire {
   border-top: 1px dotted $light-green;
 }
