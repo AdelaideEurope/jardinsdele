@@ -67,14 +67,20 @@
         <% end %>
       <% end %>
 
-      <div class="detail-memo">
-        <div></div>
-        <div class="crayon-new-memo-home">
-          <%= link_to new_memo_path do %>
-            <%= image_tag "plus-rond.png", class: "tout-petit-plus-rond-home" %>
-          <% end %>
+      <%= simple_form_for(@memo) do |f| %>
+        <div class="form-new-todo-home mt-3">
+          <div class="form-new-todo-home-desc">
+            <%= f.input :description, label: false, :placeholder => "Mémo" %>
+          </div>
+          <div class="form-new-todo-home-date">
+            <%= f.input :date, as: :string, :placeholder => "Date",label: false, input_html: { class: "datepicker" } %>
+            <%= f.hidden_field :categorie, :value => "Ne pas oublier" %>
+          </div>
+          <div class="submit-plus-commentaire-vente">
+          <%= f.submit  "", :type => :image, :src => image_path("plus-rond.png"), class: "img-plus-new-todo"%>
+          </div>
         </div>
-      </div>
+      <% end %>
     </div>
 
     <div class="box-recolter-home">
@@ -83,8 +89,8 @@
           <div class="carousel-inner">
             <div class="carousel-item active">
               <div class="inner-box-recolter-home">
-                <div>
-                  <%= image_tag "recolte.png", id: "recolte-img" %>
+                <div class="img-recolte">
+                  <%= image_tag "recolte.png", id: "recolte-img-home" %>
                 </div>
                 <div>
                   <h2>Aujourd'hui</h2>
@@ -100,8 +106,8 @@
             </div>
             <div class="carousel-item">
               <div class="inner-box-recolter-home">
-                <div>
-                  <%= image_tag "recolte.png", id: "recolte-img" %>
+                <div class="img-recolte">
+                  <%= image_tag "recolte.png", id: "recolte-img-home" %>
                 </div>
                 <div>
                   <h2>Demain</h2>
@@ -117,8 +123,8 @@
             </div>
             <div class="carousel-item">
               <div class="inner-box-recolter-home">
-                <div>
-                  <%= image_tag "recolte.png", id: "recolte-img" %>
+                <div class="img-recolte">
+                  <%= image_tag "recolte.png", id: "recolte-img-home" %>
                 </div>
                 <div>
                   <h2>Après-demain</h2>
@@ -155,12 +161,12 @@
               <div class="box-faire-home-ventes">
                 <% @ventes_futures_semaine.sort_by(&:date).each do |vente| %>
                   <div class="detail-memo">
-                    <div class="description-memo"><i class="fas fa-chevron-right"></i>Livrer <%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %> (<%= abreviation_jour(vente.date) %>) <% end %></div>
+                    <div><i class="fas fa-chevron-right"></i>Livrer <%= link_to vente_path(vente) do %> <%= vente.vente_point.nom %> (<%= abreviation_jour(vente.date) %>) <% end %></div>
                   </div>
                 <% end %>
               </div>
             <% end %>
-            <% unless @ventes_futures_semaine.empty? || @todo_this_week.empty? %>
+            <% unless @todo_pas_faits.empty? || @ventes_futures_semaine.empty? %>
               <div class="separateur-ventes-afaire my-3"></div>
             <% end %>
             <% unless @todo_pas_faits.empty? %>
@@ -168,7 +174,7 @@
                 <% @todo_pas_faits.sort_by(&:date).each do |memo| %>
                   <div class="detail-memo">
                     <div class="description-memo text-danger"><i class="fas fa-chevron-right text-danger"></i><%= memo.description %></div>
-                    <div class="crayon-edit-memo-home">
+                    <div class="crayon-edit-faire-home">
                       <%= link_to edit_memo_path(memo) do %>
                         <i class="fas fa-pencil-alt"></i>
                       <% end %>
@@ -183,7 +189,7 @@
                 <% @todo_this_week.sort_by(&:date).each do |memo| %>
                   <div class="detail-memo">
                     <div class="description-memo"><i class="fas fa-chevron-right"></i><%= memo.description %> (<%= abreviation_jour(memo.date) %>)</div>
-                    <div class="crayon-edit-memo-home">
+                    <div class="crayon-edit-faire-home">
                       <%= link_to edit_memo_path(memo) do %>
                         <i class="fas fa-pencil-alt"></i>
                       <% end %>
@@ -197,15 +203,20 @@
                 <% end %>
               </div>
             <% end %>
-
-            <div class="detail-memo">
-              <div></div>
-              <div class="crayon-new-memo-home">
-                <%= link_to new_memo_path do %>
-                  <%= image_tag "plus-rond.png", class: "tout-petit-plus-rond-home" %>
-                <% end %>
+            <%= simple_form_for(@memo) do |f| %>
+              <div class="form-new-todo-home mt-3">
+                <div class="form-new-todo-home-desc">
+                  <%= f.input :description, label: false, :placeholder => "Tâche" %>
+                </div>
+                <div class="form-new-todo-home-date">
+                  <%= f.input :date, as: :string, :placeholder => "Date",label: false, input_html: { class: "datepicker" } %>
+                  <%= f.hidden_field :categorie, :value => "À faire" %>
+                </div>
+                <div class="submit-plus-commentaire-vente">
+                <%= f.submit  "", :type => :image, :src => image_path("plus-rond.png"), class: "img-plus-new-todo"%>
+                </div>
               </div>
-            </div>
+            <% end %>
           </div>
           <div class="carousel-item">
             <% unless @todo_next_week.empty? %>
@@ -213,7 +224,7 @@
                 <% @todo_next_week.sort_by(&:date).each do |memo| %>
                   <div class="detail-memo">
                     <div class="description-memo"><i class="fas fa-chevron-right"></i><%= memo.description %> (<%= abreviation_jour(memo.date) %> pro)</div>
-                    <div class="crayon-edit-memo-home">
+                    <div class="crayon-edit-faire-home">
                       <%= link_to edit_memo_path(memo) do %>
                         <i class="fas fa-pencil-alt"></i>
                       <% end %>

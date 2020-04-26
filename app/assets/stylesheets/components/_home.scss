@@ -25,16 +25,38 @@
   justify-content: space-between;
 }
 
-.box-oublier-home, .box-faire-home {
+.box-oublier-home {
   border: solid 2px $light-green;
   border-radius: 8px;
   background: white;
   padding: 48px 24px 48px 24px;
-  width: 28%;
+  width: 30%;
 }
 
-.titre-oublier, .titre-faire {
-  width: 28%;
+.box-faire-home {
+  border: solid 2px $light-green;
+  border-radius: 8px;
+  background: white;
+  padding: 48px 24px 48px 24px;
+  width: 38%;
+}
+
+
+.img-recolte {
+  width: 40%;
+}
+
+#recolte-img-home {
+  width: 100%;
+}
+
+.titre-faire {
+  width: 38%;
+  z-index: 1000;
+}
+
+.titre-oublier {
+  width: 30%;
   z-index: 1000;
 }
 
@@ -56,7 +78,7 @@
   width: 80%;
   border-radius: 8px;
   margin: 0px auto 0 auto;
-  width: 40%;
+  width: 30%;
 }
 
 .contenu-box-recolter-home {
@@ -65,6 +87,7 @@
 
 .inner-box-recolter-home {
   display: flex;
+  justify-content: space-evenly;
 }
 
 .boxes-oublier-faire-recolter {
@@ -82,7 +105,7 @@
 }
 
 .titre-recolter {
-  width: 40%;
+  width: 30%;
   z-index: 1000;
 }
 
@@ -175,10 +198,25 @@
   width: 70%;
 }
 
+.img-plus-new-todo {
+  height: 20px;
+  margin-top: 20px;
+}
+
 .crayon-edit-memo-home {
   display: flex;
   justify-content: space-between;
   width: 25%;
+}
+
+.form-new-todo-home-desc {
+  width: 100%;
+}
+
+.crayon-edit-faire-home {
+  display: flex;
+  justify-content: space-between;
+  width: 16%;
 }
 
 .afaire-done:hover, .oublier-done:hover {
@@ -187,6 +225,15 @@
 
 .separateur-ventes-afaire {
   border-top: 1px dotted $light-green;
+}
+
+#memo_description, #memo_date {
+  height: 40px !important;
+  width: 92%;
+}
+
+.form-new-todo-home {
+  display: flex;
 }
 // .all-memos-ne-pas-oublier {
 //   border: solid 2px $light-green;

@@ -3,6 +3,7 @@ class PagesController < ApplicationController
 
   def home
     @memos = Memo.all
+    @memo = Memo.new
     @ventes = Vente.all
     @legumes = Legume.all
     @memos_today = @memos.where("date = ? AND categorie = ?", Date.today, "Ne pas oublier").select { |memo| memo.done == false }

@@ -13,7 +13,7 @@ class MemosController < ApplicationController
       flash[:notice] = "Note créée avec succès !"
       redirect_to home_path
     else
-      render :new
+      render 'home'
     end
   end
 
