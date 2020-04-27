@@ -28,6 +28,11 @@
   }
 }
 
+.table-data {
+  width: 88%;
+  overflow: scroll;
+}
+
 .date-photo {
   text-align: center;
 }
@@ -36,15 +41,19 @@
   margin: 0 auto !important;
 }
 
-.table-show-legume-vente {
-  width: 80%;
-  overflow-x: scroll;
-  margin: 0 auto;
+.hidden {
+  display: none !important;
 }
 
-.table-show-legume {
-  table-layout: auto;
+.table-show-legume-vente {
+  width: 76%;
+  overflow-x: scroll;
   margin: 0 auto;
+  display: flex;
+}
+
+.table-show-legume, .table-show-legume-titre {
+  table-layout: auto;
   td {
     padding: 16px;
     text-align: center;
@@ -53,6 +62,10 @@
     padding-bottom: 16px;
     text-align: center;
   }
+}
+
+.table-show-legume-titre {
+  width: 14%;
 }
 
 .recap-donnee {

@@ -105,11 +105,26 @@
 <div class="chart-legume">
   <%= column_chart @planches_legume_graph, id: "chart-legume", stacked: true, colors: ["#A1BD7F", "#89023E", "#ED7B84", "#FFD9DA", "#D6D5B3"], width: "50%" %>
 </div>
-  <div class="table-show-legume-vente mt-5 hidden", id="table-show-legume">
+<div class="table-show-legume-vente mt-5 mb-5 hidden", id="table-show-legume">
+  <table class="table-show-legume-titre">
+      <thead>
+        <tr>
+          <th>Planche</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="text-success"><td>Total</td></tr>
+        <% @planches_legumes.each do |planche| %>
+          <tr>
+            <td><%= planche[:nom] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+  </table>
+  <div class="table-data">
     <table class="table-show-legume">
         <thead>
           <tr>
-            <th>Planche</th>
             <% @ventes_legume_sem.reverse.each do |ventes_semaine| %>
               <th>
                 S<%= ventes_semaine[0] %>
@@ -119,14 +134,12 @@
         </thead>
         <tbody>
           <tr class="text-success">
-            <td></td>
             <% @ventes_legume_sem.reverse.each do |ventes_semaine| %>
               <td><%= number_with_precision(ventes_semaine[1], precision: 2) %> €</td>
             <% end %>
           </tr>
           <% @planches_legumes.each do |planche| %>
             <tr>
-              <td><%= planche[:nom] %></td>
               <% planche[:ventes].each do |totaux| %>
                 <td>
                   <% totaux.each do |_k, v| %>
@@ -139,6 +152,7 @@
         </tbody>
     </table>
   </div>
+</div>
 <ul class="nav nav-pills justify-content-center" id="myTab" role="tablist">
   <li class="nav-item nav-item-show">
     <a class="nav-link active mr-3" id="actions-tab" data-toggle="tab" href="#actions" role="tab" aria-controls="actions" aria-selected="false">Actions</a>
