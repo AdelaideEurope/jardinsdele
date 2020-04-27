@@ -31,6 +31,8 @@
   background: white;
   padding: 48px 24px 48px 24px;
   width: 30%;
+  height: 348px;
+  overflow: scroll;
 }
 
 .box-faire-home {
@@ -39,6 +41,8 @@
   background: white;
   padding: 48px 24px 48px 24px;
   width: 38%;
+  height: 348px;
+  overflow: scroll;
 }
 
 
@@ -79,6 +83,8 @@
   border-radius: 8px;
   margin: 0px auto 0 auto;
   width: 30%;
+  height: 348px;
+  overflow: scroll;
 }
 
 .contenu-box-recolter-home {
@@ -88,6 +94,7 @@
 .inner-box-recolter-home {
   display: flex;
   justify-content: space-evenly;
+  margin-top: 36px;
 }
 
 .boxes-oublier-faire-recolter {
@@ -180,8 +187,8 @@
   justify-content: space-between;
   position: absolute;
   width: 24%;
-  left: 38%;
-  bottom: -10px;
+  right: 10px;
+  top: 0px;
 }
 
 .carousel-controls-recolter {
@@ -189,8 +196,8 @@
   justify-content: space-between;
   position: absolute;
   width: 110%;
-  left: -5%;
-  bottom: 48px;
+  top: 0px;
+  left: 28%;
 }
 
 
