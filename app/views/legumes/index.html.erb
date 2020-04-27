@@ -61,6 +61,11 @@
                   </div>
                 </div>
               </div>
+              <div>
+                <% if legume[:photos] == true %>
+                  <%= link_to legume_path(legume[:legume_css]) do %><i class="far fa-images"></i><% end %>
+                <% end %>
+              </div>
             </div>
           </li>
         <% end %>
@@ -114,6 +119,11 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div>
+                <% if legume[:photos] == true %>
+                  <%= link_to legume_path(legume[:legume_css]) do %><i class="far fa-images"></i><% end %>
+                <% end %>
               </div>
             </div>
           </li>
@@ -177,6 +187,11 @@
                   </div>
                 </div>
               </div>
+              <div>
+                <% if legume[:photos] == true %>
+                  <%= link_to legume_path(legume[:legume_css]) do %><i class="far fa-images"></i><% end %>
+                <% end %>
+              </div>
             </div>
           </li>
         <% end %>
@@ -230,6 +245,11 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div>
+                <% if legume[:photos] == true %>
+                  <%= link_to legume_path(legume[:legume_css]) do %><i class="far fa-images"></i><% end %>
+                <% end %>
               </div>
             </div>
           </li>

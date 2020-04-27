@@ -216,14 +216,13 @@
   <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">
     <div class="photos-show-legume">
       <% @activites.each do |activite| %>
-        <div>
+        <div class="photos-show">
           <% activite.photos.each do |photo| %>
             <figure class="gallery_item gallery_item-1">
-              <%= cl_image_tag photo.key, crop: :fill, :title => activite.date.strftime("%d/%m"), class: "gallery_img" %>
+              <%= cl_image_tag photo.key, crop: :limit, :title => activite.date.strftime("%d/%m"), class: "gallery_img" %>
             </figure>
-            <div class="date-photo"><%= activite.date.strftime("%d/%m") %></div>
         </div>
-        <% end %>
+          <% end %>
       <% end %>
     </div>
   </div>
