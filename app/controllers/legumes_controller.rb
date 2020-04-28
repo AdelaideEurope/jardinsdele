@@ -5,7 +5,7 @@ class LegumesController < ApplicationController
     @firsthalf = (@legumes.length / 2.to_f).ceil
     @secondhalf = @legumes.length / 2
     @tous_legumes_parlegume = @legumes.map { |legume|
-      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? }, photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:legume_css] }
+      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? }, photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:legume_css] }
     @tous_legumes_parca = @legumes.map { |legume|
       { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? && commentaire.description == "" }, photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:calegume] }.reverse
   end
