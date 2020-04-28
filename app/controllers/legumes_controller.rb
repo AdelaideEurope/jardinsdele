@@ -30,7 +30,7 @@ class LegumesController < ApplicationController
       @lignesdepanier.select { |lignedepanier| lignedepanier.panier.valide == true }.select { |ligne| ligne.panier.vente.date.strftime("%W").to_i + 1 == week && ligne.legume == legume }.each do |ligne|
         totauxlegume += ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite
       end
-      @arr_weeks << [week, totauxlegume.round(2)]
+      @arr_weeks << [week, totauxlegume]
     end
     @arr_weeks
   end
