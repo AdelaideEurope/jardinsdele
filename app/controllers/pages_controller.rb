@@ -2,6 +2,10 @@ class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:landing]
 
   def home
+    if current_user.admin != true
+      flash[:notice] = "Malheureusement, vous ne pouvez pas accéder à cette page 😬"
+      redirect_to landing_path
+    end
     @memos = Memo.all
     @memo = Memo.new
     @ventes = Vente.all
