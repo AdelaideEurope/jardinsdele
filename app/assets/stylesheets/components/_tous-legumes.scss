@@ -225,6 +225,9 @@
   color: $solanacees;
 }
 
+#chart-legume-semaine {
+  width: 100% !important;
+}
 
 .planches-legumes-index {
   overflow-y: scroll;
@@ -236,10 +239,10 @@
   margin-left: 6px;
 }
 
-#par-nom-legume, #par-ca-legume {
+#par-sem-legume, #par-nom-legume, #par-ca-legume {
   cursor: pointer;
 }
 
-#par-nom-legume:hover, #par-ca-legume:hover {
+#par-sem-legume:hover, #par-nom-legume:hover, #par-ca-legume:hover {
   font-style: italic;
 }

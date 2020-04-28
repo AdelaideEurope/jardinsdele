@@ -2,12 +2,32 @@ class LegumesController < ApplicationController
   def index
     @legumes = Legume.all
     @ventes = Vente.all
+    @lignesdevente = VenteLigne.all
+    @lignesdepanier = PanierLigne.all
     @firsthalf = (@legumes.length / 2.to_f).ceil
     @secondhalf = @legumes.length / 2
     @tous_legumes_parlegume = @legumes.map { |legume|
       { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? }, photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:legume_css] }
     @tous_legumes_parca = @legumes.map { |legume|
       { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? && commentaire.description == "" }, photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:calegume] }.reverse
+    @legumes_semaines_graph = @legumes.map { |legume| { name: legume.nom, data: legumes_semaines_graph(legume) } }.sort_by { |hashlegume| hashlegume[:data].last.last }.reverse
+  end
+
+  def legumes_semaines_graph(legume)
+    @week = Date.today.strftime("%W").to_i + 1
+    @weeks = (1..@week).to_a.reverse
+    @arr_weeks = []
+    @weeks.reverse.each do |week|
+      totauxlegume = 0
+      @lignesdevente.select { |ligne| ligne.vente.date.strftime("%W").to_i + 1 == week && ligne.legume == legume }.each do |ligne|
+        totauxlegume += ligne.prixunitairettc * ligne.quantite
+      end
+      @lignesdepanier.select { |lignedepanier| lignedepanier.panier.valide == true }.select { |ligne| ligne.panier.vente.date.strftime("%W").to_i + 1 == week && ligne.legume == legume }.each do |ligne|
+        totauxlegume += ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite
+      end
+      @arr_weeks << [week, totauxlegume.round(2)]
+    end
+    @arr_weeks
   end
 
   def photo?(legume)

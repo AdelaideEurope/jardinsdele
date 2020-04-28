@@ -9,10 +9,12 @@
 </div>
 <div class="container">
   <div class="tri-legume">
-  <div id="par-nom-legume">Nom de légume <i class="fas fa-sort-alpha-down"></i></div>
-  <div id="par-ca-legume">CA de légume <i class="fas fa-sort-amount-down"></i></div>
+    <div id="par-sem-legume">Par semaine <i class="fas fa-calendar-alt"></i></i></div>
+    <div id="par-nom-legume">Nom de légume <i class="fas fa-sort-alpha-down"></i></div>
+    <div id="par-ca-legume">CA de légume <i class="fas fa-sort-amount-down"></i></div>
+
   </div>
-  <div class="tous-legumes">
+  <div class="tous-legumes hidden">
     <div class="liste-legume mr-3">
       <ul>
         <li>
@@ -261,5 +263,9 @@
       </div>
       </ul>
     </div>
+  </div>
+
+  <div class="tous-legumes-sem">
+    <%= column_chart @legumes_semaines_graph, id: "chart-legume-semaine", width: "800px", stacked: true, colors: ["#A1BD7F", "#89023E", "#ED7B84", "#FFD9DA", "#D6D5B3"] %>
   </div>
 </div>
