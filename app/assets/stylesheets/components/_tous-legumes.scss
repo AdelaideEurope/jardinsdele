@@ -239,6 +239,26 @@
   margin-left: 6px;
 }
 
+.table-index-legume-vente {
+  width: 100%;
+  overflow-x: scroll;
+  margin: 0 auto;
+  display: flex;
+}
+
+.table-index-legume-titre {
+  width: 22%;
+  table-layout: auto;
+  td {
+    padding: 16px;
+    text-align: center;
+  }
+  th {
+    padding-bottom: 16px;
+    text-align: center;
+  }
+}
+
 #par-sem-legume, #par-nom-legume, #par-ca-legume {
   cursor: pointer;
 }

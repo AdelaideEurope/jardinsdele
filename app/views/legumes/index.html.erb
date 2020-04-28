@@ -266,6 +266,47 @@
   </div>
 
   <div class="tous-legumes-sem">
-    <%= column_chart @legumes_semaines_graph, id: "chart-legume-semaine", width: "800px", stacked: true, colors: ["#A1BD7F", "#89023E", "#ED7B84", "#FFD9DA", "#D6D5B3"] %>
+    <%= column_chart @legumes_semaines_graph, id: "chart-legume-semaine", width: "800px", stacked: true, colors: @colors %>
+  <div class="separateur-paniers-ventes"></div>
+  <div class="table-index-legume-vente mt-5 mb-5">
+    <table class="table-index-legume-titre">
+        <thead>
+          <tr>
+            <th class="planche-sem-title">Planche</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @legumes_semaines_graph.reverse.each do |legume| %>
+            <tr>
+              <td><%= legume[:name] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
+    <div class="table-data">
+      <table class="table-show-legume">
+          <thead>
+            <tr>
+              <% @legumes_semaines_graph.first[:data].each do |week| %>
+                <th>
+                  S<%= week[0] %>
+                </th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @legumes_semaines_graph.reverse.each do |legume| %>
+                <tr>
+              <% legume[:data].each do |total| %>
+                  <td><%= number_with_precision(total[1], precision: 2) %> €</td>
+              <% end %>
+                </tr>
+            <% end %>
+          </tbody>
+      </table>
+    </div>
+  </div>
+
+
   </div>
 </div>
