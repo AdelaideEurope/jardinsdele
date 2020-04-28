@@ -22,7 +22,7 @@
             <div class="wrapper-recap-ventes detail-vente">
               <div><%= link_to vente_point_path(point) do %> <%= point.nom %> <% end %> </div>
               <div><%= number_with_precision(@pointsdeventeparca[point], precision: 2) %> €</div>
-              <div><%= (@pointsdeventeparca[point]*100).fdiv(@catotal).round(2).nan? ? "0" : (@pointsdeventeparca[point]*100).fdiv(@catotal).round(2) %> %</div>
+              <div><%= (@pointsdeventeparca[point]*100).fdiv(@catotal).round(2).nan? ? "0" : number_with_precision((@pointsdeventeparca[point]*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
             </div>
           </li>
           <% counter += 1 %>
