@@ -5,6 +5,7 @@ class ActivitesController < ApplicationController
       flash[:notice] = "Malheureusement, vous ne pouvez pas accéder à cette page 😬"
       redirect_to activites_recap_path
     end
+    @legumes = Legume.all
     @activites = Activite.all
     @totaux_activites = Hash.new { |h, k| h[k] = "".to_i }
     @sorted_activites = @activites.order(date: :desc, heure_fin: :desc)
@@ -16,6 +17,10 @@ class ActivitesController < ApplicationController
     @total_heures = convert_to_readable_hours(@total)
     @week = Date.today.strftime("%W").to_i + 1
     @activites_par_semaine = activites_semaine
+    @totaux_legumes = Hash.new { |h, k| h[k] = "".to_i }
+    @legumes.each do |legume|
+      @totaux_legumes[legume] = legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum
+    end
   end
 
   def activites_semaine
@@ -23,14 +28,13 @@ class ActivitesController < ApplicationController
     @arr_weeks = []
     @weeks.each do |week|
       totauxactivites = []
-      @activites.select {|activite| activite.date.strftime("%W").to_i + 1 == week }.map do |activite|
+      @activites.select { |activite| activite.date.strftime("%W").to_i + 1 == week }.map do |activite|
         totauxactivites << activite.heure_fin - activite.heure_debut
       end
-      @arr_weeks << [week, (totauxactivites.sum/3600).ceil]
+      @arr_weeks << [week, (totauxactivites.sum / 3600).ceil]
     end
     @arr_weeks
   end
-
 
   def new
     if current_user.admin != true
@@ -41,18 +45,17 @@ class ActivitesController < ApplicationController
     @previsionnel_planche = PrevisionnelPlanch.new
     @activite.commentaires.build
     planches = Planche.all
-    @jardins = planches.group_by { |planche| planche.jardin }
+    @jardins = planches.group_by(&:jardin)
   end
 
   def create
     @activite = Activite.new(activite_params)
     nomactivite = params[:activite][:nom]
     if nomactivite == "Plantation"
-    legume_id = params[:activite][:legume_id]
-    planche_id = params[:activite][:planche_id]
-    activite_id = params[:activite][:id]
-    previ_legume = Legume.find(params[:activite][:legume_id]).previ_legume.nil? ? 0 : Legume.find(params[:activite][:legume_id]).previ_legume
-        nb_planche = Legume.find(params[:activite][:legume_id]).nb_planche.nil? ? 0 : Legume.find(params[:activite][:legume_id]).nb_planche
+      legume_id = params[:activite][:legume_id]
+      planche_id = params[:activite][:planche_id]
+      previ_legume = Legume.find(params[:activite][:legume_id]).previ_legume.nil? ? 0 : Legume.find(params[:activite][:legume_id]).previ_legume
+      nb_planche = Legume.find(params[:activite][:legume_id]).nb_planche.nil? ? 0 : Legume.find(params[:activite][:legume_id]).nb_planche
     if previ_legume.zero? || nb_planche.zero?
       total_previ = 0
     else
@@ -79,7 +82,7 @@ class ActivitesController < ApplicationController
     @activites_semaine = Activite.where('date >= ? AND date <= ?', DateTime.now.beginning_of_week, DateTime.now.end_of_week)
     @sorted_activites_semaine = @activites_semaine.order(date: :desc, heure_fin: :desc)
     @commentaires = Commentaire.all
-    @nom_activites = @activites.map { |activite| activite.nom }.uniq
+    @nom_activites = @activites.map(&:nom).uniq
     @totaux_activites = totaux_activites
 
     @totaux_activites_semaine = Hash.new { |h, k| h[k] = "".to_i }
@@ -173,7 +176,7 @@ private
   end
 
   def convert_to_readable_hours(time)
-    [time/3600, time/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h')
+    [time / 3600, time / 60 % 60].map { |t| t.to_s.rjust(2, '0') }.join('h')
   end
 
   def totaux_activites

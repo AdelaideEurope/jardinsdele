@@ -12,6 +12,11 @@
   }
 }
 
+.durees-activites-legumes {
+  display: flex;
+  justify-content: space-between;
+}
+
 .toutes-activites-recap {
   margin-top: 24px;
   margin-bottom: 32px;
@@ -45,7 +50,53 @@
   }
 }
 
+.duree-legumes-index-activites {
+  margin-top: -100px;
+  margin-bottom: 32px;
+  margin-right: 42px;
+  width: 28%;
+  li {
+  background: $light-grey;
+  list-style: none;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 4px;
+  margin-bottom: 4px;
+  }
+  ul {
+    height: 252px;
+    overflow: scroll;
+  }
+}
+
+.img-tomate-index-activites {
+  height: 60px;
+  position: absolute;
+  left: 50%;
+}
+
+.img-petitpois-index-activites {
+  height: 70px;
+  position: absolute;
+  left: 58%;
+  top: 71%;
+  transform: rotate(45deg);
+}
+
+.img-melon-index-activites {
+  height: 55px;
+  position: absolute;
+  left: 54%;
+  top: 92%;
+}
+
+.duree-legumes {
+  display: flex;
+  justify-content: space-between;
+}
+
 .duree-activites-index {
+  width: 40%;
   margin-top: -100px;
   margin-bottom: 32px;
 
@@ -58,7 +109,7 @@
   margin-bottom: 4px;
   }
   ul {
-    width: 50%;
+    width: 100%;
   }
 }
 

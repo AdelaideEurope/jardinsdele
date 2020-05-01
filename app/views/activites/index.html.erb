@@ -8,20 +8,38 @@
       <% end %>
     </div>
     <%= line_chart @activites_par_semaine, colors: ["#A1BD7F"] %>
-    <div class="duree-activites-index">
-      <h2 class="mb-4">Depuis le début de la saison... <%= @total_heures %> !</h2>
-      <ul>
-        <% @totaux_activites.sort.each do |nom_activite, total| %>
-          <% pourcentage = (total*100).fdiv(@total).round(2) %>
-          <li>
-            <div class="wrapper-recap-temps">
-              <div><%= nom_activite %></div>
-              <div><%= [total.to_i/3600, total.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
-              <div class="last-col-right"><%= pourcentage %> %</div>
-            </div>
-          </li>
-        <% end %>
-      </ul>
+    <%= image_tag "tomate.jpg", class: "img-tomate-index-activites" %>
+    <%= image_tag "petit pois.jpg", class: "img-petitpois-index-activites" %>
+    <%= image_tag "melon.jpg", class: "img-melon-index-activites" %>
+    <div class="durees-activites-legumes">
+      <div class="duree-activites-index">
+        <h2 class="mb-4">Depuis le début de la saison... <%= @total_heures %> !</h2>
+        <ul>
+          <% @totaux_activites.sort.each do |nom_activite, total| %>
+            <% pourcentage = (total*100).fdiv(@total).round(2) %>
+            <li>
+              <div class="wrapper-recap-temps">
+                <div><%= nom_activite %></div>
+                <div><%= [total.to_i/3600, total.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+                <div class="last-col-right"><%= pourcentage %> %</div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="duree-legumes-index-activites">
+        <h2 class="mb-4">Par légume</h2>
+        <ul>
+          <% @totaux_legumes.sort_by { |k, _v| k.nom.tr("É", "E") }.each do |nom_legume, total| %>
+            <li>
+              <div class="duree-legumes">
+                <div><%= link_to legume_path(nom_legume) do %> <%= nom_legume.nom %> <% end %></div>
+                <div><%= [total.to_i/3600, total.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="mt-4">
@@ -86,13 +104,13 @@
                 </div>
                 <div class="photo-all-activites">
                   <% unless activite.photos.empty? %>
-                    <button type="button" data-toggle="modal" data-target="#modalCenter<%= activite.id+1000 %>">
+                    <button type="button" data-toggle="modal" data-target="#modalCenter<%= activite.id+10000 %>">
                       <i class="far fa-images"></i>
                     </button>
                   <% end %>
                 </div>
 
-                <div class="modal fade" id="modalCenter<%= activite.id+1000 %>" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="modalCenter<%= activite.id+10000 %>" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content modal-photo">
                       <div class="modal-header">
