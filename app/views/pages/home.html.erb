@@ -142,6 +142,7 @@
       <div id="carouselfaire-home" class="carousel slide" data-ride="carousel" data-interval="false">
         <div class="carousel-inner">
           <div class="carousel-item active">
+            Cette semaine
             <% unless @ventes_futures_semaine.empty? %>
               <div class="box-faire-home-ventes">
                 <% @ventes_futures_semaine.sort_by(&:date).each do |vente| %>
@@ -207,6 +208,7 @@
             </div>
           </div>
           <div class="carousel-item">
+            La semaine prochaine
             <% unless @todo_next_week.empty? %>
               <div class="box-faire-home-memos">
                 <% @todo_next_week.sort_by(&:date).each do |memo| %>
@@ -224,6 +226,31 @@
                     </div>
                   </div>
                 <% end %>
+              </div>
+            <% end %>
+          </div>
+          <div class="carousel-item">
+            Quand j'ai le temps...
+            <% @afairesansdate.each do |memo| %>
+              <div class="detail-memo">
+                <div class="description-memo">
+                  <i class="fas fa-chevron-right"></i>
+                  <%= memo.description %>
+                </div>
+                <div class="crayon-edit-faire-home">
+                  <%= link_to edit_memo_path(memo) do %>
+                    <i class="fas fa-pencil-alt"></i>
+                  <% end %>
+                  <%= link_to memo_path(memo), method: :delete do %>
+                    <i class="fas fa-trash"></i>
+                  <% end %>
+                  <%= simple_form_for [memo] do |f| %>
+                    <div class="afaire-done">
+                      <%= f.hidden_field :done, :value => true %>
+                      <%= f.submit "", :type => :image, :src => image_path("check-done.png") %>
+                    </div>
+                  <% end %>
+                </div>
               </div>
             <% end %>
           </div>

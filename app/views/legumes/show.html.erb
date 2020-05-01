@@ -163,10 +163,13 @@
   <li class="nav-item nav-item-show">
     <a class="nav-link ml-3" id="photos-tab" data-toggle="tab" href="#photos" role="tab" aria-controls="photos" aria-selected="false">Photos</a>
   </li>
+  <li class="nav-item nav-item-show">
+    <a class="nav-link ml-3" id="ventes-show-tab" data-toggle="tab" href="#ventes-show" role="tab" aria-controls="ventes-show" aria-selected="false">Ventes</a>
+  </li>
 </ul>
 
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="actions" role="tabpanel" aria-labelledby="actions-tab">
+  <div class="tab-pane fade show active mb-5" id="actions" role="tabpanel" aria-labelledby="actions-tab">
     <div class="actions-liste">
       <ul>
         <% @legume.activites.sort_by(&:date).reverse.each do |activite| %>
@@ -197,7 +200,7 @@
       </ul>
     </div>
   </div>
-  <div class="tab-pane fade" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
+  <div class="tab-pane fade mb-5" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
     <div class="commentaires-liste">
       <ul>
         <% @legume.commentaires.each do |commentaire| %>
@@ -213,7 +216,24 @@
       </ul>
     </div>
   </div>
-  <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">
+  <div class="tab-pane fade mb-5" id="ventes-show" role="tabpanel" aria-labelledby="ventes-show-tab">
+    <div class="ventes-liste-show">
+      <ul>
+        <% @lignes_legume.each do |ligne| %>
+          <li>
+            <div class="wrapper-ventes-show">
+              <div class="date-vente"><%= link_to vente_path(ligne[:vente]) do %><%= ligne[:date] %> <% end %> </div>
+              <div class="pdv-qte-unite">
+                <div class="pdv-vente"><%= link_to vente_point_path(ligne[:pdv]) do %><%= ligne[:pdv].nom %><% end %></div>
+                <div class="quantite-vente"><%= rem_trailing_zero(ligne[:quantite]) %> <%= ligne[:unite] %></div>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="tab-pane fade mb-5" id="photos" role="tabpanel" aria-labelledby="photos-tab">
     <div class="photos-show-legume">
       <% @activites.each do |activite| %>
         <div class="photos-show">

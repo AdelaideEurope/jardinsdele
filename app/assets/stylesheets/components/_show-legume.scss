@@ -96,8 +96,37 @@
 }
 
 .wrapper-commentaires-show {
-  display: grid;
-  grid-template-columns: 6vw 52vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.wrapper-ventes-show {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pdv-qte-unite {
+  width: 80%;
+}
+
+.ventes-liste-show {
+  width: 40%;
+  margin: 2% 30%;
+  li {
+    background: $light-grey;
+    list-style: none;
+    padding-left: 16px;
+    padding-top: 4px;
+    margin-bottom: 4px;
+    justify-content: unset;
+    padding-right: 16px;
+    height: unset;
+  }
+}
+
+.pdv-qte-unite {
+  display: flex;
+  justify-content: space-between;
 }
 
 .title-show-legume {

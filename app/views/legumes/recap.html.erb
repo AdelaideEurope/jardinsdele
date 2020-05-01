@@ -38,11 +38,11 @@
                 <ul>
                   <% ventes[:legumes][0..-2].each do |legume| %>
                     <li>
-                      <%= legume %>,
+                      <%= link_to legume_path(legume) do %><%= legume.nom %><% end %>,
                     </li>
                   <% end %>
                   <li>
-                    <%= ventes[:legumes][-1] %>
+                    <%= link_to legume_path(ventes[:legumes][-1]) do %><%= ventes[:legumes][-1].nom %><% end %>
                   </li>
                 </ul>
               </div>
@@ -70,7 +70,6 @@
               <div>
               </div>
               <div>
-                <%#= @activitesplanche %>
                 <%= @planchesencours %>
               </div>
             </div>
@@ -84,7 +83,6 @@
               <div>
               </div>
               <div>
-                <%#= @activitesplanche %>
                 <%= @planchesenrecolte %>
               </div>
             </div>

@@ -12,23 +12,23 @@ class PagesController < ApplicationController
     @legumes = Legume.all
     @memos_today = @memos.where("date = ? AND categorie = ?", Date.today, "Ne pas oublier").select { |memo| memo.done == false }
     week = Date.today.strftime("%W").to_i + 1
-    @memos_this_week_except_today = @memos.select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "Ne pas oublier" }.reject { |memo| memo.date <= Date.today }.select { |memo| memo.done == false }
+    @memos_this_week_except_today = @memos.reject { |memo| memo.date.nil? }. select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "Ne pas oublier" }.reject { |memo| memo.date <= Date.today }.select { |memo| memo.done == false }
     arecolter_ajd
     arecolter_j1
     arecolter_j2
-    @ventes_futures_semaine = @ventes.select { |vente| vente.date.strftime("%W").to_i + 1 == week }.reject { |vente| vente.date < Date.today }
+    @ventes_futures_semaine = @ventes.reject { |memo| memo.date.nil? }.select { |vente| vente.date.strftime("%W").to_i + 1 == week }.reject { |vente| vente.date < Date.today }
 
     week = Date.today.strftime("%W").to_i + 1
-    @todo_pas_faits = @memos.select { |memo| memo.date < Date.today }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }
-    @todo_this_week = @memos.select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }.reject { |memo| memo.date < Date.today }
+    @todo_pas_faits = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.date < Date.today }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }
+    @todo_this_week = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }.reject { |memo| memo.date < Date.today }
     date_home
     next_week = Date.today.strftime("%W").to_i + 2
-    @todo_next_week = @memos.select { |memo| memo.date.strftime("%W").to_i + 1 == next_week }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }.reject { |memo| memo.date < Date.today }.select { |memo| memo.done == false }
+    @todo_next_week = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.date.strftime("%W").to_i + 1 == next_week }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }.reject { |memo| memo.date < Date.today }.select { |memo| memo.done == false }
     date_home
-    @catotal = @ventes.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
+    @catotal = @ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @caprevi = @legumes.select { |legume| !legume.previ_legume.nil? }.map { |legume| legume.previ_legume }.sum
     encouragements
-    # @ventesgraph = @ventes.group_by_month { |u| u.date }.map { |vente| vente[1] }
+    @afairesansdate = @memos.select { |memo| memo.date.nil? }
   end
 
   def photos
@@ -51,11 +51,11 @@ class PagesController < ApplicationController
     @arecolter_ajd = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
     @lignesdepaniertoday.sort_by(&:legume).each do |ligne|
       @arecolter_ajd[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
-      @arecolter_ajd[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
+      @arecolter_ajd[ligne.legume.nom][:quantite] += ligne.quantite * ligne.panier.quantite
     end
     @lignesdeventetoday.sort_by(&:legume).each do |ligne|
       @arecolter_ajd[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
-      @arecolter_ajd[ligne.legume.nom][:quantite] += (ligne.quantite)
+      @arecolter_ajd[ligne.legume.nom][:quantite] += ligne.quantite
     end
   end
 
@@ -65,11 +65,11 @@ class PagesController < ApplicationController
     @arecolter_j1 = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
     @lignesdepaniertomorrow.sort_by(&:legume).each do |ligne|
       @arecolter_j1[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
-      @arecolter_j1[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
+      @arecolter_j1[ligne.legume.nom][:quantite] += ligne.quantite * ligne.panier.quantite
     end
     @lignesdeventetomorrow.sort_by(&:legume).each do |ligne|
       @arecolter_j1[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
-      @arecolter_j1[ligne.legume.nom][:quantite] += (ligne.quantite)
+      @arecolter_j1[ligne.legume.nom][:quantite] += ligne.quantite
     end
   end
 
@@ -79,11 +79,11 @@ class PagesController < ApplicationController
     @arecolter_j2 = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
     @lignesdepanierj2.sort_by(&:legume).each do |ligne|
       @arecolter_j2[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
-      @arecolter_j2[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
+      @arecolter_j2[ligne.legume.nom][:quantite] += ligne.quantite * ligne.panier.quantite
     end
     @lignesdeventej2.sort_by(&:legume).each do |ligne|
       @arecolter_j2[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
-      @arecolter_j2[ligne.legume.nom][:quantite] += (ligne.quantite)
+      @arecolter_j2[ligne.legume.nom][:quantite] += ligne.quantite
     end
   end
 

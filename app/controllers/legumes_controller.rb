@@ -18,42 +18,6 @@ class LegumesController < ApplicationController
     end
   end
 
-  def nb_planches(legume)
-    planches = []
-    legume.vente_lignes.map { |ligne| ligne.planche&.nom }.each do |ligne|
-      planches << ligne
-    end
-    legume.panier_lignes.map { |ligne| ligne.planche&.nom }.each do |ligne|
-      planches << ligne
-    end
-    planches.reject(&:nil?).uniq.count
-  end
-
-  def legumes_semaines_graph(legume)
-    @week = Date.today.strftime("%W").to_i + 1
-    @weeks = (1..@week).to_a.reverse
-    @arr_weeks = []
-    @weeks.reverse.each do |week|
-      totauxlegume = 0
-      @lignesdevente.select { |ligne| ligne.vente.date.strftime("%W").to_i + 1 == week && ligne.legume == legume }.each do |ligne|
-        totauxlegume += ligne.prixunitairettc * ligne.quantite
-      end
-      @lignesdepanier.select { |lignedepanier| lignedepanier.panier.valide == true }.select { |ligne| ligne.panier.vente.date.strftime("%W").to_i + 1 == week && ligne.legume == legume }.each do |ligne|
-        totauxlegume += ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite
-      end
-      @arr_weeks << [week, totauxlegume]
-    end
-    @arr_weeks
-  end
-
-  def photo?(legume)
-    photos = []
-    legume.activites.each do |activite|
-      photos << activite.photos.any?
-    end
-    photos.include?(true)
-  end
-
   def new
     if current_user.admin != true
       flash[:notice] = "Malheureusement, vous ne pouvez pas accéder à cette page 😬"
@@ -95,7 +59,7 @@ class LegumesController < ApplicationController
     @legumes = Legume.all
     @legumesparca = Hash.new { |hash, key| hash[key] = 0 }
     @legumes.each do |legume|
-      @legumesparca[legume] = legume.vente_lignes.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + legume.panier_lignes.select {|lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
+      @legumesparca[legume] = legume.vente_lignes.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + legume.panier_lignes.select { |lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
     end
     @meilleurslegumes = @legumesparca.sort_by { |_k, v| v }.reverse.first(3).map { |legume| legume[0] }
     @activites = Activite.all
@@ -124,16 +88,12 @@ class LegumesController < ApplicationController
     @activites = @legume.activites
     @lignesdeventeparlegume = @legume.vente_lignes
     @lignesdepanierparlegume = @legume.panier_lignes
+    @lignesparlegume = @legume.vente_lignes + @legume.panier_lignes
+    @lignes_legume = @lignesparlegume.map { |ligne| { date: date_ligne(ligne), pdv: pdv_ligne(ligne), vente: vente_ligne(ligne), quantite: quantite_ligne(ligne), unite: unite_ligne(ligne) } }
     @ventes = Vente.all
     @catotal = @ventes.map(&:total_ttc).sum
-    @totauxlegume = Hash.new { |h, k| h[k] = "".to_i }
-    @planchesdulegume = []
     @dureedulegume = @legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum
-    @legume.activites.filter { |activite| activite.nom == "Plantation" }.each do |activite|
-      @planchesdulegume << activite.planche.nom
-    end
-    @totauxlegume[@legume.nom] += @dureedulegume
-    @calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.select {|lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
+    @calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.select { |lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
     @pourcentagedulegume = (@calegume * 100).fdiv(@catotal).round(2)
 
     @quantitelegume = Hash.new { |hash, key| hash[key] = "".to_i }
@@ -150,6 +110,83 @@ class LegumesController < ApplicationController
   end
 
   private
+
+  def unite_ligne(ligne)
+    if ligne.unite == ""
+      quantite_ligne(ligne) > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite
+    else
+      quantite_ligne(ligne) > 1 && ligne.unite != "kg" ? ligne.unite.pluralize : ligne.unite
+    end
+  end
+
+  def date_ligne(ligne)
+    if @lignesdepanierparlegume.include?(ligne)
+      ligne.panier.vente.date.strftime("%d/%m")
+    else
+      ligne.vente.date.strftime("%d/%m")
+    end
+  end
+
+  def vente_ligne(ligne)
+    if @lignesdepanierparlegume.include?(ligne)
+      ligne.panier.vente
+    else
+      ligne.vente
+    end
+  end
+
+  def pdv_ligne(ligne)
+    if @lignesdepanierparlegume.include?(ligne)
+      ligne.panier.vente.vente_point
+    else
+      ligne.vente.vente_point
+    end
+  end
+
+  def quantite_ligne(ligne)
+    if @lignesdepanierparlegume.include?(ligne)
+      ligne.quantite * ligne.panier.quantite
+    else
+      ligne.quantite
+    end
+  end
+
+  def nb_planches(legume)
+    planches = []
+    legume.vente_lignes.map { |ligne| ligne.planche&.nom }.each do |ligne|
+      planches << ligne
+    end
+    legume.panier_lignes.map { |ligne| ligne.planche&.nom }.each do |ligne|
+      planches << ligne
+    end
+    planches.reject(&:nil?).uniq.count
+  end
+
+  def legumes_semaines_graph(legume)
+    @week = Date.today.strftime("%W").to_i + 1
+    @weeks = (1..@week).to_a.reverse
+    @arr_weeks = []
+    @weeks.reverse.each do |week|
+      totauxlegume = 0
+      @lignesdevente.select { |ligne| ligne.vente.date.strftime("%W").to_i + 1 == week && ligne.legume == legume }.each do |ligne|
+        totauxlegume += ligne.prixunitairettc * ligne.quantite
+      end
+      @lignesdepanier.select { |lignedepanier| lignedepanier.panier.valide == true }.select { |ligne| ligne.panier.vente.date.strftime("%W").to_i + 1 == week && ligne.legume == legume }.each do |ligne|
+        totauxlegume += ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite
+      end
+      @arr_weeks << [week, totauxlegume]
+    end
+    @arr_weeks
+  end
+
+  def photo?(legume)
+    photos = []
+    legume.activites.each do |activite|
+      photos << activite.photos.any?
+    end
+    photos.include?(true)
+  end
+
 
   def plancheslegumes
     @plancheslegumes = []
@@ -294,18 +331,18 @@ class LegumesController < ApplicationController
   end
 
   def lignesgroupees
-    @lignesgroupees = Hash.new { |hash, key| hash[key] = {total: "".to_f, legumes: [] } }
+    @lignesgroupees = Hash.new { |hash, key| hash[key] = { total: "".to_f, legumes: [] } }
     @planches.each do |planche|
       @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
         @lignesgroupees[planche][:total] += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
-        unless @lignesgroupees[planche][:legumes].include?(lignedepanier.legume.nom)
-          @lignesgroupees[planche][:legumes] << lignedepanier.legume.nom
+        unless @lignesgroupees[planche][:legumes].include?(lignedepanier.legume)
+          @lignesgroupees[planche][:legumes] << lignedepanier.legume
         end
       end
       @lignesdevente.select { |lignedevente| lignedevente.planche == planche }.each do |lignedevente|
-        @lignesgroupees[planche][:total] += (lignedevente.prixunitairettc) * (lignedevente.quantite)
-        unless @lignesgroupees[planche][:legumes].include?(lignedevente.legume.nom)
-          @lignesgroupees[planche][:legumes] << lignedevente.legume.nom
+        @lignesgroupees[planche][:total] += lignedevente.prixunitairettc * lignedevente.quantite
+        unless @lignesgroupees[planche][:legumes].include?(lignedevente.legume)
+          @lignesgroupees[planche][:legumes] << lignedevente.legume
         end
       end
     end
