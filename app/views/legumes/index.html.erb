@@ -278,7 +278,7 @@
         <tbody>
           <% @legumes_semaines_graph.reverse.each do |legume| %>
             <tr>
-              <td><%= link_to legume_path(legume[:name]) do %> <%= legume[:name] %> <% end %></td>
+              <td><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:name] %> <% end %></td>
             </tr>
           <% end %>
         </tbody>
