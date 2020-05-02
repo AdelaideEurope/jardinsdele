@@ -8,6 +8,63 @@
   color: $darker-grey;
 }
 
+.ventes-today-home-mobile {
+  margin-left: 16px;
+  margin-right: 16px;
+  li {
+    list-style: none;
+  }
+  .fa-chevron-right {
+    margin-right: 8px;
+  }
+  button {
+    padding-left: 0px;
+  }
+  .detail-paniers-home {
+    border: dotted 1px $light-grey2;
+    border-radius: 8px;
+    width: 80%;
+    margin: 12px auto;
+  }
+}
+
+#todoenretard, #todosansdate {
+  li {
+    padding-left: 18px;
+  }
+}
+
+.afaire-mobile, .nepasoublier-mobile {
+  margin-left: 16px;
+  margin-right: 16px;
+  li {
+    list-style: none;
+  }
+  .fa-chevron-right {
+    margin-right: 8px;
+  }
+  button {
+    padding-left: 0px;
+  }
+}
+
+.panier-home {
+  height: 24px;
+  margin-top: -6px;
+
+}
+
+.titre-panier-home {
+  text-align: center;
+}
+
+.mobile-hidden {
+  h3 {
+    color: $light-green;
+    padding-left: 8px;
+  }
+}
+
 .icones-home {
   display: flex;
   justify-content: space-between;
@@ -50,7 +107,7 @@
   width: 40%;
 }
 
-#recolte-img-home {
+.recolte-img-home {
   width: 100%;
 }
 
@@ -85,6 +142,26 @@
   width: 30%;
   height: 348px;
   overflow: scroll;
+}
+
+.description-new-memo {
+  height: 40px !important;
+}
+
+.box-recolter-home-mobile {
+  position: relative;
+  li {
+    list-style: none;
+  }
+  border: solid 2px $light-green;
+  padding: 16px 16px 8px;
+  width: 80%;
+  border-radius: 8px;
+  margin: 2px auto 0 auto;
+}
+
+.logo-mobile {
+  height: 60px;
 }
 
 .contenu-box-recolter-home {

@@ -12,13 +12,14 @@ class PagesController < ApplicationController
     @legumes = Legume.all
     week = Date.today.strftime("%W").to_i + 1
     @memos_nepasoublierfuturs = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.categorie == "Ne pas oublier" }.select { |memo| memo.done == false }.reject { |memo| memo.date < Date.today }
+    @memos_nepasoubliertoday = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.categorie == "Ne pas oublier" }.select { |memo| memo.done == false }.select { |memo| memo.date == Date.today }
     @memos_nepasoublierpasses = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.categorie == "Ne pas oublier" }.select { |memo| memo.done == false }.reject { |memo| memo.date >= Date.today }
     arecolter_ajd
     arecolter_j1
     arecolter_j2
-    @ventes_futures_semaine = @ventes.reject { |memo| memo.date.nil? }.select { |vente| vente.date.strftime("%W").to_i + 1 == week }.reject { |vente| vente.date < Date.today }
-
+    @ventes_futures_semaine = @ventes.select { |vente| vente.date.strftime("%W").to_i + 1 == week }.reject { |vente| vente.date < Date.today }
     week = Date.today.strftime("%W").to_i + 1
+    @todo_today = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.date == Date.today }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }
     @todo_pas_faits = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.date < Date.today }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }
     @todo_this_week = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }.reject { |memo| memo.date < Date.today }
     date_home
@@ -29,6 +30,7 @@ class PagesController < ApplicationController
     @caprevi = @legumes.select { |legume| !legume.previ_legume.nil? }.map { |legume| legume.previ_legume }.sum
     encouragements
     @afairesansdate = @memos.select { |memo| memo.date.nil? }
+    @ventes_ajd = @ventes.select { |vente| vente.date == Date.today }
   end
 
   def photos

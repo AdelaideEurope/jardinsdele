@@ -1,5 +1,7 @@
-<%= render 'shared/navbar' %>
-<div class="container">
+<div class="to_hide">
+  <%= render 'shared/navbar' %>
+</div>
+<div class="container to_hide">
   <div class="barre-haut-home">
     <div class="date-home"><%= @datedujour_jour %> <%= Date.today.strftime("%e") %> <%= @datedujour_mois %> <%= Date.today.year %></div>
     <div class="icones-home">
@@ -29,7 +31,7 @@
             <% end %>
             <%= simple_form_for [memo] do |f| %>
               <div>
-                <%= f.hidden_field :done, :value => true %>
+                <%= f.hidden_field :done, :value => true, :id => "memo_done#{memo.id}" %>
                 <%= f.submit "", :type => :image, :src => image_path("check-done.png") %>
               </div>
             <% end %>
@@ -49,7 +51,7 @@
             <% end %>
             <%= simple_form_for [memo] do |f| %>
               <div>
-                <%= f.hidden_field :done, :value => true %>
+                <%= f.hidden_field :done, :value => true, :id => "memo_done#{memo.id}" %>
                 <%= f.submit "", :type => :image, :src => image_path("check-done.png") %>
               </div>
             <% end %>
@@ -65,7 +67,7 @@
             <div class="carousel-item active">
               <div class="inner-box-recolter-home">
                 <div class="img-recolte">
-                  <%= image_tag "recolte.png", id: "recolte-img-home" %>
+                  <%= image_tag "recolte.png", class: "recolte-img-home" %>
                 </div>
                 <div>
                   <h2>Aujourd'hui</h2>
@@ -82,7 +84,7 @@
             <div class="carousel-item">
               <div class="inner-box-recolter-home">
                 <div class="img-recolte">
-                  <%= image_tag "recolte.png", id: "recolte-img-home" %>
+                  <%= image_tag "recolte.png", class: "recolte-img-home" %>
                 </div>
                 <div>
                   <h2>Demain</h2>
@@ -99,7 +101,7 @@
             <div class="carousel-item">
               <div class="inner-box-recolter-home">
                 <div class="img-recolte">
-                  <%= image_tag "recolte.png", id: "recolte-img-home" %>
+                  <%= image_tag "recolte.png", class: "recolte-img-home" %>
                 </div>
                 <div>
                   <h2>Après-demain</h2>
@@ -165,7 +167,7 @@
                         <i class="fas fa-trash"></i>
                       <% end %>
                       <%= simple_form_for [memo] do |f| %>
-                          <div class="afaire-done"><%= f.hidden_field :done, :value => true %>
+                          <div class="afaire-done"><%= f.hidden_field :done, :value => true, :id => "memo_done#{memo.id}" %>
                             <%= f.submit "", :type => :image, :src => image_path("check-done.png") %>
                           </div>
                       <% end %>
@@ -188,7 +190,7 @@
                     <% end %>
                     <%= simple_form_for [memo] do |f| %>
                       <div class="afaire-done">
-                        <%= f.hidden_field :done, :value => true %>
+                        <%= f.hidden_field :done, :value => true, :id => "memo_done#{memo.id}" %>
                         <%= f.submit "", :type => :image, :src => image_path("check-done.png") %>
                       </div>
                     <% end %>
@@ -210,7 +212,7 @@
                       <% end %>
                       <%= link_to memo_path(memo), method: :delete do %><i class="fas fa-trash"></i><% end %>
                       <%= simple_form_for [memo] do |f| %>
-                          <div><%= f.hidden_field :done, :value => true %>
+                          <div><%= f.hidden_field :done, :value => true, :id => "memo_done#{memo.id}" %>
                           <%= f.submit "", :type => :image, :src => image_path("check-done.png") %></div>
                       <% end %>
                     </div>
@@ -236,7 +238,7 @@
                   <% end %>
                   <%= simple_form_for [memo] do |f| %>
                     <div class="afaire-done">
-                      <%= f.hidden_field :done, :value => true %>
+                      <%= f.hidden_field :done, :value => true, :id => "memo_done#{memo.id}" %>
                       <%= f.submit "", :type => :image, :src => image_path("check-done.png") %>
                     </div>
                   <% end %>
@@ -265,11 +267,11 @@
         <%= simple_form_for(@memo) do |f| %>
           <div class="form-new-todo-home">
             <div class="form-new-todo-home-desc">
-              <%= f.input :description, label: false, :placeholder => "Mémo" %>
+              <%= f.input :description, label: false, :placeholder => "Mémo", :input_html => { :id => "memo_description#{@memos.last.id.to_i + 20000}", :class => "description-new-memo" } %>
             </div>
             <div class="form-new-todo-home-date">
-              <%= f.input :date, as: :string, :placeholder => "Date",label: false, input_html: { class: "datepicker" } %>
-              <%= f.hidden_field :categorie, :value => "Ne pas oublier" %>
+              <%= f.input :date, as: :string, :placeholder => "Date",label: false, input_html: { class: "datepicker", :id => "memo_date#{@memo.id.to_i + 20000}" }, :id => "memo_date#{@memo.id.to_i + 20000}" %>
+              <%= f.hidden_field :categorie, :value => "Ne pas oublier", :id => "memo_categorie#{@memo.id.to_i + 20000}" %>
             </div>
             <div class="submit-plus-commentaire-vente">
             <%= f.submit  "", :type => :image, :src => image_path("plus-rond.png"), class: "img-plus-new-todo"%>
@@ -279,14 +281,14 @@
       </div>
       <div class="box-form-1"></div>
       <div class="box-form-2">
-        <%= simple_form_for(@memo) do |f| %>
+        <%= simple_form_for(@memo, html: { id: "new_form#{10000}"} ) do |f| %>
           <div class="form-new-todo-home">
             <div class="form-new-todo-home-desc">
-              <%= f.input :description, label: false, :placeholder => "Tâche" %>
+              <%= f.input :description, label: false, :placeholder => "Tâche", :input_html => { :id => "memo_description#{@memos.last.id.to_i + 10000}", :class => "description-new-memo" } %>
             </div>
             <div class="form-new-todo-home-date">
-              <%= f.input :date, as: :string, :placeholder => "Date",label: false, input_html: { class: "datepicker" } %>
-              <%= f.hidden_field :categorie, :value => "À faire" %>
+              <%= f.input :date, as: :string, :placeholder => "Date",label: false, input_html: { class: "datepicker", :id => "memo_date#{@memo.id.to_i + 10000}" }, :id => "memo_date#{@memo.id.to_i + 10000}" %>
+              <%= f.hidden_field :categorie, :value => "À faire", :id => "memo_categorie#{@memo.id.to_i + 10000}" %>
             </div>
             <div class="submit-plus-commentaire-vente">
             <%= f.submit  "", :type => :image, :src => image_path("plus-rond.png"), class: "img-plus-new-todo"%>
@@ -296,10 +298,130 @@
       </div>
     </div>
   </div>
-  <div class="ca-realise">Tu as déjà fait <b><%=number_with_precision((@catotal.to_f*100)/@caprevi, precision: 2)%> %</b> de ton prévisionnel et...</div>
+  <div class="ca-realise">Tu as déjà fait <b><%=number_with_precision((@catotal.to_f * 100) / @caprevi, precision: 2)%> %</b> de ton prévisionnel et...</div>
   <div class= "encouragements text-success"><%= @encouragement %></div>
-
     <%= @ventesgraph %>
-
 </div>
 
+<%= image_tag "logo.png", class: "logo-mobile mobile-hidden" %>
+<div class="container mobile-hidden">
+  <% if @ventes_ajd.empty? %>
+    <h3>Pas de ventes aujourd'hui !</h3>
+  <% else %>
+    <h3 class="mt-4">Les ventes du jour</h3>
+    <div class="ventes-today-home-mobile">
+      <ul>
+        <% @ventes_ajd.each do |vente| %>
+          <li>
+            <i class="fas fa-chevron-right text-success"></i>
+            <% if vente.paniers.empty? %>
+              <%= vente.vente_point.nom %>
+            <% else %>
+              <button type="button" data-toggle="collapse" data-target="#paniersvente<%= vente.id %>" aria-expanded="false" aria-controls="paniersvente<%= vente.id %>">
+                <%= vente.vente_point.nom %> <%= image_tag "panier.png", class: "panier-home" %>
+              </button>
+            <% end %>
+          </li>
+          <div class="collapse" id="paniersvente<%= vente.id %>">
+            <% vente.paniers.sort_by(&:prix_ttc).each do |panier| %>
+              <div class="detail-paniers-home">
+                <div class="titre-panier-home mt-2">
+                  <%= panier.quantite %> <%= panier.quantite > 1 ? "panier".pluralize : "panier" %> à <%= panier.prix_ttc.to_i %> €
+                </div>
+                <div class="detail-paniers">
+                  <ul>
+                    <% panier.panier_lignes.sort_by(&:created_at).each do |ligne| %>
+                      <li>
+                        <div class="panier-nom-legume">
+                          <%= ligne.legume.nom %>
+                        </div>
+                        <div>
+                          <div class="panier-quantite-legume">
+                            <%= rem_trailing_zero(ligne.quantite) %>
+                            <% if ligne.unite.nil? || ligne.unite == "" %>
+                              <%= ligne.quantite > 1 && ligne.legume.unite != "kg" ? ligne.legume.unite.pluralize : ligne.legume.unite %>
+                            <% else %>
+                              <%= ligne.quantite > 1 && ligne.unite != "kg" ? ligne.unite.pluralize : ligne.unite %>
+                            <% end %>
+                          </div>
+                        </div>
+                       </li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <% unless @arecolter_ajd.empty? %>
+    <h3 class="mt-3">À récolter</h3>
+    <div class="box-recolter-home-mobile">
+      <div>
+        <ul>
+          <% @arecolter_ajd.each do |legume, detail| %>
+            <li>
+              <%= legume %> : <%= rem_trailing_zero(detail[:quantite]) %> <%= detail[:unite] != "kg" ? detail[:unite].pluralize : detail[:unite] %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+  <% unless @memos_nepasoubliertoday.empty? && @memos_nepasoublierpasses.empty? %>
+    <h3 class="mt-4">Ne pas oublier</h3>
+    <div class="nepasoublier-mobile">
+      <ul>
+        <% @memos_nepasoubliertoday.each do |memo| %>
+          <li><i class="fas fa-chevron-right text-success"></i><%= memo.description %> </li>
+        <% end %>
+        <% @memos_nepasoublierpasses.each do |memo| %>
+          <li><i class="fas fa-chevron-right text-danger"></i><%= memo.description %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h3 class="mt-4">À faire</h3>
+  <div class="afaire-mobile mb-5">
+    <ul>
+      <% @todo_today.each do |todo| %>
+        <li><i class="fas fa-chevron-right text-success"></i><%= todo.description %></li>
+      <% end %>
+      <% unless @todo_pas_faits.empty? %>
+        <li>
+          <button type="button" data-toggle="collapse" data-target="#todoenretard" aria-expanded="false" aria-controls="todoenretard">
+            <i class="fas fa-chevron-right text-danger"></i>2-3 petits trucs en retard...
+          </button>
+        <div class="collapse" id="todoenretard">
+          <ul>
+            <% @todo_pas_faits.each do |todo| %>
+              <li>
+                <i class="fas fa-chevron-right text-danger"></i><%= todo.description %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        </li>
+      <% end %>
+      <% unless @afairesansdate.empty? %>
+        <li>
+          <button type="button" data-toggle="collapse" data-target="#todosansdate" aria-expanded="false" aria-controls="todosansdate">
+            <i class="fas fa-chevron-right text-success"></i>si t'as vraiment le temps !
+          </button>
+        <div class="collapse" id="todosansdate">
+          <ul>
+            <% @afairesansdate.each do |todo| %>
+              <li>
+                <i class="fas fa-chevron-right text-success"></i><%= todo.description %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
