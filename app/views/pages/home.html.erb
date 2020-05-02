@@ -306,7 +306,7 @@
 <%= image_tag "logo.png", class: "logo-mobile mobile-hidden" %>
 <div class="container mobile-hidden">
   <% if @ventes_ajd.empty? %>
-    <h3>Pas de ventes aujourd'hui !</h3>
+    <h3 class="mt-4">Pas de ventes aujourd'hui !</h3>
   <% else %>
     <h3 class="mt-4">Les ventes du jour</h3>
     <div class="ventes-today-home-mobile">
@@ -391,9 +391,10 @@
         <li><i class="fas fa-chevron-right text-success"></i><%= todo.description %></li>
       <% end %>
       <% unless @todo_pas_faits.empty? %>
+      <div class="separateur-afaire-passes my-3"></div>
         <li>
           <button type="button" data-toggle="collapse" data-target="#todoenretard" aria-expanded="false" aria-controls="todoenretard">
-            <i class="fas fa-chevron-right text-danger"></i>2-3 petits trucs en retard...
+            <i class="fas fa-chevron-right text-dark"></i>2-3 petits trucs en retard...
           </button>
         <div class="collapse" id="todoenretard">
           <ul>
@@ -409,7 +410,7 @@
       <% unless @afairesansdate.empty? %>
         <li>
           <button type="button" data-toggle="collapse" data-target="#todosansdate" aria-expanded="false" aria-controls="todosansdate">
-            <i class="fas fa-chevron-right text-success"></i>si t'as vraiment le temps !
+            <i class="fas fa-chevron-right text-dark"></i>si t'as vraiment le temps !
           </button>
         <div class="collapse" id="todosansdate">
           <ul>
