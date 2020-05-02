@@ -65,7 +65,7 @@
 
 @media(min-width: 456px) {
   .mobile-hidden {
-    display: none;
+    display: none !important;
   }
 }
 

@@ -34,6 +34,15 @@
   }
 }
 
+.entete-mobile {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mobile-elements {
+  width: 94% !important;
+}
+
 .separateur-afaire-passes {
   border-top: dotted 1px $light-grey2;
   width: 42%;
@@ -167,7 +176,9 @@
 }
 
 .logo-mobile {
-  height: 60px;
+  height: 70px;
+  width: 70px;
+  padding: 0.3125rem 16px;
 }
 
 .contenu-box-recolter-home {
