@@ -11,7 +11,7 @@ class VentesController < ApplicationController
     @ventes_mois_cate_pdv = @pointsdevente.map(&:categorie).uniq.map do |categorie|
       { name: categorie, data: ventecategorie(categorie) }
     end
-    cate_colors = {"Point de retrait" => "#A1BD7F", "Magasin" => "#55828B", "AMAP" => "#BC4B51", "Restaurant" => "#F4E285", "Divers" => "#3A2449" }
+    cate_colors = { "Point de retrait" => "#A1BD7F", "Magasin" => "#55828B", "AMAP" => "#BC4B51", "Restaurant" => "#F4E285", "Divers" => "#3A2449" }
     @colors_categories = []
     @ventes_mois_cate_pdv.each do |cate, _|
       @colors_categories << cate_colors[cate[:name]]
@@ -29,7 +29,7 @@ class VentesController < ApplicationController
     @lignesdevente = @vente.vente_lignes
     @paniers = Panier.all.where(vente_id: @vente.id).select { |panier| panier.valide == true }
     @planches = Planche.all
-    @jardins = @planches.group_by { |planche| planche.jardin }
+    @jardins = @planches.group_by(&:jardin)
     @factures_ac_num = Vente.all.reject { |vente| vente.num_facture.nil? }
     if @factures_ac_num.empty?
       @num_factures = 1
@@ -62,7 +62,7 @@ class VentesController < ApplicationController
     @monthtoday = Date.today.month
     @ventes_mois = @ventes.select { |m| m.date.month == @monthtoday }
     @catotal = @ventes.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
-    @casemaine = @ventes_semaine.map{ |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
+    @casemaine = @ventes_semaine.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @camois = @ventes_mois.map { |vente| vente.montant_arrondi.nil? || vente.montant_arrondi.zero? ? vente.total_ttc : vente.montant_arrondi }.sum
     @ventes_panier = @ventes.select { |vente| vente.paniers.any? && vente.date >= Date.today }
     arecolter_ajd
@@ -99,7 +99,7 @@ class VentesController < ApplicationController
   def impayes
     @ventes = Vente.all
     @impayes = @ventes.select { |vente| vente.resteapercevoir > 0 }
-    @totalimpayes = @ventes.select {|vente| vente.resteapercevoir }.map(&:resteapercevoir).sum
+    @totalimpayes = @ventes.select { |vente| vente.resteapercevoir }.map(&:resteapercevoir).sum
   end
 
   def update
@@ -173,7 +173,7 @@ private
     end
     @lignesdeventetomorrow.sort_by(&:legume).each do |ligne|
       @arecolter_j1[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
-      @arecolter_j1[ligne.legume.nom][:quantite] += (ligne.quantite)
+      @arecolter_j1[ligne.legume.nom][:quantite] += ligne.quantite
     end
   end
 
@@ -183,11 +183,11 @@ private
     @arecolter_j2 = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
     @lignesdepanierj2.sort_by(&:legume).each do |ligne|
       @arecolter_j2[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
-      @arecolter_j2[ligne.legume.nom][:quantite] += (ligne.quantite * ligne.panier.quantite)
+      @arecolter_j2[ligne.legume.nom][:quantite] += ligne.quantite * ligne.panier.quantite
     end
     @lignesdeventej2.sort_by(&:legume).each do |ligne|
       @arecolter_j2[ligne.legume.nom][:unite] = ligne.unite.nil? || ligne.unite == "" ? ligne.legume.unite : ligne.unite
-      @arecolter_j2[ligne.legume.nom][:quantite] += (ligne.quantite)
+      @arecolter_j2[ligne.legume.nom][:quantite] += ligne.quantite
     end
   end
 

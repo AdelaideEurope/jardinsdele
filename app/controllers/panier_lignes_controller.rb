@@ -11,8 +11,8 @@ class PanierLignesController < ApplicationController
     @lignedepanier = PanierLigne.new
     @legumes = Legume.all
     @sorted_legumes = @legumes.sort_by(&:legume_css)
-    @firsthalf = (@sorted_legumes.length/2.to_f).ceil
-    @secondhalf = @sorted_legumes.length/2
+    @firsthalf = (@sorted_legumes.length / 2.to_f).ceil
+    @secondhalf = @sorted_legumes.length / 2
   end
 
   def create
@@ -41,8 +41,8 @@ class PanierLignesController < ApplicationController
     @pointdevente = @vente.vente_point
     @legumes = Legume.all
     @sorted_legumes = @legumes.sort_by(&:legume_css)
-    @firsthalf = (@sorted_legumes.length/2.to_f).ceil
-    @secondhalf = @sorted_legumes.length/2
+    @firsthalf = (@sorted_legumes.length / 2.to_f).ceil
+    @secondhalf = @sorted_legumes.length / 2
   end
 
   def update
