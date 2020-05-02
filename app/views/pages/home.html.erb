@@ -18,7 +18,7 @@
     <div class="box-oublier-home">
       <% @memos_nepasoublierpasses.each do |memo| %>
         <div class="detail-memo">
-          <div class="description-memo text-danger"><i class="fas fa-chevron-right text-danger"></i><%= memo.description %>
+          <div class="description-memo text-danger"><i class="fas fa-chevron-right text-danger"></i><%= memo.description %> (<%= memo.date.strftime("%d/%m") %>)
           </div>
           <div class="crayon-edit-memo-home">
             <%= link_to edit_memo_path(memo) do %>
@@ -38,7 +38,7 @@
       <% end %>
       <% @memos_nepasoublierfuturs.each do |memo| %>
         <div class="detail-memo">
-          <div class="description-memo"><i class="fas fa-chevron-right"></i><%= memo.description %>
+          <div class="description-memo"><i class="fas fa-chevron-right"></i><%= memo.description %> (<%= memo.date.strftime("%d/%m") %>)
           </div>
           <div class="crayon-edit-memo-home">
             <%= link_to edit_memo_path(memo) do %>
@@ -155,7 +155,7 @@
                 <% @todo_pas_faits.sort_by(&:date).each do |memo| %>
                   <div class="detail-memo">
                     <div class="description-memo text-danger">
-                      <i class="fas fa-chevron-right text-danger"></i><%= memo.description %>
+                      <i class="fas fa-chevron-right text-danger"></i><%= memo.description %> (<%= memo.date.strftime("%d/%m") %>)
                     </div>
                     <div class="crayon-edit-faire-home">
                       <%= link_to edit_memo_path(memo) do %>
@@ -177,7 +177,7 @@
                 <div class="detail-memo">
                   <div class="description-memo">
                     <i class="fas fa-chevron-right"></i>
-                    <%= memo.description %> (<%= abreviation_jour(memo.date) %>)
+                    <%= memo.description %> (<%= memo.date.strftime("%d/%m") %>)
                   </div>
                   <div class="crayon-edit-faire-home">
                     <%= link_to edit_memo_path(memo) do %>
@@ -203,7 +203,7 @@
               <div class="box-faire-home-memos">
                 <% @todo_next_week.sort_by(&:date).each do |memo| %>
                   <div class="detail-memo">
-                    <div class="description-memo"><i class="fas fa-chevron-right"></i><%= memo.description %> (<%= abreviation_jour(memo.date) %> pro)</div>
+                    <div class="description-memo"><i class="fas fa-chevron-right"></i><%= memo.description %> (<%= memo.date.strftime("%d/%m") %>)</div>
                     <div class="crayon-edit-faire-home">
                       <%= link_to edit_memo_path(memo) do %>
                         <i class="fas fa-pencil-alt"></i>
