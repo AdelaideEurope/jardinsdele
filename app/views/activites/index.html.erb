@@ -13,15 +13,14 @@
     <%= image_tag "melon.jpg", class: "img-melon-index-activites" %>
     <div class="durees-activites-legumes">
       <div class="duree-activites-index">
-        <h2 class="mb-4">Depuis le début de la saison... <%= @total_heures %> !</h2>
+        <h2 class="mb-4">Depuis le début de la saison... <%= @total_activites_readable %> !</h2>
         <ul>
-          <% @totaux_activites.sort.each do |nom_activite, total| %>
-            <% pourcentage = (total*100).fdiv(@total).round(2) %>
+          <% @totaux_activites2.each do |typeactivite| %>
             <li>
               <div class="wrapper-recap-temps">
-                <div><%= nom_activite %></div>
-                <div><%= [total.to_i/3600, total.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
-                <div class="last-col-right"><%= pourcentage %> %</div>
+                <div><%= typeactivite[:nom] %></div>
+                <div><%= typeactivite[:duree] %></div>
+                <div class="last-col-right"><%= number_with_precision(typeactivite[:pourcentage], precision: 2) %> %</div>
               </div>
             </li>
           <% end %>
