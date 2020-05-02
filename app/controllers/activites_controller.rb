@@ -1,5 +1,4 @@
 class ActivitesController < ApplicationController
-
   def index
     if current_user.admin != true
       flash[:notice] = "Malheureusement, vous ne pouvez pas accéder à cette page 😬"
@@ -10,14 +9,7 @@ class ActivitesController < ApplicationController
     @sorted_activites = @activites.order(date: :desc, heure_fin: :desc)
     @total_activites = @activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum
     @total_activites_readable = convert_to_readable_hours(@total_activites)
-    @totaux_activites = Hash.new { |h, k| h[k] = "".to_i }
-    @activites.each do |activite|
-      duree = activite.heure_fin - activite.heure_debut
-      @totaux_activites[activite.nom] += duree
-    end
-
-    @totaux_activites2 = @activites.map(&:nom).uniq.map { |typeactivite| { nom: typeactivite, duree: sommeactivites_readable(typeactivite), pourcentage: (sommeactivites(typeactivite) * 100).fdiv(@total_activites).round(2) } }
-    @total = @totaux_activites.values.sum.to_i
+    @totaux_activites2 = @activites.sort_by(&:nom).map(&:nom).uniq.map { |typeactivite| { nom: typeactivite, duree: sommeactivites_readable(typeactivite), pourcentage: (sommeactivites(typeactivite) * 100).fdiv(@total_activites).round(2) } }
     @week = Date.today.strftime("%W").to_i + 1
     @activites_par_semaine = activites_semaine
     @totaux_legumes = Hash.new { |h, k| h[k] = "".to_i }
