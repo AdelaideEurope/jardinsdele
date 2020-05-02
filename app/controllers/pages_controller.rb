@@ -10,9 +10,9 @@ class PagesController < ApplicationController
     @memo = Memo.new
     @ventes = Vente.all
     @legumes = Legume.all
-    @memos_today = @memos.where("date = ? AND categorie = ?", Date.today, "Ne pas oublier").select { |memo| memo.done == false }
     week = Date.today.strftime("%W").to_i + 1
-    @memos_this_week_except_today = @memos.reject { |memo| memo.date.nil? }. select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "Ne pas oublier" }.reject { |memo| memo.date <= Date.today }.select { |memo| memo.done == false }
+    @memos_nepasoublierfuturs = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.categorie == "Ne pas oublier" }.select { |memo| memo.done == false }.reject { |memo| memo.date < Date.today }
+    @memos_nepasoublierpasses = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.categorie == "Ne pas oublier" }.select { |memo| memo.done == false }.reject { |memo| memo.date >= Date.today }
     arecolter_ajd
     arecolter_j1
     arecolter_j2

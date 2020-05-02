@@ -1,7 +1,7 @@
 <%= render 'shared/navbar' %>
 <div class="container">
   <div class="barre-haut-home">
-    <div class="date-home"><%= @datedujour_jour %> <%= Date.today.strftime("%d") %> <%= @datedujour_mois %> <%= Date.today.year %></div>
+    <div class="date-home"><%= @datedujour_jour %> <%= Date.today.strftime("%e") %> <%= @datedujour_mois %> <%= Date.today.year %></div>
     <div class="icones-home">
       <div><%= link_to commentaires_path do %><i class="fas fa-comment-alt" id="commentaire-home"></i><% end %></div>
       <div><%= link_to photos_path do %><i class="far fa-images" id="photo-home"></i><% end %>
@@ -16,55 +16,45 @@
 
   <div class="boxes-oublier-faire-recolter">
     <div class="box-oublier-home">
-      <% if @memos_today.empty? %>
-        Esprit tranquille pour aujourd'hui...
-      <% else %>
-        <b>Aujourd'hui</b>
-        <% @memos_today.each do |memo| %>
-          <div class="detail-memo">
-            <div class="description-memo"><i class="fas fa-chevron-right"></i><%= memo.description %></div>
-            <div class="crayon-edit-memo-home">
-              <%= link_to edit_memo_path(memo) do %>
-                <i class="fas fa-pencil-alt"></i>
-              <% end %>
-              <%= link_to memo_path(memo), method: :delete do %><i class="fas fa-trash"></i><% end %>
-              <%= simple_form_for [memo] do |f| %>
-                  <div><%= f.hidden_field :done, :value => true %>
-                  <%= f.submit "", :type => :image, :src => image_path("check-done.png") %></div>
-              <% end %>
-            </div>
+      <% @memos_nepasoublierpasses.each do |memo| %>
+        <div class="detail-memo">
+          <div class="description-memo text-danger"><i class="fas fa-chevron-right text-danger"></i><%= memo.description %>
           </div>
-        <% end %>
+          <div class="crayon-edit-memo-home">
+            <%= link_to edit_memo_path(memo) do %>
+              <i class="fas fa-pencil-alt"></i>
+            <% end %>
+            <%= link_to memo_path(memo), method: :delete do %>
+              <i class="fas fa-trash"></i>
+            <% end %>
+            <%= simple_form_for [memo] do |f| %>
+              <div>
+                <%= f.hidden_field :done, :value => true %>
+                <%= f.submit "", :type => :image, :src => image_path("check-done.png") %>
+              </div>
+            <% end %>
+          </div>
+        </div>
       <% end %>
-
-      <div class="mt-3">
-        <% if @memos_this_week_except_today.empty? && @memos_today.empty? %>
-          Et pour le reste de la semaine !
-        <% elsif @memos_today.empty? && !@memos_this_week_except_today.empty? %>
-          <b>Mais cette semaine...</b>
-        <% elsif !@memos_today.empty? && @memos_this_week_except_today.empty? %>
-          <b>Rien d'autre cette semaine</b>
-        <% elsif !@memos_today.empty? && !@memos_this_week_except_today.empty? %>
-          <b>Le reste de la semaine</b>
-        <% end %>
-      </div>
-
-      <% unless @memos_this_week_except_today.empty? %>
-        <% @memos_this_week_except_today.sort_by(&:date).each do |memo| %>
-          <div class="detail-memo">
-            <div class="description-memo"><i class="fas fa-chevron-right"></i><%= memo.description %> (<%= abreviation_jour(memo.date) %>)</div>
-            <div class="crayon-edit-memo-home">
-              <%= link_to edit_memo_path(memo) do %>
-                <i class="fas fa-pencil-alt"></i>
-              <% end %>
-              <%= link_to memo_path(memo), method: :delete do %><i class="fas fa-trash"></i><% end %>
-              <%= simple_form_for [memo] do |f| %>
-                <div class="oublier-done"><%= f.hidden_field :done, :value => true %>
-                <%= f.submit "", :type => :image, :src => image_path("check-done.png") %></div>
-              <% end %>
-            </div>
+      <% @memos_nepasoublierfuturs.each do |memo| %>
+        <div class="detail-memo">
+          <div class="description-memo"><i class="fas fa-chevron-right"></i><%= memo.description %>
           </div>
-        <% end %>
+          <div class="crayon-edit-memo-home">
+            <%= link_to edit_memo_path(memo) do %>
+              <i class="fas fa-pencil-alt"></i>
+            <% end %>
+            <%= link_to memo_path(memo), method: :delete do %>
+              <i class="fas fa-trash"></i>
+            <% end %>
+            <%= simple_form_for [memo] do |f| %>
+              <div>
+                <%= f.hidden_field :done, :value => true %>
+                <%= f.submit "", :type => :image, :src => image_path("check-done.png") %>
+              </div>
+            <% end %>
+          </div>
+        </div>
       <% end %>
     </div>
 
