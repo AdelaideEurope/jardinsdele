@@ -4,7 +4,7 @@ class ActivitesController < ApplicationController
       flash[:notice] = "Malheureusement, vous ne pouvez pas accéder à cette page 😬"
       redirect_to activites_recap_path
     end
-    @legumes = Legume.all
+    @legumes = Legume.all.includes(:activites)
     @activites = Activite.all.includes(:commentaires)
     @sorted_activites = @activites.order(date: :desc, heure_fin: :desc)
     @total_activites = @activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum
@@ -14,8 +14,9 @@ class ActivitesController < ApplicationController
     @activites_par_semaine = activites_semaine
     @totaux_legumes = Hash.new { |h, k| h[k] = "".to_i }
     @legumes.each do |legume|
-      @totaux_legumes[legume] = legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum
+      @totaux_legumes[legume] = convert_to_readable_hours(legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum)
     end
+    @toutes_activites = @sorted_activites.map { |activite| { id: activite.id, date: activite.date, nom: activite.nom, legume: activite.legume&.nom, planche: activite.planche&.nom, duree: convert_to_readable_hours(activite.heure_fin - activite.heure_debut), heure_debut: activite.heure_debut, heure_fin: activite.heure_fin, commentaires: activite.commentaires, tag_list: activite.tag_list, commentaires: activite.commentaires, photos: activite.photos } }
   end
 
   def activites_semaine
