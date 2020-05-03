@@ -5,7 +5,7 @@ class ActivitesController < ApplicationController
       redirect_to activites_recap_path
     end
     @legumes = Legume.all
-    @activites = Activite.all
+    @activites = Activite.all.includes(:commentaires)
     @sorted_activites = @activites.order(date: :desc, heure_fin: :desc)
     @total_activites = @activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum
     @total_activites_readable = convert_to_readable_hours(@total_activites)
