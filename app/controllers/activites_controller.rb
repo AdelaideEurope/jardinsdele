@@ -5,7 +5,7 @@ class ActivitesController < ApplicationController
     @sorted_activites = @activites.order(date: :desc, heure_fin: :desc)
     @total_activites = @activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum
     @total_activites_readable = convert_to_readable_hours(@total_activites)
-    @totaux_activites2 = @activites.sort_by(&:nom).map(&:nom).uniq.map { |typeactivite| { nom: typeactivite, duree: sommeactivites_readable(typeactivite), pourcentage: (sommeactivites(typeactivite) * 100).fdiv(@total_activites).round(2) } }
+    @totaux_activites2 = @activites.sort_by(&:nom).pluck(:nom).uniq.map { |typeactivite| { nom: typeactivite, duree: sommeactivites_readable(typeactivite), pourcentage: (sommeactivites(typeactivite) * 100).fdiv(@total_activites).round(2) } }
     @week = Date.today.strftime("%W").to_i + 1
     @activites_par_semaine = activites_semaine
     @totaux_legumes = Hash.new { |h, k| h[k] = "".to_i }
@@ -77,7 +77,7 @@ class ActivitesController < ApplicationController
 
     @total_activites_semaine = @activites_semaine.map { |activite| activite.heure_fin - activite.heure_debut }.sum
     @total_activites_semaine_readable = convert_to_readable_hours(@total_activites_semaine)
-    @totaux_activites_semaine2 = @activites.sort_by(&:nom).map(&:nom).uniq.map { |typeactivite| { nom: typeactivite, duree: sommeactivites_semaine_readable(typeactivite), pourcentage: (sommeactivites_semaine(typeactivite) * 100).fdiv(@total_activites_semaine).round(2) } }
+    @totaux_activites_semaine2 = @activites.sort_by(&:nom).pluck(:nom).uniq.map { |typeactivite| { nom: typeactivite, duree: sommeactivites_semaine_readable(typeactivite), pourcentage: (sommeactivites_semaine(typeactivite) * 100).fdiv(@total_activites_semaine).round(2) } }
     @totaljoursemaine = Hash.new { |h, k| h[k] = "".to_i }
     jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
     @totaux_activites_jour = {}
@@ -178,17 +178,9 @@ private
     @activites.select { |activite| activite.nom == typeactivite && activite.date.strftime("%W").to_i + 1 == @week }.map { |activite| activite.heure_fin - activite.heure_debut }.sum
   end
 
-
-
   def convert_to_readable_hours(time)
     [(time / 3600).floor, (time / 60 % 60).floor].map { |t| t.to_s.rjust(2, '0') }.join('h')
   end
 
-  def totaux_activites
-    @totaux_activites = Hash.new { |h, k| h[k] = "".to_i }
-    @activites.each do |activite|
-      duree = activite.heure_fin - activite.heure_debut
-      @totaux_activites[activite.nom] += duree.to_i
-    end
-  end
+
 end
