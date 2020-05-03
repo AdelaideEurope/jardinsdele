@@ -1,9 +1,5 @@
 class ActivitesController < ApplicationController
   def index
-    if current_user.admin != true
-      flash[:notice] = "Malheureusement, vous ne pouvez pas accéder à cette page 😬"
-      redirect_to activites_recap_path
-    end
     @legumes = Legume.all.includes(:activites)
     @activites = Activite.all.includes(:commentaires, :taggings).with_attached_photos
     @sorted_activites = @activites.order(date: :desc, heure_fin: :desc)
