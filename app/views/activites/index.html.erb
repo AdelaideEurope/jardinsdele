@@ -58,8 +58,8 @@
               <div class="personne-activite">
                 <% if (activite[:tag_list].count) > 2 %>
                   <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="élé"></i>
-                  <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="<%= activite.tag_list.first %>"></i>
-                  <i class="fas fa-user-plus" data-toggle="tooltip" data-placement="top" title="<%= activite.tag_list[1..-1] %>"></i>
+                  <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="<%= activite[:tag_list].first %>"></i>
+                  <i class="fas fa-user-plus" data-toggle="tooltip" data-placement="top" title="<%= activite[:tag_list][1..-1] %>"></i>
                 <% else %>
                   <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="élé"></i>
                   <% activite[:tag_list].each do |tag| %>
