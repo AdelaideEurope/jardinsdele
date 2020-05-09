@@ -12,7 +12,7 @@ class ActivitesController < ApplicationController
     @legumes.each do |legume|
       @totaux_legumes[legume] = convert_to_readable_hours(legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum)
     end
-    @toutes_activites = @sorted_activites.map { |activite| { id: activite.id, date: activite.date, nom: activite.nom, legume: activite.legume&.nom, planche: activite.planche&.nom, duree: convert_to_readable_hours(activite.heure_fin - activite.heure_debut), heure_debut: activite.heure_debut, heure_fin: activite.heure_fin, commentaires: activite.commentaires, tag_list: activite.tag_list, commentaires: activite.commentaires, photos: activite.photos } }
+    @toutes_activites = @sorted_activites.map { |activite| { id: activite.id, date: activite.date, nom: activite.nom, legume: activite.legume&.nom, planche: activite.planche&.nom, duree: convert_to_readable_hours(activite.heure_fin - activite.heure_debut), heure_debut: activite.heure_debut, heure_fin: activite.heure_fin, commentaires: activite.commentaires, tag_list: activite.tag_list, photos: activite.photos } }
   end
 
   def activites_semaine
