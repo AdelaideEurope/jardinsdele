@@ -77,7 +77,7 @@ class ActivitesController < ApplicationController
 
     @total_activites_semaine = @activites_semaine.map { |activite| activite.heure_fin - activite.heure_debut }.sum
     @total_activites_semaine_readable = convert_to_readable_hours(@total_activites_semaine)
-    @totaux_activites_semaine2 = @activites.sort_by(&:nom).pluck(:nom).uniq.map { |typeactivite| { nom: typeactivite, duree: sommeactivites_semaine_readable(typeactivite), pourcentage: (sommeactivites_semaine(typeactivite) * 100).fdiv(@total_activites_semaine).round(2) } }
+    @totaux_activites_semaine2 = @activites.sort_by(&:nom).pluck(:nom).uniq.map { |typeactivite| { nom: typeactivite, duree: sommeactivites_semaine_readable(typeactivite), pourcentage: (sommeactivites_semaine(typeactivite) * 100).fdiv(@total_activites_semaine).round(2).nan? ? 0.00 : (sommeactivites_semaine(typeactivite) * 100).fdiv(@total_activites_semaine).round(2) } }
     @totaljoursemaine = Hash.new { |h, k| h[k] = "".to_i }
     jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
     @totaux_activites_jour = {}
