@@ -21,338 +21,394 @@ puts "Starting seed legume"
 Legume.create!({
   nom: "Autres aromates",
   prix_general: 0,
-  legume_css: "autres_aromates"
+  legume_css: "autres_aromates",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Aubergine",
   prix_general: 3.80,
-  legume_css: "aubergine"
+  legume_css: "aubergine",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Basilic",
   prix_general: 1.00,
-  legume_css: "basilic"
+  legume_css: "basilic",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Betterave",
   prix_general: 2.80,
-  legume_css: "betterave"
+  legume_css: "betterave",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Blette",
   prix_general: 2.90,
-  legume_css: "blette"
+  legume_css: "blette",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Brocoli",
   prix_general: 3.20,
-  legume_css: "brocoli"
+  legume_css: "brocoli",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Carotte",
   prix_general: 2.10,
-  legume_css: "carotte"
+  legume_css: "carotte",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Cébette",
   prix_general: 1.50,
-  legume_css: "cebette"
+  legume_css: "cebette",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Céleri branche",
   prix_general: 2.80,
-  legume_css: "celeri_branche"
+  legume_css: "celeri_branche",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Céleri rave",
   prix_general: 2.90,
-  legume_css: "celeri_rave"
+  legume_css: "celeri_rave",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Chou rave",
   prix_general: 3.00,
-  legume_css: "chou_rave"
+  legume_css: "chou_rave",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Chou blanc",
   prix_general: 2.60,
-  legume_css: "chou_blanc"
+  legume_css: "chou_blanc",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Chou de Bruxelles",
   prix_general: 4.00,
-  legume_css: "chou_de_bruxelles"
+  legume_css: "chou_de_bruxelles",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Chou chinois",
   prix_general: 3.10,
-  legume_css: "chou_chinois"
+  legume_css: "chou_chinois",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Chou kale",
   prix_general: 5.40,
-  legume_css: "chou_kale"
+  legume_css: "chou_kale",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Chou rouge",
   prix_general: 2.50,
-  legume_css: "chou_rouge"
+  legume_css: "chou_rouge",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Chou vert frisé",
   prix_general: 2.50,
-  legume_css: "chou_vert_frise"
+  legume_css: "chou_vert_frise",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Chou-fleur",
   prix_general: 3.20,
-  legume_css: "chou_fleur"
+  legume_css: "chou_fleur",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Concombre",
   prix_general: 1,
-  legume_css: "concombre"
+  legume_css: "concombre",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Coulis",
   prix_general: 0,
-  legume_css: "coulis"
+  legume_css: "coulis",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Courge",
   prix_general: "2,70",
-  legume_css: "courge"
+  legume_css: "courge",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Courgette",
   prix_general: 2.60,
-  legume_css: "courgette"
+  legume_css: "courgette",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Cresson",
   prix_general: 7.50,
-  legume_css: "cresson"
+  legume_css: "cresson",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Échalote",
   prix_general: 5.40,
-  legume_css: "echalote"
+  legume_css: "echalote",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Épinard",
   prix_general: 5.00,
-  legume_css: "epinard"
+  legume_css: "epinard",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Fenouil",
   prix_general: 3.50,
-  legume_css: "fenouil"
+  legume_css: "fenouil",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Fève",
   prix_general: 4.00,
-  legume_css: "feve"
+  legume_css: "feve",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Fraise",
   prix_general: 10.00,
-  legume_css: "fraise"
+  legume_css: "fraise",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Framboise",
   prix_general: 16.00,
-  legume_css: "framboise"
+  legume_css: "framboise",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Haricot vert",
   prix_general: 6.60,
-  legume_css: "haricot_vert"
+  legume_css: "haricot_vert",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Haricot coco",
   prix_general: 5.50,
-  legume_css: "haricot_coco"
+  legume_css: "haricot_coco",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Mâche",
   prix_general: 10.00,
-  legume_css: "mache"
+  legume_css: "mache",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Maïs",
   prix_general: 2.80,
-  legume_css: "mais"
+  legume_css: "mais",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Mange-tout",
   prix_general: 8.00,
-  legume_css: "mange_tout"
+  legume_css: "mange_tout",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Melon",
   prix_general: 2.60,
-  legume_css: "melon"
+  legume_css: "melon",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Mesclun",
   prix_general: 10.00,
-  legume_css: "mesclun"
+  legume_css: "mesclun",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Navet",
   prix_general: 2.60,
-  legume_css: "navet"
+  legume_css: "navet",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Oignon",
   prix_general: 2.90,
-  legume_css: "oignon"
+  legume_css: "oignon",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Panais",
   prix_general: 3.00,
-  legume_css: "panais"
+  legume_css: "panais",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Patate douce",
   prix_general: 4.00,
-  legume_css: "patate_douce"
+  legume_css: "patate_douce",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "PDT nouvelle",
   prix_general: 5.00,
-  legume_css: "pdt_nouvelle"
+  legume_css: "pdt_nouvelle",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Persil",
   prix_general: 1.00,
-  legume_css: "persil"
+  legume_css: "persil",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Petit pois",
   prix_general: 7.00,
-  legume_css: "petit_pois"
+  legume_css: "petit_pois",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Physalis",
   prix_general: 10.00,
-  legume_css: "physalis"
+  legume_css: "physalis",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Poireau",
   prix_general: 3.15,
-  legume_css: "poireau"
+  legume_css: "poireau",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Poivron",
   prix_general: 3.80,
-  legume_css: "poivron"
+  legume_css: "poivron",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Pourpier",
   prix_general: 7.50,
-  legume_css: "pourpier"
+  legume_css: "pourpier",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Radis noir",
   prix_general: 2.60,
-  legume_css: "radis_noir"
+  legume_css: "radis_noir",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Radis rose",
   prix_general: 1.30,
-  legume_css: "radis_rose"
+  legume_css: "radis_rose",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Roquette",
   prix_general: 10.00,
-  legume_css: "roquette"
+  legume_css: "roquette",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Salade",
   prix_general: 1.10,
-  legume_css: "salade"
+  legume_css: "salade",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Tartinade",
   prix_general: 3.50,
-  legume_css: "tartinade"
+  legume_css: "tartinade",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Tisane",
   prix_general: 3.50,
-  legume_css: "tisane"
+  legume_css: "tisane",
+  famille: "divers"
 })
 
 
 Legume.create!({
   nom: "Tomate",
   prix_general: 3.40,
-  legume_css: "tomate"
+  legume_css: "tomate",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Tomate ancienne",
   prix_general: 3.90,
-  legume_css: "tomate_ancienne"
+  legume_css: "tomate_ancienne",
+  famille: "divers"
 })
 
 Legume.create!({
   nom: "Tomate cerise",
   prix_general: 7.50,
-  legume_css: "tomate_cerise"
+  legume_css: "tomate_cerise",
+  famille: "divers"
 })
 
 
