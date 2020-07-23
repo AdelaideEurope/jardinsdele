@@ -300,7 +300,7 @@ class LegumesController < ApplicationController
   end
 
   def pourcentage_ca(legume)
-    if !calegume(legume).nil?
+    if !calegume(legume).nil? && !calegume(legume).zero?
       (calegume(legume)*100/catotal_legumes).round(2)
     else
       0
