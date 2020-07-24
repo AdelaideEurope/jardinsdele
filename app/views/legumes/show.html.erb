@@ -173,14 +173,13 @@
     <div class="actions-liste">
       <ul>
         <% @legume.activites.sort_by(&:date).reverse.each do |activite| %>
-          <% t= activite.heure_fin - activite.heure_debut %>
           <% unless activite.nom.empty? %>
             <li>
               <div class="wrapper-activites-show">
                 <div class="date-commentaire"><%= activite.date.strftime("%d/%m") %></div>
                 <div><%= activite.nom %></div>
                 <div><%= activite.planche != nil ? activite.planche.nom : "" %></div>
-                <div><%= [t.to_i/3600, t.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
+                <div><%= [activite.duree.to_i/3600, activite.duree.to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
                 <div class="personne-activite">
                   <% if (activite.tag_list.count) > 2 %>
                     <i class="fas fa-user" data-toggle="tooltip" data-placement="top" title="élé"></i>

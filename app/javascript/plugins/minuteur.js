@@ -51,8 +51,11 @@ const minuteur = () => {
     const newMinuteEnd = getNewMinuteEnd(minutesEnd);
     newMinuteEnd.setAttribute('selected', 'selected');
     newHourEnd.setAttribute('selected', 'selected');
+    console.log(dateInput.value)
+    console.log(dateObj)
   })
 }
+
 
 const getNewHour = (hours) => {
   if (hours < 10) {
