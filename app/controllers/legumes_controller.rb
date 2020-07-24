@@ -6,16 +6,21 @@ class LegumesController < ApplicationController
     @lignesdepanier = PanierLigne.all
     @firsthalf = (@legumes.length / 2.to_f).ceil
     @secondhalf = @legumes.length / 2
+
     @tous_legumes_parlegume = @legumes.map { |legume|
-      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? }, photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:legume_css] }
+      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.where('nom != ?', 'Récolte et préparation vente').map { |activite| activite.heure_fin - activite.heure_debut }.sum, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:legume_css] }
+
     @tous_legumes_parca = @legumes.map { |legume|
-      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), planches: nb_planches(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? && commentaire.description == "" }, photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:calegume] }.reverse
-    @legumes_semaines_graph = @legumes.map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.famille.downcase.tr("é", "e") } }.sort_by { |hashlegume| hashlegume[:name].tr("É", "E") }.reverse
+      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), planches: nb_planches(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } }.sort_by { |hashlegume| -hashlegume[:calegume] }
+
+    @legumes_semaines_graph = @legumes.map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.famille.downcase.tr("é", "e") } }.sort_by { |hashlegume| -hashlegume[:name].tr("É", "E") }
     familles_colors = { "alliacees" => "#FF6600", "apiacees" => "#99CC33", "asteracees" => "#CC0000", "brassicacees" => "#33CCFF", "chenopodacees" => "#FFCC00", "cucurbitacees" => "#660099", "divers" => "#990000", "fabacees" => "#006633", "solanacees" => "#009999" }
+
     @colors = []
     @legumes_semaines_graph.each do |legume|
       @colors << familles_colors[legume[:famille]]
     end
+
   end
 
   def new
