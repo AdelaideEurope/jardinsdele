@@ -19,31 +19,39 @@ class PlanchesController < ApplicationController
   def legumes_planches(planche)
     legumes = []
     @lignesdepanier.includes(:planche, :legume).where(planche: planche).each do |lignedepanier|
-      totallegume = total_legume(lignedepanier.legume, planche)
-      previlegume = previ_planche(lignedepanier.legume, planche)
-      legumes << { nom: lignedepanier.legume.nom, total: totallegume, previ: previlegume, diff: totallegume - previlegume, pourcentage_previ: pourcentage_previ(lignedepanier.legume, planche) }
+      unless legumes.any? {|hash| hash[:nom] == lignedepanier.legume.nom}
+        totallegume = total_legume(lignedepanier.legume, planche)
+        previlegume = previ_planche(lignedepanier.legume, planche)
+        legumes << { nom: lignedepanier.legume.nom, total: totallegume, previ: previlegume, diff: totallegume - previlegume, pourcentage_previ: pourcentage_previ(lignedepanier.legume, planche) }
+      end
     end
     @lignesdevente.includes(:planche, :legume).where(planche: planche).each do |lignedevente|
-      totallegume = total_legume(lignedevente.legume, planche)
-      previlegume = previ_planche(lignedevente.legume, planche)
-      legumes << { nom: lignedevente.legume.nom, total: totallegume, previ: previlegume, diff: totallegume - previlegume, pourcentage_previ: pourcentage_previ(lignedevente.legume, planche) }
+      unless legumes.any? {|hash| hash[:nom] == lignedevente.legume.nom}
+        totallegume = total_legume(lignedevente.legume, planche)
+        previlegume = previ_planche(lignedevente.legume, planche)
+        legumes << { nom: lignedevente.legume.nom, total: totallegume, previ: previlegume, diff: totallegume - previlegume, pourcentage_previ: pourcentage_previ(lignedevente.legume, planche) }
+      end
     end
-    legumes.uniq
+    legumes
   end
 
   def planches_legumes(legume)
     planches = []
     @lignesdepanier.includes(:planche, :legume).where(legume: legume).where.not(planche: nil?).each do |lignedepanier|
-      totalplanche = total_planche(legume, lignedepanier.planche)
-      previplanche = previ_planche(legume, lignedepanier.planche)
-      planches << { nom: lignedepanier.planche.nom, total: totalplanche, previ: previplanche, diff: totalplanche - previplanche, pourcentage_previ: pourcentage_previ(legume, lignedepanier.planche) }
+      unless planches.any? {|hash| hash[:nom] == lignedepanier.planche.nom}
+        totalplanche = total_planche(legume, lignedepanier.planche)
+        previplanche = previ_planche(legume, lignedepanier.planche)
+        planches << { nom: lignedepanier.planche.nom, total: totalplanche, previ: previplanche, diff: totalplanche - previplanche, pourcentage_previ: pourcentage_previ(legume, lignedepanier.planche) }
+      end
     end
     @lignesdevente.includes(:planche, :legume).where(legume: legume).where.not(planche: nil?).each do |lignedevente|
-      totalplanche = total_planche(legume, lignedevente.planche)
-      previplanche = previ_planche(legume, lignedevente.planche)
-      planches << { nom: lignedevente.planche.nom, total: totalplanche, previ: previplanche, diff: totalplanche - previplanche, pourcentage_previ: pourcentage_previ(legume, lignedevente.planche) }
+      unless planches.any? {|hash| hash[:nom] == lignedevente.planche.nom}
+        totalplanche = total_planche(legume, lignedevente.planche)
+        previplanche = previ_planche(legume, lignedevente.planche)
+        planches << { nom: lignedevente.planche.nom, total: totalplanche, previ: previplanche, diff: totalplanche - previplanche, pourcentage_previ: pourcentage_previ(legume, lignedevente.planche) }
+      end
     end
-    planches.uniq
+    planches
   end
 
   def total_legume(legume, planche)
