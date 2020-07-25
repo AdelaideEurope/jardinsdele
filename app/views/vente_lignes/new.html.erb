@@ -1,12 +1,13 @@
 <%= render 'shared/navbar' %>
-<div class="container mt-4">
+<div class="container mt-4" id="autofill-last-prix">
   <h2 class="mb-5">Nouvelle ligne pour la vente à <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %></h2>
   <%= simple_form_for [@vente, @lignedevente] do |f| %>
     <div class="new-ligne">
       <div class="left-col">
         <div id="ligne-legume">
           <%= f.association :legume, label_method: :nom, :label => "LÉGUME",
-          input_html: { class: 'select2' } %>
+          input_html: { class: 'select2', id:"nom_legume" } %>
+          <div class="hidden" data-legumes-prix="<%= @legumes_last_prix %>"></div>
           <div class="plancheselect">
             <%= f.association :planche, label_method: :nom, :label => "PLANCHE", input_html: { class: 'select2planche' } %>
             <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">

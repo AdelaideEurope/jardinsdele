@@ -4,6 +4,8 @@ import { minuteur } from "plugins/minuteur";
 import { initFlatPickr } from "plugins/flatpickr";
 import { meteoWidget } from "plugins/meteowidget";
 import { autoFillPrix } from 'plugins/autofillprix';
+import { autoFillLastPrix } from 'components/autofill_last_prix';
+import { autoFillLastPrixPanier } from 'components/autofill_last_prix';
 import { autoFillPrixPanier } from 'plugins/autofillprixpanier';
 import { closingWindow } from 'plugins/closingwindow';
 import 'select2/dist/css/select2.css';
@@ -19,6 +21,14 @@ toolTip();
 
 if (document.getElementById('play-button')) {
   minuteur();
+};
+
+if (document.getElementById('autofill-last-prix')) {
+  autoFillLastPrix();
+};
+
+if (document.getElementById('index-paniers')) {
+  autoFillLastPrixPanier();
 };
 
 

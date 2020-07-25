@@ -23,7 +23,6 @@ class CommentairesController < ApplicationController
     @commentaire = Commentaire.find(params[:id])
     @vente = @commentaire.vente
     @commentaire.destroy
-    redirect_to vente_path(@vente)
   end
 
   private

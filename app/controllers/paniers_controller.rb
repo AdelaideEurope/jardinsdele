@@ -28,6 +28,14 @@ class PaniersController < ApplicationController
     @firsthalf = (@sorted_legumes.length/2.to_f).ceil
     @secondhalf = @sorted_legumes.length/2
     @lignedepanier = PanierLigne.new
+
+    @legumes_last_prix_paniers = ""
+    @legumes.each do |legume|
+      unless @lignesdepanier.where(legume_id: legume.id).select {|ligne| ligne.panier.vente.vente_point == @pointdevente}.empty?
+        @legumes_last_prix_paniers << "#{legume.id}, #{@lignesdepanier.where(legume_id: legume.id).select {|ligne| ligne.panier.vente.vente_point == @pointdevente}.last.prixunitairettc.to_s}, "
+      end
+    end
+    @legumes_last_prix_paniers = @legumes_last_prix_paniers[0...-2]
   end
 
   def new
