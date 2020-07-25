@@ -7,7 +7,7 @@ class LegumesController < ApplicationController
     @firsthalf = (@legumes.length / 2.to_f).ceil
     @secondhalf = @legumes.length / 2
 
-    @tous_legumes_parlegume = @legumes.map { |legume|
+    @tous_legumes_parlegume = @legumes.includes(:commentaires, :vente_lignes, :panier_lignes).map { |legume|
       { nom: legume.nom, legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:legume_css] }
 
     @tous_legumes_parca = @legumes.map { |legume|
@@ -157,12 +157,17 @@ class LegumesController < ApplicationController
   def nb_planches(legume)
     planches = []
     legume.vente_lignes.map { |ligne| ligne.planche&.nom }.each do |ligne|
-      planches << ligne
+      unless planches.include?(ligne)
+        planches << ligne
+      end
     end
+
     legume.panier_lignes.map { |ligne| ligne.planche&.nom }.each do |ligne|
-      planches << ligne
+      unless planches.include?(ligne)
+        planches << ligne
+      end
     end
-    planches.reject(&:nil?).uniq.count
+    planches.count
   end
 
   def legumes_semaines_graph(legume)
@@ -184,10 +189,12 @@ class LegumesController < ApplicationController
 
   def photo?(legume)
     photos = []
-    legume.activites.each do |activite|
-      photos << activite.photos.any?
+    unless photos.include?(true)
+      legume.activites.each do |activite|
+        photos << activite.photos.any?
+      end
     end
-    photos.include?(true)
+    photos
   end
 
 
@@ -299,7 +306,10 @@ class LegumesController < ApplicationController
   def calegume(legume)
     @lignesdeventeparlegume = legume.vente_lignes
     @lignesdepanierparlegume = legume.panier_lignes
-    @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.select {|lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
+    calegume = 0
+    @lignesdeventeparlegume.each { |ligne| calegume += ligne.prixunitairettc * ligne.quantite }
+    @lignesdepanierparlegume.select {|lignedepanier| lignedepanier.panier.valide == true }.each { |ligne| calegume += (ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite) }
+    calegume
   end
 
   def pourcentage_ca(legume)
