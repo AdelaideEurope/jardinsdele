@@ -22,9 +22,11 @@ const autoFillLastPrix = () => {
         getPTTTC.value = Math.round((totalTTC + Number.EPSILON) * 100) / 100
         const totalHT = Math.round(((parseFloat(getPUHT.value) * parseFloat(getQuantite.value)) + Number.EPSILON) * 100) / 100;
         getPTHT.value = totalHT
-      } else if (idLegumeSelectionne === prix[0].toString()) {
-        getPUHT.innerText = 0
-
+      } else if (idLegumeSelectionne !== prix[0].toString()) {
+        getPUHT.value = ""
+        getPUTTC.value = ""
+        getPTTTC.value = ""
+        getPTHT.value = ""
       }
     })
   });
@@ -44,18 +46,19 @@ const autoFillLastPrixPanier = () => {
         const size = 2;
         const newArray = new Array(Math.ceil(arrPrix.length / size)).fill("").map(function() { return this.splice(0, size) }, arrPrix.slice());
         newArray.forEach((prix) => {
+          console.log(newArray)
           if (legumeSelectionne.value === prix[0].toString()) {
             getPUTTC.value = prix[1]
             const totalTTC = parseFloat(getPUTTC.value) * parseFloat(getQuantite.value);
             getPTTTC.value = totalTTC
-          } else if (legumeSelectionne === prix[0].toString()) {
-            getPUHT.innerText = 0
           }
         })
       })
     }
   })
 }
+
+
 
 export {autoFillLastPrix, autoFillLastPrixPanier};
 

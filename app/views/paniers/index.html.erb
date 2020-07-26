@@ -124,8 +124,13 @@
                       <div class="new-ligne-form">
                         <%= simple_form_for [@vente, panier, @lignedepanier] do |f| %>
                           <div class="pu-ligne-panier">
-                          <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true, input_html: { id: "panier_ligne_legume_id#{panier.id}" } %>
-                            <div class="hidden" data-legumes-prix-panier="<%= @legumes_last_prix_paniers %>"></div>
+                            <div class="legume-form-new-ligne">
+                              <div>
+                                <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true, input_html: { id: "panier_ligne_legume_id#{panier.id}" } %>
+                              </div>
+                              <div class="derniere-fois-panier<%= panier.id %> derniere-fois-panier"></div>
+                            </div>
+                            <div class="hidden" data-legumes-prix-panier="<%= @legumes_last_prix_paniers %>" data-legumes-dernier-panier="<%= @legumes_last_paniers %>"></div>
                             <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitairejs#{panier.id}" } %>
                             <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
                           </div>
@@ -308,6 +313,7 @@
                           <%= simple_form_for [@vente, panier, @lignedepanier] do |f| %>
                             <div class="pu-ligne-panier">
                             <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
+                            <div class="hidden" data-legumes-prix-panier="<%= @legumes_last_prix_paniers %>"></div>
                               <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitairejs#{panier.id}" } %>
                               <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
                             </div>

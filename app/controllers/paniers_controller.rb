@@ -9,6 +9,7 @@ class PaniersController < ApplicationController
     @vente = Vente.find(params[:vente_id])
     @paniers = @vente.paniers
     @lignesdepanier = @vente.panier_lignes
+    @lignesdepanier_all = PanierLigne.all
     @pointdevente = @vente.vente_point
     @arecolter = Hash.new { |arecolter, legume| arecolter[legume] = { unite: "", quantite: "".to_f } }
     @lignesdepanier.sort_by(&:legume).each do |ligne|
@@ -31,11 +32,22 @@ class PaniersController < ApplicationController
 
     @legumes_last_prix_paniers = ""
     @legumes.each do |legume|
-      unless @lignesdepanier.where(legume_id: legume.id).select {|ligne| ligne.panier.vente.vente_point == @pointdevente}.empty?
-        @legumes_last_prix_paniers << "#{legume.id}, #{@lignesdepanier.where(legume_id: legume.id).select {|ligne| ligne.panier.vente.vente_point == @pointdevente}.last.prixunitairettc.to_s}, "
+      unless @lignesdepanier_all.where(legume_id: legume.id).select {|ligne| ligne.panier.vente.vente_point == @pointdevente}.empty?
+        @legumes_last_prix_paniers << "#{legume.id}, #{@lignesdepanier_all.where(legume_id: legume.id).select {|ligne| ligne.panier.vente.vente_point == @pointdevente}.last.prixunitairettc.to_s}, "
       end
     end
     @legumes_last_prix_paniers = @legumes_last_prix_paniers[0...-2]
+
+    @legumes_last_paniers = ""
+    @legumes.each do |legume|
+      if @lignesdepanier_all.where(legume_id: legume.id).select {|ligne| ligne.panier.vente.vente_point == @pointdevente}.empty?
+        @legumes_last_paniers << "#{legume.id}, na ,"
+      else
+        date_raw = @lignesdepanier_all.where(legume_id: legume.id).select {|ligne| ligne.panier.vente.vente_point == @pointdevente}.last.panier.vente.date.to_s
+        date = "#{date_raw[8..9]}#{date_raw[5..6]}"
+        @legumes_last_paniers << "#{legume.id},#{date},"
+      end
+    end
   end
 
   def new

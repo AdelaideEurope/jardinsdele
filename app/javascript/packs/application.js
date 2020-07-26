@@ -6,6 +6,7 @@ import { meteoWidget } from "plugins/meteowidget";
 import { autoFillPrix } from 'plugins/autofillprix';
 import { autoFillLastPrix } from 'components/autofill_last_prix';
 import { autoFillLastPrixPanier } from 'components/autofill_last_prix';
+import { derniereFoisLegumePanier } from 'components/derniere_fois_legume_panier';
 import { autoFillPrixPanier } from 'plugins/autofillprixpanier';
 import { closingWindow } from 'plugins/closingwindow';
 import 'select2/dist/css/select2.css';
@@ -29,6 +30,7 @@ if (document.getElementById('autofill-last-prix')) {
 
 if (document.getElementById('index-paniers')) {
   autoFillLastPrixPanier();
+  derniereFoisLegumePanier();
 };
 
 
