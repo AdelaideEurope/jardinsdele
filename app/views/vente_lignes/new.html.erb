@@ -9,7 +9,8 @@
           input_html: { class: 'select2', id:"nom_legume" } %>
           <div class="hidden" data-legumes-prix="<%= @legumes_last_prix %>"></div>
           <div class="plancheselect">
-            <%= f.association :planche, label_method: :nom, :label => "PLANCHE", input_html: { class: 'select2planche' } %>
+            <%= f.input :planche, :label => "PLANCHE" %>
+            <%#= f.association :planche, label_method: :nom, :label => "PLANCHE", input_html: { class: 'select2planche' } %>
             <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
               <i class="fas fa-binoculars"></i>
             </button>

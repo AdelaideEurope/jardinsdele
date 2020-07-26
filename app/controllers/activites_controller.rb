@@ -77,7 +77,12 @@ class ActivitesController < ApplicationController
 
   def recap
     @activites = Activite.all.order(date: :desc, heure_fin: :desc).includes(:commentaires, :taggings).with_attached_photos
-    @week = Date.today.strftime("%W").to_i + 1
+    if params[:query].blank?
+      @week = Date.today.strftime("%W").to_i + 1
+    else
+      @week = params[:query].to_i
+    end
+
     @activites_semaine = @activites.select { |activite| activite.date.strftime("%W").to_i + 1 == @week }
     @toutes_activites_semaine = @activites_semaine.map { |activite| { id: activite.id, date: activite.date, nom: activite.nom, legume: activite.legume&.nom, planche: activite.planche&.nom, duree: convert_to_readable_hours(activite.duree.to_i), heure_debut: activite.heure_debut, heure_fin: activite.heure_fin, commentaires: activite.commentaires, tag_list: activite.tag_list, commentaires: activite.commentaires, photos: activite.photos } }
 
@@ -89,7 +94,8 @@ class ActivitesController < ApplicationController
     @totaux_activites_jour = {}
     counter = 0
     until counter == 7
-      @activites_jour = @activites.where('date >= ? AND date <= ?', DateTime.now.beginning_of_week.beginning_of_day + counter.days, DateTime.now.beginning_of_week.end_of_day + counter.days)
+      datejour = Date.commercial(DateTime.now.year, @week)
+      @activites_jour = @activites.where('date >= ? AND date <= ?', datejour.beginning_of_week.beginning_of_day + counter.days, datejour.beginning_of_week.end_of_day + counter.days)
       dureedujour = []
       @activites_jour.each do |activite|
         dureeactivite = activite.duree.to_i
