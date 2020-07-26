@@ -22,11 +22,6 @@ const autoFillLastPrix = () => {
         getPTTTC.value = Math.round((totalTTC + Number.EPSILON) * 100) / 100
         const totalHT = Math.round(((parseFloat(getPUHT.value) * parseFloat(getQuantite.value)) + Number.EPSILON) * 100) / 100;
         getPTHT.value = totalHT
-      } else if (idLegumeSelectionne !== prix[0].toString()) {
-        getPUHT.value = ""
-        getPUTTC.value = ""
-        getPTTTC.value = ""
-        getPTHT.value = ""
       }
     })
   });
