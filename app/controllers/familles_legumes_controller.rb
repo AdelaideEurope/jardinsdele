@@ -1,0 +1,2 @@
+class FamillesLegumesController < ApplicationController
+end

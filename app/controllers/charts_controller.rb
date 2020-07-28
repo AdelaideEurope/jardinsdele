@@ -3,13 +3,18 @@ class ChartsController < ApplicationController
     @legumes = Legume.all
     @lignesdevente = VenteLigne.all
     @lignesdepanier = PanierLigne.all
-    @legumes_semaines_graph = @legumes.map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.famille.downcase.tr("é", "e") } }.sort_by { |hashlegume| -hashlegume[:name].tr("É", "E") }
-    familles_colors = { "alliacees" => "#FF6600", "apiacees" => "#99CC33", "asteracees" => "#CC0000", "brassicacees" => "#33CCFF", "chenopodacees" => "#FFCC00", "cucurbitacees" => "#660099", "divers" => "#990000", "fabacees" => "#006633", "solanacees" => "#009999" }
+    @legumes_semaines_graph = @legumes.map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille_legume: legume.familles_legume.nom.downcase.tr("é", "e") } }.sort_by { |hashlegume| -hashlegume[:name].tr("É", "E") }
+    @familles = FamillesLegume.all
+    @familles_couleurs = Hash.new
+    @familles.each do |famille|
+      @familles_couleurs[famille.nom] = famille.couleur
+    end
 
     @colors = []
     @legumes_semaines_graph.each do |legume|
-      @colors << familles_colors[legume[:famille]]
+      @colors << @familles_couleurs[legume[:famille_legume]]
     end
+    @colors
 
     render json: @legumes_semaines_graph
   end
