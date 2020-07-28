@@ -10,6 +10,7 @@ class Legume < ApplicationRecord
   has_many :previsionnel_planches
   has_one_attached :photo
   belongs_to :familles_legume, optional: true
+
   extend FriendlyId
   friendly_id :legume_css, use: :slugged
   validates :famille, presence: true
