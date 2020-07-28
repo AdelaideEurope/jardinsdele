@@ -19,8 +19,8 @@ class Legume < ApplicationRecord
 
   def self.add_famille_reference
     Legume.all.each do |legume|
-      fam = Famille.where("lower(nom) = ?", legume.famille.downcase).first.id
-      legume.update!(famille_id: fam)
+      fam = FamillesLegume.where("lower(nom) = ?", legume.famille.downcase).first.id
+      legume.update!(familles_legume_id: fam)
     end
   end
 
