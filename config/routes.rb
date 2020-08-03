@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get "/ventes/impayes" , to: "ventes#impayes"
   get "/planches/previsionnel_planches" , to: "planches#previsionnel_planches"
   resources :memos
+  resources :encouragements
   resources :activites
   resources :assistants, only: [:index]
   resources :legumes

@@ -50,3 +50,9 @@ en:
               blank: "=> requis"
             quantite:
               blank: "=> requis"
+        encouragement:
+          attributes:
+            message:
+              blank: "=> requis"
+            auteur:
+              blank: "=> requis"

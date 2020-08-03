@@ -14,12 +14,13 @@ class LegumesController < ApplicationController
       { nom: legume.nom, legume_css: legume.legume_css, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), planches: nb_planches(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } }.sort_by { |hashlegume| -hashlegume[:calegume] }
 
     @legumes_semaines_graph = @legumes.map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.famille.downcase.tr("é", "e") } }.sort_by { |hashlegume| -hashlegume[:name].downcase.tr("é", "e") }
-    familles_colors = { "alliacees" => "#FF6600", "apiacees" => "#99CC33", "asteracees" => "#CC0000", "brassicacees" => "#33CCFF", "chenopodacees" => "#FFCC00", "cucurbitacees" => "#660099", "divers" => "#990000", "fabacees" => "#006633", "solanacees" => "#009999" }
+    # familles_colors = { "alliacees" => "#FF6600", "apiacees" => "#99CC33", "asteracees" => "#CC0000", "brassicacees" => "#33CCFF", "chenopodacees" => "#FFCC00", "cucurbitacees" => "#660099", "divers" => "#990000", "fabacees" => "#006633", "solanacees" => "#009999" }
 
-    @colors = []
-    @legumes_semaines_graph.each do |legume|
-      @colors << familles_colors[legume[:famille]]
-    end
+    @colors = @legumes.sort_by(&:legume_css).map { |legume| legume.familles_legume.couleur }
+    # @colors = []
+    # @legumes_semaines_graph.each do |legume|
+    #   @colors << familles_colors[legume[:famille]]
+    # end
   end
 
   def new

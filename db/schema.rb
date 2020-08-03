@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_28_203203) do
+ActiveRecord::Schema.define(version: 2020_07_29_213222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,13 @@ ActiveRecord::Schema.define(version: 2020_07_28_203203) do
     t.bigint "vente_id"
     t.index ["activite_id"], name: "index_commentaires_on_activite_id"
     t.index ["vente_id"], name: "index_commentaires_on_vente_id"
+  end
+
+  create_table "encouragements", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "message"
+    t.string "auteur"
   end
 
   create_table "familles_legumes", force: :cascade do |t|
