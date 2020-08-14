@@ -1,6 +1,14 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
   <h2>Les légumes</h2>
+
+  <%#= @tous_legumes_parlegume2.sort_by {|legume, infos| -infos[0][:calegume]} %>
+  <!--  <br><br><br>
+  PAR LÉGUME -->
+  <%#= @tous_legumes_parlegume %>
+  <!-- <br><br><br>
+  PAR CA -->
+  <%#= @tous_legumes_parca %>
 </div>
 <div class="img-legumes">
   <%= image_tag "radis.jpg", class: "radis" %>
@@ -10,15 +18,15 @@
 <div class="container">
   <div class="tri-legume">
     <div id="par-sem-legume">Par semaine <i class="fas fa-calendar-alt"></i></i></div>
-    <div id="par-nom-legume">Nom de légume <i class="fas fa-sort-alpha-down"></i></div>
+    <div id="par-nom-legume" class="hidden">Nom de légume <i class="fas fa-sort-alpha-down"></i></div>
     <div id="par-ca-legume">CA de légume <i class="fas fa-sort-amount-down"></i></div>
   </div>
-  <div class="tous-legumes hidden">
+ <!--  <div class="tous-legumes hidden"> -->
     <!-- <table>
       <thead>
         <tr>
           <th>Légume</th>
-          <th><%= image_tag "planches.png", class: "titre-planches-index-leg" %></th>
+          <th><%#= image_tag "planches.png", class: "titre-planches-index-leg" %></th>
           <th>CA</th>
           <th>% CA</th>
         </tr>
@@ -34,130 +42,130 @@
         <%# end %>
       </tbody>
     </table> -->
-    <div class="liste-legume mr-3">
+    <!-- <div class="liste-legume mr-3">
       <ul>
         <li>
           <div class="wrapper-legumes">
             <div><b>Légume</b></div>
-            <div><b><%= link_to planches_path do %><%= image_tag "planches.png", class: "titre-planches-index-leg" %><% end %></b></div>
+            <div><b><#%= link_to planches_path do %><#%= image_tag "planches.png", class: "titre-planches-index-leg" %><#% end %></b></div>
             <div class="pl-2"><b>CA</b></div>
             <div><b>% CA</b></div>
           </div>
-        </li>
-
-        <% @tous_legumes_parlegume.first(@firsthalf).each do |legume| %>
+        </li> -->
+        <%#= @legumes.sort_by(&:legume_css)[0...@firsthalf] %>
+     <!--    <#% @tous_legumes_parlegume.first(@firsthalf).each do |legume| %>
           <li>
             <div class="wrapper-legumes">
-              <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
-              <div><%= legume[:planches] %> </div>
-              <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
-              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
+              <div><%#= link_to legume_path(legume[:legume_css]) do %> <%#= legume[:nom] %> <#% end %> </div>
+              <div><%#= legume[:planches] %> </div>
+              <div><%#= number_with_precision(legume[:calegume], precision: 2) %> €</div>
+              <div class="planches-legumes-index"><%#= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css] %>">
-                  <% if legume[:commentaires].any? %>
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%#= legume[:legume_css] %>">
+                  <#% if legume[:commentaires].any? %>
                     <i class="fas fa-comment-alt"></i>
-                  <% end %>
+                  <#% end %>
                 </button>
               </div>
-              <div class="modal fade" id="ModalCenter<%= legume[:legume_css] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+              <div class="modal fade" id="ModalCenter<%#= legume[:legume_css] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content modal-commentaires-index-legumes">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="modalLongTitle"><%= legume[:nom] %></h5>
+                      <h5 class="modal-title" id="modalLongTitle"><%#= legume[:nom] %></h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body commentaires-liste">
                       <ul>
-                        <% legume[:commentaires].each do |commentaire| %>
-                          <% unless commentaire.description.empty? %>
+                        <#% legume[:commentaires].each do |commentaire| %>
+                          <#% unless commentaire.description.empty? %>
                             <li>
-                              <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-                              <div class="contenu-commentaire"><%= commentaire.description %></div>
+                              <div class="date-commentaire"><%#= commentaire.activite.date.strftime("%d/%m") %></div>
+                              <div class="contenu-commentaire"><%#= commentaire.description %></div>
                             </li>
-                          <% end %>
-                        <% end %>
+                          <#% end %>
+                        <#% end %>
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
               <div>
-                <% if legume[:photos] == true %>
-                  <%= link_to legume_path(legume[:legume_css]) do %><i class="far fa-images"></i><% end %>
-                <% end %>
+                <#% if legume[:photos] == true %>
+                  <%#= link_to legume_path(legume[:legume_css]) do %><i class="far fa-images"></i><#% end %>
+                <#% end %>
               </div>
             </div>
           </li>
-        <% end %>
-      </ul>
+        <#% end %> -->
+  <!--     </ul>
     </div>
-
-    <div class="liste-legume ml-3">
+ -->
+  <!--   <div class="liste-legume ml-3">
       <ul>
         <li>
           <div class="wrapper-legumes">
             <div><b>Légume</b></div>
-            <div><b><%= link_to planches_path do %><%= image_tag "planches.png", class: "titre-planches-index-leg" %><% end %></b></div>            <div class="pl-2"><b>CA</b></div>
+            <div><b><%#= link_to planches_path do %><%#= image_tag "planches.png", class: "titre-planches-index-leg" %><#% end %></b></div>            <div class="pl-2"><b>CA</b></div>
             <div><b>% CA</b></div>
           </div>
         </li>
-        <% @tous_legumes_parlegume.last(@secondhalf).each do |legume| %>
+        <%# @tous_legumes_parlegume.last(@secondhalf).each do |legume| %>
           <li>
             <div class="wrapper-legumes">
-              <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
-              <div><%= legume[:planches] %> </div>
-              <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
-              <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
+              <div><%#= link_to legume_path(legume[:legume_css]) do %> <%#= legume[:nom] %> <#% end %> </div>
+              <div><%#= legume[:planches] %> </div>
+              <div><%#= number_with_precision(legume[:calegume], precision: 2) %> €</div>
+              <div class="planches-legumes-index"><%#= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css] %>">
-                  <% if legume[:commentaires].any? %>
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%#= legume[:legume_css] %>">
+                  <#% if legume[:commentaires].any? %>
                     <i class="fas fa-comment-alt"></i>
-                  <% end %>
+                  <#% end %>
                 </button>
               </div>
-              <div class="modal fade" id="ModalCenter<%= legume[:legume_css] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+              <div class="modal fade" id="ModalCenter<%#= legume[:legume_css] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content modal-commentaires-index-legumes">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="modalLongTitle"><%= legume[:nom] %></h5>
+                      <h5 class="modal-title" id="modalLongTitle"><%#= legume[:nom] %></h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body commentaires-liste">
                       <ul>
-                        <% legume[:commentaires].each do |commentaire| %>
-                          <% unless commentaire.description.empty? %>
+                        <%# legume[:commentaires].each do |commentaire| %>
+                          <%# unless commentaire.description.empty? %>
                             <li>
-                              <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-                              <div class="contenu-commentaire"><%= commentaire.description %></div>
+                              <div class="date-commentaire"><%#= commentaire.activite.date.strftime("%d/%m") %></div>
+                              <div class="contenu-commentaire"><%#= commentaire.description %></div>
                             </li>
-                          <% end %>
-                        <% end %>
+                          <#% end %>
+                        <#% end %>
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
               <div>
-                <% if legume[:photos] == true %>
-                  <%= link_to legume_path(legume[:legume_css]) do %><i class="far fa-images"></i><% end %>
-                <% end %>
+                <#% if legume[:photos] == true %>
+                  <%#= link_to legume_path(legume[:legume_css]) do %><i class="far fa-images"></i><#% end %>
+                <#% end %>
               </div>
             </div>
           </li>
-        <% end %>
+        <#% end %>
       <div class="plus-recap">
-        <%= link_to new_legume_path do %>
-          <% image_tag "plus-rond.png", class: "plus-rond-recap" %>
-        <% end %>
+        <%#= link_to new_legume_path do %>
+          <%# image_tag "plus-rond.png", class: "plus-rond-recap" %>
+        <#% end %>
       </div>
       </ul>
     </div>
   </div>
-
+ -->
 
   <div class="tous-legumes-ca hidden">
     <div class="liste-legume mr-3">

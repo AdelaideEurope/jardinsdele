@@ -7,12 +7,17 @@ class LegumesController < ApplicationController
     @firsthalf = (@legumes.size / 2.to_f).ceil
     @secondhalf = @legumes.size / 2
 
-    @tous_legumes = @legumes.includes(:commentaires, :vente_lignes, :panier_lignes).map { |legume|
-      { nom: legume.nom, legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:legume_css] }
+    # @tous_legumes_parlegume2 = Hash.new
+    # @legumes.sort_by(&:legume_css).each do |legume|
+    #   @tous_legumes_parlegume2[legume.nom] = [{legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } ]
+    # end
 
-    @tous_legumes_parlegume = @tous_legumes.sort_by { |hashlegume| hashlegume[:legume_css] }
 
-    @tous_legumes_parca = @tous_legumes.sort_by { |hashlegume| -hashlegume[:calegume] }
+    # @tous_legumes_parlegume = @legumes.includes(:commentaires, :vente_lignes, :panier_lignes).map { |legume|
+    #   { nom: legume.nom, legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:legume_css] }
+
+    @tous_legumes_parca = @legumes.map { |legume|
+      { nom: legume.nom, legume_css: legume.legume_css, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), planches: nb_planches(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } }.sort_by { |hashlegume| -hashlegume[:calegume] }
 
     @legumes_semaines_graph = @legumes.map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.famille.downcase.tr("é", "e") } }.sort_by { |hashlegume| -hashlegume[:name].downcase.tr("é", "e") }
     # familles_colors = { "alliacees" => "#FF6600", "apiacees" => "#99CC33", "asteracees" => "#CC0000", "brassicacees" => "#33CCFF", "chenopodacees" => "#FFCC00", "cucurbitacees" => "#660099", "divers" => "#990000", "fabacees" => "#006633", "solanacees" => "#009999" }
