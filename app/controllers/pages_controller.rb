@@ -17,7 +17,6 @@ class PagesController < ApplicationController
     arecolter_j1
     arecolter_j2
     @ventes_futures_semaine = @ventes.select { |vente| vente.date.strftime("%W").to_i + 1 == week }.reject { |vente| vente.date < Date.today }
-    week = Date.today.strftime("%W").to_i + 1
     @todo_today = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.date == Date.today }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }
     @todo_pas_faits = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.date < Date.today }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }
     @todo_this_week = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }.reject { |memo| memo.date < Date.today }

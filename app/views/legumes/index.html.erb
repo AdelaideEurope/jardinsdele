@@ -14,6 +14,26 @@
     <div id="par-ca-legume">CA de légume <i class="fas fa-sort-amount-down"></i></div>
   </div>
   <div class="tous-legumes hidden">
+    <!-- <table>
+      <thead>
+        <tr>
+          <th>Légume</th>
+          <th><%= image_tag "planches.png", class: "titre-planches-index-leg" %></th>
+          <th>CA</th>
+          <th>% CA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%# @tous_legumes_parlegume.first(@firsthalf).each do |legume| %>
+        <tr>
+          <td><%#= link_to legume_path(legume[:legume_css]) do %> <%#= legume[:nom] %> <%# end %></td>
+          <td><%#= legume[:planches] %></td>
+          <td><%#= number_with_precision(legume[:calegume], precision: 2) %> €</td>
+          <td><%#= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</td>
+        </tr>
+        <%# end %>
+      </tbody>
+    </table> -->
     <div class="liste-legume mr-3">
       <ul>
         <li>
@@ -24,6 +44,7 @@
             <div><b>% CA</b></div>
           </div>
         </li>
+
         <% @tous_legumes_parlegume.first(@firsthalf).each do |legume| %>
           <li>
             <div class="wrapper-legumes">

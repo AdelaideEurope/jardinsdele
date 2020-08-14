@@ -84,7 +84,7 @@ class ActivitesController < ApplicationController
     end
 
     @activites_semaine = @activites.select { |activite| activite.date.strftime("%W").to_i + 1 == @week }
-    @toutes_activites_semaine = @activites_semaine.map { |activite| { id: activite.id, date: activite.date, nom: activite.nom, legume: activite.legume&.nom, planche: activite.planche&.nom, duree: convert_to_readable_hours(activite.duree.to_i), heure_debut: activite.heure_debut, heure_fin: activite.heure_fin, commentaires: activite.commentaires, tag_list: activite.tag_list, commentaires: activite.commentaires, photos: activite.photos } }
+    @toutes_activites_semaine = @activites_semaine.map { |activite| { id: activite.id, date: activite.date, nom: activite.nom, legume: activite.legume&.nom, planche: activite.planche&.nom, duree: convert_to_readable_hours(activite.duree.to_i), heure_debut: activite.heure_debut, heure_fin: activite.heure_fin, tag_list: activite.tag_list, commentaires: activite.commentaires, photos: activite.photos } }
 
     @total_activites_semaine = @activites_semaine.map { |activite| activite.duree.to_i }.sum
     @total_activites_semaine_readable = convert_to_readable_hours(@total_activites_semaine)
@@ -138,7 +138,7 @@ class ActivitesController < ApplicationController
       redirect_to activites_recap_path
     end
     @activite = Activite.find(params[:id])
-    @previsionnel_planche = PrevisionnelPlanch.select { |previ| previ.created_at.to_i == @activite.created_at.to_i }.first
+    @previsionnel_planche = PrevisionnelPlanch.detect { |previ| previ.created_at.to_i == @activite.created_at.to_i }
     planches = Planche.all
     @jardins = planches.group_by(&:jardin)
   end
@@ -149,7 +149,7 @@ class ActivitesController < ApplicationController
     heure_fin_activite = DateTime.civil(params[:activite]["heure_fin(1i)"].to_i, params[:activite]["heure_fin(2i)"].to_i, params[:activite]["heure_fin(3i)"].to_i, params[:activite]["heure_fin(4i)"].to_i, params[:activite]["heure_fin(5i)"].to_i)
     duree = heure_fin_activite.to_time - heure_debut_activite.to_time
     params[:activite][:duree] = duree
-    @previsionnel_planche = PrevisionnelPlanch.select { |previ| previ.created_at.to_i == @activite.created_at.to_i }.first
+    @previsionnel_planche = PrevisionnelPlanch.detect { |previ| previ.created_at.to_i == @activite.created_at.to_i }
     nomactivite = params[:activite][:nom]
     if nomactivite == "Plantation"
     legume_id = params[:activite][:legume_id]

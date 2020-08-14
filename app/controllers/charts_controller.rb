@@ -25,7 +25,7 @@ private
     @week = Date.today.strftime("%W").to_i + 1
     @weeks = (1..@week).to_a.reverse
     @arr_weeks = []
-    @weeks.reverse.each do |week|
+    @weeks.reverse_each do |week|
       totauxlegume = 0
       @lignesdevente.select { |ligne| ligne.vente.date.strftime("%W").to_i + 1 == week && ligne.legume == legume }.each do |ligne|
         totauxlegume += ligne.prixunitairettc * ligne.quantite

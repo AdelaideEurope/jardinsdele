@@ -19,7 +19,7 @@ class VenteLignesController < ApplicationController
     @legumes_last_prix = ""
     @legumes.each do |legume|
       unless @lignesdevente.where(legume_id: legume.id).select {|ligne| ligne.vente.vente_point == @pointdevente}.empty?
-        @legumes_last_prix << "#{legume.id}, #{@lignesdevente.where(legume_id: legume.id).select {|ligne| ligne.vente.vente_point == @pointdevente}.last.prixunitaireht.to_s}, "
+        @legumes_last_prix << "#{legume.id}, #{@lignesdevente.where(legume_id: legume.id).reverse.detect {|ligne| ligne.vente.vente_point == @pointdevente}.prixunitaireht.to_s}, "
       end
     end
     @legumes_last_prix = @legumes_last_prix[0...-2]

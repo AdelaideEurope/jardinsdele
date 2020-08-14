@@ -33,7 +33,7 @@ class PaniersController < ApplicationController
     @legumes_last_prix_paniers = ""
     @legumes.each do |legume|
       unless @lignesdepanier_all.where(legume_id: legume.id).select {|ligne| ligne.panier.vente.vente_point == @pointdevente}.empty?
-        @legumes_last_prix_paniers << "#{legume.id}, #{@lignesdepanier_all.where(legume_id: legume.id).select {|ligne| ligne.panier.vente.vente_point == @pointdevente}.last.prixunitairettc.to_s}, "
+        @legumes_last_prix_paniers << "#{legume.id}, #{@lignesdepanier_all.where(legume_id: legume.id).reverse.detect {|ligne| ligne.panier.vente.vente_point == @pointdevente}.prixunitairettc.to_s}, "
       end
     end
     @legumes_last_prix_paniers = @legumes_last_prix_paniers[0...-2]
@@ -43,7 +43,7 @@ class PaniersController < ApplicationController
       if @lignesdepanier_all.where(legume_id: legume.id).select {|ligne| ligne.panier.vente.vente_point == @pointdevente}.empty?
         @legumes_last_paniers << "#{legume.id}, na ,"
       else
-        date_raw = @lignesdepanier_all.where(legume_id: legume.id).select {|ligne| ligne.panier.vente.vente_point == @pointdevente}.last.panier.vente.date.to_s
+        date_raw = @lignesdepanier_all.where(legume_id: legume.id).reverse.detect {|ligne| ligne.panier.vente.vente_point == @pointdevente}.panier.vente.date.to_s
         date = "#{date_raw[8..9]}#{date_raw[5..6]}"
         @legumes_last_paniers << "#{legume.id},#{date},"
       end
