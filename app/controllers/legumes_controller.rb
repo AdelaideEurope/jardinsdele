@@ -102,7 +102,7 @@ class LegumesController < ApplicationController
     @lignes_legume = @lignesparlegume.map { |ligne| { date: date_ligne(ligne), pdv: pdv_ligne(ligne), vente: vente_ligne(ligne), quantite: quantite_ligne(ligne), unite: unite_ligne(ligne) } }
     @ventes = Vente.all
     @catotal = @ventes.sum('total_ttc')
-    @dureedulegume = @legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.sum('duree')
+    @dureedulegume = @legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum
     @calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.select { |lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
     @pourcentagedulegume = (@calegume * 100).fdiv(@catotal).round(2)
 
