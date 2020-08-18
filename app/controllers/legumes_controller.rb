@@ -4,18 +4,29 @@ class LegumesController < ApplicationController
     @ventes = Vente.all
     @lignesdevente = VenteLigne.all
     @lignesdepanier = PanierLigne.all
-    @firsthalf = (@legumes.length / 2.to_f).ceil
-    @secondhalf = @legumes.length / 2
-    @tous_legumes_parlegume = @legumes.map { |legume|
-      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? }, photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:legume_css] }
+    @firsthalf = (@legumes.size / 2.to_f).ceil
+    @secondhalf = @legumes.size / 2
+
+    # @tous_legumes_parlegume2 = Hash.new
+    # @legumes.sort_by(&:legume_css).each do |legume|
+    #   @tous_legumes_parlegume2[legume.nom] = [{legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } ]
+    # end
+
+
+    # @tous_legumes_parlegume = @legumes.includes(:commentaires, :vente_lignes, :panier_lignes).map { |legume|
+    #   { nom: legume.nom, legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:legume_css] }
+
     @tous_legumes_parca = @legumes.map { |legume|
-      { nom: legume.nom, legume_css: legume.legume_css, duree: legume.activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), planches: nb_planches(legume), commentaires: legume.commentaires.reject { |commentaire| commentaire.description.empty? && commentaire.description == "" }, photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:calegume] }.reverse
-    @legumes_semaines_graph = @legumes.map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.famille.downcase.tr("é", "e") } }.sort_by { |hashlegume| hashlegume[:name].tr("É", "E") }.reverse
-    familles_colors = { "alliacees" => "#FF6600", "apiacees" => "#99CC33", "asteracees" => "#CC0000", "brassicacees" => "#33CCFF", "chenopodacees" => "#FFCC00", "cucurbitacees" => "#660099", "divers" => "#990000", "fabacees" => "#006633", "solanacees" => "#009999" }
-    @colors = []
-    @legumes_semaines_graph.each do |legume|
-      @colors << familles_colors[legume[:famille]]
-    end
+      { nom: legume.nom, legume_css: legume.legume_css, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), planches: nb_planches(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } }.sort_by { |hashlegume| -hashlegume[:calegume] }
+
+    @legumes_semaines_graph = @legumes.map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.famille.downcase.tr("é", "e") } }.sort_by { |hashlegume| -hashlegume[:name].downcase.tr("é", "e") }
+    # familles_colors = { "alliacees" => "#FF6600", "apiacees" => "#99CC33", "asteracees" => "#CC0000", "brassicacees" => "#33CCFF", "chenopodacees" => "#FFCC00", "cucurbitacees" => "#660099", "divers" => "#990000", "fabacees" => "#006633", "solanacees" => "#009999" }
+
+    @colors = @legumes.sort_by(&:legume_css).map { |legume| legume.familles_legume.couleur }
+    # @colors = []
+    # @legumes_semaines_graph.each do |legume|
+    #   @colors << familles_colors[legume[:famille]]
+    # end
   end
 
   def new
@@ -61,7 +72,7 @@ class LegumesController < ApplicationController
     @legumes.each do |legume|
       @legumesparca[legume] = legume.vente_lignes.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + legume.panier_lignes.select { |lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
     end
-    @meilleurslegumes = @legumesparca.sort_by { |_k, v| v }.reverse.first(3).map { |legume| legume[0] }
+    @meilleurslegumes = @legumesparca.sort_by { |_k, v| v }.last(3).map { |legume| legume[0] }
     @activites = Activite.all
     @planches = Planche.all
     @jardins = @planches.group_by(&:jardin)
@@ -72,11 +83,10 @@ class LegumesController < ApplicationController
     @tempslegume = Hash.new { |h, k| h[k] = "".to_i }
     @meilleurslegumes.each do |legume|
       legume.activites.each do |activite|
-        duree = activite.heure_fin - activite.heure_debut
-        @tempslegume[legume.nom] += duree
+        @tempslegume[legume.nom] += activite.duree.to_i
       end
     end
-    @catotal = @ventes.map(&:total_ttc).sum
+    @catotal = @ventes.sum('total_ttc')
     lignessousserre
     planchesenrecolte
     lignesgroupees
@@ -91,8 +101,8 @@ class LegumesController < ApplicationController
     @lignesparlegume = @legume.vente_lignes + @legume.panier_lignes
     @lignes_legume = @lignesparlegume.map { |ligne| { date: date_ligne(ligne), pdv: pdv_ligne(ligne), vente: vente_ligne(ligne), quantite: quantite_ligne(ligne), unite: unite_ligne(ligne) } }
     @ventes = Vente.all
-    @catotal = @ventes.map(&:total_ttc).sum
-    @dureedulegume = @legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum
+    @catotal = @ventes.sum('total_ttc')
+    @dureedulegume = @legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.sum('duree')
     @calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.select { |lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
     @pourcentagedulegume = (@calegume * 100).fdiv(@catotal).round(2)
 
@@ -154,19 +164,24 @@ class LegumesController < ApplicationController
   def nb_planches(legume)
     planches = []
     legume.vente_lignes.map { |ligne| ligne.planche&.nom }.each do |ligne|
-      planches << ligne
+      unless planches.include?(ligne)
+        planches << ligne
+      end
     end
+
     legume.panier_lignes.map { |ligne| ligne.planche&.nom }.each do |ligne|
-      planches << ligne
+      unless planches.include?(ligne)
+        planches << ligne
+      end
     end
-    planches.reject(&:nil?).uniq.count
+    planches.size
   end
 
   def legumes_semaines_graph(legume)
     @week = Date.today.strftime("%W").to_i + 1
     @weeks = (1..@week).to_a.reverse
     @arr_weeks = []
-    @weeks.reverse.each do |week|
+    @weeks.reverse_each do |week|
       totauxlegume = 0
       @lignesdevente.select { |ligne| ligne.vente.date.strftime("%W").to_i + 1 == week && ligne.legume == legume }.each do |ligne|
         totauxlegume += ligne.prixunitairettc * ligne.quantite
@@ -181,10 +196,12 @@ class LegumesController < ApplicationController
 
   def photo?(legume)
     photos = []
-    legume.activites.each do |activite|
-      photos << activite.photos.any?
+    unless photos.include?(true)
+      legume.activites.each do |activite|
+        photos << activite.photos.any?
+      end
     end
-    photos.include?(true)
+    photos
   end
 
 
@@ -221,7 +238,7 @@ class LegumesController < ApplicationController
     @week = Date.today.strftime("%W").to_i + 1
     @weeks = (1..@week).to_a.reverse
     @arr_weeks = []
-    @weeks.reverse.each do |week|
+    @weeks.reverse_each do |week|
       totauxlegume = 0
       @lignesdeventeparlegume.select { |ligne| ligne.vente.date.strftime("%W").to_i + 1 == week && ligne.planche == planche }.each do |ligne|
         totauxlegume += ligne.prixunitairettc * ligne.quantite
@@ -238,7 +255,7 @@ class LegumesController < ApplicationController
     @week = Date.today.strftime("%W").to_i + 1
     @weeks = (1..@week).to_a.reverse
     @arr_weeks = []
-    @weeks.reverse.each do |week|
+    @weeks.reverse_each do |week|
       totauxlegume = 0
       @lignesdeventeparlegume.select { |ligne| ligne.vente.date.strftime("%W").to_i + 1 == week && ligne.planche == planche }.each do |ligne|
         totauxlegume += ligne.prixunitairettc * ligne.quantite
@@ -290,17 +307,20 @@ class LegumesController < ApplicationController
   end
 
   def catotal_legumes
-    @ventes.map(&:total_ttc).sum
+    @ventes.sum('total_ttc')
   end
 
   def calegume(legume)
     @lignesdeventeparlegume = legume.vente_lignes
     @lignesdepanierparlegume = legume.panier_lignes
-    @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.select {|lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
+    calegume = 0
+    @lignesdeventeparlegume.each { |ligne| calegume += ligne.prixunitairettc * ligne.quantite }
+    @lignesdepanierparlegume.select {|lignedepanier| lignedepanier.panier.valide == true }.each { |ligne| calegume += (ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite) }
+    calegume
   end
 
   def pourcentage_ca(legume)
-    if !calegume(legume).nil?
+    if !calegume(legume).nil? && !calegume(legume).zero?
       (calegume(legume)*100/catotal_legumes).round(2)
     else
       0
@@ -327,7 +347,7 @@ class LegumesController < ApplicationController
     planchesrecolte = []
     planchesrecolte << @planches.select {|planche| planche.vente_lignes.any?}
     planchesrecolte << @planches.select {|planche| planche.panier_lignes.any? }
-    @planchesenrecolte = planchesrecolte.flatten.uniq.count
+    @planchesenrecolte = planchesrecolte.flatten.uniq.size
   end
 
   def lignesgroupees
@@ -384,7 +404,7 @@ class LegumesController < ApplicationController
         end
       end
     end
-    @planchesencours = planchesencours.uniq.count - 1
+    @planchesencours = planchesencours.uniq.size - 1
   end
 end
 

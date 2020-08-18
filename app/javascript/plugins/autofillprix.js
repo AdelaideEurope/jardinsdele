@@ -28,7 +28,17 @@ const autoFillPrix = () => {
   })
 
   getQuantite.addEventListener('change', (event) => {
-    if (getPUHT !== null && getPUTTC !== null) {
+    if (getPUHT.value !== "" && getPUTTC.value !== "") {
+      const totalTTC = Math.round(((parseFloat(getQuantite.value) * parseFloat(getPUTTC.value)) + Number.EPSILON) * 100) / 100;
+      getPTTTC.value = totalTTC;
+      const totalHT = Math.round(((parseFloat(getQuantite.value) * parseFloat(getPUHT.value)) + Number.EPSILON) * 100) / 100;
+      getPTHT.value = totalHT;
+
+    } else if (getPUHT.value !== "" && getPUTTC.value === "") {
+      const calculTVA = parseFloat(getPUHT.value * 5.5/(100));
+      const totalPUTTC = Math.round(((parseFloat(getPUHT.value) + calculTVA) + Number.EPSILON) * 100) / 100;
+      const calculPUTTC = totalPUTTC
+      getPUTTC.value = calculPUTTC;
       const totalTTC = Math.round(((parseFloat(getQuantite.value) * parseFloat(getPUTTC.value)) + Number.EPSILON) * 100) / 100;
       getPTTTC.value = totalTTC;
       const totalHT = Math.round(((parseFloat(getQuantite.value) * parseFloat(getPUHT.value)) + Number.EPSILON) * 100) / 100;

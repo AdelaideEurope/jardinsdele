@@ -7,10 +7,16 @@
 </div>
 <div class="container mt-4 to_hide">
   <div class="titre-recap">
-    <h2>Cette semaine (S<%= Date.today.strftime("%W").to_i+1 %>)</h2>
-     <%= link_to activites_path do %>
-      <div class="voir-tout-recap">Voir tout</div>
-     <% end %>
+    <h2> <%= params[:query].blank? || params[:query].to_i == Date.today.strftime("%W").to_i + 1 ? "Cette semaine (S#{@week})" : "Semaine #{@week}" %>
+      <%= form_tag activites_recap_path, method: :get do %>
+        <div class="search-week-field">
+          <%= text_field_tag :query, params[:query], class: "search-week form-control", placeholder: "Autre semaine. Ex : 4" %>
+        </div>
+      <% end %>
+    </h2>
+   <%= link_to activites_path do %>
+    <div class="voir-tout-recap">Voir tout</div>
+   <% end %>
   </div>
   <div class="toutes-activites-recap">
     <ul>

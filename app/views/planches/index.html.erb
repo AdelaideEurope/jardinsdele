@@ -18,12 +18,11 @@
         <td><b>Réalisé</b></td>
         <td><b>Prév.</b></td>
         <td><b>Diff.</b></td>
-
       </th>
-      <% @planches_legumes.each do |planche| %>
+      <% @planches_legumes.each do |planche, legumes| %>
         <tr>
           <td><b>
-            <%= planche[:planche] %>
+            <%= planche %>
           </b></td>
           <td></td>
           <td></td>
@@ -31,8 +30,7 @@
           <td></td>
           <td></td>
         </tr>
-
-          <% planche[:legumes].each do |legume| %>
+          <% legumes.each do |legume| %>
             <tr>
               <td></td>
               <td>
@@ -77,10 +75,10 @@
         <td><b>Prév.</b></td>
         <td><b>Diff.</b></td>
       </th>
-      <% @legumes_planches.sort_by {|hashlegume| hashlegume[:legume_css]}.each do |legume| %>
+      <% @legumes.sort_by(&:legume_css).each do |legume| %>
         <tr>
           <td><b>
-            <%= legume[:legume] %>
+            <%= legume.nom %>
           </b></td>
           <td></td>
           <td></td>
@@ -89,39 +87,43 @@
           <td></td>
         </tr>
 
-          <% legume[:planches].each do |planche| %>
-            <tr>
-              <td></td>
-              <td>
-                <% if planche[:diff].to_f > 0 %>
-                  <div class="text-success"><%= planche[:nom] %></div>
-                <% else %>
-                  <%= planche[:nom] %>
+          <% @planches_legumes.each do |planche, legumes| %>
+              <% legumes.each do |legume2| %>
+                <% if legume2[:nom] == legume.nom %>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <% if legume2[:diff].to_f > 0 %>
+                        <div class="text-success"><%= planche %></div>
+                      <% else %>
+                        <%= planche %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <% if legume2[:diff].to_f > 0 %>
+                        <div class="text-success"><%= number_with_precision(legume2[:total], precision: 2) %> €</div>
+                      <% else %>
+                        <%= number_with_precision(legume2[:total], precision: 2) %> €
+                      <% end %>
+                    </td>
+                    <td><%= number_with_precision(legume2[:previ], precision: 2) || number_with_precision(0.00, precision: 2) %> €</td>
+                    <td><%= number_with_precision(legume2[:diff], precision: 2) %> €</td>
+                    <td></td>
+                  </tr>
+                  <% if legume2[:pourcentage_previ].to_f > 0 %>
+                    <tr class="progress-bar-planches">
+                      <td></td>
+                      <td></td>
+                      <td colspan="3">
+                        <div class="progress progress-planches">
+                          <div class="progress-bar bg-success" role="progressbar" style="width:<%=legume2[:pourcentage_previ]%>%" aria-valuenow="<%=legume2[:pourcentage_previ]%>" aria-valuemin="0" aria-valuemax="100"><%=number_with_precision(legume2[:pourcentage_previ], precision: 2)%> %
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  <% end %>
                 <% end %>
-              </td>
-              <td>
-                <% if planche[:diff].to_f > 0 %>
-                  <div class="text-success"><%= number_with_precision(planche[:total], precision: 2) %> €</div>
-                <% else %>
-                  <%= number_with_precision(planche[:total], precision: 2) %> €
-                <% end %>
-              </td>
-              <td><%= number_with_precision(planche[:previ], precision: 2) || number_with_precision(0.00, precision: 2) %> €</td>
-              <td><%= number_with_precision(planche[:diff], precision: 2) %> €</td>
-              <td></td>
-            </tr>
-            <% if planche[:pourcentage_previ].to_f > 0 %>
-              <tr class="progress-bar-planches">
-                <td></td>
-                <td></td>
-                <td colspan="3">
-                  <div class="progress progress-planches">
-                    <div class="progress-bar bg-success" role="progressbar" style="width:<%=planche[:pourcentage_previ]%>%" aria-valuenow="<%=planche[:pourcentage_previ]%>" aria-valuemin="0" aria-valuemax="100"><%=number_with_precision(planche[:pourcentage_previ], precision: 2)%> %
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            <% end %>
+              <% end %>
           <% end %>
 
       <% end %>

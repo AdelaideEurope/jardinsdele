@@ -3,16 +3,17 @@ class ActivitesController < ApplicationController
     @legumes = Legume.all.includes(:activites)
     @activites = Activite.all.includes(:commentaires, :taggings).with_attached_photos
     @sorted_activites = @activites.order(date: :desc, heure_fin: :desc)
-    @total_activites = @activites.map { |activite| activite.heure_fin - activite.heure_debut }.sum
+    @total_activites = @activites.map { |activite| activite.duree.to_i }.sum
     @total_activites_readable = convert_to_readable_hours(@total_activites)
     @totaux_activites2 = @activites.sort_by(&:nom).pluck(:nom).uniq.map { |typeactivite| { nom: typeactivite, duree: sommeactivites_readable(typeactivite), pourcentage: (sommeactivites(typeactivite) * 100).fdiv(@total_activites).round(2) } }
     @week = Date.today.strftime("%W").to_i + 1
     @activites_par_semaine = activites_semaine
     @totaux_legumes = Hash.new { |h, k| h[k] = "".to_i }
     @legumes.each do |legume|
-      @totaux_legumes[legume] = convert_to_readable_hours(legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum)
+      @totaux_legumes[legume] = convert_to_readable_hours(legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.duree.to_i }.sum)
     end
-    @toutes_activites = @sorted_activites.map { |activite| { id: activite.id, date: activite.date, nom: activite.nom, legume: activite.legume&.nom, planche: activite.planche&.nom, duree: convert_to_readable_hours(activite.heure_fin - activite.heure_debut), heure_debut: activite.heure_debut, heure_fin: activite.heure_fin, commentaires: activite.commentaires, tag_list: activite.tag_list, photos: activite.photos } }
+    @totaux_legumes = @totaux_legumes.sort_by { |k, _v| k.nom.downcase.tr("é", "e") }
+    @toutes_activites = @sorted_activites.map { |activite| { id: activite.id, date: activite.date, nom: activite.nom, legume: activite.legume&.nom, planche: activite.planche&.nom, duree: convert_to_readable_hours(activite.duree.to_i), heure_debut: activite.heure_debut, heure_fin: activite.heure_fin, commentaires: activite.commentaires, tag_list: activite.tag_list, photos: activite.photos } }
   end
 
   def activites_semaine
@@ -21,7 +22,7 @@ class ActivitesController < ApplicationController
     @weeks.each do |week|
       totauxactivites = []
       @activites.select { |activite| activite.date.strftime("%W").to_i + 1 == week }.map do |activite|
-        totauxactivites << activite.heure_fin - activite.heure_debut
+        totauxactivites << activite.duree.to_i
       end
       @arr_weeks << [week, (totauxactivites.sum / 3600).ceil]
     end
@@ -41,7 +42,12 @@ class ActivitesController < ApplicationController
   end
 
   def create
+    heure_debut_activite = DateTime.civil(params[:activite]["heure_debut(1i)"].to_i, params[:activite]["heure_debut(2i)"].to_i, params[:activite]["heure_debut(3i)"].to_i, params[:activite]["heure_debut(4i)"].to_i, params[:activite]["heure_debut(5i)"].to_i)
+    heure_fin_activite = DateTime.civil(params[:activite]["heure_fin(1i)"].to_i, params[:activite]["heure_fin(2i)"].to_i, params[:activite]["heure_fin(3i)"].to_i, params[:activite]["heure_fin(4i)"].to_i, params[:activite]["heure_fin(5i)"].to_i)
+    duree = heure_fin_activite.to_time - heure_debut_activite.to_time
+    params[:activite][:duree] = duree
     @activite = Activite.new(activite_params)
+
     nomactivite = params[:activite][:nom]
     if nomactivite == "Plantation"
       legume_id = params[:activite][:legume_id]
@@ -71,11 +77,16 @@ class ActivitesController < ApplicationController
 
   def recap
     @activites = Activite.all.order(date: :desc, heure_fin: :desc).includes(:commentaires, :taggings).with_attached_photos
-    @week = Date.today.strftime("%W").to_i + 1
-    @activites_semaine = @activites.select { |activite| activite.date.strftime("%W").to_i + 1 == @week }
-    @toutes_activites_semaine = @activites_semaine.map { |activite| { id: activite.id, date: activite.date, nom: activite.nom, legume: activite.legume&.nom, planche: activite.planche&.nom, duree: convert_to_readable_hours(activite.heure_fin - activite.heure_debut), heure_debut: activite.heure_debut, heure_fin: activite.heure_fin, commentaires: activite.commentaires, tag_list: activite.tag_list, commentaires: activite.commentaires, photos: activite.photos } }
+    if params[:query].blank?
+      @week = Date.today.strftime("%W").to_i + 1
+    else
+      @week = params[:query].to_i
+    end
 
-    @total_activites_semaine = @activites_semaine.map { |activite| activite.heure_fin - activite.heure_debut }.sum
+    @activites_semaine = @activites.select { |activite| activite.date.strftime("%W").to_i + 1 == @week }
+    @toutes_activites_semaine = @activites_semaine.map { |activite| { id: activite.id, date: activite.date, nom: activite.nom, legume: activite.legume&.nom, planche: activite.planche&.nom, duree: convert_to_readable_hours(activite.duree.to_i), heure_debut: activite.heure_debut, heure_fin: activite.heure_fin, tag_list: activite.tag_list, commentaires: activite.commentaires, photos: activite.photos } }
+
+    @total_activites_semaine = @activites_semaine.map { |activite| activite.duree.to_i }.sum
     @total_activites_semaine_readable = convert_to_readable_hours(@total_activites_semaine)
     @totaux_activites_semaine2 = @activites.sort_by(&:nom).pluck(:nom).uniq.map { |typeactivite| { nom: typeactivite, duree: sommeactivites_semaine_readable(typeactivite), pourcentage: (sommeactivites_semaine(typeactivite) * 100).fdiv(@total_activites_semaine).round(2).nan? ? 0.00 : (sommeactivites_semaine(typeactivite) * 100).fdiv(@total_activites_semaine).round(2) } }
     @totaljoursemaine = Hash.new { |h, k| h[k] = "".to_i }
@@ -83,10 +94,11 @@ class ActivitesController < ApplicationController
     @totaux_activites_jour = {}
     counter = 0
     until counter == 7
-      @activites_jour = @activites.where('date >= ? AND date <= ?', DateTime.now.beginning_of_week.beginning_of_day + counter.days, DateTime.now.beginning_of_week.end_of_day + counter.days)
+      datejour = Date.commercial(DateTime.now.year, @week)
+      @activites_jour = @activites.where('date >= ? AND date <= ?', datejour.beginning_of_week.beginning_of_day + counter.days, datejour.beginning_of_week.end_of_day + counter.days)
       dureedujour = []
       @activites_jour.each do |activite|
-        dureeactivite = activite.heure_fin - activite.heure_debut
+        dureeactivite = activite.duree.to_i
         dureedujour << dureeactivite.to_i
       end
       dureedujour = dureedujour.sum.to_i
@@ -107,7 +119,7 @@ class ActivitesController < ApplicationController
         @activites_mois = Activite.where('date >= ? AND date <= ? AND nom = ?', DateTime.now.beginning_of_year.beginning_of_month + counter.months, DateTime.now.beginning_of_year.end_of_month + counter.months, nomactivite)
         dureedumois = []
         @activites_mois.each do |activite|
-          dureeactivite = activite.heure_fin - activite.heure_debut
+          dureeactivite = activite.duree.to_i
           dureedumois << dureeactivite.to_i
         end
         dureedumois = dureedumois.sum.to_i / 3600.to_f
@@ -126,14 +138,18 @@ class ActivitesController < ApplicationController
       redirect_to activites_recap_path
     end
     @activite = Activite.find(params[:id])
-    @previsionnel_planche = PrevisionnelPlanch.select { |previ| previ.created_at.to_i == @activite.created_at.to_i }.first
+    @previsionnel_planche = PrevisionnelPlanch.detect { |previ| previ.created_at.to_i == @activite.created_at.to_i }
     planches = Planche.all
     @jardins = planches.group_by(&:jardin)
   end
 
   def update
     @activite = Activite.find(params[:id])
-    @previsionnel_planche = PrevisionnelPlanch.select { |previ| previ.created_at.to_i == @activite.created_at.to_i }.first
+    heure_debut_activite = DateTime.civil(params[:activite]["heure_debut(1i)"].to_i, params[:activite]["heure_debut(2i)"].to_i, params[:activite]["heure_debut(3i)"].to_i, params[:activite]["heure_debut(4i)"].to_i, params[:activite]["heure_debut(5i)"].to_i)
+    heure_fin_activite = DateTime.civil(params[:activite]["heure_fin(1i)"].to_i, params[:activite]["heure_fin(2i)"].to_i, params[:activite]["heure_fin(3i)"].to_i, params[:activite]["heure_fin(4i)"].to_i, params[:activite]["heure_fin(5i)"].to_i)
+    duree = heure_fin_activite.to_time - heure_debut_activite.to_time
+    params[:activite][:duree] = duree
+    @previsionnel_planche = PrevisionnelPlanch.detect { |previ| previ.created_at.to_i == @activite.created_at.to_i }
     nomactivite = params[:activite][:nom]
     if nomactivite == "Plantation"
     legume_id = params[:activite][:legume_id]
@@ -162,20 +178,20 @@ private
   end
 
   def sommeactivites_readable(typeactivite)
-    convert_to_readable_hours(@activites.select { |activite| activite.nom == typeactivite }.map { |activite| activite.heure_fin - activite.heure_debut }.sum)
+    convert_to_readable_hours(@activites.select { |activite| activite.nom == typeactivite }.map { |activite| activite.duree.to_i }.sum)
   end
 
   def sommeactivites(typeactivite)
-    @activites.select { |activite| activite.nom == typeactivite }.map { |activite| activite.heure_fin - activite.heure_debut }.sum
+    @activites.select { |activite| activite.nom == typeactivite }.map { |activite| activite.duree.to_i }.sum
   end
 
 
   def sommeactivites_semaine_readable(typeactivite)
-    convert_to_readable_hours(@activites.select { |activite| activite.nom == typeactivite && activite.date.strftime("%W").to_i + 1 == @week }.map { |activite| activite.heure_fin - activite.heure_debut }.sum)
+    convert_to_readable_hours(@activites.select { |activite| activite.nom == typeactivite && activite.date.strftime("%W").to_i + 1 == @week }.map{ |activite| activite.duree.to_i }.sum)
   end
 
   def sommeactivites_semaine(typeactivite)
-    @activites.select { |activite| activite.nom == typeactivite && activite.date.strftime("%W").to_i + 1 == @week }.map { |activite| activite.heure_fin - activite.heure_debut }.sum
+    @activites.select { |activite| activite.nom == typeactivite && activite.date.strftime("%W").to_i + 1 == @week }.map { |activite| activite.duree.to_i }.sum
   end
 
   def convert_to_readable_hours(time)

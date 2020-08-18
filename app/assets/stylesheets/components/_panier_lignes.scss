@@ -3,6 +3,15 @@
   margin: 8%;
 }
 
+.derniere-fois-panier {
+  margin-top: -16px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  font-style: italic;
+  color: $light-grey2;
+  width: 155px;
+}
+
 .pu-ligne-panier {
   display: flex;
   justify-content: space-between;

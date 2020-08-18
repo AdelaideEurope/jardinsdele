@@ -3,8 +3,7 @@ class PagesController < ApplicationController
 
   def home
     if current_user.admin != true
-      flash[:notice] = "Malheureusement, vous ne pouvez pas accéder à cette page 😬"
-      redirect_to landing_path
+      redirect_to new_encouragement_path
     end
     @memos = Memo.all
     @memo = Memo.new
@@ -18,7 +17,6 @@ class PagesController < ApplicationController
     arecolter_j1
     arecolter_j2
     @ventes_futures_semaine = @ventes.select { |vente| vente.date.strftime("%W").to_i + 1 == week }.reject { |vente| vente.date < Date.today }
-    week = Date.today.strftime("%W").to_i + 1
     @todo_today = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.date == Date.today }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }
     @todo_pas_faits = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.date < Date.today }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }
     @todo_this_week = @memos.reject { |memo| memo.date.nil? }.select { |memo| memo.date.strftime("%W").to_i + 1 == week }.select { |memo| memo.categorie == "À faire" }.select { |memo| memo.done == false }.reject { |memo| memo.date < Date.today }
@@ -90,11 +88,7 @@ class PagesController < ApplicationController
   end
 
   def encouragements
-    encouragements = ["tu vas encore tout déchirer aujourd'hui !", "ce petit rayon de soleil va te donner des ailes !", "tes légumes sont délicieux !", "tu es vraiment un petit chou !", "tout va bien !", "today is your day!", "à chaque jour suffit sa feuille !", "on lâche rien !", "wow quelle énergie !", "mais dis donc tu as appelé ta sœur ?!", "si tu fêtais ça ?!", "c'est pas fini !", "c'est cette année que tu fais péter les plafonds ?", "tu es merveilleuse !", "tu es rayonnante !", "hakuna matata !", "la vie est belle", "fuck les limaces"]
-    if Date.today.to_s == "2020-05-14"
-      @encouragement = "joyeux anniversaiiire !"
-    else
-      @encouragement = encouragements.sample
-    end
+    @encouragements = Encouragement.all
+    @encouragement = @encouragements.sample
   end
 end

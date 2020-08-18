@@ -1,4 +1,5 @@
 <%= render 'shared/navbar' %>
+<div id="index-paniers"></div>
 <div class="container mt-4 mb-4">
     <h2>Paniers de la <%= link_to vente_path(@vente) do %>vente de <%= @vente.vente_point.nom %> du <%= @vente.date.strftime("%d/%m") %><% end %></h2>
   <div class="box-recolter">
@@ -37,7 +38,7 @@
           <div class="detail-paniers">
             <ul>
               <% panier.panier_lignes.sort_by(&:created_at).each do |ligne| %>
-                <li>
+                <li data-ligne-id-for-destroy="<%= panier.id %>-<%= ligne.id %>">
                   <% if panier.valide == false %>
                     <div class="panier-nom-legume">
                       <%= ligne.legume.nom %>
@@ -55,7 +56,7 @@
                         <%= number_with_precision(ligne.prixunitairettc * ligne.quantite, precision: 2) %> €
                       </div>
                         <div>
-                          <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete do %>
+                          <%= link_to vente_panier_panier_ligne_path(@vente, panier, ligne), method: :delete, remote: true do %>
                             <i class="fas fa-trash"></i>
                           <% end %>
                         </div>
@@ -123,7 +124,13 @@
                       <div class="new-ligne-form">
                         <%= simple_form_for [@vente, panier, @lignedepanier] do |f| %>
                           <div class="pu-ligne-panier">
-                          <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
+                            <div class="legume-form-new-ligne">
+                              <div>
+                                <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true, input_html: { id: "panier_ligne_legume_id#{panier.id}" } %>
+                              </div>
+                              <div class="derniere-fois-panier<%= panier.id %> derniere-fois-panier"></div>
+                            </div>
+                            <div class="hidden" data-legumes-prix-panier="<%= @legumes_last_prix_paniers %>" data-legumes-dernier-panier="<%= @legumes_last_paniers %>"></div>
                             <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitairejs#{panier.id}" } %>
                             <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
                           </div>
@@ -252,7 +259,13 @@
                                     <div class="new-ligne-form">
                                       <%= simple_form_for [@vente, panier, ligne] do |f| %>
                                         <div class="pu-ligne-panier">
-                                          <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
+                                          <div class="legume-form-new-ligne">
+                                            <div>
+                                              <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true, input_html: { id: "panier_ligne_legume_id#{panier.id}" } %>
+                                            </div>
+                                            <div class="derniere-fois-panier<%= panier.id %> derniere-fois-panier"></div>
+                                          </div>
+                                          <div class="hidden" data-legumes-prix-panier="<%= @legumes_last_prix_paniers %>" data-legumes-dernier-panier="<%= @legumes_last_paniers %>"></div>
                                           <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitaire#{ligne.id}" } %>
                                           <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
                                         </div>
@@ -306,6 +319,7 @@
                           <%= simple_form_for [@vente, panier, @lignedepanier] do |f| %>
                             <div class="pu-ligne-panier">
                             <%= f.association :legume, label_method: :nom, :label => "LÉGUME", required: true %>
+                            <div class="hidden" data-legumes-prix-panier="<%= @legumes_last_prix_paniers %>"></div>
                               <%= f.input :prixunitairettc, :label => "PRIX UNITAIRE TTC", required: true, input_html: { id: "prixunitairejs#{panier.id}" } %>
                               <%= f.input :unite, :label => "UNITÉ", collection: ["botte", "pièce", "kg", "bouquet"] %>
                             </div>

@@ -110,12 +110,12 @@ class VentesController < ApplicationController
     elsif montant_regle.nil? || montant_regle == ""
       if @vente.update(montant_arrondi: montant_arrondi)
         flash[:notice] = "Montant arrondi renseigné avec succès !"
-        redirect_to vente_path(@vente)
+        redirect_to vente_path(@vente) + "#montant-regle"
       end
     elsif montant_arrondi.nil? || montant_regle == ""
       if @vente.update(montant_regle: montant_regle)
         flash[:notice] = "Montant réglé renseigné avec succès !"
-        redirect_to vente_path(@vente)
+        redirect_to vente_path(@vente) + "#montant-regle"
       end
     end
   end

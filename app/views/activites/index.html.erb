@@ -29,7 +29,7 @@
       <div class="duree-legumes-index-activites">
         <h2 class="mb-4">Par légume</h2>
         <ul>
-          <% @totaux_legumes.sort_by { |k, _v| k.nom.tr("É", "E") }.each do |nom_legume, total| %>
+          <% @totaux_legumes.each do |nom_legume, total| %>
             <li>
               <div class="duree-legumes">
                 <div><%= link_to legume_path(nom_legume) do %> <%= nom_legume.nom %> <% end %></div>

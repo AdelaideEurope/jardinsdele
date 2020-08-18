@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_24_072519) do
+ActiveRecord::Schema.define(version: 2020_07_29_213222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,20 @@ ActiveRecord::Schema.define(version: 2020_04_24_072519) do
     t.index ["vente_id"], name: "index_commentaires_on_vente_id"
   end
 
+  create_table "encouragements", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "message"
+    t.string "auteur"
+  end
+
+  create_table "familles_legumes", force: :cascade do |t|
+    t.string "nom"
+    t.string "couleur"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -92,6 +106,8 @@ ActiveRecord::Schema.define(version: 2020_04_24_072519) do
     t.string "famille"
     t.decimal "previ_legume"
     t.decimal "nb_planche"
+    t.bigint "familles_legume_id"
+    t.index ["familles_legume_id"], name: "index_legumes_on_familles_legume_id"
     t.index ["slug"], name: "index_legumes_on_slug", unique: true
   end
 
@@ -243,6 +259,7 @@ ActiveRecord::Schema.define(version: 2020_04_24_072519) do
   add_foreign_key "activites", "planches", column: "planche_id"
   add_foreign_key "commentaires", "activites"
   add_foreign_key "commentaires", "ventes"
+  add_foreign_key "legumes", "familles_legumes"
   add_foreign_key "panier_lignes", "legumes"
   add_foreign_key "panier_lignes", "paniers"
   add_foreign_key "panier_lignes", "planches", column: "planche_id"

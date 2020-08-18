@@ -5,14 +5,7 @@ class PanierLignesController < ApplicationController
   end
 
   def new
-    @vente = Vente.find(params[:vente_id])
-    @panier = Panier.find(params[:panier_id])
-    @pointdevente = @vente.vente_point
-    @lignedepanier = PanierLigne.new
-    @legumes = Legume.all
-    @sorted_legumes = @legumes.sort_by(&:legume_css)
-    @firsthalf = (@sorted_legumes.length / 2.to_f).ceil
-    @secondhalf = @sorted_legumes.length / 2
+
   end
 
   def create
@@ -72,10 +65,10 @@ class PanierLignesController < ApplicationController
   end
 
   def destroy
+    @vente = Vente.find(params[:vente_id])
     @lignedepanier = PanierLigne.find(params[:id])
-    @panier = @lignedepanier.panier
+    @panier = Panier.find(params[:panier_id])
     @pointdevente = @panier.vente.vente_point
     @lignedepanier.destroy
-    redirect_to vente_paniers_path(@panier.vente)
   end
 end

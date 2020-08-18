@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get "/ventes/impayes" , to: "ventes#impayes"
   get "/planches/previsionnel_planches" , to: "planches#previsionnel_planches"
   resources :memos
+  resources :encouragements
   resources :activites
   resources :assistants, only: [:index]
   resources :legumes
@@ -21,6 +22,11 @@ Rails.application.routes.draw do
     resources :vente_lignes
     resources :paniers do
       resources :panier_lignes
+    end
+  end
+  resources :charts do
+    collection do
+      get "ca_legume_semaine"
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

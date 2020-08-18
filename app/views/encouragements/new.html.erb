@@ -1,0 +1,12 @@
+<%= render 'shared/navbar-invites' %>
+<div class="container mt-4">
+  <h2 class="mb-3">Un petit encouragement pour notre maraîchère préférée ?</h2>
+  <div class="nouvel-encouragement">
+    <%= simple_form_for @encouragement do |f| %>
+      <%= f.input :message, :label => "MESSAGE", required: true %>
+      <%= f.input :auteur, :label => "ENVOYÉ AVEC 💛 PAR...", required: true %>
+      <%= f.submit " ", :type => :image, :src => image_path("save-rond.png"), class: "save-rond save-legume" %>
+      </div>
+    <% end %>
+  </div>
+</div>

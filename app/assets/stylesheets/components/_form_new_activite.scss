@@ -1,3 +1,18 @@
+.search-week {
+  font-size: 12px;
+  width: 140px;
+}
+
+.search-week-field {
+  display: flex;
+}
+
+.icon-search-week {
+  margin-top: 14px;
+  font-size: 14px;
+  color: $light-green;
+}
+
 @media(max-width: 2000px) {
 
   .form-group {

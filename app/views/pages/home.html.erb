@@ -298,9 +298,11 @@
       </div>
     </div>
   </div>
-  <div class="ca-realise">Tu as déjà fait <b><%=number_with_precision((@catotal.to_f * 100) / @caprevi, precision: 2)%> %</b> de ton prévisionnel et...</div>
-  <div class= "encouragements text-success"><%= @encouragement %></div>
-    <%= @ventesgraph %>
+  <div class="ca-realise">Tu as déjà fait <b><%=number_with_precision((@catotal.to_f * 100) / @caprevi, precision: 2)%> %</b> de ton prévisionnel. Bravo !</div>
+  <div class= "encouragements text-success">
+    <div>Et aussi, <%= @encouragement.auteur %> t'a envoyé ce message d'amour...</i></div>
+    <div><i class="fas fa-angle-double-left"></i> <%= @encouragement.message %> <i class="fas fa-angle-double-right"></i></div>
+  </div>
 </div>
 <div class="entete-mobile mobile-hidden mobile-elements">
   <%= render 'shared/navbar' %>

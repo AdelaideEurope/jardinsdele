@@ -5,7 +5,9 @@ class VenteLignesController < ApplicationController
 
   def new
     @vente = Vente.find(params[:vente_id])
+    @pointdevente = @vente.vente_point
     @lignedevente = VenteLigne.new
+    @lignesdevente = VenteLigne.all
     @legumes = Legume.all
     @sorted_legumes = @legumes.sort_by(&:legume_css)
     @firsthalf = (@sorted_legumes.length/2.to_f).ceil
@@ -13,6 +15,14 @@ class VenteLignesController < ApplicationController
     @activites = Activite.all
     planches = Planche.all
     @jardins = planches.group_by(&:jardin)
+
+    @legumes_last_prix = ""
+    @legumes.each do |legume|
+      unless @lignesdevente.where(legume_id: legume.id).select {|ligne| ligne.vente.vente_point == @pointdevente}.empty?
+        @legumes_last_prix << "#{legume.id}, #{@lignesdevente.where(legume_id: legume.id).reverse.detect {|ligne| ligne.vente.vente_point == @pointdevente}.prixunitaireht.to_s}, "
+      end
+    end
+    @legumes_last_prix = @legumes_last_prix[0...-2]
   end
 
   def create
