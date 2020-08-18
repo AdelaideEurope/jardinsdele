@@ -16,7 +16,7 @@ class LegumesController < ApplicationController
 
     @tous_legumes_parca = @tous_legumes.sort_by { |hashlegume| -hashlegume[:calegume] }
 
-    @legumes_semaines_graph = @legumes.map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.familles_legume.nom.downcase.tr("é", "e") } }.sort_by { |hashlegume| -hashlegume[:name].downcase.tr("é", "e") }
+    @legumes_semaines_graph = @legumes.includes(:familles_legume).map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.familles_legume.nom.downcase.tr("é", "e") } }.sort_by { |hashlegume| -hashlegume[:name].downcase.tr("é", "e") }
 
     @colors = @legumes.includes(:familles_legume).sort_by(&:legume_css).map { |legume| legume.familles_legume.couleur }
 
