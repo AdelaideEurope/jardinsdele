@@ -9,13 +9,13 @@ class LegumesController < ApplicationController
     catotal_legumes
 
     @tous_legumes = @legumes.sort_by(&:legume_css).map { |legume|
-          { nom: legume.nom, legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume) } }
+          { nom: legume.nom, legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]) } }
 
     @tous_legumes_parlegume = @tous_legumes
 
     @tous_legumes_parca = @tous_legumes.sort_by { |hashlegume| -hashlegume[:calegume] }
 
-    @legumes_semaines_graph = @legumes.includes(:familles_legume).map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.familles_legume.nom.downcase.tr("é", "e") } }.sort_by { |hashlegume| -hashlegume[:name].downcase.tr("é", "e") }
+    @legumes_semaines_graph = @legumes.includes(:familles_legume).sort_by(&:legume_css).map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.familles_legume.nom.downcase.tr("é", "e") } }
 
     @colors = @legumes.includes(:familles_legume).sort_by(&:legume_css).map { |legume| legume.familles_legume.couleur }
 
