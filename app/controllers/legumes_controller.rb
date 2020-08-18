@@ -6,27 +6,20 @@ class LegumesController < ApplicationController
     @lignesdepanier = PanierLigne.all
     @firsthalf = (@legumes.size / 2.to_f).ceil
     @secondhalf = @legumes.size / 2
-
-    # @tous_legumes_parlegume2 = Hash.new
-    # @legumes.sort_by(&:legume_css).each do |legume|
-    #   @tous_legumes_parlegume2[legume.nom] = [{legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } ]
-    # end
+    catotal_legumes
 
 
-    # @tous_legumes_parlegume = @legumes.includes(:commentaires, :vente_lignes, :panier_lignes).map { |legume|
-    #   { nom: legume.nom, legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } }.sort_by { |hashlegume| hashlegume[:legume_css] }
+    @tous_legumes = @legumes.includes(:commentaires, :vente_lignes, :panier_lignes).map { |legume|
+          { nom: legume.nom, legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]) } }
 
-    @tous_legumes_parca = @legumes.map { |legume|
-      { nom: legume.nom, legume_css: legume.legume_css, calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), planches: nb_planches(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]), photos: photo?(legume) } }.sort_by { |hashlegume| -hashlegume[:calegume] }
+    @tous_legumes_parlegume = @tous_legumes.sort_by { |hashlegume| hashlegume[:legume_css] }
 
-    @legumes_semaines_graph = @legumes.map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.famille.downcase.tr("é", "e") } }.sort_by { |hashlegume| -hashlegume[:name].downcase.tr("é", "e") }
-    # familles_colors = { "alliacees" => "#FF6600", "apiacees" => "#99CC33", "asteracees" => "#CC0000", "brassicacees" => "#33CCFF", "chenopodacees" => "#FFCC00", "cucurbitacees" => "#660099", "divers" => "#990000", "fabacees" => "#006633", "solanacees" => "#009999" }
+    @tous_legumes_parca = @tous_legumes.sort_by { |hashlegume| -hashlegume[:calegume] }
 
-    @colors = @legumes.sort_by(&:legume_css).map { |legume| legume.familles_legume.couleur }
-    # @colors = []
-    # @legumes_semaines_graph.each do |legume|
-    #   @colors << familles_colors[legume[:famille]]
-    # end
+    @legumes_semaines_graph = @legumes.map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.familles_legume.nom.downcase.tr("é", "e") } }.sort_by { |hashlegume| -hashlegume[:name].downcase.tr("é", "e") }
+
+    @colors = @legumes.includes(:familles_legume).sort_by(&:legume_css).map { |legume| legume.familles_legume.couleur }
+
   end
 
   def new
@@ -307,7 +300,7 @@ class LegumesController < ApplicationController
   end
 
   def catotal_legumes
-    @ventes.sum('total_ttc')
+    @ca_total = @ventes.sum('total_ttc')
   end
 
   def calegume(legume)

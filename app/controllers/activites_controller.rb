@@ -108,7 +108,7 @@ class ActivitesController < ApplicationController
 
     # values for the graph
     @totaux_for_graph = []
-    @activites_noms = @activites.map(&:nom).uniq
+    @activites_noms = @activites.pluck(:nom).uniq
     @activites_noms.each do |nomactivite|
       @totaux_activites_mois = {}
       mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
