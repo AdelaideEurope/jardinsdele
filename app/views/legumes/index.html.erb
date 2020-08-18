@@ -54,11 +54,11 @@
               <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
               <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css] %>">
-                  <% if legume[:commentaires].any? %>
+               <!--  <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css] %>">
+                  <#% if legume[:commentaires].any? %>
                     <i class="fas fa-comment-alt"></i>
-                  <% end %>
-                </button>
+                  <#% end %>
+                </button> -->
               </div>
               <div class="modal fade" id="ModalCenter<%= legume[:legume_css] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -71,14 +71,14 @@
                     </div>
                     <div class="modal-body commentaires-liste">
                       <ul>
-                        <% legume[:commentaires].each do |commentaire| %>
-                          <% unless commentaire.description.empty? %>
+ <!--                        <#% legume[:commentaires].each do |commentaire| %>
+                          <#% unless commentaire.description.empty? %>
                             <li>
-                              <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-                              <div class="contenu-commentaire"><%= commentaire.description %></div>
+                              <div class="date-commentaire"><%#= commentaire.activite.date.strftime("%d/%m") %></div>
+                              <div class="contenu-commentaire"><%#= commentaire.description %></div>
                             </li>
-                          <% end %>
-                        <% end %>
+                          <#% end %>
+                        <#% end %> -->
                       </ul>
                     </div>
                   </div>
@@ -112,11 +112,11 @@
               <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
               <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css] %>">
-                  <% if legume[:commentaires].any? %>
+               <!--  <button type="button" data-toggle="modal" data-target="#ModalCenter<%#= legume[:legume_css] %>">
+                  <%# if legume[:commentaires].any? %>
                     <i class="fas fa-comment-alt"></i>
-                  <% end %>
-                </button>
+                  <%# end %>
+                </button> -->
               </div>
               <div class="modal fade" id="ModalCenter<%= legume[:legume_css] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -129,14 +129,14 @@
                     </div>
                     <div class="modal-body commentaires-liste">
                       <ul>
-                        <% legume[:commentaires].each do |commentaire| %>
-                          <% unless commentaire.description.empty? %>
+                       <!--  <#% legume[:commentaires].each do |commentaire| %>
+                          <#% unless commentaire.description.empty? %>
                             <li>
-                              <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-                              <div class="contenu-commentaire"><%= commentaire.description %></div>
+                              <div class="date-commentaire"><%#= commentaire.activite.date.strftime("%d/%m") %></div>
+                              <div class="contenu-commentaire"><%#= commentaire.description %></div>
                             </li>
-                          <% end %>
-                        <% end %>
+                          <#% end %>
+                        <#% end %> -->
                       </ul>
                     </div>
                   </div>
@@ -178,11 +178,11 @@
               <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
               <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css] %>-ca">
-                  <% if legume[:commentaires].any? %>
+                <!-- <button type="button" data-toggle="modal" data-target="#ModalCenter<%#= legume[:legume_css] %>-ca">
+                  <#% if legume[:commentaires].any? %>
                     <i class="fas fa-comment-alt"></i>
-                  <% end %>
-                </button>
+                  <#% end %>
+                </button> -->
               </div>
               <div class="modal fade" id="ModalCenter<%= legume[:legume_css] %>-ca" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -195,14 +195,14 @@
                     </div>
                     <div class="modal-body commentaires-liste">
                       <ul>
-                        <% legume[:commentaires].each do |commentaire| %>
-                          <% unless commentaire.description.empty? %>
+  <!--                       <#% legume[:commentaires].each do |commentaire| %>
+                          <#% unless commentaire.description.empty? %>
                             <li>
-                              <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-                              <div class="contenu-commentaire"><%= commentaire.description %></div>
+                              <div class="date-commentaire"><%#= commentaire.activite.date.strftime("%d/%m") %></div>
+                              <div class="contenu-commentaire"><%#= commentaire.description %></div>
                             </li>
-                          <% end %>
-                        <% end %>
+                          <#% end %>
+                        <#% end %> -->
                       </ul>
                     </div>
                   </div>
@@ -236,11 +236,11 @@
               <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
               <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css] %>-ca">
-                  <% if legume[:commentaires].any? %>
+                <!-- <button type="button" data-toggle="modal" data-target="#ModalCenter<%#= legume[:legume_css] %>-ca">
+                  <#% if legume[:commentaires].any? %>
                     <i class="fas fa-comment-alt"></i>
-                  <% end %>
-                </button>
+                  <#% end %>
+                </button> -->
               </div>
               <div class="modal fade" id="ModalCenter<%= legume[:legume_css] %>-ca" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -253,14 +253,14 @@
                     </div>
                     <div class="modal-body commentaires-liste">
                       <ul>
-                        <% legume[:commentaires].each do |commentaire| %>
-                          <% unless commentaire.description.empty? %>
+<!--                         <#% legume[:commentaires].each do |commentaire| %>
+                          <#% unless commentaire.description.empty? %>
                             <li>
-                              <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-                              <div class="contenu-commentaire"><%= commentaire.description %></div>
+                              <div class="date-commentaire"><%#= commentaire.activite.date.strftime("%d/%m") %></div>
+                              <div class="contenu-commentaire"><%#= commentaire.description %></div>
                             </li>
-                          <% end %>
-                        <% end %>
+                          <#% end %>
+                        <#% end %> -->
                       </ul>
                     </div>
                   </div>

@@ -8,11 +8,10 @@ class LegumesController < ApplicationController
     @secondhalf = @legumes.size / 2
     catotal_legumes
 
+    @tous_legumes = @legumes.sort_by(&:legume_css).map { |legume|
+          { nom: legume.nom, legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume) } }
 
-    @tous_legumes = @legumes.includes(:commentaires, :vente_lignes, :panier_lignes).map { |legume|
-          { nom: legume.nom, legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]) } }
-
-    @tous_legumes_parlegume = @tous_legumes.sort_by { |hashlegume| hashlegume[:legume_css] }
+    @tous_legumes_parlegume = @tous_legumes
 
     @tous_legumes_parca = @tous_legumes.sort_by { |hashlegume| -hashlegume[:calegume] }
 
@@ -155,19 +154,9 @@ class LegumesController < ApplicationController
   end
 
   def nb_planches(legume)
-    planches = []
-    legume.vente_lignes.map { |ligne| ligne.planche&.nom }.each do |ligne|
-      unless planches.include?(ligne)
-        planches << ligne
-      end
-    end
-
-    legume.panier_lignes.map { |ligne| ligne.planche&.nom }.each do |ligne|
-      unless planches.include?(ligne)
-        planches << ligne
-      end
-    end
-    planches.size
+    planches = legume.vente_lignes.map { |ligne| ligne.planche&.nom }
+    legume.panier_lignes.each { |ligne| planches << ligne.planche&.nom }
+    planches.uniq.size
   end
 
   def legumes_semaines_graph(legume)
@@ -278,26 +267,26 @@ class LegumesController < ApplicationController
     @arr_weeks
   end
 
-  def totaux_planches(week)
-    planches = []
-    @lignesdepanierparlegume.select { |lignedepanier| !lignedepanier.planche.nil? && lignedepanier.panier.vente.date.strftime("%W").to_i == week }.each do |lignedepanier|
-        if planches.any? { |planche| planche[:nom] = lignedepanier.planche.nom }
-          hashplanche = planches.find { |h| h[:nom] == lignedepanier.planche.nom }
-          hashplanche[:total] += lignedepanier.quantite * lignedepanier.prixunitairettc * lignedepanier.panier.quantite
-        else
-          planches << { nom: lignedepanier.planche.nom, total: lignedepanier.quantite * lignedepanier.prixunitairettc * lignedepanier.panier.quantite }
-        end
-    end
-    @lignesdeventeparlegume.select { |lignedevente| !lignedevente.planche.nil? && lignedevente.vente.date.strftime("%W").to_i == week }.each do |lignedevente|
-      if planches.any? { |planche| planche[:nom] = lignedevente.planche.nom }
-        hashplanche = planches.find { |h| h[:nom] == lignedevente.planche.nom }
-        hashplanche[:total] += lignedevente.quantite * lignedevente.prixunitairettc
-      else
-        planches << { nom: lignedevente.planche.nom, total: lignedevente.quantite * lignedevente.prixunitairettc }
-      end
-    end
-    planches.uniq
-  end
+  # def totaux_planches(week)
+  #   planches = []
+  #   @lignesdepanierparlegume.select { |lignedepanier| !lignedepanier.planche.nil? && lignedepanier.panier.vente.date.strftime("%W").to_i == week }.each do |lignedepanier|
+  #       if planches.any? { |planche| planche[:nom] = lignedepanier.planche.nom }
+  #         hashplanche = planches.find { |h| h[:nom] == lignedepanier.planche.nom }
+  #         hashplanche[:total] += lignedepanier.quantite * lignedepanier.prixunitairettc * lignedepanier.panier.quantite
+  #       else
+  #         planches << { nom: lignedepanier.planche.nom, total: lignedepanier.quantite * lignedepanier.prixunitairettc * lignedepanier.panier.quantite }
+  #       end
+  #   end
+  #   @lignesdeventeparlegume.select { |lignedevente| !lignedevente.planche.nil? && lignedevente.vente.date.strftime("%W").to_i == week }.each do |lignedevente|
+  #     if planches.any? { |planche| planche[:nom] = lignedevente.planche.nom }
+  #       hashplanche = planches.find { |h| h[:nom] == lignedevente.planche.nom }
+  #       hashplanche[:total] += lignedevente.quantite * lignedevente.prixunitairettc
+  #     else
+  #       planches << { nom: lignedevente.planche.nom, total: lignedevente.quantite * lignedevente.prixunitairettc }
+  #     end
+  #   end
+  #   planches.uniq
+  # end
 
   def catotal_legumes
     @ca_total = @ventes.sum('total_ttc')
