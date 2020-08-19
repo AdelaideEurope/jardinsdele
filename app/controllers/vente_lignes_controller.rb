@@ -27,6 +27,7 @@ class VenteLignesController < ApplicationController
 
   def create
     @lignedevente = VenteLigne.new(lignedevente_params)
+    @legume = Legume.find(params[:vente_ligne][:legume_id])
     @vente = Vente.find(params[:vente_id])
     @lignedevente.vente = @vente
     @pointdevente = VentePoint.find(@vente.vente_point_id)
@@ -46,6 +47,13 @@ class VenteLignesController < ApplicationController
         sommepdvht = @pointdevente.total_ht
         sommepdvttc = @pointdevente.total_ttc
       end
+      if @legume.total_ttc_legume == 0.to_f
+        sommelegumettc = 0
+      else
+        sommelegumettc = @legume.total_legume_ttc
+      end
+      sommelegumettc += @lignedevente.totalttc
+      @legume.total_ttc_legume = sommelegumettc
       sommeht += @lignedevente.totalht
       sommettc += @lignedevente.totalttc
       @vente.total_ht = sommeht
@@ -54,6 +62,7 @@ class VenteLignesController < ApplicationController
       sommepdvttc += @lignedevente.totalttc
       @pointdevente.total_ht = sommepdvht
       @pointdevente.total_ttc = sommepdvttc
+      @legume.save
       @pointdevente.save
       @vente.save
       flash[:notice] = "Ligne de vente créée avec succès !"
@@ -74,18 +83,21 @@ class VenteLignesController < ApplicationController
     @activites = Activite.all
     planches = Planche.all
     @jardins = planches.group_by(&:jardin)
-    @vente.total_ttc -= @lignedevente.totalttc
-    @vente.total_ht -= @lignedevente.totalht
-    @pointdevente.total_ttc -= @lignedevente.totalttc
-    @pointdevente.total_ht -= @lignedevente.totalht
-    @vente.save
-    @pointdevente.save
   end
 
   def update
     @vente = Vente.find(params[:vente_id])
     @lignedevente = VenteLigne.find(params[:id])
+    @legume = Legume.find(@lignedevente.legume_id)
     @pointdevente = VentePoint.find(@vente.vente_point_id)
+    @vente.total_ttc -= @lignedevente.totalttc
+    @vente.total_ht -= @lignedevente.totalht
+    @pointdevente.total_ttc -= @lignedevente.totalttc
+    @pointdevente.total_ht -= @lignedevente.totalht
+    @legume.total_ttc_legume -= @lignedevente.totalttc
+    @legume.save
+    @vente.save
+    @pointdevente.save
     planche = params[:vente_ligne][:planche_id]
     legume = params[:vente_ligne][:legume_id]
     quantite = params[:vente_ligne][:quantite]
@@ -100,6 +112,8 @@ class VenteLignesController < ApplicationController
         @vente.total_ht += @lignedevente.totalht
         @pointdevente.total_ttc += @lignedevente.totalttc
         @pointdevente.total_ht += @lignedevente.totalht
+        @legume.total_ttc_legume += @lignedevente.totalttc
+        @legume.save
         @vente.save
         @pointdevente.save
         flash[:notice] = "Ligne modifiée avec succès !"

@@ -83,6 +83,7 @@ class PaniersController < ApplicationController
     @pointdevente = @vente.vente_point
     @panier = Panier.find(params[:id])
     @lignesdepanier = @panier.panier_lignes
+    @legumes = @panier.panier_lignes.map {|pl| Legume.find(pl.legume_id)}
     sommelignesttc = @lignesdepanier.map{|ligne|ligne.quantite * ligne.prixunitairettc}.sum.round(2)
     @panier.prix_reel_ttc = sommelignesttc
     if @panier.update(panier_params)
@@ -102,6 +103,18 @@ class PaniersController < ApplicationController
           sommepdvht = @pointdevente.total_ht
           sommepdvttc = @pointdevente.total_ttc
         end
+        @legumes.each do |legume|
+          if legume.total_ttc_legume == 0.to_f
+            sommelegumettc = 0
+          else
+            sommelegumettc = legume.total_ttc_legume
+          end
+          @lignesdepanier.where(legume_id: legume.id).each do |ligne|
+            sommelegumettc += ligne.quantite * ligne.prixunitairettc * @panier.quantite
+            legume.update(total_ttc_legume: sommelegumettc)
+          end
+        end
+
         sommeht += ttc_to_ht(@panier.prix_ttc) * @panier.quantite
         sommettc += @panier.prix_ttc * @panier.quantite
         @vente.total_ht = sommeht
