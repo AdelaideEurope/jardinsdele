@@ -10,7 +10,7 @@ class LegumesController < ApplicationController
       @secondhalf = (@legumes.size/2)
     else
       @firsthalf = (@legumes.size)/2 + 1
-      @secondhalf = (@legumes.size/2) + 2
+      @secondhalf = (@legumes.size/2) + 1
     end
 
     catotal_legumes
