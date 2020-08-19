@@ -4,8 +4,15 @@ class LegumesController < ApplicationController
     @ventes = Vente.all
     @lignesdevente = VenteLigne.all
     @lignesdepanier = PanierLigne.all
-    @firsthalf = (@legumes.size / 2.to_f).ceil
-    @secondhalf = @legumes.size / 2
+    @nb_legumes = @legumes.size
+    if @nb_legumes.even?
+      @firsthalf = (@legumes.size)/2
+      @secondhalf = (@legumes.size/2)
+    else
+      @firsthalf = (@legumes.size)/2 + 1
+      @secondhalf = (@legumes.size/2) + 2
+    end
+
     catotal_legumes
 
 

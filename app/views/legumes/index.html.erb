@@ -45,7 +45,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @tous_legumes_parlegume[@secondhalf..-1].each do |legume| %>
+          <% @tous_legumes_parlegume[@secondhalf..@nb_legumes].each do |legume| %>
           <tr>
             <td><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %></td>
             <td><%= number_with_precision(legume[:calegume], precision: 2) %> €</td>
@@ -69,7 +69,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @tous_legumes_parca[0...@firsthalf].each do |legume| %>
+          <% @tous_legumes_parca[0..@firsthalf].each do |legume| %>
           <tr>
             <td><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %></td>
             <td><%= number_with_precision(legume[:calegume], precision: 2) %> €</td>
