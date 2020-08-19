@@ -1,7 +1,6 @@
 <%= render 'shared/navbar' %>
 <div class="container mt-4">
   <h2>Les légumes</h2>
-<%#= @tous_legumes %>
 </div>
 <div class="img-legumes">
   <%= image_tag "radis.jpg", class: "radis" %>
@@ -283,8 +282,8 @@
     </div>
   </div>
 
-  <!-- <div class="tous-legumes-sem">
-    <%#= column_chart ca_legume_semaine_charts_path, id: "chart-legume-semaine", width: "800px", stacked: true, colors: @colors %>
+  <div class="tous-legumes-sem">
+    <%= column_chart ca_legume_semaine_charts_path, id: "chart-legume-semaine", width: "800px", stacked: true, colors: @colors %>
   <div class="separateur-paniers-ventes"></div>
     <div class="table-index-legume-vente mt-5 mb-5">
       <table class="table-index-legume-titre">
@@ -294,35 +293,35 @@
             </tr>
           </thead>
           <tbody>
-            <%# @legumes_semaines_graph.each do |legume| %>
+            <% @legumes_semaines_graph.each do |legume| %>
               <tr>
-                <td><%#= link_to legume_path(legume[:legume_css]) do %> <%#= legume[:name] %> <#% end %></td>
+                <td><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:name] %> <% end %></td>
               </tr>
-            <%# end %>
+            <% end %>
           </tbody>
       </table>
       <div class="table-data">
         <table class="table-show-legume">
             <thead>
               <tr>
-                <%# @legumes_semaines_graph.first[:data].each do |week| %>
+                <% @legumes_semaines_graph.first[:data].each do |week| %>
                   <th>
-                    S<%#= week[0] %>
+                    S<%= week[0] %>
                   </th>
-                <#% end %>
+                <% end %>
               </tr>
             </thead>
             <tbody>
-              <#% @legumes_semaines_graph.each do |legume| %>
+              <% @legumes_semaines_graph.each do |legume| %>
                   <tr>
-                <#% legume[:data].each do |total| %>
-                    <td><%#= number_with_precision(total[1], precision: 2) %> €</td>
-                <#% end %>
+                <% legume[:data].each do |total| %>
+                    <td><%= number_with_precision(total[1], precision: 2) %> €</td>
+                <% end %>
                   </tr>
-              <#% end %>
+              <% end %>
             </tbody>
         </table>
       </div>
     </div>
-  </div> -->
+  </div>
 </div>

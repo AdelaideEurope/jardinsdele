@@ -25,5 +25,20 @@ class Legume < ApplicationRecord
     end
   end
 
+  def self.add_total_to_legume
+    Legume.all.each do |legume|
+      total_legume = 0
+      VenteLigne.where(legume_id: legume.id).each do |venteligne|
+        total_legume += (venteligne.prixunitairettc * venteligne.quantite)
+      end
+
+      PanierLigne.joins(:panier).where(paniers: { valide: true }).where(legume_id: legume.id).each do |panierligne|
+        total_panier = panierligne.prixunitairettc * panierligne.quantite * panierligne.panier.quantite
+        total_legume += total_panier
+      end
+      legume.update(total_ttc_legume: total_legume)
+    end
+  end
+
 end
 

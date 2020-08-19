@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_29_213222) do
+ActiveRecord::Schema.define(version: 2020_08_19_164955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 2020_07_29_213222) do
     t.decimal "previ_legume"
     t.decimal "nb_planche"
     t.bigint "familles_legume_id"
+    t.decimal "total_ttc_legume"
     t.index ["familles_legume_id"], name: "index_legumes_on_familles_legume_id"
     t.index ["slug"], name: "index_legumes_on_slug", unique: true
   end

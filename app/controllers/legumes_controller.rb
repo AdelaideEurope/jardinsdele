@@ -9,7 +9,7 @@ class LegumesController < ApplicationController
     catotal_legumes
 
     @tous_legumes = @legumes.sort_by(&:legume_css).map { |legume|
-          { nom: legume.nom, legume_css: legume.legume_css, planches: nb_planches(legume), calegume: calegume(legume), pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]) } }
+          { nom: legume.nom, legume_css: legume.legume_css, planches: nb_planches(legume), calegume: legume.total_ttc_legume, pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]) } }
 
     @tous_legumes_parlegume = @tous_legumes
 
@@ -65,7 +65,6 @@ class LegumesController < ApplicationController
       @legumesparca[legume] = legume.vente_lignes.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + legume.panier_lignes.select { |lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
     end
     @meilleurslegumes = @legumesparca.sort_by { |_k, v| v }.last(3).map { |legume| legume[0] }
-    @activites = Activite.all
     @planches = Planche.all
     @jardins = @planches.group_by(&:jardin)
     @lignesdevente = VenteLigne.all
@@ -176,15 +175,15 @@ class LegumesController < ApplicationController
     @arr_weeks
   end
 
-  def photo?(legume)
-    photos = []
-    unless photos.include?(true)
-      legume.activites.each do |activite|
-        photos << activite.photos.any?
-      end
-    end
-    photos
-  end
+  # def photo?(legume)
+  #   photos = []
+  #   unless photos.include?(true)
+  #     legume.activites.each do |activite|
+  #       photos << activite.photos.any?
+  #     end
+  #   end
+  #   photos
+  # end
 
 
   def plancheslegumes
@@ -302,8 +301,8 @@ class LegumesController < ApplicationController
   end
 
   def pourcentage_ca(legume)
-    if !calegume(legume).nil? && !calegume(legume).zero?
-      (calegume(legume)*100/catotal_legumes).round(2)
+    if !legume.total_ttc_legume.nil? && !legume.total_ttc_legume.zero?
+      (legume.total_ttc_legume*100/catotal_legumes).round(2)
     else
       0
     end
