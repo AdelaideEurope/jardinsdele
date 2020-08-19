@@ -80,12 +80,14 @@ class PaniersController < ApplicationController
 
   def update
     @vente = Vente.find(params[:vente_id])
+    @week = @vente.date.strftime("%W").to_i + 1
     @pointdevente = @vente.vente_point
     @panier = Panier.find(params[:id])
     @lignesdepanier = @panier.panier_lignes
     @legumes = @panier.panier_lignes.map {|pl| Legume.find(pl.legume_id)}
     sommelignesttc = @lignesdepanier.map{|ligne|ligne.quantite * ligne.prixunitairettc}.sum.round(2)
     @panier.prix_reel_ttc = sommelignesttc
+
     if @panier.update(panier_params)
       if params[:panier][:valide] == "true"
         params[:panier][:prix_reel_ttc] = sommelignesttc
@@ -111,7 +113,9 @@ class PaniersController < ApplicationController
           end
           @lignesdepanier.where(legume_id: legume.id).each do |ligne|
             sommelegumettc += ligne.quantite * ligne.prixunitairettc * @panier.quantite
-            legume.update(total_ttc_legume: sommelegumettc)
+            legume.total_legume_semaine[@week] = (legume.total_legume_semaine[@week] || 0) + ligne.quantite * ligne.prixunitairettc * @panier.quantite
+            legume.total_ttc_legume = sommelegumettc
+            legume.save
           end
         end
 
@@ -119,12 +123,14 @@ class PaniersController < ApplicationController
         sommettc += @panier.prix_ttc * @panier.quantite
         @vente.total_ht = sommeht
         @vente.total_ttc = sommettc
+        @vente.save
+
         sommepdvht += ttc_to_ht(@panier.prix_ttc) * @panier.quantite
         sommepdvttc += @panier.prix_ttc * @panier.quantite
+
         @pointdevente.total_ht = sommepdvht
         @pointdevente.total_ttc = sommepdvttc
         @pointdevente.save
-        @vente.save
 
         flash[:notice] = "Panier validé avec succès !"
         redirect_to vente_paniers_path(@vente)

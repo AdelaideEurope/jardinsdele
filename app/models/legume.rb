@@ -10,6 +10,7 @@ class Legume < ApplicationRecord
   has_many :previsionnel_planches
   has_one_attached :photo
   belongs_to :familles_legume, optional: true
+  serialize :total_legume_semaine, Hash
 
   extend FriendlyId
   friendly_id :legume_css, use: :slugged
@@ -40,5 +41,25 @@ class Legume < ApplicationRecord
     end
   end
 
+  def self.add_total_legume_semaine_to_legume
+    @week = Date.today.strftime("%W").to_i + 1
+    @weeks = (1..@week).to_a.reverse
+    @lignesdevente = VenteLigne.all
+    @lignesdepanier = PanierLigne.all
+
+    Legume.all.each do |legume|
+      @weeks.reverse_each do |week|
+        totauxlegume = 0
+        @lignesdevente.select { |ligne| ligne.vente.date.strftime("%W").to_i + 1 == week && ligne.legume == legume }.each do |ligne|
+          totauxlegume += ligne.prixunitairettc * ligne.quantite
+        end
+        @lignesdepanier.select { |lignedepanier| lignedepanier.panier.valide == true }.select { |ligne| ligne.panier.vente.date.strftime("%W").to_i + 1 == week && ligne.legume == legume }.each do |ligne|
+          totauxlegume += ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite
+        end
+        legume.total_legume_semaine[week] = totauxlegume
+        legume.save
+      end
+    end
+  end
 end
 

@@ -29,6 +29,7 @@ class VenteLignesController < ApplicationController
     @lignedevente = VenteLigne.new(lignedevente_params)
     @legume = Legume.find(params[:vente_ligne][:legume_id])
     @vente = Vente.find(params[:vente_id])
+    @week = @vente.date.strftime("%W").to_i + 1
     @lignedevente.vente = @vente
     @pointdevente = VentePoint.find(@vente.vente_point_id)
     unite = params[:vente_ligne][:unite].nil? ? Legume.find(params[:vente_ligne][:legume_id]).unite : params[:vente_ligne][:unite]
@@ -50,8 +51,10 @@ class VenteLignesController < ApplicationController
       if @legume.total_ttc_legume == 0.to_f
         sommelegumettc = 0
       else
-        sommelegumettc = @legume.total_legume_ttc
+        sommelegumettc = @legume.total_ttc_legume
       end
+      @legume.total_legume_semaine[@week] = (@legume.total_legume_semaine[@week] || 0) + @lignedevente.totalttc
+
       sommelegumettc += @lignedevente.totalttc
       @legume.total_ttc_legume = sommelegumettc
       sommeht += @lignedevente.totalht
@@ -72,8 +75,13 @@ class VenteLignesController < ApplicationController
     end
   end
 
+
+# hash[2] = (hash[2] || '') + 'Bananas'
+
+
   def edit
     @vente = Vente.find(params[:vente_id])
+    @week = @vente.date.strftime("%W").to_i + 1
     @lignedevente = VenteLigne.find(params[:id])
     @pointdevente = VentePoint.find(@vente.vente_point_id)
     @legumes = Legume.all
@@ -87,17 +95,23 @@ class VenteLignesController < ApplicationController
 
   def update
     @vente = Vente.find(params[:vente_id])
+    @week = @vente.date.strftime("%W").to_i + 1
     @lignedevente = VenteLigne.find(params[:id])
     @legume = Legume.find(@lignedevente.legume_id)
     @pointdevente = VentePoint.find(@vente.vente_point_id)
+
     @vente.total_ttc -= @lignedevente.totalttc
     @vente.total_ht -= @lignedevente.totalht
+    @vente.save
+
     @pointdevente.total_ttc -= @lignedevente.totalttc
     @pointdevente.total_ht -= @lignedevente.totalht
-    @legume.total_ttc_legume -= @lignedevente.totalttc
-    @legume.save
-    @vente.save
     @pointdevente.save
+
+    @legume.total_ttc_legume -= @lignedevente.totalttc
+    @legume.total_legume_semaine[@week] -= @lignedevente.totalttc
+    @legume.save
+
     planche = params[:vente_ligne][:planche_id]
     legume = params[:vente_ligne][:legume_id]
     quantite = params[:vente_ligne][:quantite]
@@ -106,16 +120,21 @@ class VenteLignesController < ApplicationController
     totalttc = params[:vente_ligne][:totalttc]
     totalht = params[:vente_ligne][:totalht]
     unite = params[:vente_ligne][:unite]
+
     if planche.nil?
       if @lignedevente.update(legume_id: legume, quantite: quantite, prixunitairettc: prixunitairettc, prixunitaireht: prixunitaireht, totalht: totalht, totalttc: totalttc, unite: unite)
         @vente.total_ttc += @lignedevente.totalttc
         @vente.total_ht += @lignedevente.totalht
+        @vente.save
+
         @pointdevente.total_ttc += @lignedevente.totalttc
         @pointdevente.total_ht += @lignedevente.totalht
-        @legume.total_ttc_legume += @lignedevente.totalttc
-        @legume.save
-        @vente.save
         @pointdevente.save
+
+        @legume.total_ttc_legume += @lignedevente.totalttc
+        @legume.total_legume_semaine[@week] = @legume.total_legume_semaine[@week] + @lignedevente.totalttc
+        @legume.save
+
         flash[:notice] = "Ligne modifiée avec succès !"
         redirect_to vente_path(@vente)
       else

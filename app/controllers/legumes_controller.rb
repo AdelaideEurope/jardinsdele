@@ -13,6 +13,8 @@ class LegumesController < ApplicationController
       @secondhalf = (@legumes.size/2) + 1
     end
 
+    @week = Date.today.strftime("%W").to_i + 1
+    @weeks = (1..@week).to_a
     catotal_legumes
 
 
@@ -20,9 +22,9 @@ class LegumesController < ApplicationController
 
     @tous_legumes_parca = @legumes.select(:nom, :legume_css, :total_ttc_legume).sort_by(&:total_ttc_legume).reverse.map { |legume| { nom: legume.nom, legume_css: legume.legume_css, calegume: legume.total_ttc_legume, pourcentage_ca: pourcentage_ca(legume) } }
 
-    # @legumes_semaines_graph = @legumes.includes(:familles_legume).sort_by(&:legume_css).map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.familles_legume.nom.downcase.tr("é", "e") } }
+    @legumes_semaines_graph = @legumes.includes(:familles_legume).sort_by(&:legume_css).map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legume.total_legume_semaine, famille: legume.familles_legume.nom.downcase.tr("é", "e") } }
 
-    # @colors = @legumes.includes(:familles_legume).sort_by(&:legume_css).map { |legume| legume.familles_legume.couleur }
+    @colors = @legumes.includes(:familles_legume).sort_by(&:legume_css).map { |legume| legume.familles_legume.couleur }
 
   end
 
@@ -83,6 +85,7 @@ class LegumesController < ApplicationController
       end
     end
     @catotal = @ventes.sum('total_ttc')
+
     lignessousserre
     planchesenrecolte
     lignesgroupees
