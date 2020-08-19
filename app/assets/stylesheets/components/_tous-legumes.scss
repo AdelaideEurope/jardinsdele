@@ -11,6 +11,15 @@
   display: flex;
 }
 
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.tous-legumes-table {
+  margin: 0 auto;
+  width: -webkit-fill-available;
+}
+
 .tri-legume {
   margin-top: 24px;
   margin-bottom: 24px;

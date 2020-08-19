@@ -9,9 +9,9 @@ class LegumesController < ApplicationController
     catotal_legumes
 
 
-    @tous_legumes_parlegume = @legumes.select(:nom, :legume_css, :total_ttc_legume).sort_by(&:legume_css).map { |legume| { nom: legume.nom, legume_css: legume.legume_css, planches: 2, calegume: legume.total_ttc_legume, pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]) } }
+    @tous_legumes_parlegume = @legumes.select(:nom, :legume_css, :total_ttc_legume).sort_by(&:legume_css).map { |legume| { nom: legume.nom, legume_css: legume.legume_css, calegume: legume.total_ttc_legume, pourcentage_ca: pourcentage_ca(legume) } }
 
-    @tous_legumes_parca = @legumes.select(:nom, :legume_css, :total_ttc_legume).sort_by(&:total_ttc_legume).reverse.map { |legume| { nom: legume.nom, legume_css: legume.legume_css, planches: 2, calegume: legume.total_ttc_legume, pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires.where.not(description: [nil, ""]) } }
+    @tous_legumes_parca = @legumes.select(:nom, :legume_css, :total_ttc_legume).sort_by(&:total_ttc_legume).reverse.map { |legume| { nom: legume.nom, legume_css: legume.legume_css, calegume: legume.total_ttc_legume, pourcentage_ca: pourcentage_ca(legume) } }
 
     # @legumes_semaines_graph = @legumes.includes(:familles_legume).sort_by(&:legume_css).map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legumes_semaines_graph(legume), famille: legume.familles_legume.nom.downcase.tr("é", "e") } }
 
