@@ -39,7 +39,7 @@
         <li>
           <div class="wrapper-legumes">
             <div><b>Légume</b></div>
-            <div><b><%= link_to planches_path do %><%= image_tag "planches.png", class: "titre-planches-index-leg" %><% end %></b></div>
+            <div class="hidden"><b><%= link_to planches_path do %><%= image_tag "planches.png", class: "titre-planches-index-leg" %><% end %></b></div>
             <div class="pl-2"><b>CA</b></div>
             <div><b>% CA</b></div>
           </div>
@@ -49,7 +49,7 @@
           <li>
             <div class="wrapper-legumes">
               <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
-              <div><%= legume[:planches] %> </div>
+              <div class="hidden"><%= legume[:planches] %> </div>
               <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
               <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
               <div>
@@ -99,7 +99,8 @@
         <li>
           <div class="wrapper-legumes">
             <div><b>Légume</b></div>
-            <div><b><%= link_to planches_path do %><%= image_tag "planches.png", class: "titre-planches-index-leg" %><% end %></b></div>            <div class="pl-2"><b>CA</b></div>
+            <div class="hidden"><b><%= link_to planches_path do %><%= image_tag "planches.png", class: "titre-planches-index-leg" %><% end %></b></div>
+            <div class="pl-2"><b>CA</b></div>
             <div><b>% CA</b></div>
           </div>
         </li>
@@ -107,7 +108,7 @@
           <li>
             <div class="wrapper-legumes">
               <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
-              <div><%= legume[:planches] %> </div>
+              <div class="hidden"><%= legume[:planches] %> </div>
               <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
               <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
               <div>
@@ -165,7 +166,8 @@
         <li>
           <div class="wrapper-legumes">
             <div><b>Légume</b></div>
-            <div><b><%= link_to planches_path do %><%= image_tag "planches.png", class: "titre-planches-index-leg" %><% end %></b></div>            <div class="pl-2"><b>CA</b></div>
+            <div class="hidden"><b><%= link_to planches_path do %><%= image_tag "planches.png", class: "titre-planches-index-leg" %><% end %></b></div>
+            <div class="pl-2"><b>CA</b></div>
             <div><b>% CA</b></div>
           </div>
         </li>
@@ -173,7 +175,7 @@
           <li>
             <div class="wrapper-legumes">
               <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
-              <div><%= legume[:planches] %> </div>
+              <div class="hidden"><%= legume[:planches] %> </div>
               <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
               <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
               <div>
@@ -223,7 +225,8 @@
         <li>
           <div class="wrapper-legumes">
             <div><b>Légume</b></div>
-            <div><b><%= link_to planches_path do %><%= image_tag "planches.png", class: "titre-planches-index-leg" %><% end %></b></div>            <div class="pl-2"><b>CA</b></div>
+            <div class="hidden"><b><%= link_to planches_path do %><%= image_tag "planches.png", class: "titre-planches-index-leg" %><% end %></b></div>
+            <div class="pl-2"><b>CA</b></div>
             <div><b>% CA</b></div>
           </div>
         </li>
@@ -231,7 +234,7 @@
           <li>
             <div class="wrapper-legumes">
               <div><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:nom] %> <% end %> </div>
-              <div><%= legume[:planches] %> </div>
+              <div class="hidden"><%= legume[:planches] %> </div>
               <div><%= number_with_precision(legume[:calegume], precision: 2) %> €</div>
               <div class="planches-legumes-index"><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</div>
               <div>
@@ -282,46 +285,5 @@
     </div>
   </div>
 
-  <div class="tous-legumes-sem">
-    <%= column_chart ca_legume_semaine_charts_path, id: "chart-legume-semaine", width: "800px", stacked: true, colors: @colors %>
-  <div class="separateur-paniers-ventes"></div>
-    <div class="table-index-legume-vente mt-5 mb-5">
-      <table class="table-index-legume-titre">
-          <thead>
-            <tr>
-              <th class="planche-sem-title">Planche</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @legumes_semaines_graph.each do |legume| %>
-              <tr>
-                <td><%= link_to legume_path(legume[:legume_css]) do %> <%= legume[:name] %> <% end %></td>
-              </tr>
-            <% end %>
-          </tbody>
-      </table>
-      <div class="table-data">
-        <table class="table-show-legume">
-            <thead>
-              <tr>
-                <% @legumes_semaines_graph.first[:data].each do |week| %>
-                  <th>
-                    S<%= week[0] %>
-                  </th>
-                <% end %>
-              </tr>
-            </thead>
-            <tbody>
-              <% @legumes_semaines_graph.each do |legume| %>
-                  <tr>
-                <% legume[:data].each do |total| %>
-                    <td><%= number_with_precision(total[1], precision: 2) %> €</td>
-                <% end %>
-                  </tr>
-              <% end %>
-            </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+
 </div>
