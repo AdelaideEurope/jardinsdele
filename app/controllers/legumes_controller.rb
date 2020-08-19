@@ -1,6 +1,7 @@
 class LegumesController < ApplicationController
   def index
     @legumes = Legume.all
+    @familles_legume = FamillesLegume.all
     @ventes = Vente.all
     @lignesdevente = VenteLigne.all
     @lignesdepanier = PanierLigne.all
@@ -22,9 +23,9 @@ class LegumesController < ApplicationController
 
     @tous_legumes_parca = @legumes.select(:nom, :legume_css, :total_ttc_legume).sort_by(&:total_ttc_legume).reverse.map { |legume| { nom: legume.nom, legume_css: legume.legume_css, calegume: legume.total_ttc_legume, pourcentage_ca: pourcentage_ca(legume) } }
 
-    @legumes_semaines_graph = @legumes.includes(:familles_legume).sort_by(&:legume_css).map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legume.total_legume_semaine, famille: legume.familles_legume.nom.downcase.tr("é", "e") } }
+    @legumes_semaines_graph = @legumes.sort_by(&:legume_css).map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legume.total_legume_semaine, famille: legume.familles_legume.nom.downcase.tr("é", "e") } }
 
-    @colors = @legumes.includes(:familles_legume).sort_by(&:legume_css).map { |legume| legume.familles_legume.couleur }
+    @colors = @legumes.sort_by(&:legume_css).pluck(:familles_legume_id).map { |famille| @familles_legume.find(famille).couleur }
 
   end
 
