@@ -32,10 +32,10 @@
             <td><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</td>
             <td>
               <% if legume[:commentaires] %>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:nom] %>">
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css].reverse %>">
                   <i class="fas fa-comment-alt"></i>
                 </button>
-                <div class="modal fade" id="ModalCenter<%= legume[:nom] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="ModalCenter<%= legume[:legume_css].reverse %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content modal-commentaires-index-legumes">
                       <div class="modal-header">
@@ -81,10 +81,10 @@
             <td><%= number_with_precision(legume[:pourcentage_ca], precision: 2) %> %</td>
             <td>
               <% if legume[:commentaires] %>
-                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:nom] %>">
+                <button type="button" data-toggle="modal" data-target="#ModalCenter<%= legume[:legume_css].reverse %>">
                   <i class="fas fa-comment-alt"></i>
                 </button>
-                <div class="modal fade" id="ModalCenter<%= legume[:nom] %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="ModalCenter<%= legume[:legume_css].reverse %>" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content modal-commentaires-index-legumes">
                       <div class="modal-header">
