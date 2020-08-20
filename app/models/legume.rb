@@ -11,6 +11,7 @@ class Legume < ApplicationRecord
   has_one_attached :photo
   belongs_to :familles_legume, optional: true
   serialize :total_legume_semaine, Hash
+  serialize :commentaires_legume, Hash
 
   extend FriendlyId
   friendly_id :legume_css, use: :slugged
@@ -61,5 +62,22 @@ class Legume < ApplicationRecord
       end
     end
   end
+
+  def self.add_commentaires_to_legume
+    @activites = Activite.all
+    self.all.each do |legume|
+      commentaires_leg = @activites.where("legume_id = ?", legume.id).map do |activite|
+        if activite.commentaires.first.description != ""
+          legume.commentaires_legume[activite.date] = activite.commentaires.first.description
+          legume.save
+        else
+          legume.commentaires_legume = {}
+          legume.save
+        end
+      end
+    end
+  end
+
+
 end
 

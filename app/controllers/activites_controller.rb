@@ -47,7 +47,6 @@ class ActivitesController < ApplicationController
     duree = heure_fin_activite.to_time - heure_debut_activite.to_time
     params[:activite][:duree] = duree
     @activite = Activite.new(activite_params)
-
     nomactivite = params[:activite][:nom]
     if nomactivite == "Plantation"
       legume_id = params[:activite][:legume_id]
@@ -62,6 +61,13 @@ class ActivitesController < ApplicationController
       @previsionnel_planche = PrevisionnelPlanch.new(legume_id: legume_id, planche_id: planche_id, total_previ: total_previ)
       @previsionnel_planche.save
     end
+    if params[:activite][:legume_id]
+      @legume = Legume.find(params[:activite][:legume_id])
+      @legume.commentaires_legume[params[:activite][:date]] = params[:activite][:commentaires_attributes]["0"]["description"]
+      @legume.save
+    end
+
+
     if @activite.save
       flash[:notice] = "Activité créée avec succès !"
       redirect_to activites_recap_path
@@ -133,12 +139,13 @@ class ActivitesController < ApplicationController
   end
 
   def edit
+    @previsionnel_planches = PrevisionnelPlanch.all
     if current_user.admin != true
       flash[:notice] = "Malheureusement, vous ne pouvez pas accéder à cette page 😬"
       redirect_to activites_recap_path
     end
     @activite = Activite.find(params[:id])
-    @previsionnel_planche = PrevisionnelPlanch.detect { |previ| previ.created_at.to_i == @activite.created_at.to_i }
+    @previsionnel_planche = @previsionnel_planches.detect { |previ| previ.created_at.to_i == @activite.created_at.to_i }
     planches = Planche.all
     @jardins = planches.group_by(&:jardin)
   end
@@ -149,7 +156,8 @@ class ActivitesController < ApplicationController
     heure_fin_activite = DateTime.civil(params[:activite]["heure_fin(1i)"].to_i, params[:activite]["heure_fin(2i)"].to_i, params[:activite]["heure_fin(3i)"].to_i, params[:activite]["heure_fin(4i)"].to_i, params[:activite]["heure_fin(5i)"].to_i)
     duree = heure_fin_activite.to_time - heure_debut_activite.to_time
     params[:activite][:duree] = duree
-    @previsionnel_planche = PrevisionnelPlanch.detect { |previ| previ.created_at.to_i == @activite.created_at.to_i }
+    @previsionnel_planches = PrevisionnelPlanch.all
+    @previsionnel_planche = @previsionnel_planches.detect { |previ| previ.created_at.to_i == @activite.created_at.to_i }
     nomactivite = params[:activite][:nom]
     if nomactivite == "Plantation"
     legume_id = params[:activite][:legume_id]
@@ -163,6 +171,13 @@ class ActivitesController < ApplicationController
     end
       @previsionnel_planche.update(legume_id: legume_id, planche_id: planche_id, total_previ: total_previ)
     end
+
+    if params[:activite][:legume_id]
+      @legume = Legume.find(params[:activite][:legume_id])
+      @legume.commentaires_legume[params[:activite][:date]] = params[:activite][:commentaires_attributes]["0"]["description"]
+      @legume.save
+    end
+
     if @activite.update(activite_params)
       flash[:notice] = "Activité modifiée avec succès !"
       redirect_to activites_recap_path

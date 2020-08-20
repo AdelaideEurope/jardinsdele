@@ -19,9 +19,9 @@ class LegumesController < ApplicationController
     catotal_legumes
 
 
-    @tous_legumes_parlegume = @legumes.select(:nom, :legume_css, :total_ttc_legume).sort_by(&:legume_css).map { |legume| { nom: legume.nom, legume_css: legume.legume_css, calegume: legume.total_ttc_legume, pourcentage_ca: pourcentage_ca(legume) } }
+    @tous_legumes_parlegume = @legumes.select(:nom, :legume_css, :total_ttc_legume, :commentaires_legume).sort_by(&:legume_css).map { |legume| { nom: legume.nom, legume_css: legume.legume_css, calegume: legume.total_ttc_legume, pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires_legume != {} ? legume.commentaires_legume : nil } }
 
-    @tous_legumes_parca = @legumes.select(:nom, :legume_css, :total_ttc_legume).sort_by(&:total_ttc_legume).reverse.map { |legume| { nom: legume.nom, legume_css: legume.legume_css, calegume: legume.total_ttc_legume, pourcentage_ca: pourcentage_ca(legume) } }
+    @tous_legumes_parca = @legumes.select(:nom, :legume_css, :total_ttc_legume, :commentaires_legume).sort_by(&:total_ttc_legume).reverse.map { |legume| { nom: legume.nom, legume_css: legume.legume_css, calegume: legume.total_ttc_legume, pourcentage_ca: pourcentage_ca(legume), commentaires: legume.commentaires_legume } }
 
     @legumes_semaines_graph = @legumes.sort_by(&:legume_css).map { |legume| { name: legume.nom, legume_css: legume.legume_css, data: legume.total_legume_semaine } }
 
@@ -103,8 +103,8 @@ class LegumesController < ApplicationController
     @ventes = Vente.all
     @catotal = @ventes.sum('total_ttc')
     @dureedulegume = @legume.activites.reject { |activite| activite.nom == "Récolte et préparation vente" }.map { |activite| activite.heure_fin - activite.heure_debut }.sum
-    @calegume = @lignesdeventeparlegume.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + @lignesdepanierparlegume.select { |lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
-    @pourcentagedulegume = (@calegume * 100).fdiv(@catotal).round(2)
+
+    @pourcentagedulegume = (@legume.total_ttc_legume * 100).fdiv(@catotal).round(2)
 
     @quantitelegume = Hash.new { |hash, key| hash[key] = "".to_i }
     @lignesdeventeparlegume.each do |ligne|

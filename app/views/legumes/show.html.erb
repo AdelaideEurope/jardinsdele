@@ -27,7 +27,7 @@
           Chiffre d'affaires
         </div>
         <div>
-          <%= number_with_precision(@calegume, precision: 2) %> €
+          <%= number_with_precision(@legume.total_ttc_legume, precision: 2) %> €
         </div>
       </div>
       <div class="col-show-leg">
@@ -73,7 +73,7 @@
           % du prévisionnel
         </div>
         <div>
-          <%= !@legume.previ_legume == nil? ? number_with_precision(((@calegume*100)/@legume.previ_legume), precision: 2) : number_with_precision(0.00, precision: 2)  %> %
+          <%= !@legume.previ_legume == nil? ? number_with_precision(((@legume.total_ttc_legume*100)/@legume.previ_legume), precision: 2) : number_with_precision(0.00, precision: 2)  %> %
         </div>
       </div>
       <div class="col-show-leg">
@@ -202,12 +202,12 @@
   <div class="tab-pane fade mb-5" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
     <div class="commentaires-liste">
       <ul>
-        <% @legume.commentaires.each do |commentaire| %>
-          <% unless commentaire.description.empty? %>
+        <% unless @legume.commentaires_legume == {} %>
+          <% @legume.commentaires_legume.each do |date, description| %>
             <li>
               <div class="wrapper-commentaires-show">
-                <div class="date-commentaire"><%= commentaire.activite.date.strftime("%d/%m") %></div>
-                <div class="contenu-commentaire"><%= commentaire.description %></div>
+                <div class="date-commentaire"><%= date.to_date.strftime("%d/%m") %></div>
+                <div class="contenu-commentaire"><%= description %></div>
               </div>
             </li>
           <% end %>
