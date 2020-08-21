@@ -63,7 +63,11 @@ class PlanchesController < ApplicationController
   def total_legume(legume, planche)
     sommelegume = 0
     @lignesdevente.includes(:planche, :legume).where(legume: legume).where(planche: planche).each {|ligne| sommelegume += (ligne.quantite * ligne.prixunitairettc) }
-    @lignesdepanier.includes(:planche, :legume).where(legume: legume).where(planche: planche).each {|ligne| sommelegume += (ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite) }
+    @lignesdepanier.includes(:planche, :legume).where(legume: legume).where(planche: planche).each do |ligne|
+      if ligne.panier.valide == true
+        sommelegume += (ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite)
+      end
+    end
     sommelegume
   end
 

@@ -89,7 +89,11 @@ class LegumesController < ApplicationController
       @planches_legumes[planche.nom] = legumes_planches(planche)
     end
 
-    @top3_planches = @planches_legumes.reject{|k, v| v == []}.each {|k, v| v.sort_by! {|val| val[:total]}}.to_a.reverse.first(3).flatten
+    @top3_planches = Hash.new
+    @planches.map do |planche|
+      @top3_planches[planche.nom] = leg_planches(planche)
+    end
+    @top3_planches = @top3_planches.sort_by{|k, v| -v[:total]}.first(3).flatten
 
     lignessousserre
     planchesenrecolte
@@ -213,6 +217,29 @@ class LegumesController < ApplicationController
         totallegume = total_legume(lignedevente.legume, planche)
         legumes << { nom: lignedevente.legume.nom, legume_css: lignedevente.legume.legume_css, total: totallegume }
       end
+    end
+    legumes
+  end
+
+  def leg_planches(planche)
+    @lignesdevente = VenteLigne.all
+    @lignesdepanier = PanierLigne.all
+    legumes = {nom: "", legume_css: "", total: 0}
+    @lignesdepanier.includes(:planche, :legume).where(planche: planche).each do |lignedepanier|
+      # unless legumes.any? {|hash| hash[:nom] == lignedepanier.legume.nom}
+        totallegume = total_legume(lignedepanier.legume, planche)
+        legumes[:nom] = lignedepanier.legume.nom
+        legumes[:legume_css] = lignedepanier.legume.legume_css
+        legumes[:total] = totallegume
+      # end
+    end
+    @lignesdevente.includes(:planche, :legume).where(planche: planche).each do |lignedevente|
+      # unless legumes.any? {|hash| hash[:nom] == lignedevente.legume.nom}
+        totallegume = total_legume(lignedevente.legume, planche)
+        legumes[:nom] = lignedevente.legume.nom
+        legumes[:legume_css] = lignedevente.legume.legume_css
+        legumes[:total] = totallegume
+      # end
     end
     legumes
   end
