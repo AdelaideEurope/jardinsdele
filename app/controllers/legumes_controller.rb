@@ -205,13 +205,13 @@ class LegumesController < ApplicationController
     @lignesdepanier.includes(:planche, :legume).where(planche: planche).each do |lignedepanier|
       unless legumes.any? {|hash| hash[:nom] == lignedepanier.legume.nom}
         totallegume = total_legume(lignedepanier.legume, planche)
-        legumes << { nom: lignedepanier.legume.nom, total: totallegume }
+        legumes << { nom: lignedepanier.legume.nom, legume_css: lignedepanier.legume.legume_css, total: totallegume }
       end
     end
     @lignesdevente.includes(:planche, :legume).where(planche: planche).each do |lignedevente|
       unless legumes.any? {|hash| hash[:nom] == lignedevente.legume.nom}
         totallegume = total_legume(lignedevente.legume, planche)
-        legumes << { nom: lignedevente.legume.nom, total: totallegume }
+        legumes << { nom: lignedevente.legume.nom, legume_css: lignedevente.legume.legume_css, total: totallegume }
       end
     end
     legumes

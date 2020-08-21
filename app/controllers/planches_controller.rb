@@ -35,7 +35,7 @@ class PlanchesController < ApplicationController
       unless legumes.any? {|hash| hash[:nom] == lignedevente.legume.nom}
         totallegume = total_legume(lignedevente.legume, planche)
         previlegume = previ_planche(lignedevente.legume, planche)
-        legumes << { nom: lignedevente.legume.nom, total: totallegume, previ: previlegume, diff: totallegume - previlegume, pourcentage_previ: pourcentage_previ(lignedevente.legume, planche) }
+        legumes << { nom: lignedevente.legume.nom, legume_css: lignedevente.legume.legume_css, total: totallegume, previ: previlegume, diff: totallegume - previlegume, pourcentage_previ: pourcentage_previ(lignedevente.legume, planche) }
       end
     end
     legumes
