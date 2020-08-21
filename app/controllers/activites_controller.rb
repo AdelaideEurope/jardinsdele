@@ -42,6 +42,8 @@ class ActivitesController < ApplicationController
   end
 
   def create
+    planches = Planche.all
+    @jardins = planches.group_by(&:jardin)
     heure_debut_activite = DateTime.civil(params[:activite]["heure_debut(1i)"].to_i, params[:activite]["heure_debut(2i)"].to_i, params[:activite]["heure_debut(3i)"].to_i, params[:activite]["heure_debut(4i)"].to_i, params[:activite]["heure_debut(5i)"].to_i)
     heure_fin_activite = DateTime.civil(params[:activite]["heure_fin(1i)"].to_i, params[:activite]["heure_fin(2i)"].to_i, params[:activite]["heure_fin(3i)"].to_i, params[:activite]["heure_fin(4i)"].to_i, params[:activite]["heure_fin(5i)"].to_i)
     duree = heure_fin_activite.to_time - heure_debut_activite.to_time
@@ -61,7 +63,7 @@ class ActivitesController < ApplicationController
       @previsionnel_planche = PrevisionnelPlanch.new(legume_id: legume_id, planche_id: planche_id, total_previ: total_previ)
       @previsionnel_planche.save
     end
-    if params[:activite][:legume_id]
+    if params[:activite][:legume_id] != ""
       @legume = Legume.find(params[:activite][:legume_id])
       @legume.commentaires_legume[params[:activite][:date]] = params[:activite][:commentaires_attributes]["0"]["description"]
       @legume.save
@@ -172,7 +174,7 @@ class ActivitesController < ApplicationController
       @previsionnel_planche.update(legume_id: legume_id, planche_id: planche_id, total_previ: total_previ)
     end
 
-    if params[:activite][:legume_id]
+    if params[:activite][:legume_id] != ""
       @legume = Legume.find(params[:activite][:legume_id])
       @legume.commentaires_legume[params[:activite][:date]] = params[:activite][:commentaires_attributes]["0"]["description"]
       @legume.save

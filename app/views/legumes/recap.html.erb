@@ -15,7 +15,7 @@
             <div class="wrapper-recap-legumes detail-legume">
               <div><%= link_to legume_path(legume) do %> <%= legume.nom %> <% end %></div>
               <div><%= [@tempslegume[legume.nom].to_i/3600, @tempslegume[legume.nom].to_i/60%60].map { |t| t.to_s.rjust(2,'0') }.join('h') %></div>
-              <div><%= number_with_precision(@legumesparca[legume], precision: 2) %> €</div>
+              <div><%= number_with_precision(legume.total_ttc_legume, precision: 2) %> €</div>
             </div>
           </li>
         <% end %>
@@ -26,31 +26,34 @@
           <div class="voir-tout-recap-legumes">Voir tout</div>
         <% end %>
       </div>
+      <%= @top3_planches %>
       <ul class="sample-legumes mb-5">
-        <% counter = 1 %>
-        <% @lignesgroupees.sort_by{ |k, v| v[:total]}.reverse.first(3).each do |planche, ventes| %>
+        <% counter = 0 %>
+        <% counter_img = 1 %>
+        <% 3.times do %>
           <li>
-            <div class="image-legume"> <%= image_tag "num#{counter}.png", class: "icone-legume" %>
+            <div class="image-legume"> <%= image_tag "num#{counter_img}.png", class: "icone-legume" %>
             </div>
             <div class="wrapper-recap-planches detail-legume">
-              <div><%= planche.nom %></div>
+              <div><%= @top3_planches[counter] %></div>
               <div>
                 <ul>
-                  <% ventes[:legumes][0..-2].each do |legume| %>
+                  <%# ventes[:legumes][0..-2].each do |legume| %>
                     <li>
-                      <%= link_to legume_path(legume) do %><%= legume.nom %><% end %>,
+                      <%= link_to legume_path(@top3_planches[counter+1][:nom]) do %><%= @top3_planches[counter+1][:nom] %><% end %>
                     </li>
-                  <% end %>
+                  <%# end %>
                   <li>
-                    <%= link_to legume_path(ventes[:legumes][-1]) do %><%= ventes[:legumes][-1].nom %><% end %>
+                    <%#= link_to legume_path(ventes[:legumes][-1]) do %><%#= ventes[:legumes][-1] %><%# end %>
                   </li>
                 </ul>
               </div>
-              <div><%= number_with_precision(ventes[:total], precision: 2) %> €</div>
-              <div><%= number_with_precision((ventes[:total]*100).fdiv(@catotal).round(2), precision: 2) %> %</div>
+              <div><%= number_with_precision(@top3_planches[counter+1][:total], precision: 2) %> €</div>
+              <div><%= number_with_precision((@top3_planches[counter+1][:total]*100).fdiv(@catotal), precision: 2) %> %</div>
             </div>
           </li>
-          <% counter += 1 %>
+          <% counter += 2 %>
+          <% counter_img += 1 %>
         <% end %>
           <li>
             <div class="image-legume"> <%= image_tag "greenhouse.png", class: "icone-legume" %>

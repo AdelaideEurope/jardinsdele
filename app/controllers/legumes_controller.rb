@@ -69,10 +69,7 @@ class LegumesController < ApplicationController
     @activites = Activite.all
     @legumes = Legume.all
     @legumesparca = Hash.new { |hash, key| hash[key] = 0 }
-    @legumes.each do |legume|
-      @legumesparca[legume] = legume.vente_lignes.map { |ligne| ligne.prixunitairettc * ligne.quantite }.sum + legume.panier_lignes.select { |lignedepanier| lignedepanier.panier.valide == true }.map { |ligne| ligne.prixunitairettc * ligne.quantite * ligne.panier.quantite }.sum
-    end
-    @meilleurslegumes = @legumesparca.sort_by { |_k, v| v }.last(3).map { |legume| legume[0] }
+    @meilleurslegumes = @legumes.sort_by(&:total_ttc_legume).reverse.first(3)
     @planches = Planche.all
     @jardins = @planches.group_by(&:jardin)
     @lignesdevente = VenteLigne.all
@@ -86,6 +83,13 @@ class LegumesController < ApplicationController
       end
     end
     @catotal = @ventes.sum('total_ttc')
+
+    @planches_legumes = Hash.new
+    @planches.map do |planche|
+      @planches_legumes[planche.nom] = legumes_planches(planche)
+    end
+
+    @top3_planches = @planches_legumes.reject{|k, v| v == []}.each {|k, v| v.sort_by! {|val| val[:total]}}.to_a.reverse.first(3).flatten
 
     lignessousserre
     planchesenrecolte
@@ -194,6 +198,24 @@ class LegumesController < ApplicationController
   #   photos
   # end
 
+  def legumes_planches(planche)
+    @lignesdevente = VenteLigne.all
+    @lignesdepanier = PanierLigne.all
+    legumes = []
+    @lignesdepanier.includes(:planche, :legume).where(planche: planche).each do |lignedepanier|
+      unless legumes.any? {|hash| hash[:nom] == lignedepanier.legume.nom}
+        totallegume = total_legume(lignedepanier.legume, planche)
+        legumes << { nom: lignedepanier.legume.nom, total: totallegume }
+      end
+    end
+    @lignesdevente.includes(:planche, :legume).where(planche: planche).each do |lignedevente|
+      unless legumes.any? {|hash| hash[:nom] == lignedevente.legume.nom}
+        totallegume = total_legume(lignedevente.legume, planche)
+        legumes << { nom: lignedevente.legume.nom, total: totallegume }
+      end
+    end
+    legumes
+  end
 
   def plancheslegumes
     @plancheslegumes = []
@@ -275,6 +297,17 @@ class LegumesController < ApplicationController
     @arr_weeks
   end
 
+  def total_legume(legume, planche)
+    sommelegume = 0
+    @lignesdevente.includes(:planche, :legume).where(legume: legume).where(planche: planche).each {|ligne| sommelegume += (ligne.quantite * ligne.prixunitairettc) }
+    @lignesdepanier.includes(:planche, :legume).where(legume: legume).where(planche: planche).each do |ligne|
+      if ligne.panier.valide == true
+        sommelegume += (ligne.quantite * ligne.prixunitairettc * ligne.panier.quantite)
+      end
+    end
+    sommelegume
+  end
+
   # def totaux_planches(week)
   #   planches = []
   #   @lignesdepanierparlegume.select { |lignedepanier| !lignedepanier.planche.nil? && lignedepanier.panier.vente.date.strftime("%W").to_i == week }.each do |lignedepanier|
@@ -344,15 +377,15 @@ class LegumesController < ApplicationController
     @lignesgroupees = Hash.new { |hash, key| hash[key] = { total: "".to_f, legumes: [] } }
     @planches.each do |planche|
       @lignesdepanier.select { |lignedepanier| lignedepanier.planche == planche }.each do |lignedepanier|
-        @lignesgroupees[planche][:total] += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
+        @lignesgroupees[planche.nom][:total] += lignedepanier.prixunitairettc * lignedepanier.quantite * lignedepanier.panier.quantite
         unless @lignesgroupees[planche][:legumes].include?(lignedepanier.legume)
-          @lignesgroupees[planche][:legumes] << lignedepanier.legume
+          @lignesgroupees[planche.nom][:legumes] << lignedepanier.legume.nom
         end
       end
       @lignesdevente.select { |lignedevente| lignedevente.planche == planche }.each do |lignedevente|
-        @lignesgroupees[planche][:total] += lignedevente.prixunitairettc * lignedevente.quantite
-        unless @lignesgroupees[planche][:legumes].include?(lignedevente.legume)
-          @lignesgroupees[planche][:legumes] << lignedevente.legume
+        @lignesgroupees[planche.nom][:total] += lignedevente.prixunitairettc * lignedevente.quantite
+        unless @lignesgroupees[planche.nom][:legumes].include?(lignedevente.legume)
+          @lignesgroupees[planche.nom][:legumes] << lignedevente.legume.nom
         end
       end
     end
