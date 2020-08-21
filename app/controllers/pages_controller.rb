@@ -2,7 +2,9 @@ class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:landing]
 
   def home
-    if current_user.admin != true
+    if current_user.nil?
+      redirect_to new_user_session_path
+    elsif current_user.admin != true
       redirect_to new_encouragement_path
     end
     @memos = Memo.all

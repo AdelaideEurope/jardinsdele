@@ -1,44 +1,51 @@
-<h2>Sign up</h2>
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-12 col-sm-8 col-md-4 offsett-sm-2 col-md-4">
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+      <h2>S'inscrire</h2>
 
-  <div class="form-inputs">
-    <%= f.input :prenom,
-                label: "Prénom",
-                required: true,
-                autofocus: true%>
-    <%= f.input :nom,
-                label: "Nom",
-                required: true,
-                autofocus: true%>
-    <%= f.input :genre,
-                as: :radio_buttons,
-                collection: [['0', 'Femme'], ['1', 'Homme']],
-                label_method: :second,
-                value_method: :first,
-                label: "Genre",
-                required: true,
-                autofocus: true%>
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                label: "Mot de passe",
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                label: "Confirmation du mot de passe",
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :photo %>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= f.error_notification %>
+
+        <div class="form-inputs">
+          <%= f.input :prenom,
+                      label: "Prénom",
+                      required: true,
+                      autofocus: true%>
+          <%= f.input :nom,
+                      label: "Nom",
+                      required: true,
+                      autofocus: true%>
+          <%= f.input :genre,
+                      as: :radio_buttons,
+                      collection: [['0', 'Femme'], ['1', 'Homme']],
+                      label_method: :second,
+                      value_method: :first,
+                      label: "Genre",
+                      required: true,
+                      autofocus: true%>
+          <%= f.input :email,
+                      required: true,
+                      autofocus: true,
+                      input_html: { autocomplete: "email" }%>
+          <%= f.input :password,
+                      label: "Mot de passe",
+                      required: true,
+                      hint: ("#{@minimum_password_length} caractères minimum" if @minimum_password_length),
+                      input_html: { autocomplete: "new-password" } %>
+          <%= f.input :password_confirmation,
+                      label: "Confirmation du mot de passe",
+                      required: true,
+                      input_html: { autocomplete: "new-password" } %>
+          <%= f.input :photo %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.button :submit, "Inscription" %>
+        </div>
+      <% end %>
+
+      <%= render "devise/shared/links" %>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Inscription" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
