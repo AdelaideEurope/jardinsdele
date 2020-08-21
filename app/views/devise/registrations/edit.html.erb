@@ -1,35 +1,45 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h2>Modifier l'<%= current_user.genre.to_i == 0 ? "utilisatrice" : "utilisateur" %></h2>
 
 <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.input :prenom,
+                label: "Prénom",
+                required: true,
+                autofocus: true%>
+    <%= f.input :nom,
+                label: "Nom",
+                required: true,
+                autofocus: true%>
+    <%= f.input :genre,
+                as: :radio_buttons,
+                collection: [['0', 'Femme'], ['1', 'Homme']],
+                label_method: :second,
+                value_method: :first,
+                label: "Genre",
+                required: true,
+                autofocus: true%>
     <%= f.input :email, required: true, autofocus: true %>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
     <% end %>
-
     <%= f.input :password,
-                hint: "leave it blank if you don't want to change it",
+                hint: "Laisse ce champ vide si tu ne veux pas modifier le mot de passe",
                 required: false,
                 input_html: { autocomplete: "new-password" } %>
     <%= f.input :password_confirmation,
                 required: false,
                 input_html: { autocomplete: "new-password" } %>
     <%= f.input :current_password,
-                hint: "we need your current password to confirm your changes",
+                hint: "Il nous faut ton mot de passe actuel pour confirmer les changements",
                 required: true,
                 input_html: { autocomplete: "current-password" } %>
+    <%= f.input :photo %>
   </div>
 
   <div class="form-actions">
     <%= f.button :submit, "Update" %>
   </div>
 <% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
