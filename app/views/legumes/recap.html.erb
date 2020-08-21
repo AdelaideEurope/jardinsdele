@@ -35,21 +35,16 @@
             <div class="image-legume"> <%= image_tag "num#{counter_img}.png", class: "icone-legume" %>
             </div>
             <div class="wrapper-recap-planches detail-legume">
-              <div><%= @top3_planches[counter] %></div>
+              <div><%= @top3_planches[counter.to_i] %></div>
               <div>
                 <ul>
-
-                    <li>
-                      <%= link_to legume_path(@top3_planches[counter+1][:legume_css]) do %><%= @top3_planches[counter+1][:nom] %><% end %>
-                    </li>
-
                   <li>
-
+                    <%= link_to legume_path(@top3_planches[counter+1.to_i][:legume_css]) do %><%= @top3_planches[counter+1.to_i][:nom] %><% end %>
                   </li>
                 </ul>
               </div>
-              <div><%= number_with_precision(@top3_planches[counter+1][:total], precision: 2) %> €</div>
-              <div><%= number_with_precision((@top3_planches[counter+1][:total]*100).fdiv(@catotal), precision: 2) %> %</div>
+              <div><%= number_with_precision(@top3_planches[counter+1.to_i][:total], precision: 2) %> €</div>
+              <div><%= number_with_precision((@top3_planches[counter+1.to_i][:total]*100).fdiv(@catotal), precision: 2) %> %</div>
             </div>
           </li>
           <% counter += 2 %>
