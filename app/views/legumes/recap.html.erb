@@ -38,13 +38,13 @@
               <div><%= @top3_planches[counter] %></div>
               <div>
                 <ul>
-                  <%# ventes[:legumes][0..-2].each do |legume| %>
+
                     <li>
                       <%= link_to legume_path(@top3_planches[counter+1][:nom]) do %><%= @top3_planches[counter+1][:nom] %><% end %>
                     </li>
-                  <%# end %>
+
                   <li>
-                    <%#= link_to legume_path(ventes[:legumes][-1]) do %><%#= ventes[:legumes][-1] %><%# end %>
+
                   </li>
                 </ul>
               </div>
