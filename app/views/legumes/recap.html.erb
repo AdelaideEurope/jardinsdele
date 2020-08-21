@@ -29,27 +29,29 @@
       <%= @top3_planches %>
       <ul class="sample-legumes mb-5">
         <% counter = 0 %>
+        <% counter_array = 1 %>
         <% counter_img = 1 %>
         <% 3.times do %>
           <li>
             <div class="image-legume"> <%= image_tag "num#{counter_img}.png", class: "icone-legume" %>
             </div>
             <div class="wrapper-recap-planches detail-legume">
-              <div><%= @top3_planches[0] %></div>
+              <div><%= @top3_planches[counter] %></div>
               <div>
                 <ul>
                   <li>
-                    <%= link_to legume_path(@top3_planches[1][:legume_css]) do %>
-                      <%= @top3_planches[1][:nom] %>
+                    <%= link_to legume_path(@top3_planches[counter_array][:legume_css]) do %>
+                      <%= @top3_planches[counter_array][:nom] %>
                     <% end %>
                   </li>
                 </ul>
               </div>
-              <div><%= number_with_precision(@top3_planches[1][:total], precision: 2) %> €</div>
-              <div><%= number_with_precision((@top3_planches[1][:total]*100).fdiv(@catotal), precision: 2) %> %</div>
+              <div><%= number_with_precision(@top3_planches[counter_array][:total], precision: 2) %> €</div>
+              <div><%= number_with_precision((@top3_planches[counter_array][:total]*100).fdiv(@catotal), precision: 2) %> %</div>
             </div>
           </li>
           <% counter += 2 %>
+          <% counter_array += 2 %>
           <% counter_img += 1 %>
         <% end %>
           <li>
