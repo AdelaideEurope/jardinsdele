@@ -34,14 +34,14 @@ class VenteLignesController < ApplicationController
     @pointdevente = VentePoint.find(@vente.vente_point_id)
     unite = params[:vente_ligne][:unite].nil? ? Legume.find(params[:vente_ligne][:legume_id]).unite : params[:vente_ligne][:unite]
     if @lignedevente.save
-      if @vente.total_ht.nil?
+      if @vente.total_ht.nil? || @vente.total_ht == 0.0
         sommeht = 0
         sommettc = 0
       else
         sommeht = @vente.total_ht
         sommettc = @vente.total_ttc
       end
-      if @pointdevente.total_ht.nil?
+      if @pointdevente.total_ht.nil? || @vente.total_ttc == 0.0
         sommepdvht = 0
         sommepdvttc = 0
       else
