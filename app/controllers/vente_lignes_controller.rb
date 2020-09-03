@@ -76,12 +76,8 @@ class VenteLignesController < ApplicationController
   end
 
 
-# hash[2] = (hash[2] || '') + 'Bananas'
-
-
   def edit
     @vente = Vente.find(params[:vente_id])
-    @week = @vente.date.strftime("%W").to_i + 1
     @lignedevente = VenteLigne.find(params[:id])
     @pointdevente = VentePoint.find(@vente.vente_point_id)
     @legumes = Legume.all
@@ -91,27 +87,18 @@ class VenteLignesController < ApplicationController
     @activites = Activite.all
     planches = Planche.all
     @jardins = planches.group_by(&:jardin)
+    @vente.total_ttc -= @lignedevente.totalttc
+    @vente.total_ht -= @lignedevente.totalht
+    @pointdevente.total_ttc -= @lignedevente.totalttc
+    @pointdevente.total_ht -= @lignedevente.totalht
+    @vente.save
+    @pointdevente.save
   end
 
   def update
     @vente = Vente.find(params[:vente_id])
-    @week = @vente.date.strftime("%W").to_i + 1
     @lignedevente = VenteLigne.find(params[:id])
-    @legume = Legume.find(@lignedevente.legume_id)
     @pointdevente = VentePoint.find(@vente.vente_point_id)
-
-    @vente.total_ttc -= @lignedevente.totalttc
-    @vente.total_ht -= @lignedevente.totalht
-    @vente.save
-
-    @pointdevente.total_ttc -= @lignedevente.totalttc
-    @pointdevente.total_ht -= @lignedevente.totalht
-    @pointdevente.save
-
-    @legume.total_ttc_legume -= @lignedevente.totalttc
-    @legume.total_legume_semaine[@week] -= @lignedevente.totalttc
-    @legume.save
-
     planche = params[:vente_ligne][:planche_id]
     legume = params[:vente_ligne][:legume_id]
     quantite = params[:vente_ligne][:quantite]
@@ -120,21 +107,14 @@ class VenteLignesController < ApplicationController
     totalttc = params[:vente_ligne][:totalttc]
     totalht = params[:vente_ligne][:totalht]
     unite = params[:vente_ligne][:unite]
-
     if planche.nil?
       if @lignedevente.update(legume_id: legume, quantite: quantite, prixunitairettc: prixunitairettc, prixunitaireht: prixunitaireht, totalht: totalht, totalttc: totalttc, unite: unite)
         @vente.total_ttc += @lignedevente.totalttc
         @vente.total_ht += @lignedevente.totalht
-        @vente.save
-
         @pointdevente.total_ttc += @lignedevente.totalttc
         @pointdevente.total_ht += @lignedevente.totalht
+        @vente.save
         @pointdevente.save
-
-        @legume.total_ttc_legume += @lignedevente.totalttc
-        @legume.total_legume_semaine[@week] = @legume.total_legume_semaine[@week] + @lignedevente.totalttc
-        @legume.save
-
         flash[:notice] = "Ligne modifiée avec succès !"
         redirect_to vente_path(@vente)
       else
